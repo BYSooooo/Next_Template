@@ -4,10 +4,6 @@ import { MenuOpenRounded } from '@mui/icons-material';
 import { Box, Button, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar } from '@mui/material';
 import * as React from 'react';
 
-function toChageLow(item : string) {
-    return item.toLocaleLowerCase();
-}
-
 export default function Menu() {
     const menuItem = ["Home", "About", "Sample01", "Sample02"]
 
@@ -40,7 +36,7 @@ export default function Menu() {
             <List>
                 { menuItem.map(item => 
                     <ListItem disablePadding>
-                        <ListItemButton component="a" href={toChageLow(item)}>
+                        <ListItemButton component="a" href={item === "Home" ? "/" : item.toLocaleLowerCase() }>
                             <ListItemText primary={item} />
                         </ListItemButton>
                     </ListItem>
