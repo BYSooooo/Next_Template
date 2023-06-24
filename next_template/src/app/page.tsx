@@ -4,8 +4,6 @@ import * as React from 'react';
 
 export default function RootPage() {
   return (
-    <>    
-      <Home />
-    </>
-      )
+    <Home />
+  )
 }
