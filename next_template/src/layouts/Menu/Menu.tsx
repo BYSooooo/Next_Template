@@ -1,11 +1,25 @@
 "use client";
 
 import { MenuOpenRounded } from '@mui/icons-material';
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar } from '@mui/material';
+import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar } from '@mui/material';
 import * as React from 'react';
+interface menuItem {
+    path : string,
+    text : string
+}
+
 
 export default function Menu() {
-    const menuItem = ["Home", "About", "Sample01", "Sample02"]
+    const basicMenuItem : menuItem[] = 
+        [
+            { path : "/", text : "Home"},
+            { path : "about", text: "About"} 
+        ]
+    const contentMenuItem : menuItem[] = 
+        [
+            { path: "moviedb", text : "Movie_Info" }, 
+            { path : "sample01", text : "Making..."}
+        ]
 
     const [state, setState] = React.useState({
         top : false,
@@ -34,13 +48,24 @@ export default function Menu() {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}>
             <List>
-                { menuItem.map(item => 
+                { basicMenuItem.map(item => 
                     <ListItem disablePadding>
-                        <ListItemButton component="a" href={item === "Home" ? "/" : item.toLocaleLowerCase() }>
-                            <ListItemText primary={item} />
+                        <ListItemButton component="a" href={item.path}>
+                            <ListItemText key={item.path} primary={item.text} />
                         </ListItemButton>
                     </ListItem>
                 ) } 
+            </List>
+            <Divider />
+            <List>
+            { contentMenuItem.map(item => 
+                    <ListItem disablePadding>
+                        <ListItemButton component="a" href={item.path} >
+                            <ListItemText key={item.path} primary={item.text} />
+                        </ListItemButton>
+                    </ListItem>
+                ) } 
+
             </List>
         </Box>    
     )

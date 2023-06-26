@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import * as React from 'react';
 import MainCard from './MainCard';
 
@@ -12,7 +12,11 @@ export default function Home() {
                 <Typography variant='h4' component="h1" gutterBottom>
                     Home View
                 </Typography>
-                <MainCard />
+                <Stack direction="row" spacing={3}>
+                    <MainCard path='/moviedb'/>
+                </Stack>
+                
+
             </Box>
         </Container>
     )

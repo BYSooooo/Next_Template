@@ -3,14 +3,10 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import * as React from 'react';
 
-interface item {
-    path : string
-}
-
-export default function MainCard() {
+export default function MainCard({path} : {path: string}) {
     const [url, setUrl] = React.useState("");
     React.useEffect(()=> {
-        setUrl("/about")
+        setUrl(path)
     },[])
     return (
         <Card sx={{maxWidth : 350}}>
@@ -22,11 +18,11 @@ export default function MainCard() {
                     alt='' />
                 <CardContent>
                     <Typography gutterBottom variant='h5' component="div">
-                        About Page
+                        Movie Page
                     </Typography>
                     <Typography variant='body2' color="text.secondary">
-                        This is About Page View Detail Text Area. 
-                        If you click this Card, you route to About Page
+                        This is Movie_Info Card<br />
+                        If you click this Card, you route to Movie_Info Page
                     </Typography>
                 </CardContent>
 
