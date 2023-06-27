@@ -49,9 +49,9 @@ export default function Menu() {
             onKeyDown={toggleDrawer(anchor, false)}>
             <List>
                 { basicMenuItem.map(item => 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding key={item.path}>
                         <ListItemButton component="a" href={item.path}>
-                            <ListItemText key={item.path} primary={item.text} />
+                            <ListItemText  primary={item.text} />
                         </ListItemButton>
                     </ListItem>
                 ) } 
@@ -59,9 +59,9 @@ export default function Menu() {
             <Divider />
             <List>
             { contentMenuItem.map(item => 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding key={item.path}>
                         <ListItemButton component="a" href={item.path} >
-                            <ListItemText key={item.path} primary={item.text} />
+                            <ListItemText primary={item.text} />
                         </ListItemButton>
                     </ListItem>
                 ) } 

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Box, Container, Link, Typography } from "@mui/material";
 
+
 export default function MovieMain() {
     return (
         <Container maxWidth="lg">
