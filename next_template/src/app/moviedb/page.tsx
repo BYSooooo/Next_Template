@@ -1,4 +1,4 @@
-import MovieMain from "@/layouts/MovieDB/MovieMain";
+import MovieMain from "@/movie/layouts/MovieMain"
 
 export default function moviePage() {
     return <MovieMain />

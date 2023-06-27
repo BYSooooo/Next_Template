@@ -1,4 +1,4 @@
-import Menu from "@/layouts/Menu/Menu"
+import Menu from "@/menu/layouts/Menu"
 
 export const metadata = {
   title : "Next Template with MUI",
