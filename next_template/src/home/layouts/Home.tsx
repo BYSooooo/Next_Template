@@ -13,10 +13,8 @@ export default function Home() {
                     Home View
                 </Typography>
                 <Stack direction="row" spacing={3}>
-                    <MainCard path='/moviedb'/>
+                    <MainCard path='/movie'/>
                 </Stack>
-                
-
             </Box>
         </Container>
     )

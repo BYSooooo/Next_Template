@@ -1,10 +1,18 @@
-"use client";
+"use client"
 
 import * as React from 'react';
 import { Box, Container, Link, Typography } from "@mui/material";
 
-
 export default function MovieMain() {
+
+    // React.useEffect(()=> {
+    //     (async () => {
+    //         const { results }  = 
+    //             await ( await fetch('https://localhost:3000/api/movies/popular')).json();
+    //     })
+    // },[])
+    
+    
     return (
         <Container maxWidth="lg">
         <Box>

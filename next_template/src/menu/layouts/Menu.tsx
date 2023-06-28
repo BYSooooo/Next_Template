@@ -17,7 +17,7 @@ export default function Menu() {
         ]
     const contentMenuItem : menuItem[] = 
         [
-            { path: "moviedb", text : "Movie_Info" }, 
+            { path: "movie", text : "Movie_Info" }, 
             { path : "sample01", text : "Making..."}
         ]
 
