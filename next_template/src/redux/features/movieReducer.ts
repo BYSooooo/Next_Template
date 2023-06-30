@@ -1,19 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export const popular = createSlice({
     name : 'moviePopularReducer',
-    initialState : [],
+    initialState : [{}],
     reducers : {
-        set : (state) => {
+        setList : (state, action : PayloadAction<[{}]>) => {
+            state.splice(0,1)
             // Popular Movie List Add Logic
-        },
-        get : (state) => {
-
+            state.push(action.payload)
         }
     }
 })
 
+
 export const {
-    set
+    setList
 } = popular.actions;
+
+export default popular.reducer;
 

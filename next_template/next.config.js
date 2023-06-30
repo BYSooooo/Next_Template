@@ -3,7 +3,7 @@
 const API_KEY = process.env.API_KEY
 
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
         '@mui/icons-material' : {
