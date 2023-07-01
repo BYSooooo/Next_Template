@@ -6,7 +6,6 @@ export const metadata = {
   description : 'template view for mui'
 }
 
-//Sample : https://codevoweb.com/setup-redux-toolkit-in-nextjs-13-app-directory/
 export default function RootLayout({
   children,
 }: {
@@ -16,9 +15,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-            <div>
+            
               <Menu />
-            </div>
+            
             {children}
           </Providers>
         </body>  
