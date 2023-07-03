@@ -1,7 +1,9 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hook";
 import { Box, Card, CardMedia, Typography } from "@mui/material";
 import * as React from 'react'
+import { getGenre } from "../components/FetchData";
 
 interface movieInfo {
     adult : boolean,
@@ -18,7 +20,29 @@ interface movieInfo {
     vote_count : number
 }
 
-export default function MovieCard({movie} : {movie : movieInfo}) {
+interface MovieGenreInfo {
+    id : number,
+    text : string
+}
+
+
+
+export default function MovieCard({movie, genre} : {movie : movieInfo, genre : number[]}) {
+    const genreList : Array<any> = useAppSelector((state) => state.movieGenre);
+    const [selected, setSelected ] = React.useState([]);
+    React.useEffect(()=> {
+        getGenre().then(() => {
+            setSelected(genre.filter((id) => {
+               genreList.forEach(listed => {
+                    if(listed.id === id) {
+                        return {id : listed.id, text : listed.text};
+                    }
+               }); 
+            }))
+        });
+        
+    },[])
+    console.log(selected)
     
     return (
         <Card variant='outlined' sx={{ display : 'flex', flexDirection : 'column', maxWidth : 300}}>
@@ -32,7 +56,7 @@ export default function MovieCard({movie} : {movie : movieInfo}) {
                     {movie.original_title}
                 </Typography>
                 <Typography component="div" color="text.secondary" variant="subtitle1" >
-                    SubTitle
+                    genre.map(())
                 </Typography>
             </Box>
         </Card>
