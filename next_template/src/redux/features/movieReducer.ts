@@ -24,4 +24,4 @@ export const movieGenre = createSlice({
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
 
-export default [ popular.reducer, movieGenre.reducer ];
+export default [popular.reducer, movieGenre.reducer];

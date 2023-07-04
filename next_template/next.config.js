@@ -18,7 +18,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/genreList",
-                destination : 'https://api.themoviedb.org/3/genre/movie/list'
+                destination : `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
             }
         ]
     }

@@ -2,20 +2,33 @@
 
 import * as React from 'react';
 import { Box, Container, Link, Stack, Typography } from "@mui/material";
-import { getPopular } from '../components/FetchData';
-import { useAppSelector } from '@/redux/hook';
+import { getGenre, getPopular } from '../components/FetchData';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
+import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
 
 
 export default function MovieMain() {
     const popular : Array<any> = useAppSelector((state) => state.moviePopular);
+    const genreList : Array<any> = useAppSelector((state) => state.movieGenre);
+
+    const dispatch = useAppDispatch();
+
+    const [movieGenre, setMovieGenre] = React.useState([]);
 
     React.useEffect(()=> {
-        getPopular();   //get Popular Movie List 20
-         
-    },[])
+        //get Popular Movie List 20
+        getPopular().then((lists) => {
+            dispatch(setPopularList(lists))
+        });
 
+        // get Movie Genres List
+        getGenre().then((genres) => {
+            dispatch(setGenreList(genres))
+        })
+    },[])
     console.log(popular)
+    console.log(genreList)
     return (
         <Container maxWidth="lg">
         <Box>
