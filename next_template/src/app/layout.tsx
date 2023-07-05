@@ -15,13 +15,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-            
-              <Menu />
-            
-            {children}
-          </Providers>
-        </body>  
-        
+          <Menu />
+          {children}
+        </Providers>
+      </body>  
     </html>
   )
 }

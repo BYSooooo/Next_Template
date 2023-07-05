@@ -14,21 +14,21 @@ export default function MovieMain() {
 
     const dispatch = useAppDispatch();
 
-    const [movieGenre, setMovieGenre] = React.useState([]);
-
     React.useEffect(()=> {
         //get Popular Movie List 20
         getPopular().then((lists) => {
             dispatch(setPopularList(lists))
-        });
+        })
 
         // get Movie Genres List
         getGenre().then((genres) => {
             dispatch(setGenreList(genres))
         })
     },[])
-    console.log(popular)
-    console.log(genreList)
+
+    console.log("popular : ",popular)
+    console.log("genre : ", genreList)
+
     return (
         <Container maxWidth="lg">
         <Box>
@@ -42,7 +42,7 @@ export default function MovieMain() {
         <Stack>
             {popular.map((item:any) => {
                 return (
-                    <MovieCard key={item.id} movie={item} genre={item.genre_ids}/>
+                    <MovieCard movie={item} genre={item.genre_ids}/>
                 )
             })}
         </Stack>

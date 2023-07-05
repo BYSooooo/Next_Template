@@ -1,5 +1,3 @@
-import { useAppDispatch } from "@/redux/hook";
-
 
 /** Fetching TMDB - Popular Movie List 20 */
 export async function getPopular() {
