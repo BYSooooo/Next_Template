@@ -1,16 +1,10 @@
-import { useAppSelector } from "@/redux/hook"
 import { Chip } from "@mui/material";
+import React from "react";
 
+export default function GenreBox({id, name} : {id : number, name : string}) {
 
-export default function GenreBox({genre} : {genre : number}) {
-    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
-
-    const {id, name} = genreList.find((genres) => genres.id === genre)
     return (
-        <Chip key={id} label={name} color="primary" variant="outlined"/>
-        
+        <Chip key={id} label={`${name}`}color="primary" variant="outlined"/>
     )
-        
-        
-    
+
 }

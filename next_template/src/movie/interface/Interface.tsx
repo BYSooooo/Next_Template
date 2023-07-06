@@ -1,7 +1,7 @@
 interface movieInfo {
     adult : boolean,
     backdrop_path : string,
-    gen_ids : [number],
+    genre_ids : [number],
     id : number,
     original_language : string,
     original_title : string,
@@ -15,5 +15,5 @@ interface movieInfo {
 
 interface MovieGenreInfo {
     id : number,
-    name : string
+    name : string,
 }

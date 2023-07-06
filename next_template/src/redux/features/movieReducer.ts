@@ -15,6 +15,7 @@ export const movieGenre = createSlice({
     initialState : [],
     reducers : {
         setGenreList : (state, action : PayloadAction<[{}]>) => {
+            /** Movie Genre Id & Name */
             state.push(...action.payload)
         }
     }

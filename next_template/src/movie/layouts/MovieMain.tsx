@@ -40,9 +40,9 @@ export default function MovieMain() {
             </Link>
         </Box>
         <Stack>
-            {popular.map((item:any) => {
+            {popular.map((item:movieInfo) => {
                 return (
-                    <MovieCard movie={item} genre={item.genre_ids}/>
+                    <MovieCard key={item.id} movie={item} genre={item.genre_ids}/>
                 )
             })}
         </Stack>
