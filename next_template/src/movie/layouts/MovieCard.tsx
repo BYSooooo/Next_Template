@@ -20,14 +20,14 @@ export default function MovieCard({key, movie, genre} : {key : number, movie : m
     }
 
     return (
-        <Card key={key} variant='outlined' sx={{ display : 'flex', flexDirection : 'column', maxWidth : 300}}>
-            <Stack direction="row">
+        <Card key={key} variant='outlined' sx={{ display : 'block', flexDirection : 'column', minWidth : 400}}>
+            <Stack direction="row" >
                 <CardMedia
                     sx={{ width: 100}}
                     component="img"
                     image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 />
-                 <Box sx={{display : 'flex', flexDirection : 'column'}}>
+                 <Box sx={{display : 'flex', flexDirection : 'column', m : 2}} >
                     <Typography component="div" variant="h5">
                         {movie.original_title}
                     </Typography>

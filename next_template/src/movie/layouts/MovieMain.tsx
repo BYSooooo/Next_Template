@@ -39,7 +39,10 @@ export default function MovieMain() {
                 Route to Home
             </Link>
         </Box>
-        <Stack>
+        <Typography variant='h4'>
+            Popular Movie List in 20
+        </Typography>
+        <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
             {popular.map((item:movieInfo) => {
                 return (
                     <MovieCard key={item.id} movie={item} genre={item.genre_ids}/>
