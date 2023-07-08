@@ -24,15 +24,15 @@ export default function MovieCard({id,  movie, genre} : { id: number, movie : mo
             <Stack direction="row" >
                 <CardMedia
                     key={id}
-                    sx={{ width: 100}}
+                    sx={{ width: 120}}
                     component="img"
                     image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 />
-                 <Box sx={{display : 'flex', flexDirection : 'column', m : 2}} >
+                 <Box sx={{display : 'flex', flexDirection : 'column', m : 2, }} >
                     <Typography component="div" variant="h5">
                         {movie.original_title}
                     </Typography>
-                    <Stack direction="row" spacing={0.5}>
+                    <Stack flexWrap="wrap" direction="row" spacing={0.5}>
                         {genre.map((id) => {       
                             return (
                                 <GenreBox 

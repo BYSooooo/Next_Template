@@ -6,6 +6,7 @@ import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
+import MainSearch from './MainSearch';
 
 
 export default function MovieMain() {
@@ -32,14 +33,12 @@ export default function MovieMain() {
     return (
         <Container maxWidth="lg">
         <Box>
-            <Typography variant='h4' component="h1" gutterBottom>
-                This is Movie Page
+            <Typography variant='h5' component="h1" gutterBottom={true}>
+                What's your Movie?
             </Typography>
-            <Link href="/">
-                Route to Home
-            </Link>
         </Box>
-        <Typography variant='h4'>
+        <MainSearch />
+        <Typography variant='h5'>
             Popular Movie List in 20
         </Typography>
         <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
