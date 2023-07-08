@@ -26,8 +26,8 @@ export default function MovieMain() {
         })
     },[])
 
-    console.log("popular : ",popular)
-    console.log("genre : ", genreList)
+    //console.log("popular : ",popular)
+    //console.log("genre : ", genreList)
 
     return (
         <Container maxWidth="lg">
@@ -45,7 +45,7 @@ export default function MovieMain() {
         <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
             {popular.map((item:movieInfo) => {
                 return (
-                    <MovieCard key={item.id} movie={item} genre={item.genre_ids}/>
+                    <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
                 )
             })}
         </Stack>

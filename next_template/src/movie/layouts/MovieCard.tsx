@@ -5,7 +5,7 @@ import * as React from 'react'
 import GenreBox from "../components/GenreBox";
 import { useAppSelector } from "@/redux/hook";
 
-export default function MovieCard({key, movie, genre} : {key : number, movie : movieInfo, genre : number[]}) {
+export default function MovieCard({id,  movie, genre} : { id: number, movie : movieInfo, genre : number[]}) {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     
     const getName = (selected : number) => {
@@ -20,9 +20,10 @@ export default function MovieCard({key, movie, genre} : {key : number, movie : m
     }
 
     return (
-        <Card key={key} variant='outlined' sx={{ display : 'block', flexDirection : 'column', minWidth : 400}}>
+        <Card key={id} variant='outlined' sx={{ display : 'block', flexDirection : 'column', minWidth : 400}}>
             <Stack direction="row" >
                 <CardMedia
+                    key={id}
                     sx={{ width: 100}}
                     component="img"
                     image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -35,7 +36,8 @@ export default function MovieCard({key, movie, genre} : {key : number, movie : m
                         {genre.map((id) => {       
                             return (
                                 <GenreBox 
-                                    id={id} 
+                                    id={id}
+                                    key={id}
                                     name={getName(id)} />
                             )
                         })}
