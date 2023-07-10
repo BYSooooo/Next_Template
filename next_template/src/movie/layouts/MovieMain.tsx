@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
 import MainSearch from './MainSearch';
+import Grid from '@mui/material/Unstable_Grid2';
 
 
 export default function MovieMain() {
@@ -32,22 +33,44 @@ export default function MovieMain() {
 
     return (
         <Container maxWidth="lg">
-        <Box>
-            <Typography variant='h5' component="h1" gutterBottom={true}>
-                What's your Movie?
-            </Typography>
-        </Box>
-        <MainSearch />
-        <Typography variant='h5'>
-            Popular Movie List in 20
-        </Typography>
-        <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
-            {popular.map((item:movieInfo) => {
-                return (
-                    <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
-                )
-            })}
-        </Stack>
+           <Grid container direction='column' alignItems='center'>
+                <div>
+                    <Grid xs={12} container sx={{mb : 3, mt: 5}}>
+                        <Typography variant='h5' component="h1" gutterBottom={true}>
+                            What's your Movie?
+                        </Typography>
+                    </Grid>    
+                </div>
+                <Grid xs={12} sx={{mb : '20vh'}}>
+                    <MainSearch />
+                </Grid>
+                <Grid xs={12} container>
+                    <Typography variant='h5'>
+                        Popular Movie List in 20
+                    </Typography>
+                </Grid>
+                <Grid xs={12}>
+                    <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
+                        {popular.map((item:movieInfo) => {
+                            return (
+                                <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
+                            )
+                        })}
+                    </Stack>
+                </Grid>
+                    
+                
+            
+
+                
+
+            
+
+           </Grid>
+        
+        
+        
+        
     </Container>
     
     )

@@ -1,7 +1,7 @@
 "use client";
 
 import { MenuOpenRounded } from '@mui/icons-material';
-import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
 import * as React from 'react';
 interface menuItem {
     path : string,
@@ -70,11 +70,18 @@ export default function Menu() {
         </Box>    
     )
     return (
-        <div>
-            <React.Fragment>
-                <Button onClick={toggleDrawer('left', true)} >
+        <AppBar position='static' color='primary' enableColorOnDark>
+            <Toolbar>
+                <IconButton
+                    size='large'
+                    edge="start"
+                    color='inherit'
+                    aria-label='menu'
+                    onClick={toggleDrawer('left', true)}>
                     <MenuOpenRounded />
-                </Button>
+                </IconButton>
+            </Toolbar>
+            <React.Fragment>    
                 <SwipeableDrawer
                     anchor="left"
                     open={state['left']}
@@ -83,6 +90,7 @@ export default function Menu() {
                     {list('left')}
                 </SwipeableDrawer>
             </React.Fragment>
-        </div>
+        </AppBar>
+        
     )
 }

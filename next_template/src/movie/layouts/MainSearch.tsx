@@ -5,10 +5,9 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 export default function MainSearch() {
 
     return (
-
-        <Box sx={{ m : 3 }} >
+        <div> 
             <Grid container spacing={2}> 
-                <Grid  xs>
+                <Grid xs={2}>
                     <Button sx={{ width: "100%", height : "100%" }}>
                         <KeyboardArrowDown />
                         <Typography>
@@ -20,16 +19,12 @@ export default function MainSearch() {
                 <Grid xs={8}>
                     <TextField label="Search" variant="outlined" sx={{width : "100%" , height: "100%"}} />
                 </Grid>
-                <Grid xs>
+                <Grid xs={2}>
                     <Button variant="outlined" sx={{ width: "100%", height: "100%"}}>
                         Search
                     </Button>
                 </Grid>
-            </Grid>
-
-                
-               
-        </Box>
-        
+            </Grid>       
+        </div>    
     )
 }
