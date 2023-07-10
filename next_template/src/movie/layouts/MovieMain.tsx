@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from 'react';
-import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
@@ -36,15 +36,26 @@ export default function MovieMain() {
            <Grid container direction='column' alignItems='center'>
                 <div>
                     <Grid xs={12} container sx={{mb : 3, mt: 5}}>
-                        <Typography variant='h5' component="h1" gutterBottom={true}>
+                        <Typography variant='h5' component="h1" gutterBottom={true} sx={{fontSize : '4rem', fontWeight: 'bold'}}>
                             What's your Movie?
                         </Typography>
                     </Grid>    
                 </div>
-                <Grid xs={12} sx={{mb : '20vh'}}>
+                <Grid xs={12} sx={{mb : 1}} >
                     <MainSearch />
                 </Grid>
-                <Grid xs={12} container>
+                <div>
+                    <Grid xs={12} sx={{mb : '15vh'}} container direction='row' alignItems='center'>
+                        <Typography sx={{color : 'blueviolet'}}>
+                            Selected : 
+                        </Typography>
+                        <Button>
+                            Hello
+                        </Button>
+                    </Grid>
+                </div>
+                
+                <Grid xs={12} container sx={{mb : 1}}>
                     <Typography variant='h5'>
                         Popular Movie List in 20
                     </Typography>
@@ -58,20 +69,8 @@ export default function MovieMain() {
                         })}
                     </Stack>
                 </Grid>
-                    
-                
-            
-
-                
-
-            
-
            </Grid>
-        
-        
-        
-        
-    </Container>
+        </Container>
     
     )
 }

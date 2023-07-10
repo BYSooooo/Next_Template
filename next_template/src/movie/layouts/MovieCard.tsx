@@ -44,8 +44,6 @@ export default function MovieCard({id,  movie, genre} : { id: number, movie : mo
                     </Stack>
                 </Box>
             </Stack>
-            
-           
         </Card>
     )
 }

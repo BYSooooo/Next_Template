@@ -6,7 +6,7 @@ export default function MainSearch() {
 
     return (
         <div> 
-            <Grid container spacing={2}> 
+            <Grid container spacing={2} direction='row'> 
                 <Grid xs={2}>
                     <Button sx={{ width: "100%", height : "100%" }}>
                         <KeyboardArrowDown />
@@ -14,7 +14,6 @@ export default function MainSearch() {
                             Detail
                         </Typography>
                     </Button>
-
                 </Grid>
                 <Grid xs={8}>
                     <TextField label="Search" variant="outlined" sx={{width : "100%" , height: "100%"}} />
