@@ -7,7 +7,7 @@ import MainCard from './MainCard';
 export default function Home() {
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ mt : "5rem", maxWidth : "80vw"}}>
             <Box>
                 <Typography variant='h4' component="h1" gutterBottom>
                     Home View

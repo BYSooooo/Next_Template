@@ -70,7 +70,7 @@ export default function Menu() {
         </Box>    
     )
     return (
-        <AppBar position='static' color='primary' enableColorOnDark>
+        <AppBar position='fixed' enableColorOnDark >
             <Toolbar>
                 <IconButton
                     size='large'
@@ -91,6 +91,5 @@ export default function Menu() {
                 </SwipeableDrawer>
             </React.Fragment>
         </AppBar>
-        
     )
 }

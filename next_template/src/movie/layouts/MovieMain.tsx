@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from 'react';
-import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
@@ -12,8 +12,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 export default function MovieMain() {
     const popular : Array<any> = useAppSelector((state) => state.moviePopular);
-    const genreList : Array<any> = useAppSelector((state) => state.movieGenre);
-
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
@@ -32,11 +30,11 @@ export default function MovieMain() {
     //console.log("genre : ", genreList)
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{mt : "5rem", maxWidth : "80vw"}}>
            <Grid container direction='column' alignItems='center'>
                 <div>
                     <Grid xs={12} container sx={{mb : 3, mt: 5}}>
-                        <Typography variant='h5' component="h1" gutterBottom={true} sx={{fontSize : '4rem', fontWeight: 'bold'}}>
+                        <Typography variant='h5' component="h1" gutterBottom={true} sx={{fontSize : '4rem', fontWeight: 'bold'}} >
                             What's your Movie?
                         </Typography>
                     </Grid>    
