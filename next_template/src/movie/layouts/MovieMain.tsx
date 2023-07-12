@@ -8,6 +8,7 @@ import MovieCard from './MovieCard';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
 import MainSearch from './MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
+import GenreBtn from '../components/GenreBtn';
 
 
 export default function MovieMain() {
@@ -25,9 +26,6 @@ export default function MovieMain() {
             dispatch(setGenreList(genres))
         })
     },[])
-
-    //console.log("popular : ",popular)
-    //console.log("genre : ", genreList)
 
     return (
         <Container maxWidth="lg" sx={{mt : "5rem", maxWidth : "80vw"}}>
@@ -47,9 +45,7 @@ export default function MovieMain() {
                         <Typography sx={{color : 'blueviolet'}}>
                             Selected : 
                         </Typography>
-                        <Button>
-                            Hello
-                        </Button>
+                        <GenreBtn />
                     </Grid>
                 </div>
                 

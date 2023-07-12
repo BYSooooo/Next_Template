@@ -20,9 +20,20 @@ export const movieGenre = createSlice({
         }
     }
 })
+export const selectedGenre = createSlice({
+    name :'selectedGenre',
+    initialState : [],
+    reducers : {
+        setSelectedGenre : (state, action: PayloadAction<[{}]>) => {
+            /** set Selected Movie Genre in Movie Main's Detail Button */
+            state.push(...action.payload)
+        }
+     }
+})
 
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
+export const { setSelectedGenre } = selectedGenre.actions;
 
-export default [popular.reducer, movieGenre.reducer];
+export default [popular.reducer, movieGenre.reducer, selectedGenre.reducer];
