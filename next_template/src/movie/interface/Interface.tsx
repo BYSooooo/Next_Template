@@ -17,3 +17,8 @@ interface MovieGenreInfo {
     id : number,
     name : string,
 }
+
+interface menuItem {
+    path : string,
+    text : string
+}
