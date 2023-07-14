@@ -31,7 +31,7 @@ export default function FilterBtn() {
             <React.Fragment>
                 <SwipeableDrawer
                     anchor="bottom"
-                    open={true}
+                    open={false}
                     onClose={ToggleDrawer('bottom', false)}
                     onOpen={ToggleDrawer('bottom',true)}>
                 {filterBar('bottom')}

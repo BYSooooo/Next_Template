@@ -5,25 +5,45 @@ import { MenuOpenRounded } from '@mui/icons-material';
 import { AppBar, Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
 import * as React from 'react';
 
-export default function Menu() {
-    const [toggleMenu, setToggleMenu] = React.useState(false);
 
-    const basicMenuItem : menuItem[] = 
-        [
-            { path : "/", text : "Home"},
-            { path : "about", text: "About"} 
-        ]
-    const contentMenuItem : menuItem[] = 
-        [
-            { path: "movie", text : "Movie_Info" }, 
-            { path : "sample01", text : "Making..."}
-        ]
+const basicMenuItem : menuItem[] = 
+[
+    { path : "/", text : "Home"},
+    { path : "about", text: "About"} 
+]
+const contentMenuItem : menuItem[] = 
+[
+    { path: "movie", text : "Movie_Info" }, 
+    { path : "sample01", text : "Making..."}
+]
+
+export default function Menu() {
+
+    const [state, setState] = React.useState({
+        top : false,
+        left : false,
+        bottom : false,
+        right : false
+    })
+
+    const toggleDrawer = (anchor: string, open: boolean) => (
+        event : React.KeyboardEvent | React.MouseEvent
+    ) => {
+        if( event && 
+            event.type === 'keydown' &&
+            (   
+                (event as React.KeyboardEvent).type === 'Tab' ||
+                (event as React.KeyboardEvent).type === 'Shift'
+            ))
+        { return; }
+         setState({...state, [anchor] : open})
+    }
 
     const list = (anchor : string) => (
         <Box sx={{ width: 250 }}
             role="presentation"
-            onClick={ToggleDrawer(anchor, false)}
-            onKeyDown={ToggleDrawer(anchor, false)} >
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)} >
             <List>
                 {basicMenuItem.map(item => 
                 <ListItem disablePadding key={item.path}>
@@ -53,7 +73,7 @@ export default function Menu() {
                     edge="start"
                     color='inherit'
                     aria-label='menu'
-                    onClick={ToggleDrawer('left', true)}>
+                    onClick={toggleDrawer('left', true)}>
                     <MenuOpenRounded />
                 </IconButton>
             </Toolbar>
@@ -61,8 +81,8 @@ export default function Menu() {
                 <SwipeableDrawer
                     anchor="left"
                     open={state['left']}
-                    onClose={ToggleDrawer('left', false)}
-                    onOpen={ToggleDrawer('left', true)}>
+                    onClose={toggleDrawer('left', false)}
+                    onOpen={toggleDrawer('left', true)}>
                     {list('left')}
                 </SwipeableDrawer>
             </React.Fragment>

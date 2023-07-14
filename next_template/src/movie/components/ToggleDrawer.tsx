@@ -8,7 +8,7 @@ export default function ToggleDrawer(anchor : string, open : boolean) {
         bottom : false,
         right : false
     })
-        
+
     return function (event : React.KeyboardEvent | React.MouseEvent ) {
 
         if( event && 
