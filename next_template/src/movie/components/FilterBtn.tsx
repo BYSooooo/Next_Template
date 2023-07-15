@@ -3,6 +3,7 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box, SwipeableDrawer } from '@mui/material';
+import SearchFilter from './SearchFilter';
 
 export default function FilterBtn() {
 
@@ -48,7 +49,7 @@ export default function FilterBtn() {
                     open={state['bottom']}
                     onClose={toggleDrawer('bottom', false)}
                     onOpen={toggleDrawer('bottom', true)}>
-                    {filterBar()}
+                    {<SearchFilter />}
                 </SwipeableDrawer>
             </React.Fragment>
             
