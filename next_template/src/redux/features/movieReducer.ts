@@ -35,9 +35,42 @@ export const selectedGenre = createSlice({
      }
 })
 
+export const searchFilter = createSlice({
+    name : 'searchFilter',
+    initialState : [
+        { key : "genre", useYn : false },
+        { key : "date" , useYn : false },
+        { key : "rate" , useYn : false }
+    ],
+    reducers : {
+        changeFilter : (state, action: PayloadAction<{key: String, useYn : boolean}>) => {
+            /** change Use Filtering Item  */
+            const index = state.findIndex((item) => item.key === action.payload.key)
+            state[index].useYn = action.payload.useYn
+        }
+    }
+})
+
+export const selectedDateRange = createSlice({
+    name : 'selectedDateRange',
+    initialState : [],
+    reducers : {
+        setDateRange : (state, action: PayloadAction<[]>) => {
+            /** set Ranged Movie Release Date in Movie Main's Detail Button */
+            state.push(action.payload)
+        },
+            /** delete Ranged Movie Release Date in Movie Main's Detail Button */
+        delDateRange : (state, action: PayloadAction<[]>) => {
+            state.splice(0);
+        }
+    }
+})
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
 export const { setSelectedGenre, delSelectedGenre } = selectedGenre.actions;
+export const { changeFilter } = searchFilter.actions;
+export const { setDateRange, delDateRange } = selectedDateRange.actions; 
 
-export default [popular.reducer, movieGenre.reducer, selectedGenre.reducer];
+
+export default [popular.reducer, movieGenre.reducer, selectedGenre.reducer, selectedDateRange];
