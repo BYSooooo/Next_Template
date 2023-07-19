@@ -1,7 +1,7 @@
 import React from "react";
 import { delSelectedGenre, setSelectedGenre } from "@/redux/features/movieReducer";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { Box, Chip, FormControlLabel, Slider, Stack, Typography } from "@mui/material";
+import { Box, Chip, FormControlLabel, Input, OutlinedInput, Slider, Stack, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import DoneIcon from '@mui/icons-material/Done'
@@ -39,6 +39,10 @@ export default function SearchFilter() {
     const [allGenre, setAllGenre] = React.useState(true);
     const [allDate, setAllDate] = React.useState(true);
     const [allRate, setAllRate] = React.useState(true);
+    const [rateValue, setRateValue] = React.useState<number[]>([0,10]);
+    const handleValue = (event : Event, newValue : number[] ) => {
+        setRateValue(newValue as number[])
+    }
 
     console.log(selGenreList)
     return (
@@ -91,8 +95,14 @@ export default function SearchFilter() {
                         </Typography>
                         <FormControlLabel control={<Checkbox checked={allRate} onChange={()=> setAllRate(!allRate)} />} label="All"/>
                     </Grid>
-                    <Box justifyItems="stretch" sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
-                        <Slider valueLabelDisplay="auto" marks step={1} min={0} max={5} sx={{ width: "80%"}} disabled={allRate}/>
+                    <Box sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
+                        <Grid container direction='column' alignItems='center'>
+                            <Slider value={rateValue} onChange={handleValue} valueLabelDisplay="auto" marks step={1} min={0} max={10} sx={{ width: "80%"}} disabled={allRate}/>
+                                <Grid container direction='row' sx={{ mt : "1rem"}} justifyContent='center' columnGap={2}>
+                                    <TextField label="From"size="small" sx={{width: "40%"}} aria-readonly={true} value={rateValue[0]} />
+                                    <TextField label="To" size="small" sx={{width: "40%"}} aria-readonly={true} value={rateValue[1]} />
+                                </Grid>
+                        </Grid>
                     </Box>
                 </Grid>
             </Grid>
