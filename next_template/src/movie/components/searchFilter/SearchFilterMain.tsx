@@ -9,11 +9,11 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from "dayjs";
 import Checkbox from "@mui/material/Checkbox";
+import GenreFilter from "./GenreFIlter";
 
-export default function SearchFilter() {
+export default function SearchFilterMain() {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     const selGenreList : MovieGenreInfo[] = useAppSelector((state) => state.selectedGenre)
-    const searchFilter : object[] = useAppSelector((state) => state.searchFilter);
     const dispatch = useAppDispatch();
 
     function onClickAddGenre(genre : MovieGenreInfo){
@@ -65,30 +65,7 @@ export default function SearchFilter() {
     return (
         <Box sx={{ width : "100%"}} >
             <Grid container direction='row'>
-                <Grid container direction='column' sx={{width : "45%", m: 0.5}}>    
-                    <Grid container direction='row' alignItems='Center' sx={{pl : "1rem"}}>
-                        <Typography sx={{ mr: "1rem"}}> 
-                            Genre
-                        </Typography>
-                        <FormControlLabel control={<Checkbox checked={allGenre} onChange={()=> onClickAllCheckBox("genre",!allGenre)} />} label="All"/>
-                    </Grid>
-                    <Grid direction='row'>
-                        <Box sx={{ m: 1, p : 1, border : '1px solid gray', borderRadius : "1rem"}}>
-                            {genreList.map((genre : MovieGenreInfo) => {
-                                return (
-                                    <Chip
-                                        icon={checkSelList(genre.id) === true ? <DoneIcon /> : null}
-                                        sx={{ margin : "0.3rem" }} 
-                                        label={genre.name} 
-                                        onClick={() => onClickAddGenre(genre)}
-                                        color={checkSelList(genre.id) === true ? "primary" : "default" }
-                                        disabled={allGenre}
-                                    />
-                                )
-                            })}
-                        </Box>
-                    </Grid>
-                </Grid>
+                <GenreFilter />
                 <Grid container direction='column' sx={{width : "30%", m: 0.5, minWidth : "10rem"}}>
                     <Grid container direction='row' alignItems='Center' sx={{pl : "1rem"}}>
                         <Typography sx={{ mr: "1rem"}}>
