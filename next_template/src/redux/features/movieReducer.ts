@@ -38,15 +38,15 @@ export const selectedGenre = createSlice({
 export const searchFilter = createSlice({
     name : 'searchFilter',
     initialState : [
-        { key : "genre", useYn : false },
-        { key : "date" , useYn : false },
-        { key : "rate" , useYn : false }
+        { name : "genre", useFilter : false },
+        { name : "date" , useFilter : false },
+        { name : "rate" , useFilter : false }
     ],
     reducers : {
-        changeFilter : (state, action: PayloadAction<{key: String, useYn : boolean}>) => {
+        changeFilter : (state, action: PayloadAction<{name: String, useFilter : boolean}>) => {
             /** change Use Filtering Item  */
-            const index = state.findIndex((item) => item.key === action.payload.key)
-            state[index].useYn = action.payload.useYn
+            const index = state.findIndex((item) => item.name === action.payload.name)
+            state[index].useFilter = action.payload.useFilter
         }
     }
 })

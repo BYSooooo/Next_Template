@@ -1,7 +1,7 @@
 import React from "react";
-import { delSelectedGenre, setSelectedGenre } from "@/redux/features/movieReducer";
+import { delSelectedGenre, setSelectedGenre, changeFilter } from "@/redux/features/movieReducer";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { Box, Chip, FormControlLabel, Input, OutlinedInput, Slider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Chip, FormControlLabel, Slider, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import DoneIcon from '@mui/icons-material/Done'
@@ -13,6 +13,7 @@ import Checkbox from "@mui/material/Checkbox";
 export default function SearchFilter() {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     const selGenreList : MovieGenreInfo[] = useAppSelector((state) => state.selectedGenre)
+    const searchFilter : object[] = useAppSelector((state) => state.searchFilter);
     const dispatch = useAppDispatch();
 
     function onClickAddGenre(genre : MovieGenreInfo){
@@ -39,7 +40,23 @@ export default function SearchFilter() {
     const [allGenre, setAllGenre] = React.useState(true);
     const [allDate, setAllDate] = React.useState(true);
     const [allRate, setAllRate] = React.useState(true);
+
+    const onClickAllCheckBox = (name : String, useFilter : boolean) => {
+        switch (name) {
+            case "genre":   setAllGenre(useFilter);
+                break;
+            case "date" :   setAllDate(useFilter);
+                break;
+            case "rate" :   setAllRate(useFilter);
+                break;
+            default     :   break;
+        }
+        dispatch(changeFilter({name : name, useFilter : !useFilter}))
+        
+    }
+
     const [rateValue, setRateValue] = React.useState<number[]>([0,10]);
+
     const handleValue = (event : Event, newValue : number[] ) => {
         setRateValue(newValue as number[])
     }
@@ -53,7 +70,7 @@ export default function SearchFilter() {
                         <Typography sx={{ mr: "1rem"}}> 
                             Genre
                         </Typography>
-                        <FormControlLabel control={<Checkbox checked={allGenre} onChange={()=> setAllGenre(!allGenre)} />} label="All"/>
+                        <FormControlLabel control={<Checkbox checked={allGenre} onChange={()=> onClickAllCheckBox("genre",!allGenre)} />} label="All"/>
                     </Grid>
                     <Grid direction='row'>
                         <Box sx={{ m: 1, p : 1, border : '1px solid gray', borderRadius : "1rem"}}>
@@ -77,7 +94,7 @@ export default function SearchFilter() {
                         <Typography sx={{ mr: "1rem"}}>
                             Release Date
                         </Typography>
-                        <FormControlLabel control={<Checkbox checked={allDate} onChange={()=> setAllDate(!allDate)} />} label="All"/>     
+                        <FormControlLabel control={<Checkbox checked={allDate} onChange={()=> onClickAllCheckBox("date",!allDate)} />} label="All"/>     
                     </Grid>
                     <Box sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
                         <Grid container direction='column'>
@@ -93,7 +110,7 @@ export default function SearchFilter() {
                         <Typography sx={{ mr: "1rem"}}> 
                             Rate
                         </Typography>
-                        <FormControlLabel control={<Checkbox checked={allRate} onChange={()=> setAllRate(!allRate)} />} label="All"/>
+                        <FormControlLabel control={<Checkbox checked={allRate} onChange={()=> onClickAllCheckBox("rate",!allRate)} />} label="All"/>
                     </Grid>
                     <Box sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
                         <Grid container direction='column' alignItems='center'>
