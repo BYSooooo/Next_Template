@@ -1,7 +1,7 @@
 import React from "react";
 import { delSelectedGenre, setSelectedGenre, changeFilter } from "@/redux/features/movieReducer";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { Box, Chip, FormControlLabel, Slider, TextField, Typography } from "@mui/material";
+import { Box, FormControlLabel, Slider, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import DoneIcon from '@mui/icons-material/Done'
@@ -41,7 +41,7 @@ export default function SearchFilterMain() {
     const [allDate, setAllDate] = React.useState(true);
     const [allRate, setAllRate] = React.useState(true);
 
-    const onClickAllCheckBox = (name : String, useFilter : boolean) => {
+    const onClickAllCheckBox = (name : string, useFilter : boolean) => {
         switch (name) {
             case "genre":   setAllGenre(useFilter);
                 break;

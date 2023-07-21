@@ -43,7 +43,7 @@ export const searchFilter = createSlice({
         { name : "rate" , useFilter : false }
     ],
     reducers : {
-        changeFilter : (state, action: PayloadAction<{name: String, useFilter : boolean}>) => {
+        changeFilter : (state, action: PayloadAction<{name: string, useFilter : boolean}>) => {
             /** change Use Filtering Item  */
             const index = state.findIndex((item) => item.name === action.payload.name)
             state[index].useFilter = action.payload.useFilter

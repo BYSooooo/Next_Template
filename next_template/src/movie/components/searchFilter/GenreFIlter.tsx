@@ -9,19 +9,15 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { changeFilter, delSelectedGenre, setSelectedGenre } from "@/redux/features/movieReducer";
 
 import DoneIcon from '@mui/icons-material/Done'
-import onClickAllCheckBox from './ClickAllCheckBox';
+
 import Chip from '@mui/material/Chip';
 
 
 export default function GenreFilter() {
+    /** Control Select Genre Chip Part*/ 
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     const selGenreList : MovieGenreInfo[] = useAppSelector((state) => state.selectedGenre);
-    const useSearchFilter : {name : string, useFilter : boolean}[] = useAppSelector((state) => state.searchFilter);
     const dispatch = useAppDispatch();
-
-    const filterState = useSearchFilter[useSearchFilter.findIndex((item) => item.name === "genre")]
-
-    
 
     const checkSelList = (genreId : number) => {
         const check = selGenreList.findIndex((genre) => genre.id === genreId)
@@ -39,6 +35,14 @@ export default function GenreFilter() {
             dispatch(delSelectedGenre(genre.id))
         }    
     }
+
+    /** Control Select All Check Box Part */
+    const useSearchFilter : {name : string, useFilter : boolean}[] = useAppSelector((state) => state.searchFilter);
+    const filterState = useSearchFilter[useSearchFilter.findIndex((item) => item.name === "genre")]
+
+    const clickAllCheckBox = (name: string, useFilter : boolean) => {
+        dispatch(changeFilter({name: name, useFilter : !useFilter}))
+    }
   
     return (
         <Grid container direction='column' sx={{width : "45%", m: 0.5}}>    
@@ -46,19 +50,20 @@ export default function GenreFilter() {
                 <Typography sx={{ mr: "1rem"}}> 
                     Genre
                 </Typography>
-                <FormControlLabel control={<Checkbox checked={filterState.useFilter} onChange={()=> onClickAllCheckBox("genre",!filterState.useFilter)} />} label="All"/>
+                <FormControlLabel control={<Checkbox checked={!filterState.useFilter} onChange={()=>clickAllCheckBox("genre",filterState.useFilter)} />} label="All"/>
             </Grid>
             <Grid direction='row'>
                 <Box sx={{ m: 1, p : 1, border : '1px solid gray', borderRadius : "1rem"}}>
                     {genreList.map((genre : MovieGenreInfo) => {
                         return (
                             <Chip
+                                key={genre.id}
                                 icon={checkSelList(genre.id) === true ? <DoneIcon /> : null}
                                 sx={{ margin : "0.3rem" }} 
                                 label={genre.name} 
                                 onClick={() => onClickAddGenre(genre)}
                                 color={checkSelList(genre.id) === true ? "primary" : "default" }
-                                disabled={filterState.useFilter}
+                                disabled={!filterState.useFilter}
                             />
                         )
                     })}
