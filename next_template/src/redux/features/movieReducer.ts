@@ -66,11 +66,31 @@ export const selectedDateRange = createSlice({
     }
 })
 
+export const selectedRateRange = createSlice({
+    name : 'selectedRateRange',
+    initialState : [0,10],
+    reducers : {
+        setRateRange : (state, action: PayloadAction<number[]>) => {
+            /**set Movies' Rate in Movie Main's Detail Button */
+            state.splice(0,2,...action.payload);
+        }
+    }
+})
+
+
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
 export const { setSelectedGenre, delSelectedGenre } = selectedGenre.actions;
 export const { changeFilter } = searchFilter.actions;
-export const { setDateRange, delDateRange } = selectedDateRange.actions; 
+export const { setDateRange, delDateRange } = selectedDateRange.actions;
+export const { setRateRange } = selectedRateRange.actions; 
 
 
-export default [popular.reducer, movieGenre.reducer, selectedGenre.reducer, selectedDateRange];
+export default 
+    [
+        popular.reducer, 
+        movieGenre.reducer, 
+        selectedGenre.reducer, 
+        selectedDateRange,
+        selectedRateRange.reducer
+    ];
