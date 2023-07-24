@@ -17,9 +17,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 export default function ReleaseDateFilter() {
     /**Control From, To Date Part */
     const releaseDate = useAppSelector((state) => state.selectedDateRange);
+    console.log(releaseDate)
     const dispatch = useAppDispatch()
     
-    const onChangeDate =(name : string, date : dayjs.Dayjs) => {
+    const onChangeDate =(name : string, date : string) => {
         switch (name) {
             case "fromDate" : 
                 dispatch(setSelectedFromDate(date))
@@ -51,8 +52,8 @@ export default function ReleaseDateFilter() {
             <Box sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
                 <Grid container direction='column'>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker label="From Date" value={releaseDate[0].date} onChange={(newValue) => onChangeDate("fromDate",newValue)} sx={{m : "0.5rem"}} disabled={!filterState.useFilter}/>
-                        <DatePicker label="To Date" value={releaseDate[1].date} onChange={(newValue) => onChangeDate("toDate",newValue)} sx={{m : "0.5rem"}} disabled={!filterState.useFilter} /> 
+                        <DatePicker label="From Date" value={dayjs(releaseDate[0].date).toDate()} onChange={(newValue) => onChangeDate("fromDate",newValue.toString())} sx={{m : "0.5rem"}} disabled={!filterState.useFilter}/>
+                        <DatePicker label="To Date" value={dayjs(releaseDate[1].date).toDate()} onChange={(newValue) => onChangeDate("toDate",newValue.toString())} sx={{m : "0.5rem"}} disabled={!filterState.useFilter} /> 
                     </LocalizationProvider>
                 </Grid>
             </Box>
