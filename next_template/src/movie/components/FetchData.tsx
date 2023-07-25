@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hook";
 
 /** Fetching TMDB - Popular Movie List 20 */
 export async function getPopular() {
@@ -16,5 +17,14 @@ export async function getGenre() {
         return response.genres
     } catch (err) {
         throw new Error('Failed to Fetch Movie_GenreList')
+    }
+}
+
+/** Fetching TMDB - Movie Search by Fitering */
+export async function search() {
+    const useYn = useAppSelector((state)=> state.selectedGenre);
+     
+    try {
+        
     }
 }

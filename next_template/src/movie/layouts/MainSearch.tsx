@@ -6,6 +6,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import FilterBtn from '../components/FilterBtn';
 
 export default function MainSearch() {
+    const onClick = () => {
+        console.log("onClick")
+        
+    }
 
     return (
         <div> 
@@ -17,7 +21,7 @@ export default function MainSearch() {
                     <Input fullWidth />
                 </Grid>
                 <Grid xs={2}>
-                    <Button variant="contained" sx={{ width: "100%", height: "100%"}}>
+                    <Button variant="contained" sx={{ width: "100%", height: "100%"}} onClick={onClick}>
                         Search
                     </Button>
                 </Grid>
