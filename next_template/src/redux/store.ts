@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { movieGenre, popular, searchFilter, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
 
 export const store = configureStore({
@@ -10,6 +10,7 @@ export const store = configureStore({
         searchFilter : searchFilter.reducer,
         selectedRateRange : selectedRateRange.reducer
     }
+    
 })
 
 export type RootState = ReturnType<typeof store.getState>;

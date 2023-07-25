@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone"
 
 export const popular = createSlice({
     name : 'moviePopularReducer',
@@ -57,12 +56,11 @@ export const searchFilter = createSlice({
 export const selectedDateRange = createSlice({
     name : 'selectedDateRange',
     initialState : [
-        { name : "fromDate", date: dayjs(new Date()).tz('Asia/Tokyo')} ,
-        { name : "toDate", date : dayjs(new Date()).tz('Asia/Tokyo')}      
+        { name : "fromDate", date: dayjs(new Date()).format('YYYY-MM-DD')} ,
+        { name : "toDate", date : dayjs(new Date()).format('YYYY-MM-DD')}      
     ],
     reducers : {
         setSelectedFromDate : (state, action : PayloadAction<string>) => {
-            console.log(state)
             state[0].date = action.payload
             
         },
