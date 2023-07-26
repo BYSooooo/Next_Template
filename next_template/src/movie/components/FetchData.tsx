@@ -22,9 +22,10 @@ export async function getGenre() {
 
 /** Fetching TMDB - Movie Search by Fitering */
 export async function search() {
-    const useYn = useAppSelector((state)=> state.selectedGenre);
      
     try {
         
+    } catch(err) {
+        throw new Error('Failed to Fetch Movie_search')
     }
 }
