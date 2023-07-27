@@ -12,6 +12,7 @@ export default function SearchBtn() {
     const rateList = useAppSelector((state) => state.selectedRateRange);
 
     const [genreQuery, setGenreQuery] = React.useState("with_genres=");
+    const [dateQuery, setDateQuery] = React.useState("");
 
     const onClick = () => {
         searchFilter.forEach(filter => {
@@ -19,9 +20,11 @@ export default function SearchBtn() {
             if(filter.useFilter == true) {
                 switch (filter.name) {
                     case "genre" :
-                        genreFilter();
+                        setGenreQuery((query)=> query += genreFilter());
+                        console.log(genreQuery)
                     case "date" : 
-                        dateFIlter();
+                        setDateQuery(dateFilter());
+                        console.log(dateQuery)
                     case "rate" : 
                         rateFilter();
                     default :
@@ -30,17 +33,23 @@ export default function SearchBtn() {
             }
         });
     }
-
+    /** Set Selected Genre to Query by Genre Id */
     const genreFilter = () => {
         const pipe = "%7C"; // Pipe (|) in query mean 'OR'
         let queryString:string = "";
-        genreList.map((selected) => {
-            queryString += selected.id.toString() + pipe;
-        })
-        console.log(queryString)
+        for(var i=0; i<genreList.length; i++) {
+            if(i < genreList.length -1) {
+                queryString += genreList[i].id.toString() + pipe;
+            } else {
+                queryString += genreList[i].id.toString()
+            }
+        }
+        return queryString;
     }
-    const dateFIlter = () => {
-
+    const dateFilter = () => {
+        const fromQuery = dateList[dateList.findIndex(key => key.name === "fromDate")].date;
+        const toQuery = dateList[dateList.findIndex(key => key.name === "toDate")].date;
+        return `release_date.gte=${fromQuery}&release_date.lte=${toQuery}`
     }
     const rateFilter = () => {
 
