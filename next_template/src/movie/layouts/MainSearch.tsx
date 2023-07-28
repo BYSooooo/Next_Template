@@ -8,6 +8,11 @@ import { useAppSelector } from '@/redux/hook';
 import SearchBtn from '../components/SearchBtn';
 
 export default function MainSearch() {
+    const [keyword, setKeyword] = React.useState("");
+
+    const onChange =(e: { target: { value: React.SetStateAction<string>; }; }) => {
+        setKeyword(e.target.value)
+    }
 
     return (
         <div> 
@@ -16,10 +21,10 @@ export default function MainSearch() {
                     <FilterBtn />
                 </Grid>
                 <Grid xs={8}>
-                    <Input fullWidth />
+                    <Input fullWidth onChange={onChange}/>
                 </Grid>
                 <Grid xs={2}>
-                    <SearchBtn />
+                    <SearchBtn keyword={keyword}/>
                 </Grid>
             </Grid>       
         </div>    
