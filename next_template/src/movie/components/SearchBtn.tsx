@@ -13,6 +13,7 @@ export default function SearchBtn() {
 
     const [genreQuery, setGenreQuery] = React.useState("with_genres=");
     const [dateQuery, setDateQuery] = React.useState("");
+    const [voteAvg, setVoteAvg] = React.useState("");
 
     const onClick = () => {
         searchFilter.forEach(filter => {
@@ -22,11 +23,15 @@ export default function SearchBtn() {
                     case "genre" :
                         setGenreQuery((query)=> query += genreFilter());
                         console.log(genreQuery)
+                        break;
                     case "date" : 
                         setDateQuery(dateFilter());
                         console.log(dateQuery)
+                        break;
                     case "rate" : 
-                        rateFilter();
+                        setVoteAvg(rateFilter());
+                        console.log(voteAvg);
+                        break;
                     default :
                         break;
                 }   
@@ -52,7 +57,9 @@ export default function SearchBtn() {
         return `release_date.gte=${fromQuery}&release_date.lte=${toQuery}`
     }
     const rateFilter = () => {
-
+           const fromAvg = rateList[0].toString();
+           const toAvg = rateList[1].toString();
+           return `vote_average.gte=${fromAvg}&vote_average.lte=${toAvg}`
     }
 
     return (
