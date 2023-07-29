@@ -2,45 +2,49 @@ import { useAppSelector } from "@/redux/hook";
 import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import React from "react";
+import { search } from "./FetchData";
 
 export default function SearchBtn({keyword} : {keyword : string}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     
-    
     const genreList = useAppSelector((state) => state.selectedGenre);
     const dateList = useAppSelector((state) => state.selectedDateRange);
     const rateList = useAppSelector((state) => state.selectedRateRange);
 
-    const [genreQuery, setGenreQuery] = React.useState("with_genres=");
+    const [genreQuery, setGenreQuery] = React.useState("");
     const [dateQuery, setDateQuery] = React.useState("");
     const [voteAvg, setVoteAvg] = React.useState("");
 
     const [sendQuery, setSendQuery] = React.useState("");
 
-    const onClick = () => {
+    const createQuery = () => {
         searchFilter.forEach(filter => {
             if(filter.useFilter == true) {
                 switch (filter.name) {
-                    case "genre" :
-                        setGenreQuery((query)=> query += genreFilter());
+                    case "genre" : setGenreQuery((query)=> query += genreFilter());
                         break;
-                    case "date" : 
-                        setDateQuery(dateFilter());
+                    case "date" : setDateQuery(dateFilter());
                         break;
-                    case "rate" : 
-                        setVoteAvg(rateFilter());
+                    case "rate" : setVoteAvg(rateFilter());
                         break;
                     default :
                         break;
                 }   
             }
         });
-        setSendQuery(`with_keywords=${keyword}`)
     }
 
-    const sendQueryData = () => {
+    const onClick = () => {
+        createQuery()
         
+        console.log("Genre : "+genreQuery);
+        console.log("date : "+dateQuery);
+        console.log("VoteRate : " + voteAvg);
+        //const query = `with_keywords=${keyword}&${genreQuery}&${dateQuery}&${voteAvg}`
+        
+        /** Setting Send Query */
+
     }
 
     /** Set Selected Genre to Query by Genre Id */
