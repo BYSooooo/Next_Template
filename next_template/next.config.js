@@ -21,8 +21,8 @@ const nextConfig = {
                 destination : `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
             },
             {
-                source : "/api/movies/search/:path",
-                destination : `https://api.themoviedb.org/3/discover/movie?:path?api_key=${API_KEY}`
+                source : "/api/movies/search/query/:query",
+                destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=:query`
             }
         ]
     }

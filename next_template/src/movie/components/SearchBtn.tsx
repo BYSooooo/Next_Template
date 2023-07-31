@@ -8,47 +8,56 @@ export default function SearchBtn({keyword} : {keyword : string}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     
-    const genreList = useAppSelector((state) => state.selectedGenre);
+    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.selectedGenre);
     const dateList = useAppSelector((state) => state.selectedDateRange);
     const rateList = useAppSelector((state) => state.selectedRateRange);
 
-    const [genreQuery, setGenreQuery] = React.useState("");
-    const [dateQuery, setDateQuery] = React.useState("");
-    const [voteAvg, setVoteAvg] = React.useState("");
-
-    const [sendQuery, setSendQuery] = React.useState("");
-
     const createQuery = () => {
+        let genreQuery = ""
+        let dateQuery = ""
+        let rateQuery = ""
         searchFilter.forEach(filter => {
             if(filter.useFilter == true) {
                 switch (filter.name) {
-                    case "genre" : setGenreQuery((query)=> query += genreFilter());
+                    case "genre" : 
+                        genreQuery = genreFilter();
+                        console.log(`Switch Pass Genre : ${genreQuery}`)
                         break;
-                    case "date" : setDateQuery(dateFilter());
+                    case "date" : 
+                        dateQuery = dateFilter();
+                        console.log(`Switch Pass Date : ${dateQuery}`)
                         break;
-                    case "rate" : setVoteAvg(rateFilter());
+                    case "rate" : 
+                        rateQuery = rateFilter();
+                        console.log(`Switch Pass Rate : ${rateQuery}`)
                         break;
                     default :
                         break;
                 }   
             }
         });
+        return { genre : genreQuery, date : dateQuery, rate :rateQuery};
     }
 
-    const onClick = () => {
-        createQuery()
+    const onClick = async ()=> {
+        // const {genre, date, rate} = createQuery();
+        // const keywordQ = (keyword.length > 0 ? `query=${keyword}&` : "");
+        // const genreQ = (searchFilter[0].useFilter === true ? `${genre}&` : "");
+        // const dateQ = (searchFilter[1].useFilter === true ? `${date}&` : "");
+        // const rateQ = (searchFilter[2].useFilter === true? `${rate}&` : "");
         
-        console.log("Genre : "+genreQuery);
-        console.log("date : "+dateQuery);
-        console.log("VoteRate : " + voteAvg);
-        //const query = `with_keywords=${keyword}&${genreQuery}&${dateQuery}&${voteAvg}`
-        
-        /** Setting Send Query */
+        // const query = (`/keyword/${keywordQ}/genre/${genreQ}/date/${dateQ}/rate/${rateQ}`).slice(0,-1)
+       const searchQuery = `${keyword}`
+       
+        search(searchQuery).then((results) => {
+            console.log(results);
+        })
 
     }
 
     /** Set Selected Genre to Query by Genre Id */
     const genreFilter = () => {
+        
         const pipe = "%7C"; // Pipe (|) in query mean 'OR'
         let queryString:string = "";
         for(var i=0; i<genreList.length; i++) {
@@ -58,19 +67,24 @@ export default function SearchBtn({keyword} : {keyword : string}) {
                 queryString += genreList[i].id.toString()
             }
         }
-        return queryString;
+        console.log("Return Query Genre : "+ queryString)
+        return `with_genres=${queryString}`;
     }
     /** Set Release Date to Query */
     const dateFilter = () => {
+        
         const fromQuery = dateList[dateList.findIndex(key => key.name === "fromDate")].date;
         const toQuery = dateList[dateList.findIndex(key => key.name === "toDate")].date;
+        console.log("Return Query Date : " + fromQuery, toQuery)
         return `primary_release_date.gte=${fromQuery}&primary_release_date.lte=${toQuery}`
     }
     /** Set TMDB User's Average Vote Point  */
     const rateFilter = () => {
-           const fromAvg = rateList[0].toString();
-           const toAvg = rateList[1].toString();
-           return `vote_average.gte=${fromAvg}&vote_average.lte=${toAvg}`
+        
+        const fromAvg = rateList[0].toString();
+        const toAvg = rateList[1].toString();
+        console.log("Return Query Rate : "+fromAvg, toAvg);
+        return `vote_average.gte=${fromAvg}&vote_average.lte=${toAvg}`
     }
 
     return (

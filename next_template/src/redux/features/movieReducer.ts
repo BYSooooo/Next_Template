@@ -42,7 +42,8 @@ export const searchFilter = createSlice({
     initialState : [
         { name : "genre", useFilter : false },
         { name : "date" , useFilter : false },
-        { name : "rate" , useFilter : false }
+        { name : "rate" , useFilter : false },
+        { name : "year" , useFilter : false }
     ],
     reducers : {
         /** change Use Filtering Item  */
@@ -81,6 +82,20 @@ export const selectedRateRange = createSlice({
     }
 })
 
+export const selectedYear = createSlice({
+    name : 'selectedYear',
+    initialState : [],
+    reducers : {
+        /** Set Release Year in Movie Main's Filter */
+        setSelectedYear : (state, action:PayloadAction<string>) => {
+            state.push(action.payload)
+        },
+        delSelectedYear : (state, action:PayloadAction<string>) => {
+            state.splice((state.findIndex(year => year === action.payload)),1)
+        }
+    }
+})
+
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
@@ -88,6 +103,7 @@ export const { setSelectedGenre, delSelectedGenre } = selectedGenre.actions;
 export const { changeFilter } = searchFilter.actions;
 export const { setSelectedFromDate, setSelectedToDate } = selectedDateRange.actions;
 export const { setRateRange } = selectedRateRange.actions; 
+export const { setSelectedYear, delSelectedYear} = selectedYear.actions;
 
 
 export default 
@@ -96,5 +112,6 @@ export default
         movieGenre.reducer, 
         selectedGenre.reducer, 
         selectedDateRange,
-        selectedRateRange.reducer
+        selectedRateRange.reducer,
+        selectedYear.reducer
     ];

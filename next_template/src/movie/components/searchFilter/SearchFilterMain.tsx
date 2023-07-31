@@ -5,15 +5,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import GenreFilter from "./GenreFIlter";
 import ReleaseDateFilter from "./ReleaseDateFilter";
 import RateFilter from "./RateFilter";
+import YearFilter from "./YearFilter";
 
 export default function SearchFilterMain() {
 
     return (
         <Box sx={{ width : "100%"}} >
             <Grid container direction='row'>
-                <GenreFilter />
-                <ReleaseDateFilter />
-                <RateFilter />
+                <YearFilter />
             </Grid>
         </Box>
     )

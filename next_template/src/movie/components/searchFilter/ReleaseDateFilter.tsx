@@ -17,7 +17,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 export default function ReleaseDateFilter() {
     /**Control From, To Date Part */
     const releaseDate = useAppSelector((state) => state.selectedDateRange);
-    console.log(releaseDate)
     const dispatch = useAppDispatch()
     
     const onChangeDate =(name : string, date : dayjs.Dayjs) => {
