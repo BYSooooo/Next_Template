@@ -1,11 +1,11 @@
 
 import * as React from 'react';
-import Button from "@mui/material/Button";
+
 import Input from "@mui/material/Input";
 import Grid from '@mui/material/Unstable_Grid2';
-import FilterBtn from '../components/FilterBtn';
-import { useAppSelector } from '@/redux/hook';
+
 import SearchBtn from '../components/SearchBtn';
+import CriteriaBtn from '../components/CriteriaBtn';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
@@ -18,7 +18,7 @@ export default function MainSearch() {
         <div> 
             <Grid container spacing={2} direction='row'> 
                 <Grid xs={2}>
-                    <FilterBtn />
+                    <CriteriaBtn />
                 </Grid>
                 <Grid xs={8}>
                     <Input fullWidth onChange={onChange}/>

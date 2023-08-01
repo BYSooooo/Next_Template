@@ -21,6 +21,24 @@ export const movieGenre = createSlice({
         }
     }
 })
+
+/** Discover Filter Control Part */
+export const discoverFilter = createSlice({
+    name : 'discoverFilter',
+    initialState : [
+        { name : "genre", useFilter : false },
+        { name : "date" , useFilter : false },
+        { name : "rate" , useFilter : false }
+    ],
+    reducers : {
+        /** change Use Filtering Item  */
+        changeFilter : (state, action: PayloadAction<{name: string, useFilter : boolean}>) => {
+            const index = state.findIndex((item) => item.name === action.payload.name)
+            state[index].useFilter = action.payload.useFilter
+        }
+    }
+})
+
 export const selectedGenre = createSlice({
     name :'selectedGenre',
     initialState : [],
@@ -35,23 +53,6 @@ export const selectedGenre = createSlice({
         }
         
      }
-})
-
-export const searchFilter = createSlice({
-    name : 'searchFilter',
-    initialState : [
-        { name : "genre", useFilter : false },
-        { name : "date" , useFilter : false },
-        { name : "rate" , useFilter : false },
-        { name : "year" , useFilter : false }
-    ],
-    reducers : {
-        /** change Use Filtering Item  */
-        changeFilter : (state, action: PayloadAction<{name: string, useFilter : boolean}>) => {
-            const index = state.findIndex((item) => item.name === action.payload.name)
-            state[index].useFilter = action.payload.useFilter
-        }
-    }
 })
 
 export const selectedDateRange = createSlice({
@@ -82,16 +83,21 @@ export const selectedRateRange = createSlice({
     }
 })
 
-export const selectedYear = createSlice({
-    name : 'selectedYear',
-    initialState : [],
+/** Search Criteria Control Part  */
+export const searchFilter = createSlice({
+    name : 'searchFilter',
+    initialState : [
+        { name : "year"  , useFilter : false, value : ''    },
+        { name : "adult" , useFilter : false, value : "true"  }
+    ],
     reducers : {
-        /** Set Release Year in Movie Main's Filter */
-        setSelectedYear : (state, action:PayloadAction<string>) => {
-            state.push(action.payload)
+        changeUseYn : (state, action: PayloadAction<{name : string, useFilter : boolean }>)=> {
+            const index = state.findIndex((item)=> item.name === action.payload.name);
+            state[index].useFilter = action.payload.useFilter
         },
-        delSelectedYear : (state, action:PayloadAction<string>) => {
-            state.splice((state.findIndex(year => year === action.payload)),1)
+        changeValue : (state, action: PayloadAction<{name: string, value : string}>)=> {
+            const index = state.findIndex((item)=> item.name === action.payload.name);
+            state[index].value = action.payload.value;
         }
     }
 })
@@ -99,19 +105,25 @@ export const selectedYear = createSlice({
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
+
+export const { changeFilter } = discoverFilter.actions;
 export const { setSelectedGenre, delSelectedGenre } = selectedGenre.actions;
-export const { changeFilter } = searchFilter.actions;
 export const { setSelectedFromDate, setSelectedToDate } = selectedDateRange.actions;
 export const { setRateRange } = selectedRateRange.actions; 
-export const { setSelectedYear, delSelectedYear} = selectedYear.actions;
+
+export const { changeUseYn, changeValue } = searchFilter.actions;
 
 
 export default 
     [
         popular.reducer, 
         movieGenre.reducer, 
+        
+        discoverFilter.reducer,
         selectedGenre.reducer, 
         selectedDateRange,
         selectedRateRange.reducer,
-        selectedYear.reducer
+
+        searchFilter.reducer
+        
     ];

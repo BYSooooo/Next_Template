@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs,{ Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeFilter, setSelectedFromDate, setSelectedToDate } from '@/redux/features/movieReducer';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

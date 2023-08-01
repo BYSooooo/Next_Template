@@ -1,11 +1,13 @@
 import * as React from 'react'
+
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { SwipeableDrawer } from '@mui/material';
-import SearchFilterMain from './searchFilter/SearchFilterMain';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import SearchMain from './searchFilter/SearchMain';
 
-export default function FilterBtn() {
+
+export default function CriteriaBtn() {
 
     const [state, setState] = React.useState({
         top : false, left : false, bottom : false, right : false
@@ -26,19 +28,19 @@ export default function FilterBtn() {
 
     return (
         <>
-            <Button sx={{ width: "100%", height : "100%" }} onClick={toggleDrawer('bottom', true)} >
+            <Button sx={{ width: "100%", height : "100%" }} onClick={toggleDrawer('left', true)} >
                 <KeyboardArrowDown />
                 <Typography>
-                    Filter
+                    Criteria
                 </Typography>
             </Button>
             <React.Fragment>    
                 <SwipeableDrawer
-                    anchor="bottom"
-                    open={state['bottom']}
-                    onClose={toggleDrawer('bottom', false)}
-                    onOpen={toggleDrawer('bottom', true)}>
-                    {<SearchFilterMain />}
+                    anchor="left"
+                    open={state['left']}
+                    onClose={toggleDrawer('left', false)}
+                    onOpen={toggleDrawer('left', true)}>
+                    {<SearchMain />}
                 </SwipeableDrawer>
             </React.Fragment>
             
