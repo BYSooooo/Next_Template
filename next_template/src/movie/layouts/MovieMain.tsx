@@ -56,7 +56,7 @@ export default function MovieMain() {
                 </Grid>
                 <Grid xs={12}>
                     <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
-                        {popular.map((item:movieInfo) => {
+                        {popular.map((item:MovieInfo) => {
                             return (
                                 <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
                             )

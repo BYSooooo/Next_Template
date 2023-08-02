@@ -2,22 +2,22 @@ import React from "react";
 
 import Button from "@mui/material/Button";
 
-import { useAppSelector } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { search } from "./FetchData";
-import ShowAlert from "./ShowAlert";
-
+import { setSearchResult } from "@/redux/features/movieReducer";
 
 export default function SearchBtn({keyword} : {keyword : string}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
-    
+    const dispatch = useAppDispatch();
+
     const onClick= ()=> {
         if(keyword.trim().length > 0) {
             const input = `&query=${keyword.trim()}`
             console.log(input)
             const { yearQuery, adultQuery } = createQuery();
             search(`${input}${yearQuery}${adultQuery}`).then((results) => {
-                console.log(results)
+                dispatch(setSearchResult(results));
             })
         } 
     }

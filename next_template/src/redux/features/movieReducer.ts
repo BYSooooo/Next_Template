@@ -87,7 +87,7 @@ export const selectedRateRange = createSlice({
 export const searchFilter = createSlice({
     name : 'searchFilter',
     initialState : [
-        { name : "year"  , useFilter : false, value : ''    },
+        { name : "year"  , useFilter : false, value : ''  },
         { name : "adult" , useFilter : false, value : ""  }
     ],
     reducers : {
@@ -102,6 +102,16 @@ export const searchFilter = createSlice({
     }
 })
 
+export const searchResult = createSlice({
+    name : 'searchResult',
+    initialState : [],
+    reducers : {
+        setSearchResult : (state, action: PayloadAction<SearchMovie[]>)=> {
+            state.splice(0,1,action.payload);
+        }
+    }
+})
+
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
@@ -112,6 +122,7 @@ export const { setSelectedFromDate, setSelectedToDate } = selectedDateRange.acti
 export const { setRateRange } = selectedRateRange.actions; 
 
 export const { changeUseYn, changeValue } = searchFilter.actions;
+export const { setSearchResult } = searchResult.actions;
 
 
 export default 

@@ -1,4 +1,4 @@
-interface movieInfo {
+interface MovieInfo {
     adult : boolean,
     backdrop_path : string,
     genre_ids : [number],
@@ -21,4 +21,11 @@ interface MovieGenreInfo {
 interface menuItem {
     path : string,
     text : string
+}
+
+interface SearchMovie {
+    page : number,
+    results : MovieInfo[],
+    total_pages : number,
+    total_results : number
 }
