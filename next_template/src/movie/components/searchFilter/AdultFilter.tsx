@@ -5,8 +5,11 @@ import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
+import RadioGroup from '@mui/material/RadioGroup';
+
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { changeUseYn } from '@/redux/features/movieReducer';
+import { changeUseYn, changeValue } from '@/redux/features/movieReducer';
+import Radio from '@mui/material/Radio';
 
 export default function AdultFilter() {
     /** Control Adult Grade Filter */
@@ -14,9 +17,17 @@ export default function AdultFilter() {
     const filterState = searchFilter[searchFilter.findIndex((item) => item.name === "adult")];
     const dispatch = useAppDispatch();
 
+    const [adult, setAdult] = React.useState("true");
     /** Control Click All Check Box */
-    const clickAllCheckBox = (name: string, useFilter : boolean) => {
+    const clickAllCheckBox = (name: string, useFilter : boolean, value : string) => {
         dispatch(changeUseYn({name: name, useFilter : !useFilter}))
+        dispatch(changeValue(({name : name, value : value})));
+    }
+
+    const onChange= (event : React.ChangeEvent<HTMLInputElement>) => {
+        const useYn = (event.target as HTMLInputElement).value
+        setAdult(useYn);
+        dispatch(changeValue({name : "adult", value : useYn}))
     }
 
     return (
@@ -25,14 +36,18 @@ export default function AdultFilter() {
                 <Typography sx={{mr : "1rem"}}>
                     Adults
                 </Typography>
-            </Grid>
-            <Box 
-                sx={{ width : "80%", m:1, p:1, border : '1px solid gray', borderRadius : "1rem"}}
-                alignItems='Center'>
-            <FormControlLabel 
-                    control={<Checkbox checked={!filterState.useFilter} onChange={()=> clickAllCheckBox("adult", filterState.useFilter)}/>}
-                    label="Include Adult" 
+                <FormControlLabel 
+                    control={<Checkbox checked={!filterState.useFilter} onChange={()=> clickAllCheckBox("adult", filterState.useFilter, adult)}/>}
+                    label="All" 
                 />
+            </Grid>
+            <Box sx={{ width : "80%", m:1, p:1, border : '1px solid gray', borderRadius : "1rem"}} alignItems='Center'>
+                <RadioGroup
+                    value={adult}
+                    onChange={onChange}>
+                    <FormControlLabel disabled={!filterState.useFilter} label="include Adult" control={<Radio />}value="true" />
+                    <FormControlLabel disabled={!filterState.useFilter} label="exclude Adult" control={<Radio />}value="false" />
+                </RadioGroup>
             </Box>
         </Grid>    
     )

@@ -24,7 +24,8 @@ export async function getGenre() {
 export async function search(query: string) {
     console.log(query)
     try {
-        const response = await (await fetch (`/api/movies/search/query/${query}`)).json();
+        const response = await (await fetch (`/api/movies/search/${query}`)).json();
+        console.log(response)
         return response
     } catch(err) {
         console.log(err)

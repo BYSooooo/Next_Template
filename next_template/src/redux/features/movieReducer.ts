@@ -88,7 +88,7 @@ export const searchFilter = createSlice({
     name : 'searchFilter',
     initialState : [
         { name : "year"  , useFilter : false, value : ''    },
-        { name : "adult" , useFilter : false, value : "true"  }
+        { name : "adult" , useFilter : false, value : ""  }
     ],
     reducers : {
         changeUseYn : (state, action: PayloadAction<{name : string, useFilter : boolean }>)=> {

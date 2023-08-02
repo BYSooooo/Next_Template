@@ -13,9 +13,12 @@ export default function SearchBtn({keyword} : {keyword : string}) {
     
     const onClick= ()=> {
         if(keyword.trim().length > 0) {
-            const input = `query=${keyword.trim()}`
+            const input = `&query=${keyword.trim()}`
+            console.log(input)
             const { yearQuery, adultQuery } = createQuery();
-            search(`/api/movies/search/:query`)
+            search(`${input}${yearQuery}${adultQuery}`).then((results) => {
+                console.log(results)
+            })
         } 
     }
 
@@ -36,7 +39,7 @@ export default function SearchBtn({keyword} : {keyword : string}) {
                 switch(filter.name) {
                     case "year" : year = ""
                         break;
-                    case "adult" : adult = "true";
+                    case "adult" : adult = "";
                         break
                     default : break;   
                 }
