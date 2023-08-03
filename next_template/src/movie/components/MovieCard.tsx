@@ -2,10 +2,10 @@
 
 import { Box, Card, CardMedia, Stack, Typography } from "@mui/material";
 import * as React from 'react'
-import GenreBox from "../components/GenreBox";
+import GenreBox from "./GenreBox";
 import { useAppSelector } from "@/redux/hook";
 
-export default function MovieCard({id,  movie, genre} : { id: number, movie : movieInfo, genre : number[]}) {
+export default function MovieCard({id,  movie, genre} : { id: number, movie : MovieInfo, genre : number[]}) {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     
     const getName = (selected : number) => {

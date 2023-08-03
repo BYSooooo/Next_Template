@@ -4,9 +4,9 @@ import * as React from 'react';
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import MovieCard from './MovieCard';
+import MovieCard from '../components/MovieCard';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
-import MainSearch from './MainSearch';
+import MainSearch from '../components/MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
 import GenreBtn from '../components/GenreBtn';
 

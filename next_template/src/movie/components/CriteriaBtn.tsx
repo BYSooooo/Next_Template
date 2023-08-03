@@ -4,7 +4,7 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import SearchMain from './searchFilter/SearchMain';
+import SearchMain from './searchFilter/FilterMain';
 
 
 export default function CriteriaBtn() {

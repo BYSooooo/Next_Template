@@ -1,4 +1,4 @@
-import GenreBtn from "../components/GenreBtn";
+import GenreBtn from "./GenreBtn";
 
 export default function SelectedGenre() {
 
