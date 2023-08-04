@@ -3,8 +3,9 @@ import * as React from "react";
 
 /**
  * Now Working Component
- * @param param0 
- * @returns 
+ * @param anchor The starting point where the screen will be displayed
+ * @param component The Component to Display
+ * 
  */
 export default function ToggleDrawer({anchor, component} : {anchor : 'top' | 'left' | 'bottom' | 'right' , component : React.JSX.Element}) {
 

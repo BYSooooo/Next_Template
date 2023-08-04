@@ -87,8 +87,9 @@ export const selectedRateRange = createSlice({
 export const searchFilter = createSlice({
     name : 'searchFilter',
     initialState : [
-        { name : "year"  , useFilter : false, value : ''  },
-        { name : "adult" , useFilter : false, value : ""  }
+        { name : "year"  , useFilter : false, value : ''    },
+        { name : "adult" , useFilter : false, value : ''    },
+        { name : "keyword", useFilter : true, value : ''    }
     ],
     reducers : {
         changeUseYn : (state, action: PayloadAction<{name : string, useFilter : boolean }>)=> {

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from 'react';
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { Button, Container, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from '../components/MovieCard';
@@ -26,6 +26,7 @@ export default function MovieMain() {
             dispatch(setGenreList(genres))
         })
     },[])
+
 
     return (
         <Container maxWidth="lg" sx={{mt : "5rem", maxWidth : "80vw"}}>
@@ -55,13 +56,28 @@ export default function MovieMain() {
                     </Typography>
                 </Grid>
                 <Grid xs={12}>
-                    <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
+                    <ImageList sx={{ width : "100%"}} cols={7}>
+                        {popular.map((movie : MovieInfo)=> {
+                            return (
+                                <ImageListItem key={movie.id}>
+                                    <img 
+                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                        loading='lazy'
+                                        alt={movie.original_title}
+                                    />
+                                </ImageListItem>
+                            )
+                        })}
+                    </ImageList>
+
+
+                    {/* <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
                         {popular.map((item:MovieInfo) => {
                             return (
                                 <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
                             )
                         })}
-                    </Stack>
+                    </Stack> */}
                 </Grid>
            </Grid>
         </Container>

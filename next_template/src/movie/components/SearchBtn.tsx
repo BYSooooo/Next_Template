@@ -4,35 +4,37 @@ import Button from "@mui/material/Button";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { search } from "./FetchData";
-import { setSearchResult } from "@/redux/features/movieReducer";
-import Link from "next/link";
+import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
+import { useRouter } from "next/navigation";
 
+/**
+ * Search Button in Main Page Search Bar
+ * @param keyword Input Keyword 
+ * @returns Route to `/movie/search` | `null`
+ */
 export default function SearchBtn({keyword} : {keyword : string}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch();
+    const router = useRouter()
 
-    const [successYn, setSuccessYn] = React.useState(false); 
-
-    React.useEffect(()=> {
-        setSuccessYn(false)
-    },[])
-
+    
     const onClick= ()=> {
         if(keyword.trim().length > 0) {
+            dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
+            
             const input = `&query=${keyword.trim()}`
             const { yearQuery, adultQuery } = createQuery();
             try {
                 search(`${input}${yearQuery}${adultQuery}`).then((results) => {
                     dispatch(setSearchResult(results));
                 })
-                setSuccessYn(true)
+                router.push("/movie/search")
             } catch (err) {
                 console.log(err)
             }
-            
         }  else {
-
+            // Maybe Next...
         }
     }
 
@@ -63,14 +65,12 @@ export default function SearchBtn({keyword} : {keyword : string}) {
     }
     
     return (
-        <Link href={successYn === true ? "/movie/search" : "/movie"} >
-            <Button 
-                variant="contained"            
-                sx={{ width: "100%", height: "100%"}} 
-                onClick={onClick}>
-                    Search
-            </Button>
-        </Link>
+        <Button 
+            variant="contained"            
+            sx={{ width: "100%", height: "100%"}} 
+            onClick={onClick}>
+                Search
+        </Button>
     )
 }
 

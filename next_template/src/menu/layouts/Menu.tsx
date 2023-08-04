@@ -1,8 +1,10 @@
 "use client";
 
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { MenuOpenRounded } from '@mui/icons-material';
 import { AppBar, Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
-import * as React from 'react';
+
 
 
 const basicMenuItem : menuItem[] = 
@@ -12,11 +14,12 @@ const basicMenuItem : menuItem[] =
 ]
 const contentMenuItem : menuItem[] = 
 [
-    { path: "movie", text : "Movie_Info" }, 
+    { path: "movie", text : "Movie" }, 
     { path : "sample01", text : "Making..."}
 ]
 
 export default function Menu() {
+    const router = useRouter();
 
     const [state, setState] = React.useState({
         top : false,
@@ -37,7 +40,7 @@ export default function Menu() {
         { return; }
          setState({...state, [anchor] : open})
     }
-
+    
     const list = (anchor : string) => (
         <Box sx={{ width: 250 }}
             role="presentation"
@@ -46,7 +49,7 @@ export default function Menu() {
             <List>
                 {basicMenuItem.map(item => 
                 <ListItem disablePadding key={item.path}>
-                    <ListItemButton component="a" href={item.path}>
+                    <ListItemButton component='a' href={item.path}>
                         <ListItemText primary={item.text} />
                     </ListItemButton>
                 </ListItem>

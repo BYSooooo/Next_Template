@@ -21,7 +21,7 @@ export default function MainSearch() {
                     <CriteriaBtn />
                 </Grid>
                 <Grid xs={8}>
-                    <Input fullWidth onChange={onChange}/>
+                    <Input fullWidth onChange={onChange} value={keyword}/>
                 </Grid>
                 <Grid xs={2}>
                     <SearchBtn keyword={keyword}/>
