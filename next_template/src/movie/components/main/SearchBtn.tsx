@@ -3,7 +3,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { search } from "./FetchData";
+import { search } from "../FetchData";
 import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
 import { useRouter } from "next/navigation";
 

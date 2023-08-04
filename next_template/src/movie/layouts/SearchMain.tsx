@@ -4,7 +4,7 @@ import React from 'react';
 import Typography from "@mui/material/Typography";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import MainSearch from '../components/MainSearch';
+import MainSearch from '../components/main/MainSearch';
 
 import { useAppSelector } from '@/redux/hook';
 import { Grid } from '@mui/material';

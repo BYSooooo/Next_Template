@@ -1,18 +1,18 @@
 "use client"
 
 import * as React from 'react';
-import { Button, Container, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from '../components/MovieCard';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
-import MainSearch from '../components/MainSearch';
+import MainSearch from '../components/main/MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
 import GenreBtn from '../components/GenreBtn';
+import PopularList from '../components/main/PopularList';
 
 
 export default function MovieMain() {
-    const popular : Array<any> = useAppSelector((state) => state.moviePopular);
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
@@ -56,19 +56,7 @@ export default function MovieMain() {
                     </Typography>
                 </Grid>
                 <Grid xs={12}>
-                    <ImageList sx={{ width : "100%"}} cols={7}>
-                        {popular.map((movie : MovieInfo)=> {
-                            return (
-                                <ImageListItem key={movie.id}>
-                                    <img 
-                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                        loading='lazy'
-                                        alt={movie.original_title}
-                                    />
-                                </ImageListItem>
-                            )
-                        })}
-                    </ImageList>
+                    <PopularList />
 
 
                     {/* <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>

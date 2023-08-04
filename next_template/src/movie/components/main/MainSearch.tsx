@@ -4,8 +4,8 @@ import * as React from 'react';
 import Input from "@mui/material/Input";
 import Grid from '@mui/material/Unstable_Grid2';
 
-import SearchBtn from '../components/SearchBtn';
-import CriteriaBtn from '../components/CriteriaBtn';
+import SearchBtn from './SearchBtn';
+import CriteriaBtn from '../CriteriaBtn';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");

@@ -7,7 +7,7 @@ export const popular = createSlice({
     reducers : {
          /** Popular Movie List Add Logic */ 
         setPopularList : (state, action : PayloadAction<[{}]>) => {
-            state.push(...action.payload)
+            state.splice(0,state.length, ...action.payload)
         }
     }
 })
@@ -17,7 +17,7 @@ export const movieGenre = createSlice({
     reducers : {
         /** Movie Genre Id & Name */
         setGenreList : (state, action : PayloadAction<[{}]>) => {
-            state.push(...action.payload)
+            state.push(0,state.length, ...action.payload)
         }
     }
 })
