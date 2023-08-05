@@ -16,7 +16,7 @@ export default function PopularList() {
 
     const handlePopOverOpen = (event : React.MouseEvent<HTMLElement>, movie : MovieInfo) => {
         setAnchorEl(event.currentTarget);
-        console.log(event)
+
         return (
             <Popover 
                 id="mouse-over-popover"

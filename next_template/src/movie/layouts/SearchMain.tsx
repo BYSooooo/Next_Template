@@ -5,14 +5,12 @@ import Typography from "@mui/material/Typography";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import MainSearch from '../components/main/MainSearch';
+import Grid from '@mui/material/Grid';
 
 import { useAppSelector } from '@/redux/hook';
-import { Grid } from '@mui/material';
 
 export default function SearchMain() {
     const searchResult:SearchMovie[]  = useAppSelector((state) => state.searchResult);
-    const searchFilter = useAppSelector((state) => state.searchFilter)
-    
 
     return (
         <Container sx={{mt : "5rem", maxWidth : "80vw"}}>
