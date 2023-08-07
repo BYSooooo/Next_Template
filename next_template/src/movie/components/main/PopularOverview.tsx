@@ -30,7 +30,7 @@ export default function PopularOverView({movie} :{movie : MovieInfo}) {
      } 
     
     return (
-        <Card key={movie.id} sx={{display : 'block', maxWidth : 350, borderRadius : "1rem", p : 1 }}>
+        <Card key={movie.id} sx={{display : 'block', maxWidth : 300, borderRadius : "1rem", p : 1 }}>
             <Stack direction='column'>
                 <Box sx={{display : 'flex', flexDirection : 'column', p: 1}}>
                     <Typography component='div' variant='h5' noWrap>

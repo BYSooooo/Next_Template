@@ -54,7 +54,7 @@ export default function Menu() {
             <List>
                 {basicMenuItem.map(item => 
                 <ListItem disablePadding key={item.path}>
-                    <ListItemButton onClick={(e)=>onClick(e,item.path)}>
+                    <ListItemButton component="a" href={item.path}>
                         <ListItemText primary={item.text} />
                     </ListItemButton>
                 </ListItem>

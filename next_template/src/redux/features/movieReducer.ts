@@ -108,7 +108,7 @@ export const searchResult = createSlice({
     initialState : [],
     reducers : {
         setSearchResult : (state, action: PayloadAction<SearchMovie[]>)=> {
-            state.splice(0,1,action.payload);
+            state.splice(0,state.length,action.payload);
         }
     }
 })
