@@ -8,12 +8,16 @@ import Button from '@mui/material/Button';
 
 import { useAppSelector } from '@/redux/hook';
 import GenreBox from '../GenreBox';
+import MovieOverview from '../MovieOverview';
 
 
 
-export default function PopularOverView({movie} :{movie : MovieInfo}) {
+export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
-    
+        
+    const [open, setOpen] = React.useState(false);
+    const overviewMovie = React.useRef<MovieInfo>(null);
+     
     const getName = (selected : number) => {
         // Must Modify!
         let selName = ""
@@ -24,11 +28,20 @@ export default function PopularOverView({movie} :{movie : MovieInfo}) {
          }
          return selName;
      }
-     
-     const onClick= (id : number) => {
-        console.log(id)
-     } 
+
+     React.useEffect(()=> {
+        setOpen(false)
+     },[movie])
+
     
+     
+     const onClick= (selMovie : MovieInfo) => {
+        console.log("Click Event Occured")
+        console.log(selMovie)
+        overviewMovie.current = selMovie;
+        setOpen(true)
+     } 
+
     return (
         <Card key={movie.id} sx={{display : 'block', maxWidth : 300, borderRadius : "1rem", p : 1 }}>
             <Stack direction='column'>
@@ -55,12 +68,13 @@ export default function PopularOverView({movie} :{movie : MovieInfo}) {
                     <Button 
                         variant='contained' 
                         color='secondary'
-                        onClick={()=> onClick(movie.id)}>
+                        onClick={()=>onClick(movie)}>
                         View OverView
                     </Button>
                 </Box>
             </Stack>
+            {overviewMovie.current && <MovieOverview movie={overviewMovie.current} openYn={open} />}
         </Card>
-
-    )
+        
+    )   
 }

@@ -13,7 +13,7 @@ import PopularOverView from './PopularOverview';
 
 export default function PopularList() {
     const popular : Array<any> = useAppSelector((state) => state.moviePopular);
-    const [hoverMovie, setHoverMovie] = React.useState<MovieInfo |null>(null);
+    const [hoverMovie, setHoverMovie] = React.useState<MovieInfo | null>(null);
 
     const anchorEl = React.useRef<HTMLElement | null>(null);
     

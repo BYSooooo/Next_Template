@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from 'react';
-import { Button, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import MovieCard from '../components/MovieCard';
+import { useAppDispatch} from '@/redux/hook';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
 import MainSearch from '../components/main/MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -57,15 +56,6 @@ export default function MovieMain() {
                 </Grid>
                 <Grid xs={12}>
                     <PopularList />
-
-
-                    {/* <Stack spacing={{ xs : 1}} direction="row" sx={{ overflow : "auto"}}>
-                        {popular.map((item:MovieInfo) => {
-                            return (
-                                <MovieCard key={item.id} id={item.id} movie={item} genre={item.genre_ids}/>
-                            )
-                        })}
-                    </Stack> */}
                 </Grid>
            </Grid>
         </Container>
