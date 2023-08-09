@@ -5,6 +5,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import ClickAwayListener from '@mui/base/ClickAwayListener';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,30 +23,33 @@ const style = {
 
 export default function MovieOverview({movie, openYn} : {movie: MovieInfo, openYn : boolean}) {
     const [open, setOpen] = React.useState(false);
-    const handleClose = () => setOpen(false);
-    const handleOpen = () => setOpen(true)
+    console.log(openYn)
 
     React.useEffect(()=> {
         {openYn && handleOpen()}
-    },[])
-    
+    },[openYn])
+
+    const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpen(true);
     return (
         <div>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                slots={{backdrop : Backdrop}}
-                slotProps={{ backdrop : { timeout : 500 }}}
-                >
-                <Fade in={open}>
-                    <Box sx={style}>
-                        <Typography>
-                            {movie.original_title}
-                        </Typography>
-                    </Box>
-                </Fade>
-            </Modal>
+            <ClickAwayListener onClickAway={handleClose}>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    slots={{backdrop : Backdrop}}
+                    slotProps={{ backdrop : { timeout : 500 }}}
+                    >
+                    <Fade in={open}>
+                        <Box sx={style}>
+                            <Typography>
+                                {movie.original_title}
+                            </Typography>
+                        </Box>
+                    </Fade>
+                </Modal>
+            </ClickAwayListener>
         </div>
     )
 }

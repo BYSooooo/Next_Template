@@ -12,12 +12,17 @@ import MovieOverview from '../MovieOverview';
 
 
 
+
 export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
-        
     const [open, setOpen] = React.useState(false);
     const overviewMovie = React.useRef<MovieInfo>(null);
-     
+
+    React.useEffect(()=> {
+        setOpen(false)
+        overviewMovie.current = null;
+     },[movie])
+
     const getName = (selected : number) => {
         // Must Modify!
         let selName = ""
@@ -29,17 +34,9 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
          return selName;
      }
 
-     React.useEffect(()=> {
-        setOpen(false)
-     },[movie])
-
-    
-     
      const onClick= (selMovie : MovieInfo) => {
-        console.log("Click Event Occured")
-        console.log(selMovie)
-        overviewMovie.current = selMovie;
         setOpen(true)
+        overviewMovie.current = selMovie;
      } 
 
     return (
