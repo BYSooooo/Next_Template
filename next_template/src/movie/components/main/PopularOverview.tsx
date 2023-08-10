@@ -38,6 +38,9 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
         setOpen(true)
         overviewMovie.current = selMovie;
      } 
+     const closeFn = () => {
+        setOpen(false)
+     }
 
     return (
         <Card key={movie.id} sx={{display : 'block', maxWidth : 300, borderRadius : "1rem", p : 1 }}>
@@ -70,7 +73,7 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
                     </Button>
                 </Box>
             </Stack>
-            {overviewMovie.current && <MovieOverview movie={overviewMovie.current} openYn={open} />}
+            {overviewMovie.current && <MovieOverview movie={overviewMovie.current} openYn={open} closeFn={closeFn}/>}
         </Card>
         
     )   

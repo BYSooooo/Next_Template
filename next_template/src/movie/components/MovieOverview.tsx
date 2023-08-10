@@ -21,7 +21,7 @@ const style = {
   };
 
 
-export default function MovieOverview({movie, openYn} : {movie: MovieInfo, openYn : boolean}) {
+export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieInfo, openYn : boolean, closeFn : Function}) {
     const [open, setOpen] = React.useState(false);
     console.log(openYn)
 
@@ -29,7 +29,10 @@ export default function MovieOverview({movie, openYn} : {movie: MovieInfo, openY
         {openYn && handleOpen()}
     },[openYn])
 
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        closeFn(false)
+        setOpen(false)
+    };
     const handleOpen = () => setOpen(true);
     return (
         <div>
