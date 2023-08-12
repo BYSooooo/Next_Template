@@ -7,6 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import SearchBtn from './SearchBtn';
 import CriteriaBtn from '../CriteriaBtn';
 import { useAppSelector } from '@/redux/hook';
+import Container from '@mui/material/Container';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
@@ -22,7 +23,7 @@ export default function MainSearch() {
     }
 
     return (
-        <div> 
+        <Container> 
             <Grid container spacing={2} direction='row'> 
                 <Grid xs={2}>
                     <CriteriaBtn />
@@ -34,6 +35,6 @@ export default function MainSearch() {
                     <SearchBtn keyword={keyword}/>
                 </Grid>
             </Grid>       
-        </div>    
+        </Container>
     )
 }

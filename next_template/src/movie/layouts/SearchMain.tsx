@@ -8,6 +8,7 @@ import MainSearch from '../components/main/MainSearch';
 import Grid from '@mui/material/Grid';
 
 import { useAppSelector } from '@/redux/hook';
+import SearchList from '../components/search/SearchList';
 
 export default function SearchMain() {
     const searchResult:SearchMovie[]  = useAppSelector((state) => state.searchResult);
@@ -24,7 +25,7 @@ export default function SearchMain() {
     return (
         <Container sx={{mt : "5rem", maxWidth : "80vw"}}>
             <MainSearch />
-            <Grid container direction='row' sx={{ background : 'skyblue', borderRadius : "1rem", m : 1, p: 1}} columnGap={1}>
+            <Grid container direction='row' sx={{ background : 'skyblue', borderRadius : "1rem", mt :1, mb : 1, p: 1}} columnGap={1}>
                 <Box sx={{background : 'white', border : '1px solid white', borderRadius : "0.5rem", p: 0.5}}>
                     <Typography variant='body2'>
                         Result : {resultCount.current}
@@ -36,6 +37,7 @@ export default function SearchMain() {
                     </Typography>
                 </Box>
             </Grid>
+            <SearchList />
         </Container>
     )
 }

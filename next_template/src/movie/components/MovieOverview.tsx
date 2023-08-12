@@ -110,7 +110,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                     <Grid xs="auto">
                                         <Typography 
                                             sx={titleTypo}
-                                            variant={outerWidth > 800 ? "h4": "h5"} 
+                                            variant={window.innerWidth > 1045 ? "h4" : "h5"} 
                                             component="span">
                                             {movie.original_title}
                                         </Typography>
@@ -118,13 +118,13 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                     <Grid direction='row' xs={3}>
                                         <Typography 
                                             sx={menuStyle} 
-                                            variant={window.innerWidth > 800 ? "body1" : "body2"} 
+                                            variant={window.innerWidth > 1045 ? "body1" : "body2"} 
                                             component="span">
                                             Release 
                                         </Typography>
                                         <Typography 
                                             sx={contentTypo} 
-                                            variant={window.innerWidth > 800 ? "body1" : "body2"} 
+                                            variant={window.innerWidth > 1045 ? "body1" : "body2"} 
                                             component="span">
                                             {movie.release_date}
                                         </Typography>
@@ -132,7 +132,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                     <Grid direction='row'>
                                         <Typography 
                                             sx={menuStyle} 
-                                            variant={window.innerWidth > 800 ? "body1" : "body2"} 
+                                            variant={window.innerWidth > 1045 ? "body1" : "body2"} 
                                             component="span">
                                             Genres 
                                         </Typography>
@@ -145,22 +145,22 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                     <Grid direction='column'>
                                         <Typography 
                                             sx={menuStyle} 
-                                            variant={window.innerWidth > 800 ? "body1" : "body2"} 
+                                            variant={window.innerWidth > 1045 ? "body1" : "body2"} 
                                             component="span">
-                                            Rate 
+                                            Rate
                                         </Typography>
                                         <Typography 
                                             sx={contentTypo} 
-                                            variant={window.innerWidth > 800 ? "body1" : "body2"} 
+                                            variant={window.innerWidth > 1045 ? "body1" : "body2"} 
                                             component="span">
                                             {movie.vote_average}
                                         </Typography>
                                     </Grid>
-                                    {window.innerWidth > 800 &&
+                                    {window.innerWidth > 1045 &&
                                         <Grid direction='column'>
                                             <Typography
                                                 sx={menuStyle}
-                                                variant={window.innerWidth > 800 ? "body1" : "body2"}
+                                                variant={window.innerWidth > 1045 ? "body1" : "body2"}
                                                 component="span">
                                                 Overview
                                             </Typography>
@@ -169,7 +169,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                                 sx={{scrollbarGutter : "state", p : 1, mt : 2, backgroundColor : "white", width : "40vw", height : "40%", borderRadius : 2}} 
                                                 >
                                                 <Typography 
-                                                    variant={window.innerWidth > 800 ? "body2": "caption"}
+                                                    variant={window.innerWidth > 1045 ? "body2": "caption"}
                                                     sx={{overflow : 'hidden', textOverflow : "ellipsis", display: '-webkit-box', WebkitLineClamp : "2", WebkitBoxOrient : "vertical"}}>
                                                     {movie.overview}
                                                 </Typography>
@@ -188,10 +188,6 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                     </Box>
                                 </Grid>
                             </Grid>
-                            
-                            
-                                
-                            
                             <Modal
                                 open={overOpen}
                                 onClose={handleOverClose}

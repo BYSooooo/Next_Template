@@ -1,0 +1,85 @@
+"use client";
+
+import * as React from 'react'
+
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+
+import { useAppSelector } from "@/redux/hook";
+import Chip from '@mui/material/Chip';
+import GenreBox from '../GenreBox';
+import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
+import MovieOverview from '../MovieOverview';
+
+export default function MovieCard({key,  movie, genre} : { key: number, movie : MovieInfo, genre : number[]}) {
+    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
+    
+    const [open, setOpen] = React.useState(false);
+
+
+    const getName = (selected : number) => {
+       // Must Modify!
+       let selName = ""
+        for(var i=0; i<genreList.length; i++) {
+            if(genreList[i].id === selected) {
+                selName = genreList[i].name
+            }
+        }
+        return selName;
+    }
+
+    const onClick=()=> {
+        setOpen(true);
+    }
+    const closeFn = () => setOpen(false);
+
+    return (
+        <Card sx={{display : 'block', width: 350}} variant='outlined' onClick={onClick}>
+            <CardActionArea>
+                <Stack sx={{ dieplay : 'flex', flexDirection : 'row'}}>
+                    <CardMedia 
+                        key={key} 
+                        sx={{ width: 80}} 
+                        component="img"
+                        image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>
+                    <Box sx={{display : 'block', flexDirection : 'column', width : "75%"}}>
+                        <CardContent>
+                            <Typography noWrap variant="h6" component='div'>
+                                {movie.original_title}
+                            </Typography>
+                        </CardContent>
+                    </Box>
+                </Stack>
+            </CardActionArea>
+            {movie && <MovieOverview movie={movie} openYn={open} closeFn={closeFn} />}
+        </Card>
+
+
+        // <Card key={key} variant='outlined' sx={{ width: "100%", display : 'block', flexDirection : 'column', borderRadius : 1}} onClick={onClick}>
+        //     <Stack maxWidth="100%" direction="row">
+        //         <CardMedia
+        //             key={key}
+        //             sx={{ width: 100}}
+        //             component="img"
+        //             image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        //         />
+        //          <Box overflow='visible' sx={{ width : '100%', display : 'flex', flexDirection : 'column', p : 2, }} >
+        //                 <Typography noWrap variant="h6" component='div'>
+        //                     {movie.original_title}
+        //                 </Typography>
+        //             <Stack flexWrap='wrap' direction="row" spacing={0.5}>
+        //                 {genre.map((id) => {       
+        //                     return (
+        //                         <GenreBox id={id} key={id} name={getName(id)} />
+        //                     )
+        //                 })}
+        //             </Stack>
+        //         </Box>
+        //     </Stack>
+        // </Card>
+    )
+}
