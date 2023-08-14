@@ -6,10 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { search } from "../FetchData";
 import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
 import { useRouter } from "next/navigation";
+import createQuery from "../createQuery";
 
 /**
  * Search Button in Main Page Search Bar
- * @param keyword Input Keyword 
+ * @param keyword Input Keyword
  * @returns Route to `/movie/search` | `null`
  */
 export default function SearchBtn({keyword} : {keyword : string}) {
@@ -17,7 +18,6 @@ export default function SearchBtn({keyword} : {keyword : string}) {
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch();
     const router = useRouter()
-
     
     const onClick= ()=> {
         if(keyword.trim().length > 0) {

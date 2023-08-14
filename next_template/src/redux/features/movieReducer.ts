@@ -107,8 +107,13 @@ export const searchResult = createSlice({
     name : 'searchResult',
     initialState : [],
     reducers : {
+        /** Searching First Time */
         setSearchResult : (state, action: PayloadAction<SearchMovie[]>)=> {
             state.splice(0,state.length,action.payload);
+        },
+        /** Searching Second and More Time by Scrolling Under Screen */
+        addSearchResult : (state, action: PayloadAction<SearchMovie[]>)=> {
+            state.push(action.payload)
         }
     }
 })
@@ -123,7 +128,7 @@ export const { setSelectedFromDate, setSelectedToDate } = selectedDateRange.acti
 export const { setRateRange } = selectedRateRange.actions; 
 
 export const { changeUseYn, changeValue } = searchFilter.actions;
-export const { setSearchResult } = searchResult.actions;
+export const { setSearchResult, addSearchResult } = searchResult.actions;
 
 
 export default 

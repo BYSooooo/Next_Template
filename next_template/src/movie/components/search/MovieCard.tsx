@@ -10,7 +10,6 @@ import Stack from '@mui/material/Stack';
 
 import { useAppSelector } from "@/redux/hook";
 import Chip from '@mui/material/Chip';
-import GenreBox from '../GenreBox';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import MovieOverview from '../MovieOverview';
@@ -38,7 +37,7 @@ export default function MovieCard({key,  movie, genre} : { key: number, movie : 
     const closeFn = () => setOpen(false);
 
     return (
-        <Card sx={{display : 'block', width: 350}} variant='outlined' onClick={onClick}>
+        <Card key={movie.id} sx={{display : 'block', width: 350}} variant='outlined' onClick={onClick}>
             <CardActionArea>
                 <Stack sx={{ dieplay : 'flex', flexDirection : 'row'}}>
                     <CardMedia 
@@ -51,6 +50,12 @@ export default function MovieCard({key,  movie, genre} : { key: number, movie : 
                             <Typography noWrap variant="h6" component='div'>
                                 {movie.original_title}
                             </Typography>
+                            <Box sx={{flexDirection : 'row'}} >
+                                {movie.genre_ids.map((item) => {
+                                    return <Chip key={`${movie}_${item}`} label={getName(item)} size="small" sx={{m : 0.2}}/>
+                                })}
+
+                            </Box>
                         </CardContent>
                     </Box>
                 </Stack>
