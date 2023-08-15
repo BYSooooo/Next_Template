@@ -93,7 +93,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                 transform: 'translate(-50%, -50%)',
                                 width: '100vw',
                                 height : '30vw',
-                                backgroundImage : `url(https://image.tmdb.org/t/p/original${movie.backdrop_path}),linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7))`,
+                                background : `url(https://image.tmdb.org/t/p/original${movie.backdrop_path}),linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7))`,
                                 backgroundSize : "100%",
                                 backgroundRepeat : "no-repeat",
                                 backgroundPosition : '30%',

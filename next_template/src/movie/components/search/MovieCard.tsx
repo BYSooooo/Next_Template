@@ -44,7 +44,7 @@ export default function MovieCard({key,  movie, genre} : { key: number, movie : 
                         key={key} 
                         sx={{ width: 80}} 
                         component="img"
-                        image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>
+                        image={movie.poster_path === null ? null : `https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>
                     <Box sx={{display : 'block', flexDirection : 'column', width : "75%"}}>
                         <CardContent>
                             <Typography noWrap variant="h6" component='div'>

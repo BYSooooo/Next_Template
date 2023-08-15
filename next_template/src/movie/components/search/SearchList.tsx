@@ -30,13 +30,15 @@ export default function SearchList() {
             })
         )
     }
+
     const handleScroll =(e:any) => {
         const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-        const nextPage = searchResult[0].page + 1
-        const pageQuery = `&page=${nextPage}`
-        if(bottom) {
+        const totalPage = searchResult[0].total_pages; 
+        const loadedPage = Math.max(...searchResult.map(i=> i.page))
+        
+        if(bottom && totalPage > loadedPage) {
+            const pageQuery = `&page=${loadedPage+1}`
             const { yearQuery, adultQuery, keywordQuery} = createQuery(searchFilter);
-            console.log(yearQuery, adultQuery, keywordQuery)
             try {
                 search(`${keywordQuery}${yearQuery}${adultQuery}${pageQuery}`).then((results)=> {
                     dispatch(addSearchResult(results))
