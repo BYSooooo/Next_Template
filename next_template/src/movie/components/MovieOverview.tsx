@@ -11,12 +11,17 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 
-import { useAppSelector } from '@/redux/hook';
+import { useRouter } from 'next/navigation';
+import { useAppSelector, useAppDispatch } from '@/redux/hook';
+import { setDetailInfo } from '@/redux/features/movieReducer';
+import { getDetail } from './FetchData';
 
 export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieInfo, openYn : boolean, closeFn : Function}) {
     const [open, setOpen] = React.useState(false);
     const [overOpen, setOverOpen] = React.useState(false);
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
+    const dispatch = useAppDispatch()
+    const router = useRouter()
     
     React.useEffect(()=> {
         {openYn && handleOpen()}
@@ -44,10 +49,9 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
 
      const handleOverClose = () => setOverOpen(false);
      const detailClick = (id : number) => {
-        console.log(`Movie ID : ${id}`)
-     }
-
-
+        router.push(`/movie/detail/${id}`)
+    }
+        
     const titleTypo = {
         p : 0.7,
         fontWeight : 'bold',

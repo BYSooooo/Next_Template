@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { discoverFilter, movieGenre, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
+import { discoverFilter, movieDetail, movieGenre, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
 
 export const store = configureStore({
     reducer : {
@@ -12,7 +12,9 @@ export const store = configureStore({
         selectedRateRange : selectedRateRange.reducer,
 
         searchFilter : searchFilter.reducer,
-        searchResult : searchResult.reducer
+        searchResult : searchResult.reducer,
+
+        movieDetail : movieDetail.reducer
     }
     
 })

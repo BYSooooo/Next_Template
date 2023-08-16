@@ -23,6 +23,10 @@ const nextConfig = {
             {
                 source : "/api/movies/search/:query",
                 destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}:query`
+            },
+            {
+                source : "/api/movies/detail/:query",
+                destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}`
             }
         ]
     }

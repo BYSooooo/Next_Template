@@ -1,3 +1,4 @@
+import DetailMain from "@/movie/layouts/DetailMain";
 import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 
@@ -118,6 +119,18 @@ export const searchResult = createSlice({
     }
 })
 
+export const movieDetail = createSlice({
+    name : 'movieDetail',
+    initialState : [],
+    reducers : {
+        /** set State Detail Movie Info  */
+        setDetailInfo : (state, action: PayloadAction<MovieDetail>)=> {
+            state.splice(0, state.length, action.payload)
+        }
+    }
+
+})
+
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
@@ -130,6 +143,7 @@ export const { setRateRange } = selectedRateRange.actions;
 export const { changeUseYn, changeValue } = searchFilter.actions;
 export const { setSearchResult, addSearchResult } = searchResult.actions;
 
+export const { setDetailInfo } = movieDetail.actions;
 
 export default 
     [

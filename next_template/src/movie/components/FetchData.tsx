@@ -1,5 +1,3 @@
-import { useAppSelector } from "@/redux/hook";
-
 /** Fetching TMDB - Popular Movie List 20 */
 export async function getPopular() {
     try {
@@ -30,5 +28,17 @@ export async function search(query: string) {
     } catch(err) {
         console.log(err)
         throw new Error('Failed to Fetch Movie_search')
+    }
+}
+
+/** Fetching TMDB - get Movie Detail by movieId */
+export async function getDetail(query: string) {
+    console.log("getDetail id : " + query)
+    try {
+        const response = await (await fetch(`/api/movies/detail/${query}`)).json()
+        return response
+    } catch(err) {
+        console.log(err);
+        throw new Error('Failed to Fetch Movie_getDetail')
     }
 }
