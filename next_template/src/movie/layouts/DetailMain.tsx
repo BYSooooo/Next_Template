@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react';
 
 import Container from '@mui/material/Container';
@@ -12,20 +10,21 @@ import { setDetailInfo } from '@/redux/features/movieReducer';
 
 import DetailTop from '../components/detail/DetailTop';
 
-export default function DetailMain() {
-    React.useEffect(()=> {
-        fetchDetailFn(id)
-    },[])
 
-    const movieDetail : MovieDetail[] = useAppSelector((state)=> state.movieDetail)
+export default function DetailMain() {
+    //const movieDetail : MovieDetail[] = useAppSelector((state)=> state.movieDetail)
     const dispatch = useAppDispatch()
     const pathArray = usePathname().split('/');
-    const id = pathArray[pathArray.length - 1]
-    console.log(id)
+    const movieId = pathArray[pathArray.length - 1]
+    
+    React.useEffect(()=> {
+        fetchDetailFn(movieId)
+    },[])
 
-    const fetchDetailFn = (movieId : string)=> {
+    const fetchDetailFn = async (id : string)=> {
+        console.log('Fetch Movie Detail Info')
         try {
-            getDetail(movieId).then((results: MovieDetail)=> {
+            await getDetail(id).then((results: MovieDetail)=> {
                 dispatch(setDetailInfo(results))
             })
         } catch(err) {

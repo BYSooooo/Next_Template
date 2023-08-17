@@ -1,5 +1,6 @@
-import MovieMain from "@/movie/layouts/MovieMain";
+"use client"
 
+import MovieMain from "@/movie/layouts/MovieMain";
 
 export default function moviePage() {
     
