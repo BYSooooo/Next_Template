@@ -37,7 +37,7 @@ export default function MovieCard({key,  movie, genre} : { key: number, movie : 
     const closeFn = () => setOpen(false);
 
     return (
-        <Card key={movie.id} sx={{display : 'block', width: 350}} variant='outlined' onClick={onClick}>
+        <Card key={movie.id} sx={{display : 'block', width: 350, height : 106}} variant='outlined' onClick={onClick}>
             <CardActionArea>
                 <Stack sx={{ dieplay : 'flex', flexDirection : 'row'}}>
                     <CardMedia 
