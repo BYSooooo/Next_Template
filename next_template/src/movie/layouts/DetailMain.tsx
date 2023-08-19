@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { setDetailInfo } from '@/redux/features/movieReducer';
 
 import DetailTop from '../components/detail/DetailTop';
+import DetailMiddle from '../components/detail/DetailMiddle';
 
 
 export default function DetailMain() {
@@ -38,9 +39,9 @@ export default function DetailMain() {
             <Grid xs={12} sx={{width : "100%"}}>
                 <DetailTop />
             </Grid>
-                <h4>
-                    Middle : hompage, company(Link), genres, vote
-                </h4>
+            <Grid xs={12} sx={{width : "100%"}}>
+                <DetailMiddle />
+            </Grid>
                 <h4>
                     Bottom : collection (other movie link), imdb
                 </h4>
