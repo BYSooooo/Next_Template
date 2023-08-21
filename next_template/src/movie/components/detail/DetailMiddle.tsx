@@ -51,19 +51,19 @@ export default function DetailMiddle() {
                             <Typography variant='h5' fontWeight='bold'>
                                 Production
                             </Typography>
-                            <Stack direction='row' alignItems='start'>
+                            <Grid container direction='row' sx={{ m: 1}}>
                                 {detail.production_companies.map((pd) => {
                                     return (
                                         <Tooltip key={pd.id} title={pd.name}>
                                             <Avatar
                                                 key={pd.id} 
                                                 alt={pd.name}
-                                                sx={{width : 40, height : 40, m : 1, boxShadow: 1}}
+                                                sx={{width : 30, height : 30, m : 1, boxShadow: 1}}
                                                 src={`https://image.tmdb.org/t/p/w300/${pd.logo_path}`}/>    
                                         </Tooltip>
                                     )
                                 })}
-                            </Stack>
+                            </Grid>
                         </Stack>
                     </Grid>
                     <Grid xs={12} md={2.7}sx={gridStyle}>
@@ -71,10 +71,10 @@ export default function DetailMiddle() {
                             <Typography variant='h5' fontWeight='bold'>
                                 Genre
                             </Typography>
-                            <Grid container width="100%" direction='row' justifyContent='start' sx={{p : 1}} rowGap={1} columnGap={1} >
+                            <Grid container width="100%" direction='row' justifyContent='center' sx={{p : 1}} rowGap={1} columnGap={1} >
                                 {detail.genres.map((genre)=> {
                                     return (
-                                        <Grid>
+                                        <Grid key={genre.id}>
                                             <Chip size='small' key={genre.id} label={genre.name}/>
                                         </Grid>
                                     )
@@ -85,25 +85,17 @@ export default function DetailMiddle() {
                     <Grid xs={12} md={2.7}sx={gridStyle}>
                         <Stack direction='column' alignItems='center' sx={{mt : 2}}>
                             <Typography variant='h5' fontWeight='bold'>
-                                Test2
+                                Language
                             </Typography>
-                            <Link href={detail.homepage} underline='hover' target='_blank' rel='noreferrer'>
-                                <Typography variant='caption'>
-                                    {detail.homepage.split('/')[2]}
-                                </Typography>
-                            </Link>
-                        </Stack>
-                    </Grid>
-                    <Grid xs={12} md={2.7}sx={gridStyle}>
-                        <Stack direction='column' alignItems='center' sx={{mt : 2}}>
-                            <Typography variant='h5' fontWeight='bold'>
-                                Test2
-                            </Typography>
-                            <Link href={detail.homepage} underline='hover' target='_blank' rel='noreferrer'>
-                                <Typography variant='caption'>
-                                    {detail.homepage.split('/')[2]}
-                                </Typography>
-                            </Link>
+                            <Grid container width="100%" direction='row' justifyContent='center' sx={{p : 1}} rowGap={1} columnGap={1} >
+                                {detail.spoken_languages.map((lang)=> {
+                                    return (
+                                        <Tooltip key={lang.name} title={lang.english_name}>
+                                            <Chip label={lang.iso_639_1.toUpperCase()} />
+                                        </Tooltip>
+                                    )
+                                })}
+                            </Grid>
                         </Stack>
                     </Grid>
                 </Grid>

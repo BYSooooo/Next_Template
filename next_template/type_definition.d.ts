@@ -59,8 +59,10 @@ interface MovieDetail {
     release_date : string,
     revenue : number,
     runtime : number,
-    spoken_language : [
-     {english_name : string, name : string}   
+    spoken_languages : [
+     {  english_name : string, 
+        iso_639_1 : string,
+        name : string}   
     ]
     status : string,
     tagline : string,
