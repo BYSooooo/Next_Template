@@ -9,9 +9,9 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 
 import { useAppSelector } from '@/redux/hook';
-import Homepage from './top/Hompage';
 import Box from '@mui/material/Box';
-import { Divider } from '@mui/material';
+import TopHeader from './top/TopHeader';
+import TopIcon from './top/TopIcon';
 
 
 export default function DetailTop() {
@@ -22,65 +22,65 @@ export default function DetailTop() {
         console.log(detail)
     },[movieDetail])
     
-
     return (
-        <Paper elevation={3} sx={{borderRadius : "0.5rem"}}>
+        <Paper elevation={3} sx={{borderRadius : "0.5rem", p : 1}}>
             <Grid container wrap='nowrap' direction='row' >
                 {detail ? (
-                    <Stack direction='row' sx={{ m : 1}} width="100%">
-                        <img style={{ width : "30%", height : "auto", borderRadius : '0.5rem', minWidth : 250}}
+                    <Stack direction='row' width="100%">
+                        <img style={{ width : 300, height : 450, borderRadius : '0.5rem'}}
                             loading='lazy' 
                             src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
                             alt='loading...'/>
-                        <Grid container direction='column' sx={{m : 1}} width="70%" rowGap={3}>
-                            <Homepage url={detail.homepage} />
-                                <Grid>
-                                    <Typography variant='h4' fontWeight='bold' >
-                                        {`${detail.original_title} (${detail.release_date.slice(0,4)})`} 
-                                    </Typography>        
-                                    <Typography variant='subtitle1' color='gray'>
-                                        {detail.tagline}
-                                    </Typography>        
-                                </Grid>
-                                <Grid>
-                                    <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
-                                        <Stack direction='column'>
-                                            <Typography fontSize='subtitme1' sx={{color : "gray"}} >
-                                                Overview
-                                            </Typography>
-                                            <Divider sx={{ width : "20%"}}/>
-                                            <Typography>
+                        <Grid container direction='column' sx={{marginInline : 2}} width="70%" rowGap={3}>
+                            <TopIcon detail={detail} />
+                            <TopHeader detail={detail}/>
+                            <Grid>
+                                <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}} >
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{color : "gray"}} >
+                                            Overview
+                                        </Typography>
+                                        
+                                        <Grid>
+                                            <Typography variant='caption'>
                                                 {detail.overview}
                                             </Typography>
+                                        </Grid>
 
-                                        </Stack>
-                                    </Box>
-                                </Grid>
+                                    </Stack>
+                                </Box>
+                            </Grid>
                             
                                 
-                                <Grid container direction='row' columnGap={2}>
-                                    <Grid md={3.5}>
-                                        <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
-                                            <Typography fontSize='subtitle1' sx={{color : "gray"}}>
-                                                Genre
-                                            </Typography>
-                                            <Divider sx={{width : '60%'}}/>
-                                            
-                                        </Box>
-                                    </Grid>
-                                    <Grid md={3.5}>
-                                        <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
-                                            <Typography fontSize='subtitle1' sx={{color : "gray"}}>
-                                                Production
-                                            </Typography>
-                                            <Divider sx={{ width : '60%'}}/>
-                                            <Typography>
-                                                Production name
-                                            </Typography>
-                                        </Box>
-                    
-                                    </Grid>   
+                            <Grid container direction='row' columnGap={2}>
+                                <Grid md={3.5}>
+                                    <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
+                                        <Typography variant='subtitle1' sx={{color : "gray"}}>
+                                            Genre
+                                        </Typography>
+                                        <Grid container direction='row' columnGap={1}>
+                                            {detail.genres.map((item)=> {
+                                                return (
+                                                    <Typography variant='caption'>
+                                                        {item.name}
+                                                    </Typography>
+                                                )
+                                            })}
+                                        </Grid>
+                                    </Box>
                                 </Grid>
+                                <Grid md={3.5}>
+                                    <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
+                                        <Typography fontSize='subtitle1' sx={{color : "gray"}}>
+                                            Production
+                                        </Typography>
+                                        <Typography>
+                                            Production name
+                                        </Typography>
+                                    </Box>
+                    
+                                </Grid>   
+                            </Grid>
                                 
                             
                         </Grid>
