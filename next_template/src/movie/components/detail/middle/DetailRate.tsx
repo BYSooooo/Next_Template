@@ -19,18 +19,22 @@ export default function DetailRate({rating} : {rating : number}) {
         <Paper elevation={3} sx={{borderRadius : "0.5rem", height : 'auto', mt : 1}}>
             <Stack direction='column' sx={{ p : 1}}>
                 <Typography variant='h6' fontWeight='bold'>
-                    Rate
+                    Vote
                 </Typography>
                 <Stack direction='row'>                    
-                    <Stack 
-                        direction='column' 
-                        alignItems='center'
-                        justifyContent='center' 
-                        sx={{ borderRadius : '0.5rem', width : "40%", height : '20vh', backgroundColor : 'ghostwhite'}}>
-                        <Typography variant= 'h3' fontWeight='bold' sx={{}}>
-                            {rate}
-                        </Typography>
-                        <Rating readOnly value={rate} precision={0.25} max={10}/>
+                    <Stack direction='column' 
+                        sx={{ borderRadius : '0.5rem', width : "40%", height : '20vh', backgroundColor : 'ghostwhite', p :1}}>
+                        <Stack width="100%" direction='row' justifyContent='start'>
+                            <Typography variant='subtitle1' sx={{color : "gray"}} >
+                                Vote Average
+                            </Typography>
+                        </Stack>
+                        <Stack direction='column'  alignItems='center' justifyContent='center' width='100%' height='100%'>
+                            <Typography variant= 'h3' fontWeight='bold' sx={{}}>
+                                {rate.toPrecision(3)}
+                            </Typography>
+                            <Rating readOnly value={rate} precision={0.25} max={10}/>
+                        </Stack>
                     </Stack>
                 </Stack>
             </Stack>
