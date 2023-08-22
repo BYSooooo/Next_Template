@@ -26,7 +26,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/detail/:query",
-                destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}`
+                destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}&append_to_response=videos,credits`
             }
         ]
     }

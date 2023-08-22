@@ -68,8 +68,39 @@ interface MovieDetail {
     tagline : string,
     title : string,
     video : boolean,
-    vote_everage : number,
-    vote_count : number
+    vote_average : number,
+    vote_count : number,
+    credits : CreditInfo,
+    videos : { results : VideoInfo[] }
 
+}
 
+interface CreditInfo {
+    cast : CastInfo[],
+    crew : CrewInfo[]
+}
+
+interface CastInfo {
+    adult : boolean, cast_id : number, character : string, credit_id : string,
+    gender : number, id : number, known_for_department : string, name : string,
+    order : number, original_name : string, popularity : number, profile_path : string
+}
+interface CrewInfo {
+    adult : boolean, credit_id : string, department : string, gender : number,
+    id : number, job : string, known_for_department : string, name : string,
+    original_name : string, popularity : number, pofile_path : string
+
+}
+
+interface VideoInfo {
+    id : string,
+    iso_3166_1 : string,
+    iso_639_1 : string,
+    key : string,
+    name : string,
+    offical : boolean,
+    published_at : string,
+    site : string,
+    size : number,
+    type : string
 }

@@ -24,9 +24,6 @@ export default function TopHeader({detail} : {detail : MovieDetail}) {
                 <Tooltip title="Original Language">
                     <Chip icon={<Language />} label={detail.original_language.toUpperCase()} />
                 </Tooltip>
-                <Tooltip title="Adult">
-                    <Chip icon={<NoAdultContent />} label={detail.adult ? "ADULT" : "ALL" }/>
-                </Tooltip>
             </Grid>
         </Grid>
     )

@@ -40,7 +40,6 @@ export default function DetailTop() {
                                         <Typography variant='subtitle1' sx={{color : "gray"}} >
                                             Overview
                                         </Typography>
-                                        
                                         <Grid>
                                             <Typography variant='caption'>
                                                 {detail.overview}
@@ -61,7 +60,7 @@ export default function DetailTop() {
                                         <Grid container direction='row' columnGap={1}>
                                             {detail.genres.map((item)=> {
                                                 return (
-                                                    <Typography variant='caption'>
+                                                    <Typography key={item.id} variant='caption'>
                                                         {item.name}
                                                     </Typography>
                                                 )
@@ -72,10 +71,10 @@ export default function DetailTop() {
                                 <Grid md={3.5}>
                                     <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
                                         <Typography fontSize='subtitle1' sx={{color : "gray"}}>
-                                            Production
+                                            Test
                                         </Typography>
                                         <Typography>
-                                            Production name
+                                            Test2
                                         </Typography>
                                     </Box>
                     
