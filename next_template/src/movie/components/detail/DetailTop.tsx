@@ -12,6 +12,7 @@ import { useAppSelector } from '@/redux/hook';
 import Box from '@mui/material/Box';
 import TopHeader from './top/TopHeader';
 import TopIcon from './top/TopIcon';
+import TopBody from './top/TopBody';
 
 
 export default function DetailTop() {
@@ -21,6 +22,8 @@ export default function DetailTop() {
         setDetail(movieDetail[0])
         console.log(detail)
     },[movieDetail])
+
+    
     
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", p : 1}}>
@@ -34,54 +37,7 @@ export default function DetailTop() {
                         <Grid container direction='column' sx={{marginInline : 2}} width="70%" rowGap={3}>
                             <TopIcon detail={detail} />
                             <TopHeader detail={detail}/>
-                            <Grid>
-                                <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}} >
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{color : "gray"}} >
-                                            Overview
-                                        </Typography>
-                                        <Grid>
-                                            <Typography variant='caption'>
-                                                {detail.overview}
-                                            </Typography>
-                                        </Grid>
-
-                                    </Stack>
-                                </Box>
-                            </Grid>
-                            
-                                
-                            <Grid container direction='row' columnGap={2}>
-                                <Grid md={3.5}>
-                                    <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
-                                        <Typography variant='subtitle1' sx={{color : "gray"}}>
-                                            Genre
-                                        </Typography>
-                                        <Grid container direction='row' columnGap={1}>
-                                            {detail.genres.map((item)=> {
-                                                return (
-                                                    <Typography key={item.id} variant='caption'>
-                                                        {item.name}
-                                                    </Typography>
-                                                )
-                                            })}
-                                        </Grid>
-                                    </Box>
-                                </Grid>
-                                <Grid md={3.5}>
-                                    <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
-                                        <Typography fontSize='subtitle1' sx={{color : "gray"}}>
-                                            Test
-                                        </Typography>
-                                        <Typography>
-                                            Test2
-                                        </Typography>
-                                    </Box>
-                    
-                                </Grid>   
-                            </Grid>
-                                
-                            
+                            <TopBody detail={detail} />
                         </Grid>
                     </Stack>              
                 ) : (

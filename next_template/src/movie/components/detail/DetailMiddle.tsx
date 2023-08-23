@@ -35,7 +35,7 @@ export default function DetailMiddle() {
     return (
         <Stack direction='column'>
             { detail && <DetailCrew credit={detail.credits}/> }
-            { detail && <DetailRate rating={detail.vote_average}/>}
+            { detail && <DetailRate rating={detail.vote_average} count={detail.vote_count}/>}
         </Stack>
 
 

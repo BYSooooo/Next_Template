@@ -4,7 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Chip from '@mui/material/Chip';
-import { AccessTime, Language, NoAdultContent } from '@mui/icons-material';
+import { AccessTime, CalendarMonth, Language } from '@mui/icons-material';
 
 
 export default function TopHeader({detail} : {detail : MovieDetail}) {
@@ -17,12 +17,15 @@ export default function TopHeader({detail} : {detail : MovieDetail}) {
             <Typography variant='subtitle1' color='gray'>
                 {detail.tagline}
             </Typography>
-            <Grid container direction='row' columnGap={1} sx={{mt : 1}}>
+            <Grid container direction='row' columnGap={1} sx={{mt : 1}} rowGap={1}>
                 <Tooltip title="Runtime">
                     <Chip icon={<AccessTime />} label={`${detail.runtime}m`}/>
                 </Tooltip>
                 <Tooltip title="Original Language">
                     <Chip icon={<Language />} label={detail.original_language.toUpperCase()} />
+                </Tooltip>
+                <Tooltip title="Released Date">
+                    <Chip icon={<CalendarMonth />} label={detail.release_date} />
                 </Tooltip>
             </Grid>
         </Grid>
