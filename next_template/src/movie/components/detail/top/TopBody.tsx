@@ -40,7 +40,7 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                     <Grid container direction='row'>
                         {detail.genres.map((genre)=> {
                             return (
-                                <Grid>
+                                <Grid key={genre.id}>
                                     <Typography key={genre.id} variant='caption'>
                                         {genre.name}
                                     </Typography>

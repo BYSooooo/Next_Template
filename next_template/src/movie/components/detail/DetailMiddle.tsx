@@ -1,20 +1,12 @@
 import React from 'react';
 
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import Chip from '@mui/material/Chip';
 
 import { SxProps, Theme} from '@mui/material';
 import { useAppSelector } from '@/redux/hook';
+
 import DetailCrew from './middle/DetailCrew';
-import DetailRate from './middle/DetailRate';
+import DetailStatic from './middle/DetailStatic';
 
 //Middle : Top Popular Crew
 export default function DetailMiddle() {
@@ -35,7 +27,7 @@ export default function DetailMiddle() {
     return (
         <Stack direction='column'>
             { detail && <DetailCrew credit={detail.credits}/> }
-            { detail && <DetailRate rating={detail.vote_average} count={detail.vote_count}/>}
+            { detail && <DetailStatic detail={detail}/>}
         </Stack>
 
 
