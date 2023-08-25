@@ -7,6 +7,7 @@ import { useAppSelector } from '@/redux/hook';
 
 import DetailCrew from './middle/DetailCrew';
 import DetailStatic from './middle/DetailStatic';
+import DetailMedia from './middle/DetailMedia';
 
 //Middle : Top Popular Crew
 export default function DetailMiddle() {
@@ -28,6 +29,7 @@ export default function DetailMiddle() {
         <Stack direction='column'>
             { detail && <DetailCrew credit={detail.credits}/> }
             { detail && <DetailStatic detail={detail}/>}
+            { detail && <DetailMedia detail={detail}/>}
         </Stack>
 
 

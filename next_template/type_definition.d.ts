@@ -71,7 +71,8 @@ interface MovieDetail {
     vote_average : number,
     vote_count : number,
     credits : CreditInfo,
-    videos : { results : VideoInfo[] }
+    videos : { results : VideoInfo[] },
+    images : ImageInfo
 
 }
 
@@ -89,7 +90,6 @@ interface CrewInfo {
     adult : boolean, credit_id : string, department : string, gender : number,
     id : number, job : string, known_for_department : string, name : string,
     original_name : string, popularity : number, pofile_path : string
-
 }
 
 interface VideoInfo {
@@ -103,4 +103,17 @@ interface VideoInfo {
     site : string,
     size : number,
     type : string
+}
+
+interface ImageInfo {
+    backdrops: ImageType[],
+    logos : ImageType[], 
+    posters : ImageType[]
+}
+
+interface ImageType {
+    file_path : string, 
+    width : number, 
+    height : number,
+    iso_639_1 : string
 }

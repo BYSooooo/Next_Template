@@ -72,8 +72,12 @@ export default function DetailStatic({detail} : {detail : MovieDetail}) {
                             />
                         </Grid> 
                         <Grid md={6}>
+                            
                             <Typography variant='h4' fontWeight='bold' color={detail.revenue /detail.budget > 1 ? 'green' : 'red'}>
-                                {Math.round(detail.revenue / detail.budget * 100)- 100}%
+                                { detail.revenue === 0 || detail.budget === 0 
+                                    ? 'No Data'
+                                    : (Math.round(detail.revenue / detail.budget * 100)- 100)+'%'
+                                }
                             </Typography>
                         </Grid>
                     </Grid>
