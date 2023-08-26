@@ -42,3 +42,15 @@ export async function getDetail(query: string) {
         throw new Error('Failed to Fetch Movie_getDetail')
     }
 }
+
+/** Fetching TMDB - get Collcetion Detail by Collection ID */
+export async function getCollection(query : string) {
+    console.log("getColId : " + query)
+    try {
+        const response = await ( await fetch(`/api/movies/collection/${query}`)).json()
+        return response;
+    } catch(err) {
+        console.log(err);
+        throw new Error('Failed to Fetch Movie_getCollection')
+    }
+}

@@ -117,3 +117,12 @@ interface ImageType {
     height : number,
     iso_639_1 : string
 }
+
+interface CollectionInfo {
+    backdrop_path : string,
+    id : number,
+    name : string,
+    overview : string,
+    parts : MovieInfo[],
+    poster_path : string
+}
