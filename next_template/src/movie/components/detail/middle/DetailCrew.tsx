@@ -37,13 +37,13 @@ export default function DetailCrew({credit} : {credit : CreditInfo}) {
                         More
                     </Typography>
                 </Stack>
-                <Stack direction='row' overflow='scroll' width="100%" spacing={1}>
+                <Stack direction='row' overflow='scroll' width="100%" spacing={2}>
                     {cast.map((item)=> {
                         return (
                             <Card key={item.id} sx={{ minWidth : 150 }}>
                                 <CardActionArea onClick={()=> onClick(item.id)}>
                                     <Box sx={{position : 'relative'}}>
-                                        <CardMedia component='img' alt='Cast' image={`https://image.tmdb.org/t/p/w185${item.profile_path}`} />
+                                        <CardMedia component='img' alt='Cast Image' image={`https://image.tmdb.org/t/p/w185${item.profile_path}`} height="225"/>
                                         <Box overflow='-moz-hidden-unscrollable'
                                             sx={{
                                                 position : 'absolute',
