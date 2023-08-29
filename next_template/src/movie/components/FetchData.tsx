@@ -54,3 +54,15 @@ export async function getCollection(query : string) {
         throw new Error('Failed to Fetch Movie_getCollection')
     }
 }
+/** Fetching TMDB - get Cast Info by Cast ID */
+export async function getCastInfo(query : string) {
+    console.log(`Cast ID : ${query}`);
+    try {
+        const response = await ( await fetch(`/api/movies/cast/${query}`)).json();
+        return response;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Failed to Fetch Movie_getCastInfo')
+    }
+    
+}

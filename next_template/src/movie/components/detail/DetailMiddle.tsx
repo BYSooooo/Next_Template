@@ -10,7 +10,6 @@ import DetailStatic from './middle/DetailStatic';
 import DetailMedia from './middle/DetailMedia';
 import DetailCollection from './middle/DetailCollection';
 
-//Middle : Top Popular Crew
 export default function DetailMiddle() {
     const movieDetail = useAppSelector((state)=>state.movieDetail);
     const [detail, setDetail] = React.useState<MovieDetail>(null);

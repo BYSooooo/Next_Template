@@ -4,14 +4,19 @@ import ReactPlayer from 'react-player/lazy';
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button';
+
 import { SxProps, Theme } from '@mui/material/styles';
 import { VideoLibrary, Image } from '@mui/icons-material';
-import Button from '@mui/material/Button';
+import { useAppDispatch } from '@/redux/hook';
+import { openDetailModal } from '@/redux/features/movieReducer';
 
 export default function DetailMedia({detail} : {detail : MovieDetail}){
     const [trailer, setTrailer] = React.useState('');
     const [backDrop, setBackDrop] = React.useState<ImageType[]>([]);
     const [poster, setPoster] = React.useState<ImageType[]>([])
+
+    const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
         const idx = detail.videos.results.findIndex((item) => item.type === "Trailer") 
@@ -29,9 +34,17 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
      }    
 
      const onClick = (category : string) => {
-        console.log()
-     }
-
+        switch (category) {
+            case "Videos" : 
+                dispatch(openDetailModal({name : "Videos", value : detail.videos.results}))
+                break;
+            case "Images" : 
+                dispatch(openDetailModal({name : "Images", value : detail.images}))
+                break;
+            default : 
+                break;
+            }
+        }
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", height : 'auto', mt : 1, p: 1}}>
             <Typography variant='h6' fontWeight='bold'>
@@ -54,7 +67,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                             <Typography variant='h6' fontWeight='bold'>
                                 +{detail.videos.results.length}
                             </Typography>
-                            <Button variant='text' size='small'>
+                            <Button variant='text' size='small' onClick={()=>onClick("Videos")}>
                                 More
                             </Button>
                         </Grid>
@@ -69,7 +82,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                             <Typography variant='h6' fontWeight='bold'>
                                 +{poster.length + backDrop.length}
                             </Typography>
-                            <Button variant='text' size='small'>
+                            <Button variant='text' size='small' onClick={()=> onClick("Images")}>
                                 More
                             </Button>
                         </Grid>

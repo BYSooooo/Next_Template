@@ -10,10 +10,11 @@ import { setDetailInfo } from '@/redux/features/movieReducer';
 
 import DetailTop from '../components/detail/DetailTop';
 import DetailMiddle from '../components/detail/DetailMiddle';
+import DetialModal from '../components/detail/DetailModal';
 
 
 export default function DetailMain() {
-    //const movieDetail : MovieDetail[] = useAppSelector((state)=> state.movieDetail)
+    
     const dispatch = useAppDispatch()
     const pathArray = usePathname().split('/');
     const movieId = pathArray[pathArray.length - 1]
@@ -23,7 +24,6 @@ export default function DetailMain() {
     },[])
 
     const fetchDetailFn = async (id : string)=> {
-        console.log('Fetch Movie Detail Info')
         try {
             await getDetail(id).then((results: MovieDetail)=> {
                 dispatch(setDetailInfo(results))
@@ -32,7 +32,7 @@ export default function DetailMain() {
             console.log(err)
             throw new Error('Error in Fetch Movie Detail')
         }
-    }   
+    }
 
     return (
         <Container maxWidth="lg" sx={{mt : "5rem", maxWidth : "80vw" }}>
@@ -45,6 +45,7 @@ export default function DetailMain() {
                 <h4>
                     Bottom : collection (other movie link), imdb
                 </h4>
+            <DetialModal/>
         </Container>
     )
     

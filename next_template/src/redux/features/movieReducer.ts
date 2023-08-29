@@ -131,6 +131,26 @@ export const movieDetail = createSlice({
 
 })
 
+export const detailModalControl = createSlice({
+    name : 'detailModal',
+    initialState : { name : "" , openYn : false, value : [] },
+    reducers : {
+        /** set State Detail Modal Open */
+        openDetailModal : (state, action : PayloadAction<{name : "Cast" | "Videos" | "Images" | "", value : number | ImageInfo | VideoInfo[]}>) => {
+            state.name = action.payload.name;
+            state.openYn = true
+            state.value.push(action.payload.value)
+        },
+        /** set State Detail Modal Close */
+        closeDetailModal : (state, action : PayloadAction) => {
+            state.name = "";
+            state.openYn = false
+            state.value = []
+
+        }
+    }
+})
+
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
@@ -145,6 +165,8 @@ export const { setSearchResult, addSearchResult } = searchResult.actions;
 
 export const { setDetailInfo } = movieDetail.actions;
 
+export const { openDetailModal, closeDetailModal } = detailModalControl.actions;
+
 export default 
     [
         popular.reducer, 
@@ -155,6 +177,7 @@ export default
         selectedDateRange,
         selectedRateRange.reducer,
 
-        searchFilter.reducer
+        searchFilter.reducer,
+        detailModalControl.reducer
         
     ];

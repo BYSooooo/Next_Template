@@ -7,9 +7,12 @@ import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
+import { useAppDispatch } from '@/redux/hook';
+import { openDetailModal } from '@/redux/features/movieReducer';
 
 
 export default function DetailCrew({credit} : {credit : CreditInfo}) {
+    const dispatch = useAppDispatch()
     const [cast, setCast] = React.useState<CastInfo[]>([]);
 
     React.useEffect(()=> {
@@ -23,7 +26,7 @@ export default function DetailCrew({credit} : {credit : CreditInfo}) {
     }
 
     const onClick = (castId : number)=> {
-        console.log(`Cast ID : ${castId}`)
+        dispatch(openDetailModal({name : "Cast", value : castId}))
     }
     
     return (
@@ -41,7 +44,7 @@ export default function DetailCrew({credit} : {credit : CreditInfo}) {
                     {cast.map((item)=> {
                         return (
                             <Card key={item.id} sx={{ minWidth : 150 }}>
-                                <CardActionArea onClick={()=> onClick(item.id)}>
+                                <CardActionArea onClick={()=>onClick(item.id)}>
                                     <Box sx={{position : 'relative'}}>
                                         <CardMedia component='img' alt='Cast Image' image={`https://image.tmdb.org/t/p/w185${item.profile_path}`} height="225"/>
                                         <Box overflow='-moz-hidden-unscrollable'

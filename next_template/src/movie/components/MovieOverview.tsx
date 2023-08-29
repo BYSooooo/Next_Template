@@ -13,14 +13,11 @@ import Divider from '@mui/material/Divider';
 
 import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/redux/hook';
-import { setDetailInfo } from '@/redux/features/movieReducer';
-import { getDetail } from './FetchData';
 
 export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieInfo, openYn : boolean, closeFn : Function}) {
     const [open, setOpen] = React.useState(false);
     const [overOpen, setOverOpen] = React.useState(false);
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
-    const dispatch = useAppDispatch()
     const router = useRouter()
     
     React.useEffect(()=> {
