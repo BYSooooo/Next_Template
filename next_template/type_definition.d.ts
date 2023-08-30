@@ -132,7 +132,10 @@ interface PersonInfo {
     also_known_as : string[],
     biography : string,
     birthday : string,
-    combined_credits : CreditInfo,
+    combined_credits : {
+        cast : MovieInfo[],
+        crew : MovieInfo[]
+    },
     deathday : string | null,
     gender : number,
     homepage : string | null,

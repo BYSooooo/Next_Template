@@ -126,6 +126,9 @@ export const movieDetail = createSlice({
         /** set State Detail Movie Info  */
         setDetailInfo : (state, action: PayloadAction<MovieDetail>)=> {
             state.splice(0, state.length, action.payload)
+        },
+        setInitialize : (state, action: PayloadAction) => {
+            state = []
         }
     }
 
@@ -163,7 +166,7 @@ export const { setRateRange } = selectedRateRange.actions;
 export const { changeUseYn, changeValue } = searchFilter.actions;
 export const { setSearchResult, addSearchResult } = searchResult.actions;
 
-export const { setDetailInfo } = movieDetail.actions;
+export const { setDetailInfo, setInitialize} = movieDetail.actions;
 
 export const { openDetailModal, closeDetailModal } = detailModalControl.actions;
 

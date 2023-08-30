@@ -20,6 +20,13 @@ export default function DetialModal () {
     const closeFn = () => {
         dispatch(closeDetailModal())
     }
+
+    React.useEffect(()=> {
+
+        return (
+            closeFn()
+        )
+    },[])
     const modalContent = () => {
         switch (modalControl.name) {
             case "Cast" :
@@ -46,9 +53,9 @@ export default function DetialModal () {
                                 position : 'absolute' as 'absolute',
                                 top : '50%',
                                 left : '50%',
-                                transform : 'translate(-50%, 50%)',
-                                width : '10rem',
-                                height : '10rem',
+                                transform: 'translate(-50%, -50%)',
+                                width : 600,
+                                height : '85vh',
                                 backgroundColor : 'snow',
                                 borderRadius : 1
                             }}

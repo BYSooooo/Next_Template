@@ -11,6 +11,9 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/redux/hook';
+import { closeDetailModal } from '@/redux/features/movieReducer';
 
 const gridStyle : SxProps<Theme>= {
     height : 'auto',
@@ -29,12 +32,15 @@ const gridStyle : SxProps<Theme>= {
     }
  }
 
- const onClick = (id : number) => {
-    console.log(id)
- }
-
 export default function DetailCollection({detail} : {detail: MovieDetail}) {
     const [collection, setCollection] = React.useState<CollectionInfo>(null);
+    const dispatch = useAppDispatch();
+    const router = useRouter()
+
+    const onClick =(id : number) => {
+        dispatch(closeDetailModal());
+        router.push(`/movie/detail/${id}`)
+    }
 
     React.useEffect(()=> {
         const collectionId = detail.belongs_to_collection.id.toString()

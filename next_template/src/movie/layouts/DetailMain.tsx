@@ -4,9 +4,9 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import { getDetail } from '../components/FetchData';
-import { useAppSelector, useAppDispatch } from '@/redux/hook';
+import { useAppDispatch } from '@/redux/hook';
 import { usePathname } from 'next/navigation';
-import { setDetailInfo } from '@/redux/features/movieReducer';
+import { setDetailInfo, setInitialize } from '@/redux/features/movieReducer';
 
 import DetailTop from '../components/detail/DetailTop';
 import DetailMiddle from '../components/detail/DetailMiddle';
@@ -14,13 +14,14 @@ import DetialModal from '../components/detail/DetailModal';
 
 
 export default function DetailMain() {
-    
     const dispatch = useAppDispatch()
     const pathArray = usePathname().split('/');
     const movieId = pathArray[pathArray.length - 1]
     
     React.useEffect(()=> {
+        dispatch(setInitialize())
         fetchDetailFn(movieId)
+
     },[])
 
     const fetchDetailFn = async (id : string)=> {

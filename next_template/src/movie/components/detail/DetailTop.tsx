@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import TopHeader from './top/TopHeader';
 import TopIcon from './top/TopIcon';
 import TopBody from './top/TopBody';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function DetailTop() {
@@ -27,8 +28,9 @@ export default function DetailTop() {
     
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", p : 1}}>
-            <Grid container wrap='nowrap' direction='row' >
-                {detail ? (
+            { detail 
+            ? 
+                <Grid container wrap='nowrap' direction='row' >
                     <Stack direction='row' width="100%">
                         <img style={{ width : 300, height : 450, borderRadius : '0.5rem'}}
                             loading='lazy' 
@@ -39,22 +41,21 @@ export default function DetailTop() {
                             <TopHeader detail={detail}/>
                             <TopBody detail={detail} />
                         </Grid>
-                    </Stack>              
-                ) : (
-                    <Stack direction='row' width='100%'>
-                        <Skeleton variant='rectangular' width="30%" height="auto" />
-                        <Grid direction='column' sx={{m : 1}}>
-                            <Typography variant='h4' width='15rem'>
-                                <Skeleton />
-                            </Typography>
-                            <Typography variant='subtitle1'>
-                                <Skeleton />
-                            </Typography>
+                    </Stack> 
+                </Grid>
+            :
+                <Grid container wrap='nowrap' direction='row' >
+                    <Stack direction='row' width="100%">
+                        <Skeleton variant='rectangular' animation='wave' sx={{ width : 300, height : 450}} />
+                        <Grid container direction='column' sx={{marginInline : 2}} width="70%" rowGap={3}>
+                            <Skeleton variant='text' animation='wave' sx={{ fontSize : 'h3'}}/>
+                            <Skeleton variant='text' animation='wave' sx={{ fontSize : 'body1'}}/>
+                            <Skeleton variant='rectangular' animation='wave' sx={{ width : 'auto', height : '20rem'}}/>
                         </Grid>
                     </Stack>
-                )}
-                
-            </Grid>
+                </Grid>
+            }
+            
         </Paper>
         
         
