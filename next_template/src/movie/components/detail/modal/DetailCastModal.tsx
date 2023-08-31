@@ -60,9 +60,19 @@ export default function DetailCastModal() {
                 <Grid direction='column'>
                     <Grid container direction='row'>
                         <Grid >
-                            <img loading='lazy'
-                                src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
-                                style={{ width : 150, height : 225, borderRadius : '0.5rem'}}/>
+                            {cast.profile_path ?
+                                <img 
+                                    loading='lazy'
+                                    src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
+                                    style={{ width : 150, height : 225, borderRadius : '0.5rem'}}/>
+                             :
+                                <Box sx={{ width : 150, height : 225, borderRadius : '0.5rem', border : '1px solid gray'}}
+                                    alignItems='stretch'>
+                                    <Typography>
+                                        Not Image
+                                    </Typography>
+                                </Box>
+                             }
                         </Grid>
                         <Grid direction='column' sx={{ paddingInline : 1 }} >
                             <Grid>
