@@ -27,7 +27,7 @@ export default function DetailMiddle() {
 
     return (
         <Stack direction='column'>
-            { detail && <DetailCrew credit={detail.credits}/> }
+            { detail && <DetailCrew credit={detail.credits} movieId={detail.id}/> }
             { detail && <DetailStatic detail={detail}/>}
             { detail && <DetailMedia detail={detail}/>}
             { detail && detail.belongs_to_collection && <DetailCollection detail={detail}/>}

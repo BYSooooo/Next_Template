@@ -11,13 +11,17 @@ import { setDetailInfo, setInitialize } from '@/redux/features/movieReducer';
 import DetailTop from '../components/detail/DetailTop';
 import DetailMiddle from '../components/detail/DetailMiddle';
 import DetialModal from '../components/detail/DetailModal';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import DetailCredits from '../components/detail/DetailCredits';
 
 
 export default function DetailMain() {
     const dispatch = useAppDispatch()
     const pathArray = usePathname().split('/');
     const movieId = pathArray[pathArray.length - 1]
-    
+    const [tabIndex, setTabIndex] = React.useState(0)
+
     React.useEffect(()=> {
         dispatch(setInitialize())
         fetchDetailFn(movieId)
@@ -27,12 +31,21 @@ export default function DetailMain() {
     const fetchDetailFn = async (id : string)=> {
         try {
             await getDetail(id).then((results: MovieDetail)=> {
+                results.credits.cast.map((cast) => {
+                    cast.kind = "Cast"
+                })
+                results.credits.crew.map((crew) => {
+                    crew.kind = "Crew";
+                })
                 dispatch(setDetailInfo(results))
             })
         } catch(err) {
             console.log(err)
             throw new Error('Error in Fetch Movie Detail')
         }
+    }
+    const onTabChange = (event:React.SyntheticEvent, newIndex: number) => {
+        setTabIndex(newIndex)
     }
 
     return (
@@ -41,11 +54,14 @@ export default function DetailMain() {
                 <DetailTop />
             </Grid>
             <Grid xs={12} sx={{width : "100%"}}>
-                <DetailMiddle />
+                <Tabs value={tabIndex} onChange={onTabChange}>
+                    <Tab label="Detail" value={0} />
+                    <Tab label="Credit" value={1}/>
+                    <Tab label="Production" value={2} />
+                </Tabs>
+                { tabIndex === 0 && <DetailMiddle />}
+                { tabIndex === 1 && <DetailCredits />}
             </Grid>
-                <h4>
-                    Bottom : collection (other movie link), imdb
-                </h4>
             <DetialModal/>
         </Container>
     )

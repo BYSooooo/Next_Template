@@ -9,9 +9,10 @@ import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import { useAppDispatch } from '@/redux/hook';
 import { openDetailModal } from '@/redux/features/movieReducer';
+import { Link } from '@mui/material';
 
 
-export default function DetailCrew({credit} : {credit : CreditInfo}) {
+export default function DetailCrew({credit, movieId} : {credit : CreditInfo, movieId : number}) {
     const dispatch = useAppDispatch()
     const [cast, setCast] = React.useState<CastInfo[]>([]);
 
@@ -36,9 +37,9 @@ export default function DetailCrew({credit} : {credit : CreditInfo}) {
                     <Typography variant='h6' fontWeight='bold'>
                         Top Rate Cast 10
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Link variant='subtitle1' >
                         More
-                    </Typography>
+                    </Link>
                 </Stack>
                 <Stack direction='row' overflow='scroll' width="100%" spacing={2}>
                     {cast.map((item)=> {

@@ -10,6 +10,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { VideoLibrary, Image } from '@mui/icons-material';
 import { useAppDispatch } from '@/redux/hook';
 import { openDetailModal } from '@/redux/features/movieReducer';
+import Box from '@mui/material/Box';
 
 export default function DetailMedia({detail} : {detail : MovieDetail}){
     const [trailer, setTrailer] = React.useState('');
@@ -20,7 +21,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
 
     React.useEffect(()=> {
         const idx = detail.videos.results.findIndex((item) => item.type === "Trailer") 
-        setTrailer(detail.videos.results[idx].key)
+        setTrailer(detail.videos.results[idx]?.key)
         setBackDrop(detail.images.backdrops)
         setPoster(detail.images.posters.filter((item)=> item.iso_639_1 === 'en'))
         
@@ -52,10 +53,19 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
             </Typography>
             <Grid container direction='row' alignItems='center' columnGap={1} rowGap={1}>
                 <Grid xs={12} md={9.9}>
-                    <ReactPlayer 
-                    height='50vh'
-                    width='auto'
-                    url={`https://www.youtube.com/watch?v=${trailer}`} />
+                    {trailer 
+                    ? 
+                        <ReactPlayer 
+                        height='50vh'
+                        width='auto'
+                        url={`https://www.youtube.com/watch?v=${trailer}`} />
+                    :
+                        <Box sx={{ height : '50vh', width : 'auto'}}>
+                            <Typography>
+                                No Information Trailer
+                            </Typography>
+                        </Box>
+                    }
                 </Grid>
                 <Grid container xs={12} md={1.9} direction='column' columnGap={1} rowGap={1} justifyContent='center'>
                     <Grid xs={12} sx={gridStyle}>
