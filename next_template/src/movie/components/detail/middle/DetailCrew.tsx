@@ -37,9 +37,6 @@ export default function DetailCrew({credit, movieId} : {credit : CreditInfo, mov
                     <Typography variant='h6' fontWeight='bold'>
                         Top Rate Cast 10
                     </Typography>
-                    <Link variant='subtitle1' >
-                        More
-                    </Link>
                 </Stack>
                 <Stack direction='row' overflow='scroll' width="100%" spacing={2}>
                     {cast.map((item)=> {

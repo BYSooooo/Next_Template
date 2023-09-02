@@ -11,7 +11,7 @@ export default function DetailCastList({casts} : {casts : CastInfo[] }) {
             <Typography variant='h6' fontWeight='bold'>
                 Cast ({casts.length})
             </Typography>
-            <Grid container direction='row' justifyContent='center' rowGap={1} columnGap={1}>
+            <Grid container direction='row' justifyContent='center' rowGap={1} columnGap={1} sx={{ mt: 1}}>
                 {casts.map((cast) => {
                     return (
                         <DetailCreditsCard key={cast.id} info={cast} />

@@ -1,14 +1,9 @@
 import React from 'react';
 
-import { useAppSelector } from '@/redux/hook';
 import Stack from '@mui/material/Stack';
 import DetailCastList from './credits/DetailCastList';
 import DetailCrewList from './credits/DetailCrewList';
-
-
-interface CastInterface extends CastInfo{
-    kind : "Cast"
-}
+import { useAppSelector } from '@/redux/hook';
 
 export default function DetailCredits() {
     const movieDetail = useAppSelector((state)=> state.movieDetail);

@@ -6,11 +6,16 @@ import Stack from '@mui/material/Stack';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 
+import { useAppDispatch } from '@/redux/hook';
+import { closeDetailModal, openDetailModal } from '@/redux/features/movieReducer';
+
 
 export default function DetailCreditsCard ({info} : {info : CastInfo | CrewInfo}) {
-    const onClick = () => {
-        console.log('clicked')
-    }
+    const dispatch = useAppDispatch();
+
+    React.useEffect(()=> {
+        dispatch(closeDetailModal());
+    },[info])
 
     const profileImage = () => {
         const imageYn = info.profile_path ? true : false;
@@ -33,11 +38,13 @@ export default function DetailCreditsCard ({info} : {info : CastInfo | CrewInfo}
         }
     }
 
+    const onClick = (castId : number)=> {
+        dispatch(openDetailModal({name : "Cast", value : castId}))
+    }
 
-    console.log(info)
 
     return (
-        <Card key={info.id} sx={{display : 'block', width: 350, height : 106}} variant='outlined' onClick={onClick}>
+        <Card key={info.id} sx={{display : 'block', width: 350, height : 106}} variant='outlined' onClick={()=>onClick(info.id)}>
             <CardActionArea>
                 <Stack direction='row' width={350} height={106} alignItems='center' sx={{ paddingInline : 1}}>
                     {profileImage()}
