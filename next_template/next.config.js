@@ -35,6 +35,10 @@ const nextConfig = {
             {
                 source : "/api/movies/cast/:query",
                 destination : `https://api.themoviedb.org/3/person/:query?api_key=${API_KEY}&append_to_response=combined_credits`
+            },
+            {
+                source : "/api/movies/company/:query",
+                destination : `https://api.themoviedb.org/3/company/:query?api_key=${API_KEY}`
             }
         ]
     }

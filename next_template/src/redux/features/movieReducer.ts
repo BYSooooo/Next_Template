@@ -154,6 +154,21 @@ export const detailModalControl = createSlice({
     }
 })
 
+export const detailCompanyInfo = createSlice({
+    name : 'CompanyInfo',
+    initialState : [],
+    reducers : {
+        /** set State Company Detail Information */
+        setCompanyInfo : (state, action : PayloadAction<CompanyInfo>)=> {
+            state.push(action.payload);
+        },
+        /** Delete All Company Info in State */
+        delCompanyInfo : (state, action: PayloadAction) => {
+            state.splice(0,state.length)
+        }
+    }
+})
+
 
 export const { setPopularList } = popular.actions;
 export const { setGenreList } = movieGenre.actions;
@@ -167,8 +182,8 @@ export const { changeUseYn, changeValue } = searchFilter.actions;
 export const { setSearchResult, addSearchResult } = searchResult.actions;
 
 export const { setDetailInfo, setInitialize} = movieDetail.actions;
-
 export const { openDetailModal, closeDetailModal } = detailModalControl.actions;
+export const { setCompanyInfo, delCompanyInfo } = detailCompanyInfo.actions;
 
 export default 
     [
@@ -181,6 +196,7 @@ export default
         selectedRateRange.reducer,
 
         searchFilter.reducer,
-        detailModalControl.reducer
+        detailModalControl.reducer,
+        detailCompanyInfo.reducer
         
     ];

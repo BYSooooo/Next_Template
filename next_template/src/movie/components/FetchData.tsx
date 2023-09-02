@@ -66,3 +66,15 @@ export async function getCastInfo(query : string) {
     }
     
 }
+
+/** Fetching TMDB - get Company Detail Info by Company ID */
+export async function getCompanyDetail(query : string) {
+    console.log(`Company ID : ${query}`);
+    try {
+        const response = await ( await fetch(`/api/movies/company/${query}`)).json();
+        return response;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Failed to Fetch Movie_getCompnayDetail');
+    }
+}
