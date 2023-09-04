@@ -22,9 +22,8 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
     React.useEffect(()=> {
         const idx = detail.videos.results.findIndex((item) => item.type === "Trailer") 
         setTrailer(detail.videos.results[idx]?.key)
-        setBackDrop(detail.images.backdrops)
+        setBackDrop(detail.images.backdrops.filter((item)=> item.iso_639_1 === 'en'))
         setPoster(detail.images.posters.filter((item)=> item.iso_639_1 === 'en'))
-        
     },[detail])
 
     const gridStyle : SxProps<Theme>= {
@@ -40,7 +39,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                 dispatch(openDetailModal({name : "Videos", value : detail.videos.results}))
                 break;
             case "Images" : 
-                dispatch(openDetailModal({name : "Images", value : detail.images}))
+                dispatch(openDetailModal({name : "Images", value : { posters : [...poster], logos : null, backdrops : [...backDrop],}}))
                 break;
             default : 
                 break;
