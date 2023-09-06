@@ -25,13 +25,13 @@ export default function MainSearch() {
     return (
         <Container> 
             <Grid container spacing={2} direction='row'> 
-                <Grid xs={2}>
+                <Grid xs={12} md={2}>
                     <CriteriaBtn />
                 </Grid>
-                <Grid xs={8}>
+                <Grid xs={12} md={8}>
                     <Input fullWidth onChange={onChange} value={keyword}/>
                 </Grid>
-                <Grid xs={2}>
+                <Grid xs={12} md={2}>
                     <SearchBtn keyword={keyword}/>
                 </Grid>
             </Grid>       

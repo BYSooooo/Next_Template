@@ -28,10 +28,10 @@ export default function CriteriaBtn() {
 
     return (
         <>
-            <Button sx={{ width: "100%", height : "100%" }} onClick={toggleDrawer('left', true)} >
+            <Button sx={{ width : '100%' }}onClick={toggleDrawer('left', true)} variant='contained'>
                 <KeyboardArrowDown />
-                <Typography>
-                    Criteria
+                <Typography variant='subtitle2'>
+                    Filter
                 </Typography>
             </Button>
             <React.Fragment>    
