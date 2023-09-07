@@ -40,10 +40,7 @@ export default function MovieMain() {
                 </Grid>
                 <div>
                     <Grid xs={12} sx={{mb : '15vh'}} container direction='row' alignItems='center'>
-                        <Typography sx={{color : 'blueviolet'}}>
-                            Selected : 
-                        </Typography>
-                        <GenreBtn />
+                        
                     </Grid>
                 </div>
                 

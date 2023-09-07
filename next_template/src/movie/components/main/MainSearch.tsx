@@ -8,6 +8,7 @@ import SearchBtn from './SearchBtn';
 import CriteriaBtn from '../CriteriaBtn';
 import { useAppSelector } from '@/redux/hook';
 import Container from '@mui/material/Container';
+import Badge from '@mui/material/Badge';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
@@ -21,12 +22,18 @@ export default function MainSearch() {
     const onChange =(e: { target: { value: React.SetStateAction<string>; }; }) => {
         setKeyword(e.target.value)
     }
+    const filterCount = ()=> {
+        const count = searchFilter.filter((item)=> item.useFilter === true).length - 1
+        return count
+    }
 
     return (
         <Container> 
             <Grid container spacing={2} direction='row'> 
                 <Grid xs={12} md={2}>
-                    <CriteriaBtn />
+                    <Badge badgeContent={filterCount()} color="error">
+                        <CriteriaBtn />
+                    </Badge>
                 </Grid>
                 <Grid xs={12} md={8}>
                     <Input fullWidth onChange={onChange} value={keyword}/>

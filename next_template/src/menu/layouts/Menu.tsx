@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { MenuOpenRounded } from '@mui/icons-material';
-import { AppBar, Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
-
+import { GitHub, Info, MenuOpenRounded } from '@mui/icons-material';
+import { AppBar, Box, Container, Divider, Icon, IconButton, Link, List, ListItem, ListItemButton, ListItemText, Modal, Stack, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import MovieInform from '../components/MovieInform';
 
 
 const basicMenuItem : menuItem[] = 
@@ -20,6 +21,7 @@ const contentMenuItem : menuItem[] =
 
 export default function Menu() {
     const router = useRouter();
+    const [open, setOpen] = React.useState(false)
 
     const [state, setState] = React.useState({
         top : false,
@@ -72,18 +74,21 @@ export default function Menu() {
         </Box>    
     )
 
+    const toggleInform = ()=> {
+        setOpen(true)
+    }
+    
+
     return (
-        <AppBar position='fixed' enableColorOnDark >
-            <Toolbar>
-                <IconButton
-                    size='large'
-                    edge="start"
-                    color='inherit'
-                    aria-label='menu'
-                    onClick={toggleDrawer('left', true)}>
-                    <MenuOpenRounded />
-                </IconButton>
-            </Toolbar>
+        <Stack sx={{ paddingInline : 5 }} direction='row' alignItems='baseline' >
+            <IconButton
+                size='large'
+                edge="start"
+                color='inherit'
+                aria-label='menu'
+                onClick={toggleDrawer('left', true)}>
+                <MenuOpenRounded fontSize='large'/>
+            </IconButton>
             <React.Fragment>    
                 <SwipeableDrawer
                     anchor="left"
@@ -93,6 +98,26 @@ export default function Menu() {
                     {list('left')}
                 </SwipeableDrawer>
             </React.Fragment>
-        </AppBar>
+
+            <IconButton 
+                size='large'
+                color='inherit'
+                aria-label='information'
+                edge='start'
+                onClick={toggleInform}>
+                    <Info fontSize='large'/>
+            </IconButton>
+            <Modal
+                open={open}
+                onClose={()=>setOpen(false)}>
+                    <MovieInform />
+            </Modal>
+            <Link 
+                target='_blank' rel='noopener'
+                href='https://github.com/BYSooooo/Next_Template'>
+                <GitHub color='inherit' fontSize='large'/>
+            </Link>
+            
+        </Stack>
     )
 }
