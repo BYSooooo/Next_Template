@@ -1,8 +1,15 @@
 "use client";
 
-import { Box, Container, Stack, Typography } from '@mui/material';
 import * as React from 'react';
-import MainCard from './MainCard';
+
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography';
+
+import MainCard  from '../components/MainCard';
+
+
 
 export default function Home() {
 
