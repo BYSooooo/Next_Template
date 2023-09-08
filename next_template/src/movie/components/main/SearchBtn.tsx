@@ -15,11 +15,15 @@ import { search } from "../FetchData";
  * @param keyword Input Keyword
  * @returns Route to `/movie/search` | `null`
  */
-export default function SearchBtn({keyword} : {keyword : string}) {
+export default function SearchBtn({keyword, keydown} : {keyword : string, keydown : boolean}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch();
     const router = useRouter()
+
+    React.useEffect(()=> {
+        (keydown === true && onClick())
+    },[keydown])
     
     const onClick= ()=> {
         if(keyword.trim().length > 0) {

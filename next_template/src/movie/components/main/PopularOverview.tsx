@@ -5,11 +5,13 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 
 import { useAppSelector } from '@/redux/hook';
-import GenreBox from '../GenreBox';
-import MovieOverview from '../MovieOverview';
+import { CalendarMonth, Tag } from '@mui/icons-material';
 
+import MovieOverview from '../MovieOverview';
 
 
 
@@ -41,37 +43,52 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
      const closeFn = () => {
         setOpen(false)
      }
+     const genreSelect = (id : number) => {
+        console.log(id)
+     }
 
     return (
-        <Card key={movie.id} sx={{display : 'block', maxWidth : 300, borderRadius : "1rem", p : 1 }}>
-            <Stack direction='column'>
-                <Box sx={{display : 'flex', flexDirection : 'column', p: 1}}>
-                    <Typography component='div' variant='h5' noWrap>
+        
+        <Card key={movie.id} sx={{display : 'block', minWidth : 300, maxWidth : 300, borderRadius : "1rem",p : 2 }}>
+                <Stack direction='column' rowGap={1}>
+                    <Typography variant='h6' fontWeight='bold' lineHeight={1}>
                         {movie.original_title}
                     </Typography>
-                    <Typography component='div' variant='subtitle2' noWrap>
-                        {`Release : ${movie.release_date}`}
-                    </Typography>
-                    <Typography component='div' variant='subtitle2'>
-                        Genre
-                    </Typography>
-                    <Stack flexWrap="wrap" direction="row" spacing={0.5} sx={{p:0.5}}>
-                        {movie.genre_ids.map((id) => {       
-                            return (
-                                <GenreBox 
-                                    id={id}
-                                    key={id}
-                                    name={getName(id)} />
-                            )
-                        })}
-                    </Stack>
+                    <Divider />
+                    <Box sx={{ p : 1}} >
+                        <Stack direction='row'>
+                            <CalendarMonth sx={{ width:20, height : 20}} />
+                            <Typography component='div' variant='subtitle2'>
+                                Release
+                            </Typography>
+                        </Stack>
+                        <Box sx={{ mt : 1}}>
+                            <Chip label={movie.release_date}/>
+                        </Box>
+                    </Box>
+                
+                    <Box sx={{p : 1}}>
+                        <Stack direction='row'>
+                            <Tag sx={{ width : 20, height : 20}}/>
+                            <Typography component='div' variant='subtitle2'>
+                                Genre
+                            </Typography>
+                        </Stack>
+                        <Stack flexWrap="wrap" direction="row" spacing={0.5} sx={{p:0.5}} rowGap={1}>
+                            {movie.genre_ids.map((id) => {       
+                                return (
+                                    <Chip key={id} label={getName(id)} variant='filled' component='button' onClick={()=>genreSelect(id)} />
+                                    )
+                                })}
+                        </Stack>
+
+                    </Box>
                     <Button 
                         variant='contained' 
-                        color='secondary'
+                        color='primary'
                         onClick={()=>onClick(movie)}>
                         View OverView
                     </Button>
-                </Box>
             </Stack>
             {overviewMovie.current && <MovieOverview movie={overviewMovie.current} openYn={open} closeFn={closeFn}/>}
         </Card>

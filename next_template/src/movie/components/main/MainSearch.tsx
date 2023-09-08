@@ -1,28 +1,26 @@
 
 import * as React from 'react';
 
-import Input from "@mui/material/Input";
-import Grid from '@mui/material/Unstable_Grid2';
-
-import SearchBtn from './SearchBtn';
-import CriteriaBtn from '../CriteriaBtn';
-import { useAppSelector } from '@/redux/hook';
 import Container from '@mui/material/Container';
 import Badge from '@mui/material/Badge';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import TextField  from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon  from '@mui/icons-material/Search';
+
+import { useAppSelector } from '@/redux/hook';
+
+import SearchBtn from './SearchBtn';
+import CriteriaBtn from '../CriteriaBtn';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
+    const [keydown, setKeydown] = React.useState(false)
     const searchFilter = useAppSelector((state)=> state.searchFilter);
 
     React.useEffect(()=> {
         const index = searchFilter.findIndex(filter => filter.name === 'keyword')
         setKeyword(searchFilter[index].value)
+        setKeydown(false);
     },[])
 
     const onChange =(e: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -42,8 +40,12 @@ export default function MainSearch() {
                     </Badge>
                 </Box>
                 <Box sx={{ flexGrow : 1 }}>
-                    <TextField 
+                    <TextField
+                        onKeyDown={(event) => {
+                            (event.key === 'Enter' && setKeydown(true))
+                        }} 
                         focused
+                        placeholder='Search...'
                         color='primary'
                         size='small'
                         fullWidth 
@@ -51,7 +53,7 @@ export default function MainSearch() {
                         value={keyword} 
                         InputProps={{
                             endAdornment : (
-                                <SearchBtn keyword={keyword}/>
+                                <SearchBtn keyword={keyword} keydown={keydown}/>
                             )
                         }}/>
                 </Box>
