@@ -10,17 +10,15 @@ import List from '@mui/material/List';
 import ListItem  from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Modal from '@mui/material/Modal'
 import Stack from '@mui/material/Stack'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+
 
 
 import { useRouter } from 'next/navigation';
 import { GitHub, InfoOutlined, MenuOpenRounded } from '@mui/icons-material';
-import MovieInform from '../components/MovieInform';
 
 
 const basicMenuItem : menuItem[] = 
@@ -36,8 +34,6 @@ const contentMenuItem : menuItem[] =
 
 export default function Menu() {
     const router = useRouter();
-    const [open, setOpen] = React.useState(false)
-
     const [state, setState] = React.useState({
         top : false,
         left : false,
@@ -89,10 +85,6 @@ export default function Menu() {
         </Box>    
     )
 
-    const toggleInform = ()=> {
-        setOpen(true)
-    }
-    
     return (
         <AppBar position='fixed'>
             <Container sx={{ display : 'flex'}}>
@@ -116,26 +108,13 @@ export default function Menu() {
                         </SwipeableDrawer>
                     </React.Fragment>
                 </Box>
-                <Box sx={{ flexGrow : 0}}>
-                    <Stack direction='row' alignItems='baseline'>
-                        <IconButton 
-                            size='large'
-                            color='inherit'
-                            aria-label='information'
-                            edge='start'
-                            onClick={toggleInform}>
-                                <InfoOutlined fontSize='large'/>
-                        </IconButton>
+                <Box sx={{ flexGrow : 0, pt : 1.5}}>
+                    <Stack direction='row' alignItems='normal'>
                         <Link 
                             target='_blank' rel='noopener'
                             href='https://github.com/BYSooooo/Next_Template'>
                             <GitHub sx={{ color : 'ghostwhite'}} fontSize='large'/>
                         </Link> 
-                        <Modal
-                            open={open}
-                            onClose={()=>setOpen(false)}>
-                                <MovieInform />
-                        </Modal>
                     </Stack>
                     </Box>
             </Container>

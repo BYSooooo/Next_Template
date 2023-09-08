@@ -1,12 +1,14 @@
 import React from "react";
 
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { search } from "../FetchData";
 import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
 import { useRouter } from "next/navigation";
-import createQuery from "../createQuery";
+
+import { search } from "../FetchData";
+
 
 /**
  * Search Button in Main Page Search Bar
@@ -65,12 +67,9 @@ export default function SearchBtn({keyword} : {keyword : string}) {
     }
     
     return (
-        <Button 
-            variant="contained"            
-            sx={{ width: "100%", height: "100%"}} 
-            onClick={onClick}>
-                Search
-        </Button>
+        <IconButton onClick={onClick}>
+            <SearchIcon color="primary" />
+        </IconButton>
     )
 }
 

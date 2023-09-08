@@ -26,7 +26,7 @@ export default function MovieMain() {
 
 
     return (
-        <Container maxWidth="lg" sx={{maxWidth : "80vw" }}>
+        <Container maxWidth="lg" sx={{maxWidth : "80vw", mt : 5}}>
            <Grid container direction='column' alignItems='center'>
                 <div>
                     <Grid xs={12} container sx={{mb : 3, mt: 5}}>

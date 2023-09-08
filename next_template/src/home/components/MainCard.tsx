@@ -8,8 +8,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
 import Avatar from '@mui/material/Avatar';
+
 import { SxProps, Theme } from '@mui/material';
 
 

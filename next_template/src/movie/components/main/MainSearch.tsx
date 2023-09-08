@@ -9,6 +9,12 @@ import CriteriaBtn from '../CriteriaBtn';
 import { useAppSelector } from '@/redux/hook';
 import Container from '@mui/material/Container';
 import Badge from '@mui/material/Badge';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField  from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon  from '@mui/icons-material/Search';
 
 export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
@@ -29,19 +35,27 @@ export default function MainSearch() {
 
     return (
         <Container> 
-            <Grid container spacing={2} direction='row'> 
-                <Grid xs={12} md={2}>
+            <Stack direction='row' width="100%" columnGap={1}>
+                <Box sx={{ flexGrow : 0}}>
                     <Badge badgeContent={filterCount()} color="error">
                         <CriteriaBtn />
                     </Badge>
-                </Grid>
-                <Grid xs={12} md={8}>
-                    <Input fullWidth onChange={onChange} value={keyword}/>
-                </Grid>
-                <Grid xs={12} md={2}>
-                    <SearchBtn keyword={keyword}/>
-                </Grid>
-            </Grid>       
+                </Box>
+                <Box sx={{ flexGrow : 1 }}>
+                    <TextField 
+                        focused
+                        color='primary'
+                        size='small'
+                        fullWidth 
+                        onChange={onChange} 
+                        value={keyword} 
+                        InputProps={{
+                            endAdornment : (
+                                <SearchBtn keyword={keyword}/>
+                            )
+                        }}/>
+                </Box>
+            </Stack>
         </Container>
     )
 }
