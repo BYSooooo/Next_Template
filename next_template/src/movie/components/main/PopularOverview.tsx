@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 
 import { useAppSelector } from '@/redux/hook';
-import { CalendarMonth, Tag } from '@mui/icons-material';
+import { CalendarMonth, Close, Tag } from '@mui/icons-material';
 
 import MovieOverview from '../MovieOverview';
 
@@ -51,6 +51,9 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
         
         <Card key={movie.id} sx={{display : 'block', minWidth : 300, maxWidth : 300, borderRadius : "1rem",p : 2 }}>
                 <Stack direction='column' rowGap={1}>
+                    <Button sx={{ position : 'absolute', alignSelf : 'end'}} onClick={()=>closeFn()}>
+                        <Close />
+                    </Button>
                     <Typography variant='h6' fontWeight='bold' lineHeight={1}>
                         {movie.original_title}
                     </Typography>
@@ -87,7 +90,7 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
                         variant='contained' 
                         color='primary'
                         onClick={()=>onClick(movie)}>
-                        View OverView
+                        OverView
                     </Button>
             </Stack>
             {overviewMovie.current && <MovieOverview movie={overviewMovie.current} openYn={open} closeFn={closeFn}/>}
