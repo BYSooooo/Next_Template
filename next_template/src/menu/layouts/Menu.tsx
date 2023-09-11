@@ -14,11 +14,13 @@ import Stack from '@mui/material/Stack'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
-
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Switch from '@mui/material/Switch';
 
 
 import { useRouter } from 'next/navigation';
-import { GitHub, InfoOutlined, MenuOpenRounded } from '@mui/icons-material';
+import { GitHub, MenuOpenRounded, LightMode } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
 
 
 const basicMenuItem : menuItem[] = 
@@ -40,7 +42,7 @@ export default function Menu() {
         bottom : false,
         right : false
     })
-
+    
     const toggleDrawer = (anchor: string, open: boolean) => (
         event : React.KeyboardEvent | React.MouseEvent
     ) => {
@@ -85,6 +87,19 @@ export default function Menu() {
         </Box>    
     )
 
+    const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
+    const [mode, setMode] = React.useState(null)
+
+    React.useEffect(()=> {
+        setMode(preferDarkMode)
+    },[])
+
+    const onChange = (event : React.ChangeEvent<HTMLInputElement>)=> {
+        setMode(event.target.checked)
+        console.log(event.target.checked);
+        
+    }
+
     return (
         <AppBar position='fixed'>
             <Container sx={{ display : 'flex'}}>
@@ -110,6 +125,9 @@ export default function Menu() {
                 </Box>
                 <Box sx={{ flexGrow : 0, pt : 1.5}}>
                     <Stack direction='row' alignItems='normal'>
+                        <Switch 
+                            checked={mode}
+                            onChange={onChange}/>
                         <Link 
                             target='_blank' rel='noopener'
                             href='https://github.com/BYSooooo/Next_Template'>
