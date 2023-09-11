@@ -3,7 +3,6 @@ import * as React from 'react';
 import Menu from "@/menu/layouts/Menu"
 import { Providers } from "@/redux/provider"
 import ThemeRegistry from '@/theme/ThemeRegistry';
-import {cookies} from 'next/headers'
 
 export const metadata = {
   title : "Next Template with MUI",
@@ -11,10 +10,9 @@ export const metadata = {
 }
 
 export default function RootLayout({children}: { children: React.ReactNode}) {
-  console.log(cookies())
   
-  const onControlMode = () => {
-    
+  const onControlTheme = (use : boolean) => {
+    console.log(use)
   }
 
   return (
@@ -22,7 +20,7 @@ export default function RootLayout({children}: { children: React.ReactNode}) {
       <body>
         <ThemeRegistry>
           <Providers>
-            <Menu/>          
+            <Menu theme={onControlTheme}/>          
             {children}
           </Providers>
         </ThemeRegistry>

@@ -20,7 +20,9 @@ import Switch from '@mui/material/Switch';
 
 import { useRouter } from 'next/navigation';
 import { GitHub, MenuOpenRounded, LightMode } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+import ModeSwitch from '../components/ModeSwitch';
+
+
 
 
 const basicMenuItem : menuItem[] = 
@@ -34,7 +36,7 @@ const contentMenuItem : menuItem[] =
     { path : "/sample01", text : "Making..."}
 ]
 
-export default function Menu() {
+export default function Menu({theme} : {theme : Function}) {
     const router = useRouter();
     const [state, setState] = React.useState({
         top : false,
@@ -87,19 +89,6 @@ export default function Menu() {
         </Box>    
     )
 
-    const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
-    const [mode, setMode] = React.useState(null)
-
-    React.useEffect(()=> {
-        setMode(preferDarkMode)
-    },[])
-
-    const onChange = (event : React.ChangeEvent<HTMLInputElement>)=> {
-        setMode(event.target.checked)
-        console.log(event.target.checked);
-        
-    }
-
     return (
         <AppBar position='fixed'>
             <Container sx={{ display : 'flex'}}>
@@ -125,9 +114,7 @@ export default function Menu() {
                 </Box>
                 <Box sx={{ flexGrow : 0, pt : 1.5}}>
                     <Stack direction='row' alignItems='normal'>
-                        <Switch 
-                            checked={mode}
-                            onChange={onChange}/>
+                        <ModeSwitch toggle={theme}/>
                         <Link 
                             target='_blank' rel='noopener'
                             href='https://github.com/BYSooooo/Next_Template'>
