@@ -20,7 +20,7 @@ export default function RootLayout({children}: { children: React.ReactNode}) {
       <body>
         <ThemeRegistry>
           <Providers>
-            <Menu theme={onControlTheme}/>          
+            <Menu />          
             {children}
           </Providers>
         </ThemeRegistry>

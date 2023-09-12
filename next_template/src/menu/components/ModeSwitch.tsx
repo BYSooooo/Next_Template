@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 //     cookieStroage.set('theme','light')
 // }
 
-export default function ModeSwitch({toggle} : {toggle:Function}) {
+export default function ModeSwitch() {
     const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
     const [mode, setMode] = React.useState(false)
 
@@ -22,7 +22,7 @@ export default function ModeSwitch({toggle} : {toggle:Function}) {
 
     const onChange = (event : React.ChangeEvent<HTMLInputElement>)=> {
         setMode(event.target.checked)
-        toggle(mode)
+        
     }
     return (
         <Switch checked={mode} onChange={onChange}/>

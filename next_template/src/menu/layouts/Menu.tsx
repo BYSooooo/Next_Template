@@ -36,7 +36,7 @@ const contentMenuItem : menuItem[] =
     { path : "/sample01", text : "Making..."}
 ]
 
-export default function Menu({theme} : {theme : Function}) {
+export default function Menu() {
     const router = useRouter();
     const [state, setState] = React.useState({
         top : false,
@@ -114,7 +114,7 @@ export default function Menu({theme} : {theme : Function}) {
                 </Box>
                 <Box sx={{ flexGrow : 0, pt : 1.5}}>
                     <Stack direction='row' alignItems='normal'>
-                        <ModeSwitch toggle={theme}/>
+                        <ModeSwitch />
                         <Link 
                             target='_blank' rel='noopener'
                             href='https://github.com/BYSooooo/Next_Template'>
