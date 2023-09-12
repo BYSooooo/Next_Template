@@ -17,12 +17,17 @@ export default function ModeSwitch() {
 
     React.useEffect(()=> {
         setMode(preferDarkMode)
+        changeLocalStroage(preferDarkMode ? 'dark' : 'light')
+    },[])
 
-    },[preferDarkMode])
+    const changeLocalStroage = (selectMode: string) => {
+        window.localStorage.setItem('mode', selectMode)
+        window.dispatchEvent(new Event('stroage'));
+    }
 
     const onChange = (event : React.ChangeEvent<HTMLInputElement>)=> {
         setMode(event.target.checked)
-        
+        changeLocalStroage(event.target.checked ? 'dark' : 'light')
     }
     return (
         <Switch checked={mode} onChange={onChange}/>

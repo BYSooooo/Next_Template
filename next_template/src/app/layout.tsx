@@ -9,21 +9,18 @@ export const metadata = {
   description : 'template view for mui'
 }
 
+
 export default function RootLayout({children}: { children: React.ReactNode}) {
   
-  const onControlTheme = (use : boolean) => {
-    console.log(use)
-  }
-
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry>
           <Providers>
-            <Menu />          
-            {children}
+            <ThemeRegistry>
+              <Menu />          
+              {children}
+            </ThemeRegistry>
           </Providers>
-        </ThemeRegistry>
       </body>  
     </html>
   )
