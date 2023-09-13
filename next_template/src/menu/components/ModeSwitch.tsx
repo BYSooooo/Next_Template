@@ -2,22 +2,14 @@ import React from 'react';
 
 import Switch from '@mui/material/Switch';
 import useMediaQuery from '@mui/material/useMediaQuery';
-//import { cookies } from 'next/headers'
-
-// const setThemeCookie = () => {
-//     "use server"
-    
-//     const cookieStroage = cookies()
-//     cookieStroage.set('theme','light')
-// }
 
 export default function ModeSwitch() {
     const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
     const [mode, setMode] = React.useState(false)
 
     React.useEffect(()=> {
-        setMode(preferDarkMode)
         changeLocalStroage(preferDarkMode ? 'dark' : 'light')
+        setMode(preferDarkMode)
     },[])
 
     const changeLocalStroage = (selectMode: string) => {

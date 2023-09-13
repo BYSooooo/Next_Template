@@ -8,20 +8,22 @@ import Typography from '@mui/material/Typography';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
+import Card from '@mui/material/Card';
 
 import { useRouter } from 'next/navigation';
-import { useAppSelector, useAppDispatch } from '@/redux/hook';
+import { useAppSelector } from '@/redux/hook';
 
 export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieInfo, openYn : boolean, closeFn : Function}) {
     const [open, setOpen] = React.useState(false);
     const [overOpen, setOverOpen] = React.useState(false);
     const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
     const router = useRouter()
+    const checkMode = window.localStorage.getItem('mode')
     
     React.useEffect(()=> {
         {openYn && handleOpen()}
+        console.log(checkMode)
     },[openYn])
 
     const handleOpen = () => setOpen(true);
@@ -49,7 +51,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
         router.push(`/movie/detail/${id}`)
     }
         
-    const titleTypo = {
+    const titleTypo = { 
         p : 0.7,
         fontWeight : 'bold',
         backgroundColor : "snow", 
@@ -57,7 +59,7 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
         borderRadius : 1, 
         boxShadow : '2px 2px 6px black'
     }
-
+        
     const menuStyle = {
         mr: 2, 
         p : 1, 
@@ -139,7 +141,9 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                         </Typography>
                                         {movie.genre_ids.map((item)=> {
                                             return (
-                                                <Chip key={item} label={getName(item)} sx={{ mr : 0.5, backgroundColor : "snow", boxShadow : "2px 2px 2px black"}}/>
+                                                <Typography key={item} sx={{mr : 0.5, color : 'black', backgroundColor : 'snow', p :1, borderRadius : 1, boxShadow : "1px 1px 1px black"}} component='span'>
+                                                    {getName(item)}
+                                                </Typography>
                                             )
                                         })}
                                     </Grid>
@@ -171,10 +175,10 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                                 >
                                                 <Typography 
                                                     variant={window.innerWidth > 1045 ? "body2": "caption"}
-                                                    sx={{overflow : 'hidden', textOverflow : "ellipsis", display: '-webkit-box', WebkitLineClamp : "2", WebkitBoxOrient : "vertical"}}>
+                                                    sx={{overflow : 'hidden', textOverflow : "ellipsis", display: '-webkit-box', WebkitLineClamp : "2", WebkitBoxOrient : "vertical", color : 'black'}}>
                                                     {movie.overview}
                                                 </Typography>
-                                                <Button sx={{}}variant='text' onClick={onClick}>
+                                                <Button sx={{ color : 'skyblue'}} variant='text' onClick={onClick}>
                                                     More
                                                 </Button>
                                             </Box>
@@ -195,26 +199,30 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
                                 closeAfterTransition
                                 slots={{backdrop : Backdrop}}
                                 slotProps={{ backdrop : {timeout : 300}}}>
-                                    <Box sx={{
+                                    <Card sx={{
                                         position : 'absolute' as 'absolute',
                                         top: '50%',
                                         left: '50%',
                                         transform: 'translate(-50%, -50%)',
                                         width : "20rem",
-                                        backgroundColor : "snow",
                                         borderRadius : 1,
                                         p : 2
                                     }}>
                                         <Typography 
-                                            sx={{background : 'black', color:'white', p : 1, borderRadius : 1}} 
+                                            sx={{
+                                                background : checkMode === 'light' ?' black' : 'snow', 
+                                                color : checkMode === 'light' ? 'snow' : 'black', 
+                                                p : 1, 
+                                                borderRadius : 1,
+                                                fontWeight : 'bold'}} 
                                             component='span'>
                                             Overview
                                         </Typography>
-                                        <Divider sx={{background : "black", mt : 1, mb : 1}}/>
+                                        <Divider sx={{mt : 1, mb : 1}}/>
                                         <Typography>
                                             {movie.overview}
                                         </Typography>
-                                    </Box>
+                                    </Card>
                             </Modal>
                         </Box>
                     </Fade>

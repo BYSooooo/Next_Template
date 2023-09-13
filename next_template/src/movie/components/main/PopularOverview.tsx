@@ -51,9 +51,6 @@ export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
         
         <Card key={movie.id} sx={{display : 'block', minWidth : 300, maxWidth : 300, borderRadius : "1rem",p : 2 }}>
                 <Stack direction='column' rowGap={1}>
-                    <Button sx={{ position : 'absolute', alignSelf : 'end'}} onClick={()=>closeFn()}>
-                        <Close />
-                    </Button>
                     <Typography variant='h6' fontWeight='bold' lineHeight={1}>
                         {movie.original_title}
                     </Typography>
