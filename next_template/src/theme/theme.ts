@@ -8,7 +8,6 @@ const theme = (selectedMode : 'light' | 'dark') => createTheme({
     palette : {
         mode : selectedMode
     },
-
     // components : {
     //     MuiContainer : {
     //         styleOverrides : {

@@ -8,7 +8,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import GenreBtn from '../components/GenreBtn';
 import PopularList from '../components/main/PopularList';
 
-
 export default function MovieMain() {
     const dispatch = useAppDispatch();
 

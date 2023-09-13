@@ -6,11 +6,12 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button';
 
-import { SxProps, Theme } from '@mui/material/styles';
+
 import { VideoLibrary, Image } from '@mui/icons-material';
 import { useAppDispatch } from '@/redux/hook';
 import { openDetailModal } from '@/redux/features/movieReducer';
 import Box from '@mui/material/Box';
+import { gridStyle } from '@/movie/layouts/DetailMain';
 
 export default function DetailMedia({detail} : {detail : MovieDetail}){
     const [trailer, setTrailer] = React.useState('');
@@ -26,12 +27,6 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
         setPoster(detail.images.posters.filter((item)=> item.iso_639_1 === 'en'))
     },[detail])
 
-    const gridStyle : SxProps<Theme>= {
-        height : '25vh',
-        borderRadius : '0.5rem',
-        backgroundColor : 'ghostwhite',
-        p : 1 
-     }    
 
      const onClick = (category : string) => {
         switch (category) {

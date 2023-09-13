@@ -4,9 +4,11 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { SxProps, Theme } from '@mui/material';
+import { boxStyle } from '@/movie/layouts/DetailMain';
+
 
 export default function TopBody({detail} : {detail : MovieDetail}) {
-
     const getCastName =( item : CrewInfo[], dept : string) => {
         let person = []
         item.map((i)=> {
@@ -16,10 +18,11 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
         })
         return person;
     }
+    
     return (
         <Grid container direction='column' rowGap={2}>
             <Grid md={3.5}>
-                <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
+                <Box sx={boxStyle}>
                     <Typography variant='body2' sx={{color : "gray"}}>
                         Director
                     </Typography>
@@ -33,7 +36,7 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                 </Box>
             </Grid> 
             <Grid md={5} xs={6}>
-                <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}}>
+                <Box sx={boxStyle}>
                     <Typography variant='body2' sx={{color : "gray"}}>
                         Genres
                     </Typography>
@@ -41,7 +44,7 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                         {detail.genres.map((genre)=> {
                             return (
                                 <Grid key={genre.id}>
-                                    <Typography key={genre.id} variant='caption'>
+                                    <Typography key={genre.id} variant='body2'>
                                         {genre.name}
                                     </Typography>
                                 </Grid>
@@ -51,17 +54,16 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                 </Box>
             </Grid>
             <Grid xs={12}>
-                <Box sx={{ backgroundColor : "ghostwhite", borderRadius : "0.5rem", p: 1}} >
+                <Box sx={boxStyle} >
                     <Stack direction='column'>
                         <Typography variant='body2' sx={{color : "gray"}} >
                             Overview
                         </Typography>
                         <Grid>
-                            <Typography variant='caption'>
+                            <Typography variant='body2'>
                                 {detail.overview}
                             </Typography>
                         </Grid>
-
                     </Stack>
                 </Box>
             </Grid>   

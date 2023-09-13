@@ -5,17 +5,10 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography';
 import { BarChart } from '@mui/x-charts';
 import { Person, Star } from '@mui/icons-material';
-import { SxProps, Theme } from '@mui/material';
-
+import { gridStyle } from '@/movie/layouts/DetailMain';
 
 export default function DetailStatic({detail} : {detail : MovieDetail}) {
 
-    const gridStyle : SxProps<Theme>= {
-        height : '25vh',
-        borderRadius : '0.5rem',
-        backgroundColor : 'ghostwhite',
-        p : 1 
-     }
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", height : 'auto', mt : 1, p: 1}}>
             <Typography variant='h6' fontWeight='bold'>
