@@ -11,10 +11,8 @@ export default function ThemeRegistry({children} : {children : React.ReactNode})
     const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
     
     React.useEffect(()=> {
-        setMode(preferDarkMode ? 'dark' : 'light')
-        
-        
-    },[children])
+        setMode(preferDarkMode ? 'dark' : 'light') 
+    },[])
     
     window.addEventListener('stroage',()=> {
         const getMode = window.localStorage.getItem('mode')

@@ -11,12 +11,13 @@ import { VideoLibrary, Image } from '@mui/icons-material';
 import { useAppDispatch } from '@/redux/hook';
 import { openDetailModal } from '@/redux/features/movieReducer';
 import Box from '@mui/material/Box';
-import { gridStyle } from '@/movie/layouts/DetailMain';
+import { darkGridStyle, lightGridStyle } from '@/theme/theme';
 
 export default function DetailMedia({detail} : {detail : MovieDetail}){
     const [trailer, setTrailer] = React.useState('');
     const [backDrop, setBackDrop] = React.useState<ImageType[]>([]);
     const [poster, setPoster] = React.useState<ImageType[]>([])
+    const [modeString, setModeString] = React.useState('');
 
     const dispatch = useAppDispatch();
 
@@ -40,6 +41,15 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                 break;
             }
         }
+
+    window.addEventListener('stroage', ()=> {
+        const modeCheck = window.localStorage.getItem('mode');
+        setModeString(modeCheck);
+    })
+    const toggleGirdStyle = (selected : string) => {
+        return ( modeString === 'light' ? lightGridStyle : darkGridStyle)
+    }
+    
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", height : 'auto', mt : 1, p: 1}}>
             <Typography variant='h6' fontWeight='bold'>
@@ -62,7 +72,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                     }
                 </Grid>
                 <Grid container xs={12} md={1.9} direction='column' columnGap={1} rowGap={1} justifyContent='center'>
-                    <Grid xs={12} sx={gridStyle}>
+                    <Grid xs={12} sx={toggleGirdStyle(modeString)}>
                         <Typography variant='body2' sx={{color : "gray"}} >
                             Videos
                         </Typography>
@@ -77,7 +87,7 @@ export default function DetailMedia({detail} : {detail : MovieDetail}){
                         </Grid>
                             
                     </Grid>
-                    <Grid xs={12} sx={gridStyle}>
+                    <Grid xs={12} sx={toggleGirdStyle(modeString)}>
                         <Typography variant='body2' sx={{color : "gray"}} >
                             Images
                         </Typography>

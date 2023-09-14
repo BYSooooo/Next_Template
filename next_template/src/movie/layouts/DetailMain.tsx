@@ -7,7 +7,6 @@ import { getCompanyDetail, getDetail } from '../components/FetchData';
 import { useAppDispatch } from '@/redux/hook';
 import { usePathname } from 'next/navigation';
 import { delCompanyInfo, setCompanyInfo, setDetailInfo, setInitialize } from '@/redux/features/movieReducer';
-import { SxProps, Theme } from '@mui/material';
 
 import DetailTop from '../components/detail/DetailTop';
 import DetailMiddle from '../components/detail/DetailMiddle';
@@ -16,36 +15,6 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import DetailCredits from '../components/detail/DetailCredits';
 import DetailCompany from '../components/detail/DetailCompany';
-
-/* Parent Grid Component STyle in Detail Page */
-export const gridStyle : SxProps<Theme> = (
-    window.localStorage.getItem('mode') === 'light'
-    ? {
-        height : '25vh',
-        borderRadius : 2,
-        backgroundColor : 'ghostWhite',
-        p : 1 
-    } : {
-        height : '25vh',
-        borderRadius : 2,
-        backgroundColor : 'rgba(255, 255, 255, 0.1) ',
-        p : 1
-    }
-)
-
-/* Box Component Style in Detail Page */
-export const boxStyle : SxProps<Theme> = (
-    window.localStorage.getItem('mode') === 'light'
-    ? { 
-        backgroundColor : 'rgba(0, 0, 0, 0.08)' ,
-        borderRadius : 2,
-        p : 1 
-    } : {
-        backgroundColor : 'rgba(255, 255, 255, 0.1)',
-        borderRadius : 2,
-        p : 1
-    }
-)
 
 export default function DetailMain() {
     const dispatch = useAppDispatch()
@@ -61,6 +30,8 @@ export default function DetailMain() {
                 fetchCompanyDetailFn(ids)
             })
     },[])
+
+    
 
     const fetchDetailFn = async (id : string)=> {
         const ids = []

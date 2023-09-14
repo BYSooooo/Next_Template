@@ -3,7 +3,6 @@ import React from 'react';
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
-import Box from '@mui/material/Box';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { closeDetailModal } from '@/redux/features/movieReducer';
@@ -11,6 +10,7 @@ import { closeDetailModal } from '@/redux/features/movieReducer';
 import DetailCastModal from './modal/DetailCastModal';
 import DetailVideosModal from './modal/DetailVideosModal';
 import DetailImagesModal from './modal/DetailImagesModal';
+import Card from '@mui/material/Card';
 
 
 export default function DetialModal () {
@@ -48,7 +48,7 @@ export default function DetialModal () {
                 slots={{ backdrop : Backdrop}}
                 slotProps={{ backdrop : {timeout : 500}}}>
                     <Fade in={modalControl.openYn}>
-                        <Box
+                        <Card
                             sx={{
                                 position : 'absolute' as 'absolute',
                                 top : '50%',
@@ -56,12 +56,11 @@ export default function DetialModal () {
                                 transform: 'translate(-50%, -50%)',
                                 width : 600,
                                 height : '85vh',
-                                backgroundColor : 'snow',
-                                borderRadius : 1
+                                borderRadius : 2
                             }}
                         >
                         {modalContent()}
-                        </Box>
+                        </Card>
                     </Fade>
             </Modal>
         </div>

@@ -19,12 +19,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function DetailTop() {
     const movieDetail : MovieDetail[] = useAppSelector((state)=> state.movieDetail)
     const [detail, setDetail] = React.useState<MovieDetail>(null)
+    const [themeMode, setThemeMode] = React.useState('')
     React.useEffect(()=> {
         setDetail(movieDetail[0])
-        console.log(detail)
     },[movieDetail])
 
-    
+    window.addEventListener('stroage',()=> {
+        setThemeMode(window.localStorage.getItem('mode'))
+    })
     
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", p : 1}}>
@@ -37,9 +39,9 @@ export default function DetailTop() {
                             src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
                             alt='loading...'/>
                         <Grid container direction='column' sx={{marginInline : 2}} width="70%" rowGap={3}>
-                            <TopIcon detail={detail} />
-                            <TopHeader detail={detail}/>
-                            <TopBody detail={detail} />
+                            <TopIcon detail={detail} mode={themeMode}/>
+                            <TopHeader detail={detail} />
+                            <TopBody detail={detail} mode={themeMode}/>
                         </Grid>
                     </Stack> 
                 </Grid>

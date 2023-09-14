@@ -5,7 +5,6 @@ import { useAppDispatch} from '@/redux/hook';
 import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
 import MainSearch from '../components/main/MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
-import GenreBtn from '../components/GenreBtn';
 import PopularList from '../components/main/PopularList';
 
 export default function MovieMain() {

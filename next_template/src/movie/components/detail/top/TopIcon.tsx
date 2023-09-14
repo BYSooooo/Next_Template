@@ -7,14 +7,14 @@ import Tooltip from '@mui/material/Tooltip';
 import Home from '@mui/icons-material/Home';
 import LinkIcon from '@mui/icons-material/Link';
 
-export default function TopIcon({detail} : {detail : MovieDetail}) {
-
+export default function TopIcon({detail, mode} : {detail : MovieDetail, mode: string}) {
+    
     return (
         <Grid container direction='row-reverse'>
             { detail.homepage ?
                 <Tooltip title="Visit HomePage">
                     <Link href={detail.homepage} target='_blank' rel='noreferrer'>
-                        <Home sx={{ width: 30, height : 30, color : 'black'}}/>
+                        <Home sx={{ width: 30, height : 30, color : mode === 'light' ? 'black' : 'snow'}}/>
                     </Link> 
                 </Tooltip>
             :   
@@ -26,7 +26,7 @@ export default function TopIcon({detail} : {detail : MovieDetail}) {
             { detail.imdb_id ? 
                 <Tooltip title="Visit IMDB">
                     <Link href={`https://www.imdb.com/title/${detail.imdb_id}`} target='_blank' rel='noreferrer'>
-                        <LinkIcon sx={{width : 30, height : 30, color :'black'}} />
+                        <LinkIcon sx={{width : 30, height : 30, color : mode === 'light' ? 'black' : 'snow'}} />
                     </Link>
                 </Tooltip>
             :

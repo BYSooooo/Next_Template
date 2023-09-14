@@ -4,11 +4,10 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { SxProps, Theme } from '@mui/material';
-import { boxStyle } from '@/movie/layouts/DetailMain';
+import { darkBoxStyle, lightBoxStyle } from '@/theme/theme';
 
-
-export default function TopBody({detail} : {detail : MovieDetail}) {
+export default function TopBody({detail, mode} : {detail : MovieDetail, mode : string}) {
+    
     const getCastName =( item : CrewInfo[], dept : string) => {
         let person = []
         item.map((i)=> {
@@ -18,11 +17,15 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
         })
         return person;
     }
-    
+
+    const toggleBoxStyle = (selected : string)=>{
+        return ( selected === 'light' ? lightBoxStyle : darkBoxStyle)   
+    }
+
     return (
         <Grid container direction='column' rowGap={2}>
             <Grid md={3.5}>
-                <Box sx={boxStyle}>
+                <Box sx={toggleBoxStyle(mode)}>
                     <Typography variant='body2' sx={{color : "gray"}}>
                         Director
                     </Typography>
@@ -36,7 +39,7 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                 </Box>
             </Grid> 
             <Grid md={5} xs={6}>
-                <Box sx={boxStyle}>
+                <Box sx={toggleBoxStyle(mode)}>
                     <Typography variant='body2' sx={{color : "gray"}}>
                         Genres
                     </Typography>
@@ -54,7 +57,7 @@ export default function TopBody({detail} : {detail : MovieDetail}) {
                 </Box>
             </Grid>
             <Grid xs={12}>
-                <Box sx={boxStyle} >
+                <Box sx={toggleBoxStyle(mode)} >
                     <Stack direction='column'>
                         <Typography variant='body2' sx={{color : "gray"}} >
                             Overview

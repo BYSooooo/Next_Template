@@ -5,9 +5,19 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Typography from '@mui/material/Typography';
 import { BarChart } from '@mui/x-charts';
 import { Person, Star } from '@mui/icons-material';
-import { gridStyle } from '@/movie/layouts/DetailMain';
+import { darkGridStyle, lightGridStyle } from '@/theme/theme';
+
 
 export default function DetailStatic({detail} : {detail : MovieDetail}) {
+    const [modeString, setModeString] = React.useState('');
+
+    window.addEventListener('stroage', ()=> {
+        const modeCheck = window.localStorage.getItem('mode');
+        setModeString(modeCheck);
+    })
+    const toggleGirdStyle = (selected : string) => {
+        return ( modeString === 'light' ? lightGridStyle : darkGridStyle)
+    }
 
     return (
         <Paper elevation={3} sx={{borderRadius : "0.5rem", height : 'auto', mt : 1, p: 1}}>
@@ -17,7 +27,7 @@ export default function DetailStatic({detail} : {detail : MovieDetail}) {
             <Grid container direction='row' columnGap={1} rowGap={1} justifyContent='center' >
                 <Grid 
                     xs={12} md={2.5} direction='column'
-                    sx={gridStyle}>
+                    sx={toggleGirdStyle(modeString)}>
                     <Typography variant='body2' sx={{color : "gray"}} >
                         Rating
                     </Typography>
@@ -30,7 +40,7 @@ export default function DetailStatic({detail} : {detail : MovieDetail}) {
                 </Grid>
                 <Grid 
                     xs={12} md={2.5} direction='column'
-                    sx={gridStyle}>
+                    sx={toggleGirdStyle(modeString)}>
                     <Typography variant='body2' sx={{color : "gray"}} >
                         Vote Amount
                     </Typography>
@@ -43,7 +53,7 @@ export default function DetailStatic({detail} : {detail : MovieDetail}) {
                 </Grid>
                 <Grid
                     xs={12} md={2.5} direction='column'
-                    sx={gridStyle}>
+                    sx={toggleGirdStyle(modeString)}>
                     <Typography variant='body2' sx={{color : "gray"}} >
                         Budget / Revenue
                     </Typography>
@@ -65,7 +75,6 @@ export default function DetailStatic({detail} : {detail : MovieDetail}) {
                             />
                         </Grid> 
                         <Grid md={6}>
-                            
                             <Typography variant='h4' fontWeight='bold' color={detail.revenue /detail.budget > 1 ? 'green' : 'red'}>
                                 { detail.revenue === 0 || detail.budget === 0 
                                     ? 'No Data'
