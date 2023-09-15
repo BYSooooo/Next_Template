@@ -15,15 +15,10 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Switch from '@mui/material/Switch';
-
 
 import { useRouter } from 'next/navigation';
-import { GitHub, MenuOpenRounded, LightMode } from '@mui/icons-material';
+import { GitHub, MenuOpenRounded } from '@mui/icons-material';
 import ModeSwitch from '../components/ModeSwitch';
-
-
-
 
 const basicMenuItem : menuItem[] = 
 [
@@ -58,10 +53,6 @@ export default function Menu() {
          setState({...state, [anchor] : open})
     }
 
-    const onClick = (event : React.MouseEvent, item : string)=> {
-        event.preventDefault()
-        router.push(item)
-    }
     
     const list = (anchor : string) => (
         <Box sx={{ width: 250 }}

@@ -1,15 +1,15 @@
 import React from 'react';
 
 import Switch from '@mui/material/Switch';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery } from '@mui/material';
 
 export default function ModeSwitch() {
     const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
     const [mode, setMode] = React.useState(false)
-
+    
     React.useEffect(()=> {
-        changeLocalStroage(preferDarkMode ? 'dark' : 'light')
         setMode(preferDarkMode)
+        changeLocalStroage(preferDarkMode ? 'dark' : 'light')
     },[])
 
     const changeLocalStroage = (selectMode: string) => {
