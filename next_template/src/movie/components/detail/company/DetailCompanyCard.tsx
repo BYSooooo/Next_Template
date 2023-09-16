@@ -13,7 +13,7 @@ import Link from '@mui/material/Link';
 import Home from '@mui/icons-material/Home';
 
 
-export default function DetailCompanyCard({company} : {company : CompanyInfo}) {
+export default function DetailCompanyCard({company, mode} : {company : CompanyInfo, mode : string}) {
 
     const getCompanyLogo= () =>{
         const logoYn = company.logo_path ? true : false;
@@ -36,7 +36,7 @@ export default function DetailCompanyCard({company} : {company : CompanyInfo}) {
             ?
             <Tooltip title="Visit HomePage">
                 <Link href={company.homepage} target='_blank' rel='noreferrer' position='absolute'>
-                    <Home sx={{ width: 30, height : 30, color : 'black'}}/>
+                    <Home sx={{ width: 30, height : 30, color : mode === 'light' ? 'black' : 'white'}}/>
                 </Link> 
             </Tooltip> 
             :

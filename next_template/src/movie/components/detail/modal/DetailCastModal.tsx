@@ -22,11 +22,13 @@ import { closeDetailModal } from '@/redux/features/movieReducer';
 export default function DetailCastModal() {
     const detailModal = useAppSelector((state) => state.detailModal);
     const [cast, setCast] = React.useState<PersonInfo>(null);
+    const [themeMode, setThemeMode] = React.useState('');
     const dispatch = useAppDispatch();
     const router = useRouter()
     
     React.useEffect(()=> {
         getPersonInfo()
+        setThemeMode(window.localStorage.getItem('mode'))
         
     },[])
 
@@ -51,9 +53,6 @@ export default function DetailCastModal() {
         router.push(`/movie/detail/${id}`)
     }
 
-
-    console.log(cast)
-
     return (
         <Container disableGutters sx={{ p : 1}}>
             { cast ? 
@@ -76,7 +75,7 @@ export default function DetailCastModal() {
                         </Grid>
                         <Grid direction='column' sx={{ paddingInline : 1 }} >
                             <Grid>
-                                <ModalTopIcon cast={cast}/>
+                                <ModalTopIcon cast={cast} mode={themeMode}/>
                             </Grid>
                             <Typography variant='h4' fontWeight='bold'>
                                 {cast.name}

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import MovieCard from './MovieCard';
 import { search } from '../FetchData';
 import createQuery from '../createQuery';
-import { addSearchResult, searchResult } from '@/redux/features/movieReducer';
+import { addSearchResult } from '@/redux/features/movieReducer';
 
 
 export default function SearchList() {

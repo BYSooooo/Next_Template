@@ -7,14 +7,14 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Home from '@mui/icons-material/Home';
 import LinkIcon from '@mui/icons-material/Link';
 
-export default function ModalTopIcon ({cast} : {cast : PersonInfo}) {
+export default function ModalTopIcon ({cast,mode} : {cast : PersonInfo, mode : string}) {
     const homepageYn = () => {
         return  (
             cast.homepage !== null
             ?
                 <Tooltip title="Visit Homepage">
                     <Link href={cast.homepage} target='_blank' rel='noreferrer'>
-                        <Home sx={{ width : 30, height : 30, color : 'black'}} />
+                        <Home sx={{ width : 30, height : 30, color : mode === 'light' ?' black' : 'white'}} />
                     </Link>
                 </Tooltip>
             :
@@ -31,7 +31,7 @@ export default function ModalTopIcon ({cast} : {cast : PersonInfo}) {
             ?
                 <Tooltip title="Visit IMDB">
                     <Link href={`https://www.imdb.com/name/${cast.imdb_id}`} target='_blank' rel='noreferrer'>
-                        <LinkIcon sx={{width : 30, height : 30, color :'black'}} />
+                        <LinkIcon sx={{width : 30, height : 30, color : mode === 'light' ? 'black' : 'white'}} />
                     </Link>
                 </Tooltip>
             :

@@ -38,7 +38,6 @@ export default function DetialModal () {
             default : break; 
         }
     }
-
     return (
         <div>
             <Modal
