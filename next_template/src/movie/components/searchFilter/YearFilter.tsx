@@ -1,31 +1,37 @@
 import React from 'react';
-import { LocalizationProvider, YearCalendar } from '@mui/x-date-pickers';
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+import { LocalizationProvider, YearCalendar } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeUseYn, changeValue } from '@/redux/features/movieReducer';
-import Box from '@mui/material/Box';
-import dayjs from 'dayjs';
+
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function YearFilter() {
     /** Control Release Year Filter  */
-    const searchFilter : {name : string, useFilter : boolean}[] = useAppSelector((state) => state.searchFilter);
+    const searchFilter : {name : string, useFilter : boolean, value : string}[] = useAppSelector((state) => state.searchFilter);
     const filterState = searchFilter[searchFilter.findIndex((item) => item.name === "year")]
     const dispatch = useAppDispatch()
+    const [calValue, setCalValue] = React.useState<Dayjs|null>(dayjs(new Date()));
 
     React.useEffect(()=> {
-        selectYear("year", dayjs(new Date()))
+        const preSelect = filterState.value
+        setCalValue(dayjs(new Date(`${preSelect}-01-02`)))
     },[])
+    
     /** Control Click All Check Box */
     const clickAllCheckBox = (name: string, useFilter : boolean) => {
         dispatch(changeUseYn({name: name, useFilter : !useFilter}))
     }
     /** Dispatch Selected Year to Redux state */
     const selectYear = (name : string, value : dayjs.Dayjs) => {
+        setCalValue(value)
         dispatch(changeValue({name : name, value : dayjs(value).format('YYYY')}))
     }
 
@@ -43,12 +49,13 @@ export default function YearFilter() {
             <Box sx={{ width : "80%", m: 1, p: 1, border: '1px solid gray', borderRadius : "1rem"}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>    
                     <YearCalendar 
+                        value={calValue}
                         sx={{ width : "100%"}} 
                         disabled={!filterState.useFilter}
                         disableFuture={true}
                         minDate={dayjs(new Date('1950-01-01'))} 
                         maxDate={dayjs(new Date())}
-                        onChange={(value)=>selectYear("year",value)}
+                        onChange={(newValue)=>selectYear('year',newValue)}
                     />
                 </LocalizationProvider>
             </Box>

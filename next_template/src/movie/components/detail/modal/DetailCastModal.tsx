@@ -122,9 +122,11 @@ export default function DetailCastModal() {
                         </Stack>
                     </Grid>
                     <Grid>
-                        <Typography variant='subtitle1'>
+                        <Typography variant='subtitle1' color='gray'>
                             Crew ({cast.combined_credits.crew.length})
                         </Typography>
+                        {cast.combined_credits.crew.length > 0 
+                        ?
                         <Stack direction='row' overflow='scroll' spacing={1} width="100%">
                             {cast.combined_credits.crew.map((item) => {
                                 return (
@@ -141,9 +143,10 @@ export default function DetailCastModal() {
                                     </Card>
                                 )
                             })}
-
                         </Stack>
-
+                        : null
+                        }
+                        
                     </Grid>
                     
                 </Grid>

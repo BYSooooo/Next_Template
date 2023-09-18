@@ -8,6 +8,7 @@ import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
 import { useRouter } from "next/navigation";
 
 import { search } from "../FetchData";
+import { SearchOff } from "@mui/icons-material";
 
 
 /**
@@ -29,45 +30,29 @@ export default function SearchBtn({keyword, keydown} : {keyword : string, keydow
         if(keyword.trim().length > 0) {
             dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
             
-            const input = `&query=${keyword.trim()}`
-            const { yearQuery, adultQuery } = createQuery();
-            try {
-                search(`${input}${yearQuery}${adultQuery}`).then((results) => {
-                    dispatch(setSearchResult(results));
-                })
-                router.push("/movie/search")
-            } catch (err) {
-                console.log(err)
-            }
+            const { yearPath, adultPath } = createPath();
+            sessionStorage.setItem('search', JSON.stringify({keyword : keyword, year : yearPath, adult : adultPath}))
+            router.push('/movie/search')
+            
         }  else {
             // Maybe Next...
         }
     }
-
-    const createQuery = () => {
-        let year = "";  //selected Year
-        let adult = "" //true = include , false = exclude
-
+    const createPath =() => {
+        let year = "";
+        let adult = "";
         searchFilter.forEach(filter => {
-            if(filter.useFilter === true) {
-                switch (filter.name) {
-                    case "year" : year = `&primary_release_year=${filter.value}`;
-                        break;
-                    case "adult" : adult = `&inculde_adult=${filter.value}`;
-                        break;
-                    default : break;
-                }
-            } else {
-                switch(filter.name) {
-                    case "year" : year = ""
-                        break;
-                    case "adult" : adult = "";
-                        break
-                    default : break;   
-                }
+            switch (filter.name) {
+                case "year" : 
+                    filter.useFilter === true ? year = filter.value : year = 'all';
+                    break;
+                case "adult" : 
+                    filter.useFilter === true ? adult = filter.value : adult = 'all'
+                    break;
+                default  : break;
             }
         })
-        return { yearQuery : year, adultQuery : adult};
+        return {yearPath : year, adultPath : adult};
     }
     
     return (
