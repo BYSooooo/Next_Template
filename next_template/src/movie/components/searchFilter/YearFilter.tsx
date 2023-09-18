@@ -18,11 +18,12 @@ export default function YearFilter() {
     const searchFilter : {name : string, useFilter : boolean, value : string}[] = useAppSelector((state) => state.searchFilter);
     const filterState = searchFilter[searchFilter.findIndex((item) => item.name === "year")]
     const dispatch = useAppDispatch()
-    const [calValue, setCalValue] = React.useState<Dayjs|null>(dayjs(new Date()));
+    const [calValue, setCalValue] = React.useState<Dayjs|null>(null);
 
     React.useEffect(()=> {
         const preSelect = filterState.value
-        setCalValue(dayjs(new Date(`${preSelect}-01-02`)))
+        console.log(preSelect)
+        setCalValue( preSelect === '' ? dayjs(new Date()) : dayjs(new Date(`${preSelect}-01-02`)))
     },[])
     
     /** Control Click All Check Box */
