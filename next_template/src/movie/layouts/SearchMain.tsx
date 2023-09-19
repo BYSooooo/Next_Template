@@ -22,15 +22,8 @@ export default function SearchMain() {
         console.log(sessionObj)
         setReduxFilter(sessionObj)
 
-        
-        
-        
-        
-        
-        
         // setFiltering({keyword : sessionObj.keyword, year : sessionObj.year, adult : sessionObj.adult});
-        
-        
+                
         if(searchResult && searchResult[0]) {
             resultCount.current = searchResult[0].total_results
             setLoadedResult(()=> loadedMovieCount())

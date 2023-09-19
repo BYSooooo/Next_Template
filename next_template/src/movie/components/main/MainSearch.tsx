@@ -16,12 +16,16 @@ export default function MainSearch() {
     const [keyword, setKeyword] = React.useState("");
     const [keydown, setKeydown] = React.useState(false)
     const searchFilter = useAppSelector((state)=> state.searchFilter);
+    const filterState = searchFilter[searchFilter.findIndex((item)=> item.name === 'keyword')]
 
     React.useEffect(()=> {
-        const index = searchFilter.findIndex(filter => filter.name === 'keyword')
-        setKeyword(searchFilter[index].value)
         setKeydown(false);
     },[])
+    
+    React.useEffect(()=> {
+        const preState = filterState.value
+        setKeyword(preState)
+    },[searchFilter])
 
     const onChange =(e: { target: { value: React.SetStateAction<string>; }; }) => {
         setKeyword(e.target.value)

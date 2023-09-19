@@ -22,7 +22,6 @@ export default function YearFilter() {
 
     React.useEffect(()=> {
         const preSelect = filterState.value
-        console.log(preSelect)
         setCalValue( preSelect === '' ? dayjs(new Date()) : dayjs(new Date(`${preSelect}-01-02`)))
     },[])
     
