@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { detailCompanyInfo, detailModalControl, discoverFilter, movieDetail, movieGenre, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
+import { detailCompanyInfo, detailModalControl, discoverFilter, movieDetail, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
 
 export const store = configureStore({
     reducer : {
         moviePopular : popular.reducer,
-        movieGenre : movieGenre.reducer,
 
         discoverFilter : discoverFilter.reducer,
         selectedGenre : selectedGenre.reducer,

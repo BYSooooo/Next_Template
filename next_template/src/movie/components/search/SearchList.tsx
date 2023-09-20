@@ -13,6 +13,7 @@ export default function SearchList() {
     const searchResult : SearchMovie[] = useAppSelector((state)=> state.searchResult);
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch()
+    
 
     const list = (listed : SearchMovie[]) => {
 

@@ -7,16 +7,14 @@ import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-
-import { useAppSelector } from "@/redux/hook";
 import Chip from '@mui/material/Chip';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
+
 import MovieOverview from '../MovieOverview';
 
-export default function MovieCard({key,  movie, genre} : { key: number, movie : MovieInfo, genre : number[]}) {
-    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
-    
+export default function MovieCard({key,  movie} : { key: number, movie : MovieInfo }) {
+    const genreList : MovieGenreInfo[] = JSON.parse(window.sessionStorage.getItem('genres'))
     const [open, setOpen] = React.useState(false);
 
 
@@ -60,7 +58,7 @@ export default function MovieCard({key,  movie, genre} : { key: number, movie : 
                     </Box>
                 </Stack>
             </CardActionArea>
-            {movie && <MovieOverview movie={movie} openYn={open} closeFn={closeFn} />}
+            {movie && <MovieOverview key={movie.id} movie={movie} openYn={open} closeFn={closeFn} />}
         </Card>
 
 

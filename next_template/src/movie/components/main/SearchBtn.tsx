@@ -30,15 +30,14 @@ export default function SearchBtn({keyword, keydown} : {keyword : string, keydow
         if(keyword.trim().length > 0) {
             dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
             
-            const { yearPath, adultPath } = createPath();
-            sessionStorage.setItem('search', JSON.stringify({keyword : keyword, year : yearPath, adult : adultPath}))
+            const { yearPath, adultPath } = checkSearchFilter();
+            sessionStorage.setItem('search', JSON.stringify({keyword : keyword, year : yearPath, adult : adultPath, time : new Date()}))
             router.push('/movie/search')
-            
         }  else {
             // Maybe Next...
         }
     }
-    const createPath =() => {
+    const checkSearchFilter =() => {
         let year = "";
         let adult = "";
         searchFilter.forEach(filter => {

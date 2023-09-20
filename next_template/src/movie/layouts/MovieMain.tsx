@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Typography } from "@mui/material";
 import { getGenre, getPopular } from '../components/FetchData';
 import { useAppDispatch} from '@/redux/hook';
-import { setGenreList, setPopularList } from '@/redux/features/movieReducer';
+import { setPopularList } from '@/redux/features/movieReducer';
 import MainSearch from '../components/main/MainSearch';
 import Grid from '@mui/material/Unstable_Grid2';
 import PopularList from '../components/main/PopularList';
@@ -18,7 +18,7 @@ export default function MovieMain() {
 
         // get Movie Genres List
         getGenre().then((genres) => {
-            dispatch(setGenreList(genres))
+            window.sessionStorage.setItem('genres',JSON.stringify(genres))
         })
     },[])
 

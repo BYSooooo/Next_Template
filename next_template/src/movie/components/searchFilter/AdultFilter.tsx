@@ -21,7 +21,7 @@ export default function AdultFilter() {
     React.useEffect(()=> {
         const preState = filterState.value.toString()
         setAdult(preState)
-    })
+    },[])
     /** Control Click All Check Box */
     const clickAllCheckBox = (name: string, useFilter : boolean, value : string) => {
         dispatch(changeUseYn({name: name, useFilter : !useFilter}))

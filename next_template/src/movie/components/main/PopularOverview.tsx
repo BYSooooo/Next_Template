@@ -16,7 +16,7 @@ import MovieOverview from '../MovieOverview';
 
 
 export default function PopularOverView({movie} :{movie : MovieInfo | null}) {
-    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
+    const genreList : MovieGenreInfo[] = JSON.parse(window.sessionStorage.getItem('genres'))
     const [open, setOpen] = React.useState(false);
     const overviewMovie = React.useRef<MovieInfo>(null);
 

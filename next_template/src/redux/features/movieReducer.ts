@@ -1,6 +1,6 @@
-import DetailMain from "@/movie/layouts/DetailMain";
 import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+
 
 export const popular = createSlice({
     name : 'moviePopularReducer',
@@ -9,16 +9,6 @@ export const popular = createSlice({
          /** Popular Movie List Add Logic */ 
         setPopularList : (state, action : PayloadAction<[{}]>) => {
             state.splice(0,state.length, ...action.payload)
-        }
-    }
-})
-export const movieGenre = createSlice({
-    name : 'movieGenreList',
-    initialState : [],
-    reducers : {
-        /** Movie Genre Id & Name */
-        setGenreList : (state, action : PayloadAction<[{}]>) => {
-            state.push(0,state.length, ...action.payload)
         }
     }
 })
@@ -171,7 +161,6 @@ export const detailCompanyInfo = createSlice({
 
 
 export const { setPopularList } = popular.actions;
-export const { setGenreList } = movieGenre.actions;
 
 export const { changeFilter } = discoverFilter.actions;
 export const { setSelectedGenre, delSelectedGenre } = selectedGenre.actions;
@@ -188,7 +177,6 @@ export const { setCompanyInfo, delCompanyInfo } = detailCompanyInfo.actions;
 export default 
     [
         popular.reducer, 
-        movieGenre.reducer, 
         
         discoverFilter.reducer,
         selectedGenre.reducer, 

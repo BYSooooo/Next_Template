@@ -8,26 +8,29 @@ import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeUseYn, changeValue, searchFilter, setSearchResult } from '@/redux/features/movieReducer';
 import SearchList from '../components/search/SearchList';
-import { search } from '../components/FetchData';
+import { getGenre, search } from '../components/FetchData';
 
 export default function SearchMain() {
-    const searchResult:SearchMovie[]  = useAppSelector((state) => state.searchResult);
-    const resultCount = React.useRef(0)
-    const dispatch = useAppDispatch()
+    const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
+    const genreList = JSON.parse(sessionStorage.getItem('genres'))
 
-    // const [filtering, setFiltering] = React.useState<{ keyword : string, year : string, adult : string}>();
+    const searchFilter = useAppSelector((state)=> state.searchFilter)
     const [loadedResult, setLoadedResult] = React.useState(0);
+    const dispatch = useAppDispatch()    
+    const resultCount = React.useRef(0)
+    
+    
+
     React.useEffect(()=> {
         const sessionObj = JSON.parse(sessionStorage.getItem('search'))
         console.log(sessionObj)
         setReduxFilter(sessionObj)
-
-        // setFiltering({keyword : sessionObj.keyword, year : sessionObj.year, adult : sessionObj.adult});
-                
+        getSearchResult()
         if(searchResult && searchResult[0]) {
             resultCount.current = searchResult[0].total_results
             setLoadedResult(()=> loadedMovieCount())
         }
+        
     },[])
 
     const setReduxFilter = (filtering : {keyword : string, year : string, adult : string}) => {
@@ -44,40 +47,52 @@ export default function SearchMain() {
 
 
     
-    // const createQuery = () => {
-    //     let year = "";  //selected Year
-    //     let adult = "" //true = include , false = exclude
+    const createQuery = () => {
+        
+        let keyword = ""    //Inputed Keyword
+        let year = "";      //selected Year
+        let adult = ""      //true = include , false = exclude
+        console.log(searchFilter)
+        searchFilter.forEach(filter => {
+            if(filter.useFilter === true) {
+                switch (filter.name) {
+                    case "keyword" :
+                        keyword = `&query=${filter.value}`;
+                        break;
+                    case "year" : 
+                        year = `&primary_release_year=${filter.value}`;
+                        break;
+                    case "adult" : 
+                        adult = `&inculde_adult=${filter.value}`;
+                        break;
+                    default : break;
+                }
+            } else {
+                switch(filter.name) {
+                    case "keyword" : keyword = ""
+                        break
+                    case "year" : year = ""
+                        break;
+                    case "adult" : adult = "";
+                        break
+                    default : break;   
+                }
+            }
+        })
+        return { keywordQuery : keyword, yearQuery : year, adultQuery : adult };
+    }
 
-    //     searchFilter.forEach(filter => {
-    //         if(filter.useFilter === true) {
-    //             switch (filter.name) {
-    //                 case "year" : year = `&primary_release_year=${filter.value}`;
-    //                     break;
-    //                 case "adult" : adult = `&inculde_adult=${filter.value}`;
-    //                     break;
-    //                 default : break;
-    //             }
-    //         } else {
-    //             switch(filter.name) {
-    //                 case "year" : year = ""
-    //                     break;
-    //                 case "adult" : adult = "";
-    //                     break
-    //                 default : break;   
-    //             }
-    //         }
-    //     })
-    //     return { yearQuery : year, adultQuery : adult};
-    // }
-
-        // const getSearchResult = () => {
-    //     try {
-    //         const input = `&query=${keyword.trim()}`
-    //         search(`${input}${yearQuery}${adultQuery}`).then((results) => {
-    //             dispatch(setSearchResult(results));
-    //         })
-    //     }
-    // }
+    const getSearchResult = () => {
+        const {keywordQuery, yearQuery, adultQuery } = createQuery();
+        console.log(keywordQuery, yearQuery, adultQuery)
+        try {
+            search(`${keywordQuery}${yearQuery}${adultQuery}`).then((results) => {
+                dispatch(setSearchResult(results));
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
 
     const loadedMovieCount = () => {
         let count = 0;

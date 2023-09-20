@@ -12,12 +12,11 @@ import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 
 import { useRouter } from 'next/navigation';
-import { useAppSelector } from '@/redux/hook';
 
 export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieInfo, openYn : boolean, closeFn : Function}) {
     const [open, setOpen] = React.useState(false);
     const [overOpen, setOverOpen] = React.useState(false);
-    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
+    const genreList : MovieGenreInfo[] = JSON.parse(window.sessionStorage.getItem('genres'))
     const router = useRouter()
     const checkMode = window.localStorage.getItem('mode')
     
