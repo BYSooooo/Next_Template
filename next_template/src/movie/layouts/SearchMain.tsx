@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeUseYn, changeValue, searchFilter, setSearchResult } from '@/redux/features/movieReducer';
 import SearchList from '../components/search/SearchList';
-import { getGenre, search } from '../components/FetchData';
+import { search } from '../components/FetchData';
 
 export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
@@ -30,7 +30,6 @@ export default function SearchMain() {
             resultCount.current = searchResult[0].total_results
             setLoadedResult(()=> loadedMovieCount())
         }
-        
     },[])
 
     const setReduxFilter = (filtering : {keyword : string, year : string, adult : string}) => {

@@ -8,8 +8,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 
-import { useAppSelector } from '@/redux/hook';
-import { CalendarMonth, Close, Tag } from '@mui/icons-material';
+import { CalendarMonth, Tag } from '@mui/icons-material';
 
 import MovieOverview from '../MovieOverview';
 

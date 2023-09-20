@@ -4,19 +4,15 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { changeValue, setSearchResult } from "@/redux/features/movieReducer";
+import { changeValue } from "@/redux/features/movieReducer";
 import { useRouter } from "next/navigation";
-
-import { search } from "../FetchData";
-import { SearchOff } from "@mui/icons-material";
-
 
 /**
  * Search Button in Main Page Search Bar
  * @param keyword Input Keyword
  * @returns Route to `/movie/search` | `null`
  */
-export default function SearchBtn({keyword, keydown} : {keyword : string, keydown : boolean}) {
+export default function SearchBtn({keyword, keydown } : {keyword : string, keydown : boolean }) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch();
@@ -24,14 +20,15 @@ export default function SearchBtn({keyword, keydown} : {keyword : string, keydow
 
     React.useEffect(()=> {
         (keydown === true && onClick())
+        
     },[keydown])
     
     const onClick= ()=> {
         if(keyword.trim().length > 0) {
-            dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
-            
             const { yearPath, adultPath } = checkSearchFilter();
             sessionStorage.setItem('search', JSON.stringify({keyword : keyword, year : yearPath, adult : adultPath, time : new Date()}))
+            dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
+            
             router.push('/movie/search')
         }  else {
             // Maybe Next...

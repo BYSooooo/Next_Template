@@ -34,7 +34,7 @@ export default function MainSearch() {
         const count = searchFilter.filter((item)=> item.useFilter === true).length - 1
         return count
     }
-
+    
     return (
         <Container> 
             <Stack direction='row' width="100%" columnGap={1}>
@@ -47,6 +47,8 @@ export default function MainSearch() {
                     <TextField
                         onKeyDown={(event) => {
                             (event.key === 'Enter' && setKeydown(true))
+                            console.log(keydown)
+                            console.log(event.key)
                         }} 
                         focused
                         placeholder='Search...'
@@ -57,7 +59,7 @@ export default function MainSearch() {
                         value={keyword} 
                         InputProps={{
                             endAdornment : (
-                                <SearchBtn keyword={keyword} keydown={keydown}/>
+                                <SearchBtn keyword={keyword} keydown={keydown} />
                             )
                         }}/>
                 </Box>
