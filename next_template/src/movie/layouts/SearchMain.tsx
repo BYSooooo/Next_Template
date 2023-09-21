@@ -24,6 +24,8 @@ export default function SearchMain() {
         getSearchResult()
     },[sessionObj.time])
 
+    console.log("Sync Test")
+
     React.useEffect(()=> {
         setReduxFilter(sessionObj)
         getSearchResult()
