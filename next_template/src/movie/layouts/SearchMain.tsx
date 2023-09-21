@@ -18,12 +18,13 @@ export default function SearchMain() {
     const [loadedResult, setLoadedResult] = React.useState(0);
     const dispatch = useAppDispatch()    
     const resultCount = React.useRef(0)
-    
-    
+    const sessionObj = JSON.parse(sessionStorage.getItem('search'))
 
     React.useEffect(()=> {
-        const sessionObj = JSON.parse(sessionStorage.getItem('search'))
-        console.log(sessionObj)
+        getSearchResult()
+    },[sessionObj.time])
+
+    React.useEffect(()=> {
         setReduxFilter(sessionObj)
         getSearchResult()
         if(searchResult && searchResult[0]) {
