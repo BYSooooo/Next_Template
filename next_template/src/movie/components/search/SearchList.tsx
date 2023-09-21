@@ -23,7 +23,7 @@ export default function SearchList() {
                     page.results.map((item)=> {
                         return (
                             <Grid key={item.id} >
-                                <MovieCard key={item.id} movie={item} genre={item.genre_ids} />
+                                <MovieCard key={item.id} movie={item} />
                             </Grid>
                         )
                     })
