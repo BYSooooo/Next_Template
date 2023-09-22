@@ -13,10 +13,9 @@ import CardActionArea from '@mui/material/CardActionArea';
 
 import MovieOverview from '../MovieOverview';
 
-export default function MovieCard({key,  movie} : { key: number, movie : MovieInfo }) {
+export default function MovieCard({movie} : { movie : MovieInfo }) {
     const genreList : MovieGenreInfo[] = JSON.parse(window.sessionStorage.getItem('genres'))
     const [open, setOpen] = React.useState(false);
-
 
     const getName = (selected : number) => {
        // Must Modify!
@@ -36,10 +35,10 @@ export default function MovieCard({key,  movie} : { key: number, movie : MovieIn
 
     return (
         <Card key={movie.id} sx={{display : 'block', width: 350, height : 106}} variant='outlined' onClick={onClick}>
-            <CardActionArea>
+            <CardActionArea >
                 <Stack sx={{ dieplay : 'flex', flexDirection : 'row'}}>
                     <CardMedia 
-                        key={key} 
+                        key={`${movie.id}_key`} 
                         sx={{ width: 80}} 
                         component="img"
                         image={movie.poster_path === null ? null : `https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>

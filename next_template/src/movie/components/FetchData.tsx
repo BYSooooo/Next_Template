@@ -20,10 +20,9 @@ export async function getGenre() {
 
 /** Fetching TMDB - Movie Search by Fitering */
 export async function search(query: string) {
-    console.log(query)
+    console.log(`search : ${query}`)
     try {
         const response = await (await fetch (`/api/movies/search/${query}`)).json();
-        console.log(response)
         return response
     } catch(err) {
         console.log(err)

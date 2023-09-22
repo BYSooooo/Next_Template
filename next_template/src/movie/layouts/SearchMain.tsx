@@ -6,7 +6,7 @@ import MainSearch from '../components/main/MainSearch';
 import Paper from '@mui/material/Paper';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { changeUseYn, changeValue, searchFilter, setSearchResult } from '@/redux/features/movieReducer';
+import { changeUseYn, changeValue, setSearchResult } from '@/redux/features/movieReducer';
 import SearchList from '../components/search/SearchList';
 import { search } from '../components/FetchData';
 
@@ -19,21 +19,16 @@ export default function SearchMain() {
     const dispatch = useAppDispatch()    
     const resultCount = React.useRef(0)
     const sessionObj = JSON.parse(sessionStorage.getItem('search'))
-
-    React.useEffect(()=> {
-        getSearchResult()
-    },[sessionObj.time])
-
-    console.log("Sync Test")
-
+    
     React.useEffect(()=> {
         setReduxFilter(sessionObj)
         getSearchResult()
-        if(searchResult && searchResult[0]) {
-            resultCount.current = searchResult[0].total_results
-            setLoadedResult(()=> loadedMovieCount())
-        }
     },[])
+
+    React.useEffect(()=> {
+        resultCount.current = searchResult[0]?.total_results
+        setLoadedResult(()=> loadedMovieCount())
+    },[searchResult.length])
 
     const setReduxFilter = (filtering : {keyword : string, year : string, adult : string}) => {
         /* set Keyword Filter in Redux State */
@@ -46,47 +41,19 @@ export default function SearchMain() {
         dispatch(changeValue({name : 'adult', value : filtering.adult === 'all' ? '' : filtering.adult}))
     }
     
+    const createQuery = (filtering : {keyword : string, year : string, adult : string}) => {
+        // Ipnuted Keyword in SessionStroage
+        const keyword = filtering.keyword.length > 0 && `&query=${filtering.keyword}`
+        // Selected Year in SessionStroage
+        const year = filtering.year === 'all' ? '' : `&primary_release_year=${filtering.year}`
+        // Selected Adult Movie FIlter in SessionStroage
+        const adult = filtering.adult === 'all' ? '' : `&inculde_adult=${filtering.adult}`
 
-
-    
-    const createQuery = () => {
-        
-        let keyword = ""    //Inputed Keyword
-        let year = "";      //selected Year
-        let adult = ""      //true = include , false = exclude
-        console.log(searchFilter)
-        searchFilter.forEach(filter => {
-            if(filter.useFilter === true) {
-                switch (filter.name) {
-                    case "keyword" :
-                        keyword = `&query=${filter.value}`;
-                        break;
-                    case "year" : 
-                        year = `&primary_release_year=${filter.value}`;
-                        break;
-                    case "adult" : 
-                        adult = `&inculde_adult=${filter.value}`;
-                        break;
-                    default : break;
-                }
-            } else {
-                switch(filter.name) {
-                    case "keyword" : keyword = ""
-                        break
-                    case "year" : year = ""
-                        break;
-                    case "adult" : adult = "";
-                        break
-                    default : break;   
-                }
-            }
-        })
         return { keywordQuery : keyword, yearQuery : year, adultQuery : adult };
     }
 
     const getSearchResult = () => {
-        const {keywordQuery, yearQuery, adultQuery } = createQuery();
-        console.log(keywordQuery, yearQuery, adultQuery)
+        const {keywordQuery, yearQuery, adultQuery } = createQuery(sessionObj);
         try {
             search(`${keywordQuery}${yearQuery}${adultQuery}`).then((results) => {
                 dispatch(setSearchResult(results));

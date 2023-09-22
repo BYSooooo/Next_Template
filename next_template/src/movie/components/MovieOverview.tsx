@@ -22,7 +22,6 @@ export default function MovieOverview({movie, openYn, closeFn} : {movie: MovieIn
     
     React.useEffect(()=> {
         {openYn && handleOpen()}
-        console.log(checkMode)
     },[openYn])
 
     const handleOpen = () => setOpen(true);

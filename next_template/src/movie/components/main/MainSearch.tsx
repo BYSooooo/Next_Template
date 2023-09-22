@@ -47,8 +47,6 @@ export default function MainSearch() {
                     <TextField
                         onKeyDown={(event) => {
                             (event.key === 'Enter' && setKeydown(true))
-                            console.log(keydown)
-                            console.log(event.key)
                         }} 
                         focused
                         placeholder='Search...'
