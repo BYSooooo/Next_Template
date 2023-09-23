@@ -20,7 +20,7 @@ export default function ThemeRegistry({children} : {children : React.ReactNode})
             const getMode = window.localStorage.getItem('mode')
             setMode(getMode === 'dark' ? 'dark' : 'light')
         })
-    },[window.localStorage.getItem('mode')]) 
+    },[localStorage.getItem('mode')]) 
     
     return (
         <ThemeProvider theme={theme(mode === 'dark' ? 'dark' : 'light')}>

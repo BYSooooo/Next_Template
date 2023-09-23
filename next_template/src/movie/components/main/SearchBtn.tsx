@@ -12,24 +12,30 @@ import { useRouter } from "next/navigation";
  * @param keyword Input Keyword
  * @returns Route to `/movie/search` | `null`
  */
-export default function SearchBtn({keyword, keydown } : {keyword : string, keydown : boolean }) {
+export default function SearchBtn({keyword, keydown} : {keyword : string, keydown : boolean}) {
     /** Check Use FIlter */
     const searchFilter = useAppSelector((state)=> state.searchFilter);
     const dispatch = useAppDispatch();
     const router = useRouter()
-
+    
     React.useEffect(()=> {
-        (keydown === true && onClick())
+        keydown === true && onClick()
+        
+        console.log(keydown === true)
+        
+        console.log(`SearchBtn keydown : ${keydown}`)
         
     },[keydown])
     
     const onClick= ()=> {
+        console.log('onClick Call')
         if(keyword.trim().length > 0) {
             const { yearPath, adultPath } = checkSearchFilter();
             sessionStorage.setItem('search', JSON.stringify({keyword : keyword, year : yearPath, adult : adultPath, time : new Date()}))
             dispatch(changeValue({name : 'keyword', value : keyword.trim()}))
             
             router.push('/movie/search')
+            
         }  else {
             // Maybe Next...
         }

@@ -45,7 +45,9 @@ export default function MainSearch() {
                 </Box>
                 <Box sx={{ flexGrow : 1 }}>
                     <TextField
-                        onKeyDown={(event) => {
+                            onKeyDown={(event) => {
+                                console.log(event.key);
+                                console.log(keydown);
                             (event.key === 'Enter' && setKeydown(true))
                         }} 
                         focused
