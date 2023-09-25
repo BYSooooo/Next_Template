@@ -4,14 +4,13 @@ import Typography from "@mui/material/Typography";
 import Container from '@mui/material/Container';
 import MainSearch from '../components/main/MainSearch';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Stack from '@mui/material/Stack';
+import { Error } from '@mui/icons-material';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeUseYn, changeValue, setSearchResult } from '@/redux/features/movieReducer';
 import SearchList from '../components/search/SearchList';
 import { search } from '../components/FetchData';
-import Stack from '@mui/material/Stack';
-import { Error } from '@mui/icons-material';
 
 export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
@@ -83,14 +82,14 @@ export default function SearchMain() {
                 </Typography>
             </Paper>
             {
-                resultCount.current === 0 
+                resultCount.current === 0 || resultCount === undefined
                 ? <Stack direction='column' sx={{ justifyContent : 'center', alignItems : 'center'}} rowGap={1}>
                     <Error sx={{ width : 40, height : 40}}/>
                     <Typography variant='h5'>
                         Not Found Result
                     </Typography>
 
-                </Stack>
+                    </Stack>
                 
                 : <SearchList />
             }
