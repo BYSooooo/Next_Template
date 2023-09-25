@@ -4,11 +4,14 @@ import Typography from "@mui/material/Typography";
 import Container from '@mui/material/Container';
 import MainSearch from '../components/main/MainSearch';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeUseYn, changeValue, setSearchResult } from '@/redux/features/movieReducer';
 import SearchList from '../components/search/SearchList';
 import { search } from '../components/FetchData';
+import Stack from '@mui/material/Stack';
+import { Error } from '@mui/icons-material';
 
 export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
@@ -21,14 +24,14 @@ export default function SearchMain() {
     const sessionObj = JSON.parse(sessionStorage.getItem('search'))
     
     React.useEffect(()=> {
-        setReduxFilter(sessionObj)
         getSearchResult()
-    },[])
+        setReduxFilter(sessionObj)
+    },[sessionObj.time])
 
     React.useEffect(()=> {
         resultCount.current = searchResult[0]?.total_results
         setLoadedResult(()=> loadedMovieCount())
-    },[searchResult.length])
+    },[searchResult])
 
     const setReduxFilter = (filtering : {keyword : string, year : string, adult : string}) => {
         /* set Keyword Filter in Redux State */
@@ -43,7 +46,7 @@ export default function SearchMain() {
     
     const createQuery = (filtering : {keyword : string, year : string, adult : string}) => {
         // Ipnuted Keyword in SessionStroage
-        const keyword = filtering.keyword.length > 0 && `&query=${filtering.keyword}`
+        const keyword = filtering.keyword.length > 0 ? `&query=${filtering.keyword}` : ``
         // Selected Year in SessionStroage
         const year = filtering.year === 'all' ? '' : `&primary_release_year=${filtering.year}`
         // Selected Adult Movie FIlter in SessionStroage
@@ -79,7 +82,18 @@ export default function SearchMain() {
                     Result : {loadedResult} / {resultCount.current}
                 </Typography>
             </Paper>
-            <SearchList />
+            {
+                resultCount.current === 0 
+                ? <Stack direction='column' sx={{ justifyContent : 'center', alignItems : 'center'}} rowGap={1}>
+                    <Error sx={{ width : 40, height : 40}}/>
+                    <Typography variant='h5'>
+                        Not Found Result
+                    </Typography>
+
+                </Stack>
+                
+                : <SearchList />
+            }
         </Container>
     )
 }

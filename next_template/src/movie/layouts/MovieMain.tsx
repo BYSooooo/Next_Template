@@ -15,7 +15,6 @@ export default function MovieMain() {
         getPopular().then((lists) => {
             dispatch(setPopularList(lists))
         })
-
         // get Movie Genres List
         getGenre().then((genres) => {
             window.sessionStorage.setItem('genres',JSON.stringify(genres))

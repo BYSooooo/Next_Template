@@ -34,6 +34,9 @@ export default function MainSearch() {
         const count = searchFilter.filter((item)=> item.useFilter === true).length - 1
         return count
     }
+    const keyControl =(control : boolean)=> {
+        setKeydown(control)
+    }
     
     return (
         <Container> 
@@ -48,6 +51,7 @@ export default function MainSearch() {
                             onKeyDown={(event) => {
                                 console.log(event.key);
                                 console.log(keydown);
+                                console.log(event.key === 'Enter');
                             (event.key === 'Enter' && setKeydown(true))
                         }} 
                         focused
@@ -59,7 +63,7 @@ export default function MainSearch() {
                         value={keyword} 
                         InputProps={{
                             endAdornment : (
-                                <SearchBtn keyword={keyword} keydown={keydown} />
+                                <SearchBtn keyword={keyword} keydown={keydown} keyControl={keyControl}/>
                             )
                         }}/>
                 </Box>
