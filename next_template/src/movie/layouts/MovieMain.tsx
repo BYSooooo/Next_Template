@@ -28,7 +28,7 @@ export default function MovieMain() {
                 <div>
                     <Grid xs={12} container sx={{mb : 3, mt: 5}}>
                         <Typography variant='h5' component="h1" gutterBottom={true} sx={{fontSize : '4rem', fontWeight: 'bold'}} >
-                            What's your Movie?
+                            What&apos;s your Movie?
                         </Typography>
                     </Grid>    
                 </div>
