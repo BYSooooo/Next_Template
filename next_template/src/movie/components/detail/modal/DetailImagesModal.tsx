@@ -77,7 +77,7 @@ export default function DetailImagesModal() {
                 <Stack direction='row' overflow='scroll' width="100%" spacing={1}>
                     {selected.map((item) => {
                         return (
-                            <Box sx={{ boxShadow : 3}}>
+                            <Box key={item.file_path} sx={{ boxShadow : 3}}>
                                 <Card key={item.file_path} sx={{minWidth : 100, minHeight: 100}}>
                                     <CardActionArea onClick={()=>setLoadImage(item.file_path)}>
                                         <CardMedia
