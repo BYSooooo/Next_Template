@@ -23,12 +23,12 @@ import ModeSwitch from '../components/ModeSwitch';
 const basicMenuItem : menuItem[] = 
 [
     { path : "/", text : "Home"},
-    { path : "/about", text: "About"} 
+    // { path : "/about", text: "About"} 
 ]
 const contentMenuItem : menuItem[] = 
 [
     { path: "/movie", text : "Movie" }, 
-    { path : "/sample01", text : "Making..."}
+    { path : "/messenger", text : "Messenger"}
 ]
 
 export default function Menu() {

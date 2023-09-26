@@ -12,6 +12,7 @@ export default function ThemeRegistry({children} : {children : React.ReactNode})
 
     React.useEffect(()=> {
         const initialMode = preferDarkMode ? 'dark' : 'light';
+        window.localStorage.setItem('mode', initialMode);
         setMode(initialMode) 
     },[])
     
@@ -20,7 +21,7 @@ export default function ThemeRegistry({children} : {children : React.ReactNode})
             const getMode = window.localStorage.getItem('mode')
             setMode(getMode === 'dark' ? 'dark' : 'light')
         })
-    },[localStorage.getItem('mode')]) 
+    },[window.localStorage.getItem('mode')]) 
     
     return (
         <ThemeProvider theme={theme(mode === 'dark' ? 'dark' : 'light')}>

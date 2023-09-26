@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import { SxProps, Theme } from '@mui/material';
 
 
-export default function MainCard({path} : {path: string}) {
+export default function MovieCard({path} : {path: string}) {
     const [url, setUrl] = React.useState("");
     React.useEffect(()=> {
         setUrl(path)
