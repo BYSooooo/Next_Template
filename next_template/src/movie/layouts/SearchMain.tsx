@@ -14,13 +14,13 @@ import { search } from '../components/FetchData';
 
 export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
-    const genreList = JSON.parse(sessionStorage.getItem('genres'))
+    const genreList = JSON.parse(window.sessionStorage.getItem('genres'))
 
     const searchFilter = useAppSelector((state)=> state.searchFilter)
     const [loadedResult, setLoadedResult] = React.useState(0);
     const dispatch = useAppDispatch()    
     const resultCount = React.useRef(0)
-    const sessionObj = JSON.parse(sessionStorage.getItem('search'))
+    const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
     
     React.useEffect(()=> {
         getSearchResult()

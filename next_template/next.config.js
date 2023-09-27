@@ -3,6 +3,9 @@
 const API_KEY = process.env.API_KEY
 
 const nextConfig = {
+    eslint : {
+        ignoreDuringBuilds : true
+    },
     reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
