@@ -14,10 +14,10 @@ import Stack from '@mui/material/Stack'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 import { useRouter } from 'next/navigation';
-import { GitHub, MenuOpenRounded } from '@mui/icons-material';
+import { GitHub, LightMode, MenuOpenRounded } from '@mui/icons-material';
 import ModeSwitch from '../components/ModeSwitch';
 
 const basicMenuItem : menuItem[] = 
@@ -104,7 +104,8 @@ export default function Menu() {
                     </React.Fragment>
                 </Box>
                 <Box sx={{ flexGrow : 0, pt : 1.5}}>
-                    <Stack direction='row' alignItems='normal'>
+                    <Stack direction='row' alignItems='center'>
+                        <LightMode />
                         <ModeSwitch />
                         <Link 
                             target='_blank' rel='noopener'

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Switch from '@mui/material/Switch';
 import { useMediaQuery } from '@mui/material';
+import { LightMode } from '@mui/icons-material';
 
 export default function ModeSwitch() {
     const preferDarkMode = useMediaQuery('(prefers-color-scheme : dark)');
@@ -22,6 +23,6 @@ export default function ModeSwitch() {
         changeLocalStroage(event.target.checked ? 'dark' : 'light')
     }
     return (
-        <Switch checked={mode} onChange={onChange}/>
+        <Switch checked={mode} onChange={onChange} />
     )
 }

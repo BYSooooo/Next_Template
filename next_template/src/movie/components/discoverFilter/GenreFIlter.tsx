@@ -15,7 +15,7 @@ import DoneIcon from '@mui/icons-material/Done'
 
 export default function GenreFilter() {
     /** Control Select Genre Chip Part*/ 
-    const genreList : MovieGenreInfo[] = useAppSelector((state) => state.movieGenre);
+    const genreList : MovieGenreInfo[] = JSON.parse(window.sessionStorage.getItem('genres'));
     const selGenreList : MovieGenreInfo[] = useAppSelector((state) => state.selectedGenre);
     const dispatch = useAppDispatch();
 

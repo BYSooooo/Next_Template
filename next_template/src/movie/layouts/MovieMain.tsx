@@ -42,7 +42,7 @@ export default function MovieMain() {
                 </div>
                 
                 <Grid xs={12} container sx={{mb : 1}}>
-                    <Typography variant='h5'>
+                    <Typography variant='h5' fontWeight='bold'>
                         Popular Movie List in 20
                     </Typography>
                 </Grid>
