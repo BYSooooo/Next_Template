@@ -14,14 +14,18 @@ import { search } from '../components/FetchData';
 
 export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
-    const genreList = JSON.parse(window.sessionStorage.getItem('genres'))
-
-    const searchFilter = useAppSelector((state)=> state.searchFilter)
+    
     const [loadedResult, setLoadedResult] = React.useState(0);
+    const [sessionObj, setSessionObj] = React.useState<{keyword : string, year : string, adult : string, time : string}>();
     const dispatch = useAppDispatch()    
     const resultCount = React.useRef(0)
-    const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
     
+    //const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
+    
+    React.useEffect(()=> {
+        setSessionObj(JSON.parse(window.sessionStorage.getItem('search')))
+    },[])
+
     React.useEffect(()=> {
         getSearchResult()
         setReduxFilter(sessionObj)
@@ -32,7 +36,7 @@ export default function SearchMain() {
         setLoadedResult(()=> loadedMovieCount())
     },[searchResult])
 
-    const setReduxFilter = (filtering : {keyword : string, year : string, adult : string}) => {
+    const setReduxFilter = (filtering : {keyword : string, year : string, adult : string, time? : string}) => {
         /* set Keyword Filter in Redux State */
         dispatch(changeValue({name : 'keyword', value : filtering.keyword}))
         /* set Year Filter in Redux State  */

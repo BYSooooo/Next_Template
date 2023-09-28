@@ -6,6 +6,7 @@ const nextConfig = {
     eslint : {
         ignoreDuringBuilds : true
     },
+    output : 'export',
     reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
