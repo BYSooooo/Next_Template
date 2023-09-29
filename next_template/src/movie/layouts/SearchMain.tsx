@@ -16,14 +16,14 @@ export default function SearchMain() {
     const searchResult : SearchMovie[]  = useAppSelector((state) => state.searchResult);
     
     const [loadedResult, setLoadedResult] = React.useState(0);
-    const [sessionObj, setSessionObj] = React.useState<{keyword : string, year : string, adult : string, time : string}>();
+    //const [sessionObj, setSessionObj] = React.useState<{keyword : string, year : string, adult : string, time : string}>();
     const dispatch = useAppDispatch()    
     const resultCount = React.useRef(0)
     
-    //const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
+    const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
     
     React.useEffect(()=> {
-        setSessionObj(JSON.parse(window.sessionStorage.getItem('search')))
+        //setSessionObj(JSON.parse(window.sessionStorage.getItem('search')))
     },[])
 
     React.useEffect(()=> {

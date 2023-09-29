@@ -1,8 +1,11 @@
 "use client"
 
-import SearchMain from "@/movie/layouts/SearchMain";
+
+import dynamic from "next/dynamic";
+
+const NoSSRSearchMain = dynamic(()=> import("@/movie/layouts/SearchMain"), {ssr : false} );
 
 export default function Search() {
 
-    return <SearchMain />
+    return <NoSSRSearchMain />
 }

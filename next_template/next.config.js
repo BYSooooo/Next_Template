@@ -3,10 +3,10 @@
 const API_KEY = process.env.API_KEY
 
 const nextConfig = {
-    eslint : {
-        ignoreDuringBuilds : true
-    },
-    output : 'export',
+    // eslint : {
+    //     ignoreDuringBuilds : true
+    // },
+    // output : 'export',
     reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
