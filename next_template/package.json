@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy" : "gh-pages -d .next",
-    "predeploy" : "npm run build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -35,6 +33,5 @@
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "typescript": "5.1.3"
-  },
-  "homepage": "https://github.com/BYSooooo/Next_Template"
+  }
 }
