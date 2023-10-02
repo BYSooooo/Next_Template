@@ -3,8 +3,6 @@
 const API_KEY = process.env.API_KEY
 
 const nextConfig = {
-    output : 'export',
-    basePath : '/Next_template/next_template',
     reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
