@@ -3,8 +3,6 @@
 const API_KEY = process.env.API_KEY
 
 const nextConfig = {
-    basePath : process.env.NEXT_PUBLIC_BASE_PATH,
-    assetPrefix : process.env.NEXT_PUBLIC_BASE_PATH,
     reactStrictMode: false,
     swcMinify : true,
     modularizeImports : {
