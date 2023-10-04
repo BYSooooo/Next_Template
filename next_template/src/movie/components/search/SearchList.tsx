@@ -15,7 +15,7 @@ export default function SearchList() {
     const dispatch = useAppDispatch()
     
     const list = (listed : SearchMovie[]) => {
-
+        console.log(listed)
         return (
             listed.map((page) => {
                 return (
