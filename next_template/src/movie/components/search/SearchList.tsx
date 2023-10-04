@@ -57,7 +57,9 @@ export default function SearchList() {
                 direction='row' 
                 spacing={1}
                 sx={{height : "70vh", overflowY : "scroll" }}>
-                    {list && list(searchResult)}
+                    { searchResult.length > 0 && list(searchResult)}
+
+                    {/* {list && list(searchResult)} */}
             </Grid>
         
     )

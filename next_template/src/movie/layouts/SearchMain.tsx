@@ -22,9 +22,9 @@ export default function SearchMain() {
     
     const sessionObj = JSON.parse(window.sessionStorage.getItem('search'))
     
-    React.useEffect(()=> {
-        //setSessionObj(JSON.parse(window.sessionStorage.getItem('search')))
-    },[])
+    // React.useEffect(()=> {
+    //     setSessionObj(JSON.parse(window.sessionStorage.getItem('search')))
+    // },[])
 
     React.useEffect(()=> {
         getSearchResult()
@@ -62,6 +62,7 @@ export default function SearchMain() {
         const {keywordQuery, yearQuery, adultQuery } = createQuery(sessionObj);
         try {
             search(`${keywordQuery}${yearQuery}${adultQuery}`).then((results) => {
+                console.log(results)
                 dispatch(setSearchResult(results));
             })
         } catch(err) {
