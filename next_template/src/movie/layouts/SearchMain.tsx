@@ -49,7 +49,7 @@ export default function SearchMain() {
     
     const createQuery = (filtering : {keyword : string, year : string, adult : string}) => {
         // Ipnuted Keyword in SessionStroage
-        const keyword = filtering.keyword.length > 0 ? `&query=${filtering.keyword}` : ``
+        const keyword = filtering.keyword.length > 0 ? `&query=${filtering.keyword}` : ''
         // Selected Year in SessionStroage
         const year = filtering.year === 'all' ? '' : `&primary_release_year=${filtering.year}`
         // Selected Adult Movie FIlter in SessionStroage
