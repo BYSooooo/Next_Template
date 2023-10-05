@@ -5,7 +5,7 @@ const API_KEY = process.env.API_KEY
 const nextConfig = {
     i18n : {
         locales : ['en'],
-        defaultLocale: 'en',
+        defaultLocale : 'en'
     },
     reactStrictMode: false,
     swcMinify : true,
@@ -26,8 +26,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/search/:query",
-                destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}:query`,
-                locale : false
+                destination : `https://api.themoviedb.org/3/search/movie?/:query&api_key=${API_KEY}`
             },
             {
                 source : "/api/movies/detail/:query",
