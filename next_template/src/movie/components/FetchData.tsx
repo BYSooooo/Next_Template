@@ -34,7 +34,7 @@ export async function search(query: string) {
 export async function getDetail(query: string) {
     console.log("getDetail id : " + query)
     try {
-        const response = await (await fetch(`/api/movies/detail/${query}`)).json()
+        const response = await (await fetch(`/api/movies/detail/${query}`)).json();
         return response
     } catch(err) {
         console.log(err);
