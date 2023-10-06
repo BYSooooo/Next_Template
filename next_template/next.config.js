@@ -25,10 +25,10 @@ const nextConfig = {
                 source : "/api/movies/genreList",
                 destination : `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
             },
-            {
-                source : "/api/movies/search/:keyword",
-                destination : `https://api.themoviedb.org/3/search/movie?api_key=8ce95cb0449a08879b2064c7256b5965:keyword`
-            },
+            // {
+            //     source : "/api/movies/search/:query",
+            //     destination : `https://api.themoviedb.org/3/search/movie?api_key=8ce95cb0449a08879b2064c7256b5965:query`
+            // },
             {
                 source : "/api/movies/detail/:query",
                 destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}&append_to_response=videos,images,credits`
