@@ -27,7 +27,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/search/:keyword",
-                destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}:keyword`
+                destination : `https://api.themoviedb.org/3/search/movie?api_key=8ce95cb0449a08879b2064c7256b5965:keyword`
             },
             {
                 source : "/api/movies/detail/:query",
@@ -35,7 +35,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/collection/:query",
-                destination : `https://api.themoviedb.org/3/collection/:query?api_key=8ce95cb0449a08879b2064c7256b5965`
+                destination : `https://api.themoviedb.org/3/collection/:query?api_key=${API_KEY}`
             },
             {
                 source : "/api/movies/cast/:query",
