@@ -1,4 +1,3 @@
-    
 /** Fetching TMDB - Popular Movie List 20 */
 export async function getPopular() {
     try {
@@ -23,7 +22,7 @@ export async function getGenre() {
 export async function search(query: string) {
     console.log(`search : ${query}`)
     try {
-        
+        //const response = await (await fetch(`https://api.themoviedb.org/3/search/movie?${query}`)).json();
         const response = await (await fetch(`/api/movies/search/${query}`)).json();
         return response
     } catch(err) {

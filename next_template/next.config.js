@@ -35,7 +35,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/collection/:query",
-                destination : `https://api.themoviedb.org/3/collection/:query?api_key=${API_KEY}`
+                destination : `https://api.themoviedb.org/3/collection/:query?api_key=8ce95cb0449a08879b2064c7256b5965`
             },
             {
                 source : "/api/movies/cast/:query",
