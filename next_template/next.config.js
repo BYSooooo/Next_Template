@@ -15,6 +15,7 @@ const nextConfig = {
         }
     },
     async rewrites() {
+        console.log("Rewrites Call")
         return [
             {
                 source : "/api/movies/popular",
@@ -26,7 +27,7 @@ const nextConfig = {
             },
             {
                 source : "/api/movies/search/:query",
-                destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}\\:query\\`
+                destination : `https://api.themoviedb.org/3/search/movie?api_key=https://api.themoviedb.org/3/search/movie?api_key=8ce95cb0449a08879b2064c7256b5965&query=iron%20man:query`
             },
             {
                 source : "/api/movies/detail/:query",
