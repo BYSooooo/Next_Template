@@ -1,3 +1,4 @@
+    
 /** Fetching TMDB - Popular Movie List 20 */
 export async function getPopular() {
     try {
@@ -20,8 +21,9 @@ export async function getGenre() {
 
 /** Fetching TMDB - Movie Search by Fitering */
 export async function search(query: string) {
-    console.log(`search : ${query}`)
+    
     try {
+        
         const response = await (await fetch(`/api/movies/search/${query}`)).json();
         return response
     } catch(err) {
