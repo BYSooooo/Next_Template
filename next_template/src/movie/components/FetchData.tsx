@@ -21,11 +21,10 @@ export async function getGenre() {
 
 /** Fetching TMDB - Movie Search by Fitering */
 export async function search(query: string) {
-    const apiKey = "8ce95cb0449a08879b2064c7256b5965";
     console.log(`search : ${query}`)
     try {
-        const response = await (await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}${query}`)).json();
-        //const response = await (await fetch(`/api/movies/search/${query}`)).json();
+        
+        const response = await (await fetch(`/api/movies/search/${query}`)).json();
         return response
     } catch(err) {
         console.log(err)
