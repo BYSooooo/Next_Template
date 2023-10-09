@@ -10,6 +10,13 @@ import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
 import React from 'react';
 
+/**
+ * Component for Route to Messenger Page
+ * (Not Developed)
+ * 
+ * @param {string} path - Messenager Page's URL
+ * 
+ */
 export default function MessengerCard({path} : {path : string}) {
     const [url, setUrl] = React.useState('');
     

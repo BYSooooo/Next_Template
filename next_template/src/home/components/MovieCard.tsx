@@ -11,11 +11,13 @@ import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 
 import { SxProps, Theme } from '@mui/material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 /**
+ * Component for Route to Movie Page
  * 
- * @param {string} path - Selected Project URL
- * @returns 
+ * @param {string} path - Movie Page's URL 
+ * 
  */
 export default function MovieCard({path} : {path: string}) {
     const [url, setUrl] = React.useState("");
