@@ -21,7 +21,9 @@ flowchart TB
             sm_list(SearchList) --->|Select One|sm_card(MovieCard) --->|Select|sm_overview(MovieOverview)
         end
         subgraph DetailMain
-
+            dm_detail(DetailMain)
+            dm_company(DetailCompanyList)
+            dm_credits(DetailCaompanyCredits)
         end
     end
     subgraph TMDB_API
@@ -45,4 +47,5 @@ home -->|Disabled|Messenger
 Movie ---|Auto_Fetch|f_popular ---|Save Result|r_popular ---|View List|popularlist
 mainsearch -->|Select Filter|SearchFilter --- |Save|r_search ---|Save|s_query
 s_query ---|Fetch|f_search ---|Save|r_result ---|View List|sm_list
+sm_overview -->|View Detail|dm_detail
 ```
