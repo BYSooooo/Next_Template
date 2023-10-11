@@ -11,7 +11,6 @@ import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 
 import { SxProps, Theme } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 /**
  * Component for Route to Movie Page
