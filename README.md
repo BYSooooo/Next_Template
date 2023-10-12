@@ -18,7 +18,9 @@ Dark mode support and limited responsiveness implementation (to be improved) <br
 >> - View videos and images related to the selected movie <br>
 >> - If there is Collection information, display the list and go to the movie's details when selected.
 
-### Component Map
+
+
+### Component Map (In Making)
 ```mermaid
 ---
 title : Component Map
