@@ -32,7 +32,7 @@ export default function MessengerCard({path} : {path : string}) {
     
     return (
         <Card sx={{maxWidth : 350, borderRadius : 1}}> 
-            <CardActionArea href={`${url}`} disabled>
+            <CardActionArea href={`${url}`}>
                 <CardContent>
                     <Stack direction='column' rowGap={0.5}>
                         <Typography gutterBottom={false} variant='h5' component="div" fontWeight='bold'>
