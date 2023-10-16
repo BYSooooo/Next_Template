@@ -13,5 +13,6 @@ module.exports = {
       center : true
     }
   },
+  darkMode : 'class',
   plugins: [],
 }

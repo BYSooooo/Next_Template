@@ -14,6 +14,7 @@ export default function ModeSwitch() {
     },[])
 
     const changeLocalStroage = (selectMode: string) => {
+        window.localStorage.removeItem('mode')
         window.localStorage.setItem('mode', selectMode)
         window.dispatchEvent(new Event('stroage'));
     }
