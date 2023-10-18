@@ -5,6 +5,7 @@ export default function MainButton({context, onClicked} : {context : string, onC
         onClicked()
     }
 
+    
     return (
         <button 
             type="button"
