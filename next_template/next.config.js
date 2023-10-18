@@ -19,7 +19,7 @@ const nextConfig = {
         return [
             {
                 source : "/api/movies/popular",
-                destination : `https://api.themoviedb.org/3/movie/popular?api_key=${REACT_APP_API_KEY}`
+                destination : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
             },
             {
                 source : "/api/movies/genreList",
