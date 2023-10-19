@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
 const nextConfig = {
     i18n : {
@@ -19,7 +19,7 @@ const nextConfig = {
         return [
             {
                 source : "/api/movies/popular",
-                destination : `https://api.themoviedb.org/3/movie/popular?api_key=${REACT_APP_API_KEY}`
+                destination : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
             },
             {
                 source : "/api/movies/genreList",
