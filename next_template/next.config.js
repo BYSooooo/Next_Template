@@ -15,7 +15,6 @@ const nextConfig = {
         }
     },
     async rewrites() {
-        console.log("Rewrites Call")
         return [
             {
                 source : "/api/movies/popular",
