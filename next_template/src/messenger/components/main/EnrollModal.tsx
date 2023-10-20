@@ -1,10 +1,10 @@
-// import { Dialog } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 
-// export default function EnrollModal(){
+export default function EnrollModal(){
  
-//     return (
-//         <Dialog as='div'>
-//             <Transition.ch
-//         </Dialog>
-//     )
-// }
+    return (
+        <h1>
+            Dialog Page for Login
+        </h1>
+    )
+}
