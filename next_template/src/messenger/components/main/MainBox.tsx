@@ -1,10 +1,12 @@
 import React from 'react';
 
 import BasicButton from '@/messenger/components/BasicButton'
+import AuthModal from './AuthModal';
 
 export default function MainBox() {
     const [email, setEmail] = React.useState('');
     const [pwd, setPwd] = React.useState('');
+    const [showModal, setShowModal] = React.useState(false);
     
     const loginClick = ()=> {
         
@@ -14,6 +16,11 @@ export default function MainBox() {
     }
     const enrollClick = () => {
 
+    }
+
+    const onClickClose = (pressYn : boolean) => {
+        console.log(pressYn)
+        setShowModal(false)
     }
 
     const onChangeHandler = (event : React.FormEvent<HTMLInputElement>) => {
@@ -62,8 +69,9 @@ export default function MainBox() {
                     <BasicButton context='Login' onClicked={loginClick}/>
                 </div>
                 <div className='my-3'>
-                    <BasicButton context="Enroll" onClicked={enrollClick} />
+                    <BasicButton context="Enroll" onClicked={()=>setShowModal(true)} />
                 </div>
+                {showModal ? <AuthModal onClose={onClickClose} /> : null}
             </div>
     )
 }

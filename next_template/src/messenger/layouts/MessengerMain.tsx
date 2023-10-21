@@ -13,7 +13,7 @@ export default function MessengerMain() {
         })    
     },[])
 
-    console.log(firebaseAuth.currentUser)
+    console.log(firebaseAuth)
     return (
         <div className="flex container m-20 mx-aut h-auto justify-center">
             <div className={theme}>
