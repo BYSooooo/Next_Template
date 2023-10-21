@@ -14,7 +14,7 @@ export default function AuthModal({onClose} : {onClose : Function}){
                         Sign In
                     </h3>
                     <button
-                        className=" bg-sky-200"
+                        className=" bg-sky-300"
                         onClick={clickXButton}>
                             X
                     </button>
