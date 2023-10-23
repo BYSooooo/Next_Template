@@ -3,6 +3,7 @@ import React from 'react';
 
 import MainBox from '../components/main/MainBox';
 import { firebaseAuth } from '../../../firebaseConfig.js'
+import MainAuth from '../components/main/MainAuth';
 
 export default function MessengerMain() {
     const [theme, setTheme] = React.useState('');
@@ -17,7 +18,7 @@ export default function MessengerMain() {
     return (
         <div className="flex container m-20 mx-aut h-auto justify-center">
             <div className={theme}>
-                <MainBox />
+                <MainAuth />
             </div>
         </div>
     )
