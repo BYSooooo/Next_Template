@@ -13,7 +13,7 @@ export default function EmailAuthModal({onClose} : {onClose : Function}){
                     </h3>
                     
                     <button
-                        className=" bg-sky-300"
+                        className="w-6 h-6 border-2 border-red-600 rounded-full text-inherit"
                         onClick={clickXButton}>
                             X
                     </button>

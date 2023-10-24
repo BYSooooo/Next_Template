@@ -8,9 +8,11 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
     const authForProvider = (name : string) => {
         switch(name) {
             case "Google" :
+                console.log("Google")
                 provider = new GoogleAuthProvider();
                 break;
             case "Github" : 
+                console.log("Github")
                 provider = new GithubAuthProvider();
                 break;
             default : 
@@ -19,6 +21,8 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
         signInWithPopup(auth, provider)
             .then((result) => {
                 console.log(result)
+            }).catch((error) => {
+                console.log(error)
             })
     }
     const authForEmail = () => {
@@ -31,8 +35,12 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
     }
 
     switch(service) {
-        case "Google" || "Github ": 
+        case "Google":
             authForProvider(service)
+            break;
+        case "Github" :
+            authForProvider(service)
+            break;
         case "Email" || "Test" : 
             authForEmail()
             break;
