@@ -28,8 +28,7 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
     const authForEmail = () => {
         const actionSetting = {
             url : 'https://next-template-alpha-ten.vercel.app/messenger',
-            handleCodeInApp : true,
-            dynamicLinkDomain : 'example.page.link'
+            handleCodeInApp : true
         }
         sendSignInLinkToEmail(firebaseAuth, email, actionSetting);
     }

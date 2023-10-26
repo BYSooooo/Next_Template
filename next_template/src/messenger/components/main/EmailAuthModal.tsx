@@ -3,15 +3,23 @@ import AuthController from "../AuthController"
 
 export default function EmailAuthModal({onClose} : {onClose : Function}){
     const [email, setEmail] = React.useState("");
+    const [valid, setVaild] = React.useState(false)
 
     const clickXButton = () => {
         onClose(false)   
     }
     const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         const inputString = event.target.value;
+        const validYn = event.target.validity.valid
         setEmail(inputString);
+        setVaild(validYn)
     }
     const checkEmail = () => {
+        if(valid) {
+            AuthController("Email", email)
+        } else {
+            
+        }
         
     }
 
