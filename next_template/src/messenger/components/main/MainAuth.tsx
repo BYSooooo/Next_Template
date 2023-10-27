@@ -26,8 +26,7 @@ export default function MainAuth() {
                     <div className="flex justify-center items-center min-w-full">
                         <button
                             onClick={()=>callAuth("Google")}
-                            className=" w-2/3 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500"
-                        >
+                            className=" w-2/3 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
                             Sign in with Google
                         </button>
 

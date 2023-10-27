@@ -1,4 +1,4 @@
-import { GithubAuthProvider, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../../firebaseConfig";
 
 export default function AuthController(service : "Google" | "Github" | "Email" | "Test", email? : string) {
@@ -27,10 +27,17 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
     }
     const authForEmail = () => {
         const actionSetting = {
+            //url : 'http://localhost:3000/messenger',
             url : 'https://next-template-alpha-ten.vercel.app/messenger',
             handleCodeInApp : true
         }
-        sendSignInLinkToEmail(firebaseAuth, email, actionSetting);
+        sendSignInLinkToEmail(firebaseAuth, email, actionSetting)
+            .then(()=> {
+                window.localStorage.setItem('emailForSignIn',email)
+            })
+            .catch((error) => {
+                console.log(error.code)
+            })
     }
 
     switch(service) {

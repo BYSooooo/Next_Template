@@ -4,6 +4,8 @@ import AuthController from "../AuthController"
 export default function EmailAuthModal({onClose} : {onClose : Function}){
     const [email, setEmail] = React.useState("");
     const [valid, setVaild] = React.useState(false)
+    const [showError, setShowError] = React.useState(false)
+    const [successYn, setSuccessYn] = React.useState(false)
 
     const clickXButton = () => {
         onClose(false)   
@@ -13,14 +15,16 @@ export default function EmailAuthModal({onClose} : {onClose : Function}){
         const validYn = event.target.validity.valid
         setEmail(inputString);
         setVaild(validYn)
+        setShowError(false)
+        
     }
     const checkEmail = () => {
         if(valid) {
             AuthController("Email", email)
+            setSuccessYn(true)
         } else {
-            
-        }
-        
+            setShowError(true)
+        } 
     }
 
     return (
@@ -59,18 +63,26 @@ export default function EmailAuthModal({onClose} : {onClose : Function}){
                             className="pl-3 rounded-md focus:border-2 focus:border-blue-400 border-2 border-solid border-gray-400 w-full invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             placeholder="example@email.com" >
                         </input>
-                        <span className='hidden mt-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"'>
-                            Please Check Email Address
-                        </span>
+                        {showError ? 
+                            <span className='mt-2 text-sm text-red-500'>
+                                Please Check Email Address
+                            </span>
+                        : null}
                     </label>
-                
+                    
                 </div>
                 <div className="py-4 px-3 w-full">
-                    <button 
-                        onClick={checkEmail}
-                        className="rounded-full p-2 text-center w-full border-2 border-gray-600 hover:bg-gray-600 hover:text-white">
-                        Send Authentication Email
-                    </button>
+                    {successYn ? 
+                        <span className='mt-2 text-md text-blue-500 font-bold'>
+                            A verification email has been sent.
+                        </span>
+                    :
+                        <button
+                            onClick={checkEmail}
+                            className="rounded-full p-2 text-center w-full border-2 border-gray-600 hover:bg-gray-600 hover:text-white">
+                            Send Authentication Email
+                        </button>
+                    }
                 </div>
             </div>
         </div>
