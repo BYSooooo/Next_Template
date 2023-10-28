@@ -11,7 +11,7 @@ export default function MainAuth() {
         setShowModal(pressYn)
     }
     return (
-        <div className="box-content border-solid border-2 border-blue-950 dark:border-blue-300 rounded-xl w-96 h-96 p-2.5">
+        <div className="box-content border-solid border-2 border-blue-950 dark:border-blue-300 rounded-xl w-96 h-auto p-2.5">
             <div className="flex p-3 items-start justify-between">
                 <h1 className="text-3xl text-center font-bold">
                     Sign In
@@ -22,14 +22,14 @@ export default function MainAuth() {
                     Please Select Service
                 </h6>
             </div>
-            <div className="grid p-3 h-52 mt-10 grid-rows-3 py-6 gap-2">
+            <div className="divide-y-2 divide-solid">
+                <div className='grid p-3 h-52 mt-10 grid-rows-3 py-6 gap-2'>
                     <div className="flex justify-center items-center min-w-full">
                         <button
                             onClick={()=>callAuth("Google")}
                             className=" w-2/3 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
                             Sign in with Google
                         </button>
-
                     </div>
                     <div className="flex justify-center items-center min-w-full">
                         <button
@@ -45,8 +45,22 @@ export default function MainAuth() {
                             Sign in with Email
                         </button>
                     </div>
-                    { showModal ? <EmailAuthModal onClose={showYn} />: null}
                 </div>
+                <div className='p-3'>
+                    <h6 className='text-sm'>
+                        If you would like to access a trial account, please click the button below 
+                    </h6>
+                    <div className='flex justify-center items-center min-w-full mt-2'>
+                        <button
+                            onClick={()=>callAuth("Test")}
+                            className="w-2/3 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
+                                Sign In Test Account
+                        </button>
+                    
+                    </div>  
+                </div>
+                    { showModal ? <EmailAuthModal onClose={showYn} />: null}
+            </div>
         </div>
     )
 }
