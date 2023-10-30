@@ -1,6 +1,8 @@
 import { firebaseAuth } from "../../../firebaseConfig"
 import { signOut } from "firebase/auth"
 import UserInfo from "../components/left/UserInfo"
+import ChatList from "../components/middle/ChatList"
+import OtherInfo from "../components/right/OtherInfo"
 
 export default function MainLogined () {
 
@@ -21,12 +23,8 @@ export default function MainLogined () {
             </div>
             <div className="grid grid-cols-3">
                 <UserInfo />
-                <div>
-                    RoomList & Chat
-                </div>
-                <div>
-                    Other Info
-                </div>
+                <ChatList />
+                <OtherInfo />
             </div>            
         </div>
     )
