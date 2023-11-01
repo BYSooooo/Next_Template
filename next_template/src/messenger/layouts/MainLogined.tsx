@@ -1,13 +1,21 @@
+import React from 'react';
+
 import { firebaseAuth } from "../../../firebaseConfig"
 import { signOut } from "firebase/auth"
 import UserInfo from "../components/left/UserInfo"
 import ChatList from "../components/middle/ChatList"
 import OtherInfo from "../components/right/OtherInfo"
+import UserInfoModal from '../components/UserInfoModal';
 
 export default function MainLogined () {
+    const [showModal, setShowModal] = React.useState(false);
 
     const onClickSignOut = () => {
         signOut(firebaseAuth)
+    }
+
+    const modalControl = (modalYn : boolean) => {
+
     }
 
     return (
@@ -22,10 +30,11 @@ export default function MainLogined () {
                 </button>
             </div>
             <div className="grid grid-cols-3">
-                <UserInfo />
+                <UserInfo modalYn={modalControl}/>
                 <ChatList />
                 <OtherInfo />
-            </div>            
+            </div>
+            {showModal ? <UserInfoModal /> : null}            
         </div>
     )
 }

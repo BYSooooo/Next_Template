@@ -1,7 +1,8 @@
 import React, { HTMLAttributes } from 'react';
 import { firebaseAuth } from '../../../../firebaseConfig';
+import { Icon_Check_NotVeri, Icon_Check_Verified } from '@/messenger/styles/IconPack';
 
-export default function UserInfo() {
+export default function UserInfo({modalYn} : {modalYn : Function}) {
     
     const userInfo = firebaseAuth.currentUser;
     console.log(userInfo)
@@ -29,38 +30,53 @@ export default function UserInfo() {
     }
 
     return (
-        <div className='w-52 p-2 m-2'>
+        <div className=' w-56 p-2 m-2'>
             <div className='flex rounded-full w-36 h-36 border-solid border-gray-400 border-2 items-center justify-center'>
                 {firebaseAuth.currentUser.photoURL 
                 ? <img src={firebaseAuth.currentUser.photoURL} /> 
                 : avatarImage() }
             </div>
-            <h3 className='text-md text-gray-500'>
-                Name
-            </h3>
-            <h6 className='text-lg font-bold'>
-                {setDisplayName()}
-            </h6>
-            <h3 className='text-md text-gray-500'>
-                E-Mail
-            </h3>
-            <div className='flex'>
-                <h6 className='text-lg font-bold'>
-                    {firebaseAuth.currentUser.email} 
-                </h6>
-                {userInfo.emailVerified ? 'verified' : 'not'}
-            </div>
-            <h3 className='text-md text-gray-500'>
-                Introduce
-            </h3>
-            <div className=' rounded-md border-solid border-2 border-gray-500 w-full h-44'>
-
-            </div>
             <div>
-                <h6 className='text-md text-gray-500'>
-                    Follow List
+                <div className='absolute items-end w-full'>
+                    <button >
+                        Edit
+                    </button>
+
+                </div>
+                
+                <h3 className='text-md text-gray-500'>
+                    Name
+                </h3>
+                <h6 className='text-lg font-bold'>
+                    {setDisplayName()}
                 </h6>
+                <h3 className='text-md text-gray-500'>
+                    E-Mail
+                </h3>
+                <div className='flex'>
+                    <h6 className='text-lg font-bold'>
+                        {firebaseAuth.currentUser.email} 
+                    </h6>
+                    {
+                        userInfo.emailVerified 
+                        ? <Icon_Check_Verified/> 
+                        : <Icon_Check_NotVeri />
+                    }
+                    
+                </div>
+                <h3 className='text-md text-gray-500'>
+                    Introduce
+                </h3>
+                <div className='rounded-md border-solid border-2 border-gray-500 w-full h-44'>
+
+                </div>
+                <div>
+                    <h6 className='text-md text-gray-500'>
+                        Follow List
+                    </h6>
+                </div>
             </div>
+            
             
         </div>
     )
