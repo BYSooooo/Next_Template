@@ -1,4 +1,4 @@
-import { GithubAuthProvider, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithEmailLink, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../../firebaseConfig";
 
 export default function AuthController(service : "Google" | "Github" | "Email" | "Test", email? : string) {
@@ -39,6 +39,15 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
                 console.log(error.code)
             })
     }
+    const authForTest = () => {
+        signInWithEmailAndPassword(firebaseAuth,"test_user01@test.com","test1234")
+            .then((result)=> {
+                console.log(result);
+            })
+            .catch((error)=> {
+                console.log(error)
+            })
+    }
 
     switch(service) {
         case "Google":
@@ -47,14 +56,12 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
         case "Github" :
             authForProvider(service)
             break;
-        case "Email" || "Test" : 
+        case "Email" : 
             authForEmail()
+            break;
+        case "Test" : 
+            authForTest()
             break;
         default : break;
     }
-    
-    
-
-    
-
 }
