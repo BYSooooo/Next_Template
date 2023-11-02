@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import { firebaseAuth } from '../../../../firebaseConfig';
 import { Icon_Check_NotVeri, Icon_Check_Verified } from '@/messenger/styles/IconPack';
 
-export default function UserInfo({modalYn} : {modalYn : Function}) {
+export default function UserInfo({pageControl} : {pageControl : Function}) {
     
     const userInfo = firebaseAuth.currentUser;
     console.log(userInfo)
@@ -14,7 +14,10 @@ export default function UserInfo({modalYn} : {modalYn : Function}) {
         //https://flowbite.com/docs/components/avatar/
         return (
             <div className='relative w-32 h-32 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600'>
-                <svg className="absolute w-36 h-36 text-gray-400 -left-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                <svg className="absolute w-36 h-36 text-gray-400 -left-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                    </path>
+                </svg>
             </div>
         )
     }
@@ -30,15 +33,16 @@ export default function UserInfo({modalYn} : {modalYn : Function}) {
     }
 
     return (
-        <div className=' w-56 p-2 m-2'>
+        <div className='w-fit p-2 m-2'>
             <div className='flex rounded-full w-36 h-36 border-solid border-gray-400 border-2 items-center justify-center'>
                 {firebaseAuth.currentUser.photoURL 
                 ? <img src={firebaseAuth.currentUser.photoURL} /> 
                 : avatarImage() }
             </div>
             <div>
-                <div className='absolute items-end w-full'>
-                    <button >
+                <div className='absolute flext justify-end'>
+                    <button 
+                        onClick={()=>pageControl("Profile")}>
                         Edit
                     </button>
 

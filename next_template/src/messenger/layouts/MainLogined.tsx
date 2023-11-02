@@ -1,40 +1,47 @@
 import React from 'react';
 
-import { firebaseAuth } from "../../../firebaseConfig"
-import { signOut } from "firebase/auth"
 import UserInfo from "../components/left/UserInfo"
-import ChatList from "../components/middle/ChatList"
-import OtherInfo from "../components/right/OtherInfo"
-import UserInfoModal from '../components/UserInfoModal';
+import PageRouter from '../components/PageRouter';
+
+import { signOut } from "firebase/auth"
+import { firebaseAuth } from "../../../firebaseConfig"
+
+import { PowerIcon } from '@heroicons/react/20/solid'
+
 
 export default function MainLogined () {
-    const [showModal, setShowModal] = React.useState(false);
-
+    // const [showModal, setShowModal] = React.useState(false);
+    const [loadPage, setLoadPage] = React.useState("");
+    
+    React.useEffect(()=> {
+        setLoadPage("Default")
+    },[])
     const onClickSignOut = () => {
         signOut(firebaseAuth)
     }
 
-    const modalControl = (modalYn : boolean) => {
-
-    }
-
+    // const modalControl = (modalYn : boolean) => {
+    //     console.log(modalYn)
+    //     setShowModal(modalYn)
+    // }
+    
     return (
-        <div className="container border-2 border-solid border-gray-600 rounded-md w-auto h-auto p-2">
-            <div className="flex">
-                <h1 className="text-4xl font-bold">
+        <div className="container border-2 border-solid border-gray-600 rounded-md p-2">
+            <div className='flex p-2 items-center justify-between'>
+                <h1 className="text-5xl font-bold">
                     Home
                 </h1>
                 <button
+                    className='border-2 border-red-500 rounded-full h-fit hover:bg-red-500'
                     onClick={onClickSignOut}>
-                        SignOut
+                    <PowerIcon className='h-6 w-6 text-red-500 hover:text-white'/>
                 </button>
             </div>
-            <div className="grid grid-cols-3">
-                <UserInfo modalYn={modalControl}/>
-                <ChatList />
-                <OtherInfo />
+            <div className="flex grid-cols-2">
+                <UserInfo pageControl={setLoadPage}/>
+                <PageRouter pageName={loadPage} />
             </div>
-            {showModal ? <UserInfoModal /> : null}            
+            {/* {showModal ? <UserInfoModal /> : null}             */}
         </div>
     )
 }
