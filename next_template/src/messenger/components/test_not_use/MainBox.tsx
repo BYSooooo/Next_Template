@@ -1,7 +1,7 @@
 import React from 'react';
 
-import BasicButton from '@/messenger/components/BasicButton'
-import AuthModal from './EmailAuthModal';
+import BasicButton from './BasicButton'
+import AuthModal from '../login/EmailAuthModal';
 
 export default function MainBox() {
     const [email, setEmail] = React.useState('');

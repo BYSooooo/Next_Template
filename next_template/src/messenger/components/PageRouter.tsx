@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ChatList from "./contents/ChatList";
-import OtherInfo from "./contents/OtherInfo";
-import UserInfoEdit from "./contents/UserInfoEdit";
+import ChatList from "@/messenger/components/main/contents/ChatList";
+import OtherInfo from "@/messenger/components/main/contents/OtherInfo";
+import UserInfoEdit from "@/messenger/components/main/contents/UserInfoEdit";
 
 export default function PageRouter({pageName} : {pageName : string}) {
     const [page, setPage] = React.useState("Default");

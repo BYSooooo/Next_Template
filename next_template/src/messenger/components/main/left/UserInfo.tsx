@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import { firebaseAuth } from '../../../../firebaseConfig';
+import { firebaseAuth } from '@/../../firebaseConfig'
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 
 export default function UserInfo({pageControl} : {pageControl : Function}) {

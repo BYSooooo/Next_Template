@@ -1,9 +1,9 @@
 import React from 'react'
 
-import MessengerMain from '@/messenger/layouts/MessengerMain'
+import MessengerLogin from '@/messenger/layouts/MessengerLogin'
 
 export default function messenger() {
     return (
-        <MessengerMain />
+        <MessengerLogin />
     )
 }

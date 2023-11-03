@@ -1,55 +1,47 @@
-'use client'
 import React from 'react';
 
-import { firebaseAuth } from '../../../firebaseConfig.js'
-import MainAuth from '../components/main/MainAuth';
-import MainLogined from './MainLogined';
-import { isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth';
+import UserInfo from "@/messenger/components/main/left/UserInfo"
+import PageRouter from '../components/PageRouter';
 
-export default function MessengerMain() {
-    const [theme, setTheme] = React.useState('');
-    const [isLogin, setIsLogin] = React.useState(false);
+import { signOut } from "firebase/auth"
+import { firebaseAuth } from "../../../firebaseConfig"
 
-    const checkSignInByEmailLink = () => {
-        if(isSignInWithEmailLink(firebaseAuth, window.location.href)) {
-            let email = window.localStorage.getItem('emailForSignIn');
-            console.log(email)
-            if(!email) {
-                email = window.prompt('Please provide your email for confirmation');
-            }
-            signInWithEmailLink(firebaseAuth, email, window.location.href)
-                .then((results)=> {
-                    window.localStorage.removeItem('emailForSignIn');
-                })
-                .catch((error)=> {
-                    console.log(error.code)
-                })
-        }
-    }
+import { PowerIcon } from '@heroicons/react/20/solid'
+
+
+export default function MainLogined () {
+    // const [showModal, setShowModal] = React.useState(false);
+    const [loadPage, setLoadPage] = React.useState("");
     
     React.useEffect(()=> {
-        window.addEventListener('stroage',()=> {
-            setTheme(window.localStorage.getItem('mode'))
-        })
-        checkSignInByEmailLink()    
-        onAuthStateChanged(firebaseAuth,(user) => {
-            if(user) {
-                setIsLogin(true)
-            } else {
-                setIsLogin(false)
-            }
-            console.log(user)
-        })
+        setLoadPage("Default")
     },[])
+    const onClickSignOut = () => {
+        signOut(firebaseAuth)
+    }
 
-
-    console.log(firebaseAuth)
+    // const modalControl = (modalYn : boolean) => {
+    //     console.log(modalYn)
+    //     setShowModal(modalYn)
+    // }
+    
     return (
-        <div className="flex container m-20 mx-aut h-auto justify-center">
-            <div className={theme}>
-                { isLogin ? <MainLogined />: <MainAuth />}
+        <div className="container border-2 border-solid border-gray-600 rounded-md p-2">
+            <div className='flex p-2 items-center justify-between'>
+                <h1 className="text-5xl font-bold">
+                    Home
+                </h1>
+                <button
+                    className='border-2 border-red-500 rounded-full h-fit hover:bg-red-500'
+                    onClick={onClickSignOut}>
+                    <PowerIcon className='h-6 w-6 text-red-500 hover:text-white'/>
+                </button>
             </div>
+            <div className="flex grid-cols-2">
+                <UserInfo pageControl={setLoadPage}/>
+                <PageRouter pageName={loadPage} />
+            </div>
+            {/* {showModal ? <UserInfoModal /> : null}             */}
         </div>
     )
-    
 }
