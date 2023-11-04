@@ -1,10 +1,12 @@
 import React, { HTMLAttributes } from 'react';
 import { firebaseAuth } from '@/../../firebaseConfig'
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
+import { useAppDispatch } from '@/redux/hook';
+import { setPageRouter } from '@/redux/features/messengerReducer';
 
-export default function UserInfo({pageControl} : {pageControl : Function}) {
-    
+export default function UserInfo() {
     const userInfo = firebaseAuth.currentUser;
+    const dispatch = useAppDispatch()
     console.log(userInfo)
 
 
@@ -27,7 +29,7 @@ export default function UserInfo({pageControl} : {pageControl : Function}) {
                 : <UserIcon className='w-auto h-auto text-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
-                <button onClick={()=>pageControl("Profile")}>
+                <button onClick={()=>dispatch(setPageRouter({name : "Profile"}))}>
                     Edit
                 </button>
             </div>

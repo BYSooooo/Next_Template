@@ -1,20 +1,22 @@
 import React from 'react';
 
-import UserInfo from "@/messenger/components/main/left/UserInfo"
 import PageRouter from '../components/PageRouter';
 
 import { signOut } from "firebase/auth"
 import { firebaseAuth } from "../../../firebaseConfig"
 
 import { PowerIcon } from '@heroicons/react/20/solid'
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setPageRouter } from '@/redux/features/messengerReducer';
 
 
 export default function MainLogined () {
     // const [showModal, setShowModal] = React.useState(false);
-    const [loadPage, setLoadPage] = React.useState("");
+    const routeReducer = useAppSelector((state) => state.messenger)
+    const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
-        setLoadPage("Default")
+        dispatch(setPageRouter({name : "Default"}))        
     },[])
     const onClickSignOut = () => {
         signOut(firebaseAuth)
@@ -37,9 +39,8 @@ export default function MainLogined () {
                     <PowerIcon className='h-6 w-6 text-red-500 hover:text-white'/>
                 </button>
             </div>
-            <div className="flex grid-cols-2">
-                <UserInfo pageControl={setLoadPage}/>
-                <PageRouter pageName={loadPage} />
+            <div className="flex grid-cols-3">
+                <PageRouter />
             </div>
             {/* {showModal ? <UserInfoModal /> : null}             */}
         </div>

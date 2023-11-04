@@ -3,20 +3,27 @@ import React from 'react';
 import ChatList from "@/messenger/components/main/contents/ChatList";
 import OtherInfo from "@/messenger/components/main/contents/OtherInfo";
 import UserInfoEdit from "@/messenger/components/main/contents/UserInfoEdit";
+import UserInfo from './main/left/UserInfo';
+import { useAppSelector } from '@/redux/hook';
 
-export default function PageRouter({pageName} : {pageName : string}) {
+export default function PageRouter() {
+    const messengerReducer = useAppSelector((state)=> state.messenger);
     const [page, setPage] = React.useState("Default");
-    
+
     React.useEffect(()=> {
+        setPage(messengerReducer.pageName)
+    },[messengerReducer.pageName])
+
+    const controlPage = (pageName : string) => {
         setPage(pageName)
-        
-    },[pageName])
+    }
 
     const routing = () => {
         switch (page) {
             case "Default" : 
                 return (
-                    <div className='flex grid-cols-2'>
+                    <div className='flex grid-cols-3'>
+                        <UserInfo />
                         <ChatList />
                         <OtherInfo />
                     </div>
