@@ -1,10 +1,11 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { editUserInfo, userInfoHook, setPageRouter } from '@/redux/features/messengerReducer';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
+    const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
@@ -18,20 +19,17 @@ export default function UserInfoEdit() {
         {userAuth.displayName && dispatch(editUserInfo({infoName : "DisplayName", value : userAuth.displayName, editYn : false}))}
     }
 
-    const userInfoChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
+    const checkYnChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
         const checkedYn = event.target.checked;
         const inputName = event.target.name;
         // Enable to Input New Value
         if(checkedYn === true) {
-     
+            
         // If check box values false, initialized input value
         } else {
-            
+
         }
     }
-
-    
-
 
     return (
         <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2'>
@@ -50,18 +48,25 @@ export default function UserInfoEdit() {
                     <h5 className='text-md'>
                         Display Name
                     </h5>
-                    <input name="DisplayName" type="checkbox" onChange={userInfoChange} />
+                    <input name="DisplayName" type="checkbox" onChange={checkYnChange} />
                 </div>
-                <input 
-                    className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3' >
-                        {userAuth.displayName}
+                <input
+                    className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3'
+                     >
+                        
                 </input>
             </div>
-            <button
-                onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}>
-                return default  
-            </button>
-            {userAuth.displayName}
+            <div>
+                <button
+                    onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}>
+                    return default  
+                </button>
+            </div>    
+            <div>
+                <button className='rounded-md border-2 border-blue-400 '>
+                    Confirm
+                </button>
+            </div>
         </div>
 
     )
