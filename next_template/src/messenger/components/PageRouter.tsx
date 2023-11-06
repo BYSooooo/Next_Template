@@ -7,7 +7,7 @@ import UserInfo from './main/left/UserInfo';
 import { useAppSelector } from '@/redux/hook';
 
 export default function PageRouter() {
-    const messengerReducer = useAppSelector((state)=> state.messenger);
+    const messengerReducer = useAppSelector((state)=> state.messengerRouter);
     const [page, setPage] = React.useState("Default");
 
     React.useEffect(()=> {

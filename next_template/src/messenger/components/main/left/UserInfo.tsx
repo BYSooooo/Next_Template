@@ -29,7 +29,7 @@ export default function UserInfo() {
                 : <UserIcon className='w-auto h-auto text-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
-                <button onClick={()=>dispatch(setPageRouter({name : "Profile"}))}>
+                <button onClick={()=>dispatch(setPageRouter({page : "Profile", title : "Profile Edit"}))}>
                     Edit
                 </button>
             </div>
