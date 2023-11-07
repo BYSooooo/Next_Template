@@ -1,6 +1,7 @@
 import React from 'react';
-import AuthController from '../AuthController';
-import EmailAuthModal from './EmailAuthModal';
+
+import AuthController from '../components/AuthController';
+import EmailAuthModal from '../components/login/EmailAuthModal';
 
 export default function MainAuth() {
     const [showModal, setShowModal] = React.useState(false);

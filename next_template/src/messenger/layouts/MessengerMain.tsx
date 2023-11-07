@@ -1,55 +1,31 @@
-'use client'
 import React from 'react';
 
-import { firebaseAuth } from '../../../firebaseConfig.js'
-import MainAuth from '../components/main/MainAuth';
-import MainLogined from './MainLogined';
-import { isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth';
+import PageRouter from '../components/PageRouter';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setPageRouter } from '@/redux/features/messengerReducer';
+import HeaderMain from '../components/header/HeaderMain';
 
-export default function MessengerMain() {
-    const [theme, setTheme] = React.useState('');
-    const [isLogin, setIsLogin] = React.useState(false);
 
-    const checkSignInByEmailLink = () => {
-        if(isSignInWithEmailLink(firebaseAuth, window.location.href)) {
-            let email = window.localStorage.getItem('emailForSignIn');
-            console.log(email)
-            if(!email) {
-                email = window.prompt('Please provide your email for confirmation');
-            }
-            signInWithEmailLink(firebaseAuth, email, window.location.href)
-                .then((results)=> {
-                    window.localStorage.removeItem('emailForSignIn');
-                })
-                .catch((error)=> {
-                    console.log(error.code)
-                })
-        }
-    }
+export default function MainLogined () {
+    // const [showModal, setShowModal] = React.useState(false);
+    const routeReducer = useAppSelector((state) => state.messengerRouter)
+    const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
-        window.addEventListener('stroage',()=> {
-            setTheme(window.localStorage.getItem('mode'))
-        })
-        checkSignInByEmailLink()    
-        onAuthStateChanged(firebaseAuth,(user) => {
-            if(user) {
-                setIsLogin(true)
-            } else {
-                setIsLogin(false)
-            }
-            console.log(user)
-        })
+        dispatch(setPageRouter({page : "Default", title : "Home"}))        
     },[])
+    
 
-
-    console.log(firebaseAuth)
+    // const modalControl = (modalYn : boolean) => {
+    //     console.log(modalYn)
+    //     setShowModal(modalYn)
+    // }
+    
     return (
-        <div className="flex container m-20 mx-aut h-auto justify-center">
-            <div className={theme}>
-                { isLogin ? <MainLogined />: <MainAuth />}
-            </div>
+        <div className="container border-2 border-solid border-gray-600 rounded-md p-2">
+            <HeaderMain />
+            <PageRouter />
+            {/* {showModal ? <UserInfoModal /> : null}             */}
         </div>
     )
-    
 }
