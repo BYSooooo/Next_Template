@@ -18,6 +18,7 @@ export const userInfoHook = createSlice({
     initialState : [
         { infoName : "Email", value : "", editYn : false },
         { infoName : "DisplayName", value : "", editYn : false},
+        { infoName : "PhotoURL", value : "", editYn : false}
         
     ],
     reducers : {

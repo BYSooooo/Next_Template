@@ -2,6 +2,7 @@ import React from 'react';
 import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
+import { UserIcon } from '@heroicons/react/20/solid';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -17,6 +18,8 @@ export default function UserInfoEdit() {
     const setInitInfo = () => {
         {userAuth.email && dispatch(setUserInfo({infoName : "Email", value : userAuth.email, editYn : false}))};
         {userAuth.displayName && dispatch(setUserInfo({infoName : "DisplayName", value : userAuth.displayName, editYn : false}))}
+        {userAuth.photoURL && dispatch(setUserInfo({infoName : "PhotoURL", value : userAuth.photoURL, editYn : false}))}
+
     }
 
     const checkYnChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
@@ -29,7 +32,7 @@ export default function UserInfoEdit() {
         // If check box values false, initialized input value
         } else {
             console.log("False")
-            dispatch(setUserInfo({infoName : inputName, value : "", editYn : false}))
+            dispatch(setUserInfo({infoName : inputName, value : userAuth.displayName === null ? "" : userAuth.displayName, editYn : false}))
         }
     }
 
@@ -53,6 +56,23 @@ export default function UserInfoEdit() {
         <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2'>
             <div className='my-2 mx-1'>
                 <h5 className='text-md'>
+                    Profile Photo
+                </h5>
+                <div className='flex w-fit h-fit rounded-full border-2 border-gray-400 border-solid align-baseline'>
+                    {firebaseAuth.currentUser.photoURL 
+                        ? <img src={firebaseAuth.currentUser.photoURL}/> 
+                        : <UserIcon className='w-20 h-20 text-gray-400' />
+                    }
+                    <div className='absolute w-fit h-fit align-bottom justify-end'>
+                        <button >
+                            Edit
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div className='my-2 mx-1'>
+                <h5 className='text-md'>
                     Email
                 </h5>
                 <input 
@@ -63,7 +83,7 @@ export default function UserInfoEdit() {
             </div>
             <div className='my-2 mx-1'>
                 <div className='flex items-center'>
-                    <h5 className='text-md'>
+                    <h5 className='text-md mr-2'>
                         Display Name
                     </h5>
                     <input name="DisplayName" type="checkbox" onChange={checkYnChange} />
