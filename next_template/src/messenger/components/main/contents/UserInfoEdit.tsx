@@ -2,7 +2,8 @@ import React from 'react';
 import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
-import { UserIcon } from '@heroicons/react/20/solid';
+import { PencilIcon, UserIcon } from '@heroicons/react/20/solid';
+import SubmitGroup from './SubmitGroup';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -58,18 +59,20 @@ export default function UserInfoEdit() {
                 <h5 className='text-md'>
                     Profile Photo
                 </h5>
+                
                 <div className='flex w-fit h-fit rounded-full border-2 border-gray-400 border-solid align-baseline'>
                     {firebaseAuth.currentUser.photoURL 
                         ? <img src={firebaseAuth.currentUser.photoURL}/> 
                         : <UserIcon className='w-20 h-20 text-gray-400' />
                     }
-                    <div className='absolute w-fit h-fit align-bottom justify-end'>
-                        <button >
-                            Edit
+                    <div className='absolute flex w-20 h-20'>
+                        <button className='flex border-2 border-solid border-gray-500 rounded-full justify-center p-1 '>
+                            <PencilIcon className='w-4 h-4 text-gray-500'/>
                         </button>
 
                     </div>
                 </div>
+            
             </div>
             <div className='my-2 mx-1'>
                 <h5 className='text-md'>
@@ -81,19 +84,8 @@ export default function UserInfoEdit() {
                     disabled>
                 </input>
             </div>
-            <div className='my-2 mx-1'>
-                <div className='flex items-center'>
-                    <h5 className='text-md mr-2'>
-                        Display Name
-                    </h5>
-                    <input name="DisplayName" type="checkbox" onChange={checkYnChange} />
-                </div>
-                <input
-                    disabled={inputEditYn("DisplayName")}
-                    className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3'
-                    onChange={(e)=>inputValueChange("DisplayName",e)}
-                    value={infoReducer[getStateIdx("DisplayName")].value}/>
-            </div>
+            <SubmitGroup title="Display Name" reduxName='DisplayName' />
+            <SubmitGroup title='Phone Number' reduxName='PhoneNumber' />
             <div>
                 <button
                     onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}>
