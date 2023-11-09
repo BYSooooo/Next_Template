@@ -4,7 +4,7 @@ import { setUserInfo } from '@/redux/features/messengerReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
-type reduxType = "Email" | "DisplayName" | "PhoneNumber"
+type reduxType = "email" | "displayName" | "phoneNumber" | "photoURL"
 
 
 export default function SubmitGroup({title, reduxName} : {title : string, reduxName : reduxType}) {
@@ -50,7 +50,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
                 <input name={reduxName} type="checkbox" onChange={checkYnChange} />
             </div>
             <input
-                disabled={inputEditYn("PhoneNumber")}
+                disabled={inputEditYn(reduxName)}
                 className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3'
                 onChange={(e)=>inputValueChange(reduxName,e)}
                 value={infoReducer[getStateIdx(reduxName)].value}/>

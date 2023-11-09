@@ -16,10 +16,11 @@ export const routerHook = createSlice({
 export const userInfoHook = createSlice({
     name : 'UserInfoEdit',
     initialState : [
-        { infoName : "Email", value : "", editYn : false },
-        { infoName : "DisplayName", value : "", editYn : false},
-        { infoName : "PhotoURL", value : "", editYn : false},
-        { infoName : "PhoneNumber", value : "", editYn: false}
+        { infoName : "email", value : "", editYn : false },
+        { infoName : "password", value : "", editYn : false},
+        { infoName : "displayName", value : "", editYn : false},
+        { infoName : "photoURL", value : "", editYn : false},
+        { infoName : "phoneNumber", value : "", editYn: false}
         
     ],
     reducers : {

@@ -12,7 +12,7 @@ export default function UserInfo() {
 
     const setDisplayName = () => {
         let dName = ""
-        if(dName) {
+        if(userInfo.displayName) {
             dName = firebaseAuth.currentUser.displayName
         }else {
             dName = "No Name" 
