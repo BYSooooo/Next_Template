@@ -15,7 +15,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
     const inputValueChange = (propName : string, event : React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setUserInfo({infoName : propName, value : event.target.value }))
     }
-
+    
     const checkYnChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
         const checkedYn = event.target.checked;
         const inputName = event.target.name;
@@ -34,6 +34,9 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
         const idx = infoReducer.findIndex((e)=> e.infoName === propName)
         return idx
     }
+    const checkHandler = (propName : string) => {
+        return infoReducer[getStateIdx(propName)].editYn
+    }
 
     const inputEditYn = (propName : string) => {
         return (
@@ -47,7 +50,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
                 <h5 className='text-md mr-2'>
                     {title}
                 </h5>
-                <input name={reduxName} type="checkbox" onChange={checkYnChange} />
+                <input name={reduxName} type="checkbox" onChange={checkYnChange} checked={checkHandler(reduxName)}/>
             </div>
             <input
                 disabled={inputEditYn(reduxName)}

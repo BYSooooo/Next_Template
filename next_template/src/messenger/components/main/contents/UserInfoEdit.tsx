@@ -2,7 +2,7 @@ import React from 'react';
 import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
-import { PencilIcon, UserIcon } from '@heroicons/react/20/solid';
+import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
@@ -38,13 +38,11 @@ export default function UserInfoEdit() {
             photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
         }).then(()=> {
             console.log("Success")
+            setInitInfo()
         }).catch((error) => {
             console.log(error)
         })
     }
-
-    
-
 
     return (
         <div>
