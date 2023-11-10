@@ -7,6 +7,7 @@ import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
 export default function UserInfoEdit() {
+    const [tempPhoto, setTempPhoto] = React.useState(null);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
@@ -44,6 +45,10 @@ export default function UserInfoEdit() {
         })
     }
 
+    const onTempPhotoHandler = () => {
+
+    }
+
     return (
         <div>
             <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2 my-2'>
@@ -61,11 +66,13 @@ export default function UserInfoEdit() {
                                 : <UserIcon className='w-20 h-20 text-gray-400' />
                             }
                         </div>
-                        <button className='flex border-2 border-blue-400 rounded-full border-solid px-1 hover:bg-blue-400 w-fit h-fit'>
-                            <h5 className='font-bold hover:text-white'>
+                        <label htmlFor="tempPhoto">
+                            <button 
+                                className='flex border-2 border-blue-400 rounded-full border-solid px-1 hover:bg-blue-400 w-fit h-fit'>
                                 Edit
-                            </h5>
-                        </button>
+                            </button>
+                            <input type='file' id='tempPhoto' accept='image/*' onChange={onTempPhotoHandler} style={{display : 'none'}}/>
+                        </label>
                     </div>
                 </div>
                 <div className='my-2 mx-1'>

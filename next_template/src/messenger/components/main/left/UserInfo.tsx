@@ -1,5 +1,9 @@
-import React, { HTMLAttributes } from 'react';
-import { firebaseAuth } from '@/../../firebaseConfig'
+import React from 'react';
+
+import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
+import { ref } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid'
+
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
@@ -8,7 +12,7 @@ export default function UserInfo() {
     const userInfo = firebaseAuth.currentUser;
     const dispatch = useAppDispatch()
     console.log(userInfo)
-
+    console.log(firebaseStore)
 
     const setDisplayName = () => {
         let dName = ""
