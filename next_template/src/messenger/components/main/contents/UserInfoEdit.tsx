@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
@@ -7,7 +8,6 @@ import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
 export default function UserInfoEdit() {
-    const [tempPhoto, setTempPhoto] = React.useState(null);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
@@ -43,10 +43,21 @@ export default function UserInfoEdit() {
         }).catch((error) => {
             console.log(error)
         })
+
     }
 
-    const onTempPhotoHandler = () => {
-
+    const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
+        const { target : { files } } = event;
+        const uploaded = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finished : any) => {
+            const { currentTarget : { result }} = finished;
+            dispatch(setUserInfo({infoName : "photoURL", value : result, editYn : true}))
+        }
+        reader.readAsDataURL(uploaded)
+    }
+    const onTempPhotoClear = ()=>  {
+        dispatch(setUserInfo({infoName :  "photoURL", value : userAuth.photoURL, editYn : false}))    
     }
 
     return (
@@ -68,11 +79,19 @@ export default function UserInfoEdit() {
                         </div>
                         <label htmlFor="tempPhoto">
                             <button 
+                                onClick={()=>document.getElementById("tempPhoto").click()}
                                 className='flex border-2 border-blue-400 rounded-full border-solid px-1 hover:bg-blue-400 w-fit h-fit'>
                                 Edit
                             </button>
-                            <input type='file' id='tempPhoto' accept='image/*' onChange={onTempPhotoHandler} style={{display : 'none'}}/>
+                            <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>
                         </label>
+                        {/* { tempPhoto && 
+                            <button
+                                className='flex border-2 border-red-400 rounded-full border-solid px-1 hover:bg-red-400'
+                                onClick={onTempPhotoClear}>
+                                Clear
+                            </button>
+                        } */}
                     </div>
                 </div>
                 <div className='my-2 mx-1'>
