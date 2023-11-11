@@ -36,14 +36,14 @@ export default function UserInfoEdit() {
 
         updateProfile(userAuth, {            
             displayName : infoReducer[getStateIdx("displayName")].editYn ? infoReducer[getStateIdx("displayName")].value : userAuth.displayName,
-            photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
+            // photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
         }).then(()=> {
             console.log("Success")
             setInitInfo()
         }).catch((error) => {
             console.log(error)
         })
-
+        
     }
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ export default function UserInfoEdit() {
         reader.readAsDataURL(uploaded)
     }
     const onTempPhotoClear = ()=>  {
-        dispatch(setUserInfo({infoName :  "photoURL", value : userAuth.photoURL, editYn : false}))    
+        dispatch(setUserInfo({infoName :  "photoURL", value : userAuth.photoURL ?userAuth.photoURL : "" , editYn : false}))    
     }
 
     return (
@@ -72,8 +72,8 @@ export default function UserInfoEdit() {
                     </h5>
                     <div className='flex items-end'>
                         <div className='flex w-fit h-fit rounded-full border-2 border-gray-400 border-solid align-baseline'>
-                            {firebaseAuth.currentUser.photoURL 
-                                ? <img src={firebaseAuth.currentUser.photoURL}/> 
+                            {infoReducer[getStateIdx("photoURL")].value 
+                                ? <img src={infoReducer[getStateIdx("photoURL")].value}/> 
                                 : <UserIcon className='w-20 h-20 text-gray-400' />
                             }
                         </div>
@@ -85,13 +85,13 @@ export default function UserInfoEdit() {
                             </button>
                             <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>
                         </label>
-                        {/* { tempPhoto && 
+                        { infoReducer[getStateIdx("photoURL")].value && 
                             <button
                                 className='flex border-2 border-red-400 rounded-full border-solid px-1 hover:bg-red-400'
                                 onClick={onTempPhotoClear}>
                                 Clear
                             </button>
-                        } */}
+                        }
                     </div>
                 </div>
                 <div className='my-2 mx-1'>
