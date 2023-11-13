@@ -73,7 +73,7 @@ export default function UserInfoEdit() {
                     <div className='flex items-end'>
                         <div className='flex w-fit h-fit rounded-full border-2 border-gray-400 border-solid align-baseline'>
                             {infoReducer[getStateIdx("photoURL")].value 
-                                ? <img src={infoReducer[getStateIdx("photoURL")].value}/> 
+                                ? <img src={infoReducer[getStateIdx("photoURL")].value} className='w-20 h-20 rounded-full'/> 
                                 : <UserIcon className='w-20 h-20 text-gray-400' />
                             }
                         </div>

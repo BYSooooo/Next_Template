@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
-import { ref } from 'firebase/storage';
+import { ref, uploadString } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
@@ -14,6 +14,9 @@ export default function UserInfo() {
     console.log(userInfo)
     console.log(firebaseStore)
 
+    React.useEffect(()=> {
+        initFireStroage()
+    },[])
     const setDisplayName = () => {
         let dName = ""
         if(userInfo.displayName) {
@@ -23,6 +26,14 @@ export default function UserInfo() {
         }
         return dName
         
+    }
+    
+    const initFireStroage = async () => {
+        const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
+        const reader = new FileReader()
+        //const photoToURL = reader.readAsDataURL(userInfo.photoURL)
+        const response = await uploadString(fireRef,userInfo.photoURL,"data_url");
+        console.log(response)
     }
 
     return (

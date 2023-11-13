@@ -1,4 +1,4 @@
-import { GithubAuthProvider, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithEmailLink, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithEmailLink, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../../firebaseConfig";
 
 export default function AuthController(service : "Google" | "Github" | "Email" | "Test", email? : string) {
