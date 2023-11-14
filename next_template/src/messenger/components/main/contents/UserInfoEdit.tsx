@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { firebaseAuth } from '@/../../firebaseConfig';
+import { firebaseAuth, firebaseStrg } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
+import { ref, uploadString } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -31,12 +33,20 @@ export default function UserInfoEdit() {
     }
 
     const onClickHandler = () => {
+        // Password Edited Check
         const passwordEdited = infoReducer[getStateIdx("password")].editYn ? infoReducer[getStateIdx("Password")].value : null
         {passwordEdited && updatePassword(userAuth, passwordEdited)}
+        
+        // photoURL Edited Check
+        const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
+        // if Edited, Uploaded to Firebase Stroage and get Image URL
+        if(photoURLEdited) {
+            uploadPhotoFirestrg()
+        }
 
         updateProfile(userAuth, {            
             displayName : infoReducer[getStateIdx("displayName")].editYn ? infoReducer[getStateIdx("displayName")].value : userAuth.displayName,
-            // photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
+            //photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
         }).then(()=> {
             console.log("Success")
             setInitInfo()
@@ -45,6 +55,13 @@ export default function UserInfoEdit() {
         })
         
     }
+
+    const uploadPhotoFirestrg = async ()=> {
+        const stroageRef = ref(firebaseStrg, `${userAuth.uid}/${uuidv4}`);
+        const response = await uploadString(stroageRef, infoReducer[getStateIdx("photoURL")].value, "data_url")
+        console.log(response)
+    }
+    
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
         const { target : { files } } = event;

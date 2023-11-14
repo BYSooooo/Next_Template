@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
-import { ref, uploadString } from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid'
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
@@ -15,7 +13,7 @@ export default function UserInfo() {
     console.log(firebaseStore)
 
     React.useEffect(()=> {
-        initFireStroage()
+        
     },[])
     const setDisplayName = () => {
         let dName = ""
@@ -28,20 +26,21 @@ export default function UserInfo() {
         
     }
     
-    const initFireStroage = async () => {
-        const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
-        const reader = new FileReader()
-        //const photoToURL = reader.readAsDataURL(userInfo.photoURL)
-        const response = await uploadString(fireRef,userInfo.photoURL,"data_url");
-        console.log(response)
-    }
+    // const initFireStroage = async () => {
+        
+    //     const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
+    //     const reader = new FileReader()
+    //     const photoToURL = reader.readAsDataURL(userInfo.photoURL)
+    //     const response = await uploadString(fireRef,userInfo.photoURL,"data_url");
+    //     console.log(response)
+    // }
 
     return (
         <div className='w-fit p-2 m-2'>
-            <div className='flex rounded-full w-36 h-36 border-solid border-gray-400 border-2 items-center justify-center'>
+            <div className='flex rounded-full w-28 h-28  items-center justify-center'>
                 {firebaseAuth.currentUser.photoURL 
-                ? <img src={firebaseAuth.currentUser.photoURL} /> 
-                : <UserIcon className='w-auto h-auto text-gray-400'/> }
+                ? <img src={firebaseAuth.currentUser.photoURL} className='w-full h-full rounded-full'/> 
+                : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
                 <button onClick={()=>dispatch(setPageRouter({page : "Profile", title : "Profile Edit"}))}>
