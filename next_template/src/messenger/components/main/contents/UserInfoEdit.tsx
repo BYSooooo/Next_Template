@@ -113,7 +113,7 @@ export default function UserInfoEdit() {
                 </div>
                 <div className='my-2 mx-1'>
                     <h5 className='text-md'>
-                        Email (Can't Modified)
+                        Email
                     </h5>
                     <input 
                         className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3' 
