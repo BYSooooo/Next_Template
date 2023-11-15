@@ -14,10 +14,6 @@ export default function PageRouter() {
         setPage(messengerReducer.pageName)
     },[messengerReducer.pageName])
 
-    const controlPage = (pageName : string) => {
-        setPage(pageName)
-    }
-
     const routing = () => {
         switch (page) {
             case "Default" : 

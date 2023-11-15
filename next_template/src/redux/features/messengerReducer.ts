@@ -16,16 +16,18 @@ export const routerHook = createSlice({
 export const userInfoHook = createSlice({
     name : 'UserInfoEdit',
     initialState : [
-        { infoName : "Email", value : "", editYn : false },
-        { infoName : "DisplayName", value : "", editYn : false},
-        { infoName : "PhotoURL", value : "", editYn : false}
+        { infoName : "email", value : "", editYn : false },
+        { infoName : "password", value : "", editYn : false},
+        { infoName : "displayName", value : "", editYn : false},
+        { infoName : "photoURL", value : "", editYn : false},
+        { infoName : "phoneNumber", value : "", editYn: false}
         
     ],
     reducers : {
         /* Edit User Info in Messneger Page */
         setUserInfo : (state, action : PayloadAction<{infoName : string, value? : string, editYn? : boolean }>) => {
             const index = state.findIndex((item) => item.infoName === action.payload.infoName);
-            if(action.payload.value !== undefined || null) state[index].value = action.payload.value
+            if(action.payload.value !== undefined || null) state[index].value = action.payload.value;
             if(action.payload.editYn !== undefined || null) state[index].editYn = action.payload.editYn;
         }
     }
