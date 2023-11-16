@@ -38,12 +38,9 @@ export default function MessengerLogin() {
             } else {
                 setIsLogin(false)
             }
-            console.log(user)
         })
     },[])
 
-
-    console.log(firebaseAuth)
     return (
         <div className="flex container m-20 mx-aut h-auto justify-center">
             <div className={theme}>

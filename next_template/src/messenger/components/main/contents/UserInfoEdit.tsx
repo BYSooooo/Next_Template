@@ -58,8 +58,13 @@ export default function UserInfoEdit() {
 
     const uploadPhotoFirestrg = async ()=> {
         const stroageRef = ref(firebaseStrg, `${userAuth.uid}/${uuidv4}`);
-        const response = await uploadString(stroageRef, infoReducer[getStateIdx("photoURL")].value, "data_url")
-        console.log(response)
+        console.log(stroageRef)
+        try {
+            const response = await uploadString(stroageRef, infoReducer[getStateIdx("photoURL")].value, "data_url")
+            console.log(response)
+        } catch(err) {
+            console.log(err)
+        }
     }
     
 

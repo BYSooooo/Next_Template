@@ -1,24 +1,26 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
+import { firebaseAuth } from '@/../../firebaseConfig';
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
+import { getUserInfo } from '../../FirebaseController';
 
 export default function UserInfo() {
-    const userInfo = firebaseAuth.currentUser;
+    const [userInfo, setUserInfo] = React.useState<userInfo>(null)
     const dispatch = useAppDispatch()
-    console.log(userInfo)
-    console.log(firebaseStore)
-
+    
     React.useEffect(()=> {
-        
+        getUserInfo().then((result : userInfo)=> {
+            setUserInfo(result);
+        })
     },[])
+
     const setDisplayName = () => {
         let dName = ""
-        if(userInfo.displayName) {
-            dName = firebaseAuth.currentUser.displayName
+        if(userInfo) {
+            dName = userInfo.displayName
         }else {
             dName = "No Name" 
         }
@@ -38,8 +40,8 @@ export default function UserInfo() {
     return (
         <div className='w-fit p-2 m-2'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
-                {firebaseAuth.currentUser.photoURL 
-                ? <img src={firebaseAuth.currentUser.photoURL} className='w-full h-full rounded-full'/> 
+                {userInfo 
+                ? <img src={userInfo.photoURL} className='w-full h-full rounded-full'/> 
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
@@ -59,9 +61,9 @@ export default function UserInfo() {
                 </h3>
                 <div className='flex'>
                     <h6 className='text-lg font-bold'>
-                        {firebaseAuth.currentUser.email} 
+                        {userInfo?.email} 
                     </h6>
-                    {userInfo.emailVerified 
+                    {userInfo?.emailVerified 
                     ? <CheckIcon className='w-6 h-6 text-green-500'/> 
                     : <CheckIcon className='w-6 h-6 text-red-500'/> }
                 </div>
