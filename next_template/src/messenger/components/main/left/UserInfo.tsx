@@ -40,7 +40,7 @@ export default function UserInfo() {
     return (
         <div className='w-fit p-2 m-2'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
-                {userInfo 
+                {userInfo?.photoURL 
                 ? <img src={userInfo.photoURL} className='w-full h-full rounded-full'/> 
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>

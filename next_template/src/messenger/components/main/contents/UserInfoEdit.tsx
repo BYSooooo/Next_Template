@@ -8,6 +8,7 @@ import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
 import { ref, uploadString } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
+import { updatePhotoURL } from '../../FirebaseController';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -41,7 +42,8 @@ export default function UserInfoEdit() {
         const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
         // if Edited, Uploaded to Firebase Stroage and get Image URL
         if(photoURLEdited) {
-            uploadPhotoFirestrg()
+            const urlValue = infoReducer[getStateIdx("photoURL")].value;
+            updatePhotoURL(urlValue)
         }
 
         updateProfile(userAuth, {            
@@ -55,18 +57,6 @@ export default function UserInfoEdit() {
         })
         
     }
-
-    const uploadPhotoFirestrg = async ()=> {
-        const stroageRef = ref(firebaseStrg, `${userAuth.uid}/${uuidv4}`);
-        console.log(stroageRef)
-        try {
-            const response = await uploadString(stroageRef, infoReducer[getStateIdx("photoURL")].value, "data_url")
-            console.log(response)
-        } catch(err) {
-            console.log(err)
-        }
-    }
-    
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
         const { target : { files } } = event;
