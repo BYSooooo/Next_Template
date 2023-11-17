@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseStrg } from '@/../../firebaseConfig';
+import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
-import { ref, uploadString } from 'firebase/storage';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { updatePhotoURL } from '../../FirebaseController';
+import { doc } from 'firebase/firestore';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -43,9 +44,15 @@ export default function UserInfoEdit() {
         // if Edited, Uploaded to Firebase Stroage and get Image URL
         if(photoURLEdited) {
             const urlValue = infoReducer[getStateIdx("photoURL")].value;
-            updatePhotoURL(urlValue)
+            updatePhotoURL(urlValue).then((result)=> {
+                if(result) {
+                    getDownloadURL(ref(firebaseStrg,'userInfo'+userAuth.email+'/photoURL')).then((result)=> {
+                        console.log(result)
+                    })
+                    
+                }
+            })
         }
-
         updateProfile(userAuth, {            
             displayName : infoReducer[getStateIdx("displayName")].editYn ? infoReducer[getStateIdx("displayName")].value : userAuth.displayName,
             //photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL

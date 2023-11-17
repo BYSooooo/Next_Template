@@ -37,8 +37,9 @@ export const updatePhotoURL = async(url : string)=> {
     const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email);
     try {
         const response = await updateDoc(docRef, { photoURL : url });
-        console.log(response)
+        return true;
     } catch(error) {
+        return false;
         console.log(error)
     } 
 }
