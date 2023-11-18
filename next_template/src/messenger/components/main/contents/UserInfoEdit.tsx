@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseStrg } from '@/../../firebaseConfig';
+import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
-import { ref, uploadString } from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid';
+import { getDownloadURL } from 'firebase/storage';
+import { updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser
@@ -17,8 +17,6 @@ export default function UserInfoEdit() {
     React.useEffect(()=> {
         setInitInfo()
     },[])
-
-    console.log(userAuth)
 
     const setInitInfo = () => {
         {userAuth.email && dispatch(setUserInfo({infoName : "email", value : userAuth.email, editYn : false}))};
@@ -32,7 +30,7 @@ export default function UserInfoEdit() {
         return idx
     }
 
-    const onClickHandler = () => {
+    const onClickHandler = async () => {
         // Password Edited Check
         const passwordEdited = infoReducer[getStateIdx("password")].editYn ? infoReducer[getStateIdx("Password")].value : null
         {passwordEdited && updatePassword(userAuth, passwordEdited)}
@@ -41,27 +39,26 @@ export default function UserInfoEdit() {
         const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
         // if Edited, Uploaded to Firebase Stroage and get Image URL
         if(photoURLEdited) {
-            uploadPhotoFirestrg()
+            const urlValue = infoReducer[getStateIdx("photoURL")].value;
+            await uploadPhotoToStrg(urlValue).then((response)=> {
+                if(response.result === true) {
+                    getDownloadURL(response.value).then((urlString)=> {
+                        updatePhotoURL(urlString)
+                        updateProfile(userAuth, { photoURL : urlString })
+                    })
+                }
+            });
         }
-
-        updateProfile(userAuth, {            
-            displayName : infoReducer[getStateIdx("displayName")].editYn ? infoReducer[getStateIdx("displayName")].value : userAuth.displayName,
-            //photoURL : infoReducer[getStateIdx("photoURL")].editYn ? infoReducer[getStateIdx("photoURL")].value : userAuth.photoURL
-        }).then(()=> {
-            console.log("Success")
-            setInitInfo()
-        }).catch((error) => {
-            console.log(error)
-        })
-        
+        // displayName Edited Check
+        const displayNameEdited = infoReducer[getStateIdx("displayName")].editYn;
+        // if Edited, Change DisplayName 
+        if(displayNameEdited) {
+            const changedName = infoReducer[getStateIdx("displayName")].value;
+            updateProfile(userAuth,{ displayName : changedName })    
+        }        
+        setInitInfo()
+        dispatch(setPageRouter({page : "Default", title : "Home"}))
     }
-
-    const uploadPhotoFirestrg = async ()=> {
-        const stroageRef = ref(firebaseStrg, `${userAuth.uid}/${uuidv4}`);
-        const response = await uploadString(stroageRef, infoReducer[getStateIdx("photoURL")].value, "data_url")
-        console.log(response)
-    }
-    
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
         const { target : { files } } = event;
@@ -102,7 +99,7 @@ export default function UserInfoEdit() {
                             </button>
                             <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>
                         </label>
-                        { infoReducer[getStateIdx("photoURL")].value && 
+                        { infoReducer[getStateIdx("photoURL")].editYn && 
                             <button
                                 className='flex border-2 border-red-400 rounded-full border-solid px-1 hover:bg-red-400'
                                 onClick={onTempPhotoClear}>

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
 import { firebaseStrg } from '../../../firebaseConfig';
 import HeaderMain from '../components/header/HeaderMain';
+import { setInitUserInfo } from '../components/FirebaseController';
 
 
 export default function MainLogined () {
@@ -14,8 +15,7 @@ export default function MainLogined () {
     
     React.useEffect(()=> {
         dispatch(setPageRouter({page : "Default", title : "Home"}))
-                
-        console.log(firebaseStrg)
+        setInitUserInfo()
     },[])
     
 
