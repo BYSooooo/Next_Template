@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseStore, firebaseStrg } from '@/../../firebaseConfig';
+import { firebaseAuth } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
@@ -8,7 +8,6 @@ import SubmitGroup from './SubmitGroup';
 import { updatePassword, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
 import { updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
-import { doc, getDoc } from 'firebase/firestore';
 
 export default function UserInfoEdit() {
     const userAuth = firebaseAuth.currentUser

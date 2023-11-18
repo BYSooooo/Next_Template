@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
-import { useAppDispatch } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
 import { getUserInfo } from '../../FirebaseController';
 
