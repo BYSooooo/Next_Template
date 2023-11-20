@@ -5,8 +5,8 @@ import { Providers } from "@/redux/provider"
 import ThemeRegistry from '@/theme/ThemeRegistry';
 
 export const metadata = {
-  title : "Next Template with MUI",
-  description : 'template view for mui'
+  title : "Next Template",
+  description : ''
 }
 
 
