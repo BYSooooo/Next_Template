@@ -31,10 +31,6 @@ export default function UserInfoEdit() {
     }
 
     const onClickHandler = async () => {
-        // Password Edited Check
-        const passwordEdited = infoReducer[getStateIdx("password")].editYn ? infoReducer[getStateIdx("Password")].value : null
-        {passwordEdited && updatePassword(userAuth, passwordEdited)}
-        
         // photoURL Edited Check
         const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
         // if Edited, Uploaded to Firebase Stroage and get Image URL
