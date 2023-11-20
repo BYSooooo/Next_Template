@@ -5,11 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
-import { updatePassword, updateProfile } from 'firebase/auth';
+import { getAuth, signOut, updatePassword, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
-import { updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
+import { setInitUserInfo, updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
 
 export default function UserInfoEdit() {
+    const [showLogout, setShowLogout] = React.useState(false);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
@@ -22,7 +23,6 @@ export default function UserInfoEdit() {
         {userAuth.email && dispatch(setUserInfo({infoName : "email", value : userAuth.email, editYn : false}))};
         {userAuth.displayName && dispatch(setUserInfo({infoName : "displayName", value : userAuth.displayName, editYn : false}))}
         {userAuth.photoURL && dispatch(setUserInfo({infoName : "photoURL", value : userAuth.photoURL, editYn : false}))}
-
     }
 
     const getStateIdx = (propName : string)=> {
@@ -56,8 +56,8 @@ export default function UserInfoEdit() {
             const changedName = infoReducer[getStateIdx("displayName")].value;
             updateProfile(userAuth,{ displayName : changedName })    
         }        
-        setInitInfo()
-        dispatch(setPageRouter({page : "Default", title : "Home"}))
+        setShowLogout(true)
+        //dispatch(setPageRouter({page : "Default", title : "Home"}))
     }
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -137,19 +137,33 @@ export default function UserInfoEdit() {
             <h4 className='font-bold'>
                     Extra Information
                 </h4>
-                <SubmitGroup title='Phone Number' reduxName='phoneNumber' />
-                
+                <SubmitGroup title='Phone Number' reduxName='phoneNumber' />  
             </div>
-            
-        
+            { showLogout ? 
+                <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
+                    <div className="relative w-80 h-auto my-6 mx-auto max-w-3xl bg-white dark:bg-slate-800 rounded-md p-3">
+                        <div>
+                            <h4 className='font-bold text-lg'>
+                                Notice
+                            </h4>
+                        </div>
+                        <div className="pl-1 items-start">
+                            <h6 className="text-base text-left">
+                                * User information has been modified.
+                            </h6>
+                            <h6 className="text-base text-left">
+                                * Please log in again to update User information
+                            </h6>
+                        </div>
+                        <button
+                            onClick={()=>signOut(getAuth())}
+                            className="rounded-full p-2 text-center w-full border-2 border-orange-400 hover:bg-orange-400 hover:text-white">
+                            Log out
+                        </button>
+                    </div>
+                </div>
+            : null}
         </div>
-
-            
-        
-            
-            
-            
-        
 
     )
 }

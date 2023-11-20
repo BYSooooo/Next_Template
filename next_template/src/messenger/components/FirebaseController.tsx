@@ -1,6 +1,6 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const userAuth = firebaseAuth;
