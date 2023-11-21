@@ -54,7 +54,7 @@ export default function MainAuth() {
                     <div className='flex justify-center items-center min-w-full mt-2'>
                         <button
                             onClick={()=>callAuth("Test")}
-                            className="w-60 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
+                            className="w-2/3 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
                                 Sign In Test Account
                         </button>
                     

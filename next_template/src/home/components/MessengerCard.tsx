@@ -63,6 +63,16 @@ export default function MessengerCard({path} : {path : string}) {
                                         Next.js
                                     </Typography>
                                 </Stack>
+                                <Stack direction='row' columnGap={1} alignItems='center'>
+                                    <Avatar 
+                                        sx={iconStyle}
+                                        src="https://firebase.google.com/static/images/brand-guidelines/logo-logomark.png"
+                                    />
+                                    <Typography variant='body2'>
+                                        Firebase
+                                    </Typography>
+
+                                </Stack>
                             </Stack>
                         </Stack>
                         <Divider />
