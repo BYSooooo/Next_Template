@@ -28,21 +28,21 @@ export default function MainAuth() {
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=>callAuth("Google")}
-                            className=" w-60 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
+                            className="block w-60 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
                             Sign in with Google
                         </button>
                     </div>
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> callAuth("Github")}
-                            className="w-60 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
+                            className="block w-60 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
                             Sign in with GitHub
                         </button>
                     </div>
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> setShowModal(true)}
-                            className="w-60 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
+                            className="block w-60 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
                             Sign in with Email
                         </button>
                     </div>
@@ -54,7 +54,7 @@ export default function MainAuth() {
                     <div className='flex justify-center items-center min-w-full mt-2'>
                         <button
                             onClick={()=>callAuth("Test")}
-                            className="w-2/3 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
+                            className="w-60 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
                                 Sign In Test Account
                         </button>
                     
