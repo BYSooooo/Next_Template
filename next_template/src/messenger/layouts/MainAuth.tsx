@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 
 import AuthController from '../components/AuthController';
@@ -28,21 +30,21 @@ export default function MainAuth() {
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=>callAuth("Google")}
-                            className="block w-60 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
+                            className="w-60 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
                             Sign in with Google
                         </button>
                     </div>
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> callAuth("Github")}
-                            className="block w-60 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
+                            className="w-60 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
                             Sign in with GitHub
                         </button>
                     </div>
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> setShowModal(true)}
-                            className="block w-60 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
+                            className="w-60 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
                             Sign in with Email
                         </button>
                     </div>
