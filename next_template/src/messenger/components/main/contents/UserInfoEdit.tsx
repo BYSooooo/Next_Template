@@ -5,12 +5,14 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
-import { getAuth, signOut, updatePassword, updateProfile } from 'firebase/auth';
+import { getAuth, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
 import { setInitUserInfo, updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
 
 export default function UserInfoEdit() {
     const [showLogout, setShowLogout] = React.useState(false);
+    const [showWarning, setShowWarning] = React.useState(false);
+    const [rewindModal, setRewindModal] = React.useState(false);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
@@ -30,7 +32,13 @@ export default function UserInfoEdit() {
         return idx
     }
 
-    const onClickHandler = async () => {
+    const onClickHandler = () => {
+        setShowWarning(true)
+
+
+    }
+
+    const updateAuthInfo = async () => {
         // photoURL Edited Check
         const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
         // if Edited, Uploaded to Firebase Stroage and get Image URL
@@ -51,7 +59,14 @@ export default function UserInfoEdit() {
         if(displayNameEdited) {
             const changedName = infoReducer[getStateIdx("displayName")].value;
             updateProfile(userAuth,{ displayName : changedName })    
-        }        
+        }
+        // Email Address Edited CHeck
+        const emailEdited = infoReducer[getStateIdx("email")].editYn;
+        // if Edited, Change Email in Authentication
+        if(emailEdited) {
+            const changedEmail = infoReducer[getStateIdx("email")].value;
+            updateEmail(userAuth, changedEmail);
+        }
         setShowLogout(true)
         //dispatch(setPageRouter({page : "Default", title : "Home"}))
     }
@@ -104,16 +119,7 @@ export default function UserInfoEdit() {
                         }
                     </div>
                 </div>
-                <div className='my-2 mx-1'>
-                    <h5 className='text-md'>
-                        Email
-                    </h5>
-                    <input 
-                        className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3' 
-                        value={firebaseAuth.currentUser.email} 
-                        disabled>
-                    </input>
-                </div>
+                <SubmitGroup title="Email" reduxName='email' />
                 <SubmitGroup title="Display Name" reduxName='displayName' />
                 <div className='flex justify-end'>
                     <button     
@@ -128,9 +134,8 @@ export default function UserInfoEdit() {
                     </button>
                 </div>                
             </div>
-            
             <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2 my-2'>
-            <h4 className='font-bold'>
+                <h4 className='font-bold'>
                     Extra Information
                 </h4>
                 <SubmitGroup title='Phone Number' reduxName='phoneNumber' />  
@@ -159,6 +164,35 @@ export default function UserInfoEdit() {
                     </div>
                 </div>
             : null}
+            { showWarning &&
+                <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/70">
+                    <div className="relative w-80 h-auto my-6 mx-auto max-w-3xl bg-white dark:bg-slate-800 rounded-md p-3">
+                        <div>
+                            <h4 className='font-bold text-lg'>
+                                Information Change
+                            </h4>
+                        </div>
+                        <div className="pl-1 items-start my-2">
+                            <h6 className='text-sm text-left'>
+                                * Please check your entries before completing the editing of User Information.
+                            </h6>
+                            <h6 className='text-sm text-left'>
+                                * If your email address is incorrect, you may not be able to sign in to your current account.
+                            </h6>
+                        </div>
+                        <div className="flex justify-end gap-1">
+                            <button 
+                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
+                                Cancel
+                            </button>
+                            <button
+                                className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white font-bold px-2'>
+                                Confirm
+                            </button>
+                        </div> 
+                    </div>
+                </div>
+            }
         </div>
 
     )

@@ -53,10 +53,10 @@ export default function MainAuth() {
                     <h6 className='text-sm'>
                         If you would like to access a trial account, please click the button below 
                     </h6>
-                    <div className='flex justify-center items-center min-w-full mt-2'>
+                    <div className='flex justify-center items-center mt-2'>
                         <button
                             onClick={()=>callAuth("Test")}
-                            className="w-60 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
+                            className="w-52 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
                                 Sign In Test Account
                         </button>
                     

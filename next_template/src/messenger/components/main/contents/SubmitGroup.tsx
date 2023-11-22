@@ -19,6 +19,16 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
     const checkYnChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
         const checkedYn = event.target.checked;
         const inputName = event.target.name;
+        const preValue = (name : string) => {
+            switch (name) {
+                case "email" : 
+                    return userAuth.email;
+                case "displayName" : 
+                    return userAuth.displayName;
+                default :
+                    return null;
+            }
+        }
         // Enable to Input New Value
         if(checkedYn === true) {
             console.log("True")
@@ -26,8 +36,12 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
         // If check box values false, initialized input value
         } else {
             console.log("False")
-            dispatch(setUserInfo({infoName : inputName, value : userAuth.displayName === null ? "" : userAuth.displayName, editYn : false}))
+            dispatch(setUserInfo({infoName : inputName, value : preValue(inputName) === null ? "" : preValue(inputName), editYn : false}))
         }
+    }
+    
+    const validation = () => {
+
     }
 
     const getStateIdx = (propName : string)=> {
