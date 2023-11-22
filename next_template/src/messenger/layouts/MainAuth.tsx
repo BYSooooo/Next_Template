@@ -24,7 +24,7 @@ export default function MainAuth() {
                 </h6>
             </div>
             <div className="divide-y-2 divide-solid">
-                <div className='p-3 h-52 mt-10 py-6'>
+                <div className='h-52 mt-10'>
                     <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=>callAuth("Google")}
