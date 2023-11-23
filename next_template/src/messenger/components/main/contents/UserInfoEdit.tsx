@@ -33,12 +33,21 @@ export default function UserInfoEdit() {
     }
 
     const onClickHandler = () => {
-        setShowWarning(true)
+        const checkEditYn = infoReducer.findIndex((item)=> {
+            item.editYn === true
+        })
+        if(checkEditYn === -1) {
+            alert("There is nothing to modify.")
+        } else {
+            setShowWarning(true)
+        }
 
 
     }
 
     const updateAuthInfo = async () => {
+        // Close Warning Modal
+        setShowWarning(false)
         // photoURL Edited Check
         const photoURLEdited = infoReducer[getStateIdx("photoURL")].editYn
         // if Edited, Uploaded to Firebase Stroage and get Image URL
@@ -145,10 +154,10 @@ export default function UserInfoEdit() {
                     <div className="relative w-80 h-auto my-6 mx-auto max-w-3xl bg-white dark:bg-slate-800 rounded-md p-3">
                         <div>
                             <h4 className='font-bold text-lg'>
-                                Notice
+                                User Information Change
                             </h4>
                         </div>
-                        <div className="pl-1 items-start">
+                        <div className="pl-1 items-start my-2">
                             <h6 className="text-base text-left">
                                 * User information has been modified.
                             </h6>
@@ -181,11 +190,13 @@ export default function UserInfoEdit() {
                             </h6>
                         </div>
                         <div className="flex justify-end gap-1">
-                            <button 
+                            <button
+                                onClick={()=>setShowWarning(false)} 
                                 className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
                                 Cancel
                             </button>
                             <button
+                                onClick={()=>updateAuthInfo()}
                                 className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white font-bold px-2'>
                                 Confirm
                             </button>
