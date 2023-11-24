@@ -5,14 +5,15 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
-import { getAuth, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
+import { getAuth, signOut, updateEmail, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
-import { setInitUserInfo, updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
+import { updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
+import PopOver from '../../public/PopOver';
 
 export default function UserInfoEdit() {
     const [showLogout, setShowLogout] = React.useState(false);
     const [showWarning, setShowWarning] = React.useState(false);
-    const [rewindModal, setRewindModal] = React.useState(false);
+    const [noEditModal, setNoEditModal] = React.useState(false);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
     const dispatch = useAppDispatch()
@@ -33,11 +34,10 @@ export default function UserInfoEdit() {
     }
 
     const onClickHandler = () => {
-        const checkEditYn = infoReducer.findIndex((item)=> {
-            item.editYn === true
-        })
+        const checkEditYn = infoReducer.findIndex((item)=> item.editYn === true)
+        console.log(checkEditYn)
         if(checkEditYn === -1) {
-            alert("There is nothing to modify.")
+            setNoEditModal(true)
         } else {
             setShowWarning(true)
         }
@@ -204,6 +204,7 @@ export default function UserInfoEdit() {
                     </div>
                 </div>
             }
+            { noEditModal && <PopOver content='Nothing to edit' type='fail' control={()=>setNoEditModal(false)}/>}
         </div>
 
     )
