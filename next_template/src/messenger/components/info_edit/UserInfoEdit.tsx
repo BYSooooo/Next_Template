@@ -7,8 +7,8 @@ import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { getAuth, signOut, updateEmail, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
-import { updatePhotoURL, uploadPhotoToStrg } from '../../FirebaseController';
-import PopOver from '../../public/PopOver';
+import { updatePhotoURL, uploadPhotoToStrg } from '../FirebaseController';
+import PopOver from '../public/PopOver';
 
 export default function UserInfoEdit() {
     const [showLogout, setShowLogout] = React.useState(false);
@@ -114,7 +114,7 @@ export default function UserInfoEdit() {
                         <label htmlFor="tempPhoto">
                             <button 
                                 onClick={()=>document.getElementById("tempPhoto").click()}
-                                className='flex border-2 border-blue-400 rounded-full border-solid px-1 hover:bg-blue-400 w-fit h-fit'>
+                                className='flex border-2 border-blue-400 rounded-full border-solid px-2 hover:bg-blue-400 w-fit h-fit'>
                                 Edit
                             </button>
                             <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>

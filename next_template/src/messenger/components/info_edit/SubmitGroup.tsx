@@ -2,7 +2,7 @@ import React from 'react';
 
 import { setUserInfo } from '@/redux/features/messengerReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { firebaseAuth } from '../../../../../firebaseConfig';
+import { firebaseAuth } from '../../../../firebaseConfig';
 
 type reduxType = "email" | "displayName" | "phoneNumber" | "photoURL"
 
@@ -68,7 +68,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
             </div>
             <input
                 disabled={inputEditYn(reduxName)}
-                className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3'
+                className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3 dark:bg-black'
                 onChange={(e)=>inputValueChange(reduxName,e)}
                 value={infoReducer[getStateIdx(reduxName)].value}/>
         </div>

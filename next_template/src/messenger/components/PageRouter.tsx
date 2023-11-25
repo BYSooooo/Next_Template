@@ -2,9 +2,10 @@ import React from 'react';
 
 import ChatList from "@/messenger/components/main/contents/ChatList";
 import OtherInfo from "@/messenger/components/main/contents/OtherInfo";
-import UserInfoEdit from "@/messenger/components/main/contents/UserInfoEdit";
-import UserInfo from './main/left/UserInfo';
+import UserInfoEdit from "@/messenger/components/info_edit/UserInfoEdit";
+import UserInfo from './userinfo/UserInfo';
 import { useAppSelector } from '@/redux/hook';
+import FriendListMain from './friendlist/FriendListMain';
 
 export default function PageRouter() {
     const messengerReducer = useAppSelector((state)=> state.messengerRouter);
@@ -20,7 +21,7 @@ export default function PageRouter() {
                 return (
                     <div className='flex grid-cols-3'>
                         <UserInfo />
-                        <ChatList />
+                        <FriendListMain />
                         <OtherInfo />
                     </div>
                 )
