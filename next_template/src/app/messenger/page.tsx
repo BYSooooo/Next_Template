@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 
 import MessengerLogin from '@/messenger/layouts/MessengerLogin'
 
 export default function messenger() {
     return (
-        <MessengerLogin />
+        <StrictMode>
+            <MessengerLogin />
+        </StrictMode>
     )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 
 import AuthController from '../components/AuthController';
@@ -24,25 +26,25 @@ export default function MainAuth() {
                 </h6>
             </div>
             <div className="divide-y-2 divide-solid">
-                <div className='grid p-3 h-52 mt-10 grid-rows-3 py-6 gap-2'>
-                    <div className="flex justify-center items-center min-w-full">
+                <div className='h-52 mt-10'>
+                    <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=>callAuth("Google")}
-                            className=" w-2/3 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
+                            className="w-52 rounded-full border-solid border-blue-500 border-2  p-2 hover:bg-blue-500">
                             Sign in with Google
                         </button>
                     </div>
-                    <div className="flex justify-center items-center min-w-full">
+                    <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> callAuth("Github")}
-                            className="w-2/3 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
+                            className="w-52 rounded-full border-solid border-gray-800 border-2 p-2 hover:bg-gray-800 hover:text-white" >
                             Sign in with GitHub
                         </button>
                     </div>
-                    <div className="flex justify-center items-center min-w-full">
+                    <div className="flex justify-center items-center my-3">
                         <button
                             onClick={()=> setShowModal(true)}
-                            className="w-2/3 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
+                            className="w-52 rounded-full border-solid  border-gray-400 border-2 p-2 hover:bg-gray-400">
                             Sign in with Email
                         </button>
                     </div>
@@ -51,10 +53,10 @@ export default function MainAuth() {
                     <h6 className='text-sm'>
                         If you would like to access a trial account, please click the button below 
                     </h6>
-                    <div className='flex justify-center items-center min-w-full mt-2'>
+                    <div className='flex justify-center items-center mt-2'>
                         <button
                             onClick={()=>callAuth("Test")}
-                            className="w-2/3 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
+                            className="w-52 rounded-full border-solid border-violet-400 border-2 p-2 hover:bg-violet-400">
                                 Sign In Test Account
                         </button>
                     

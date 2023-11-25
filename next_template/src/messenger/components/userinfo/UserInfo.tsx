@@ -3,29 +3,21 @@ import React from 'react';
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
-import { getUserInfo } from '../../FirebaseController';
+import { getUserInfo, setInitUserInfo } from '../FirebaseController';
 
 export default function UserInfo() {
     const [userInfo, setUserInfo] = React.useState<userInfo>(null)
     const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
+        setInitUserInfo()
         getUserInfo().then((result : userInfo)=> {
+            console.log("Get User Info ")
+            console.log(result)
             setUserInfo(result);
         })
     },[])
 
-    const setDisplayName = () => {
-        let dName = ""
-        if(userInfo) {
-            dName = userInfo.displayName
-        }else {
-            dName = "No Name" 
-        }
-        return dName
-        
-    }
-    
     // const initFireStroage = async () => {
         
     //     const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
@@ -52,7 +44,7 @@ export default function UserInfo() {
                     Name
                 </h3>
                 <h6 className='text-lg font-bold'>
-                    {setDisplayName()}
+                    {userInfo?.displayName.length > 0 ? userInfo.displayName : "No Name"}
                 </h6>
                 <h3 className='text-md text-gray-500'>
                     E-Mail

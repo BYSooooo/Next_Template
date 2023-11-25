@@ -20,14 +20,6 @@ export default function ThemeRegistry({children} : {children : React.ReactNode})
         })
     },[])
 
-    // if(typeof window !== "undefined") {
-        
-    // }
-    
-    // React.useEffect(()=> {
-        
-    // },[window.localStorage.getItem('mode')]) 
-    
     return (
         <ThemeProvider theme={theme(mode === 'dark' ? 'dark' : 'light')}>
             {children}

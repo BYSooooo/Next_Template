@@ -1,9 +1,8 @@
 import React from 'react';
 
 import PageRouter from '../components/PageRouter';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { useAppDispatch } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
-import { firebaseStrg } from '../../../firebaseConfig';
 import HeaderMain from '../components/header/HeaderMain';
 import { setInitUserInfo } from '../components/FirebaseController';
 

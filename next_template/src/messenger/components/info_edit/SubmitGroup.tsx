@@ -2,7 +2,7 @@ import React from 'react';
 
 import { setUserInfo } from '@/redux/features/messengerReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { firebaseAuth } from '../../../../../firebaseConfig';
+import { firebaseAuth } from '../../../../firebaseConfig';
 
 type reduxType = "email" | "displayName" | "phoneNumber" | "photoURL"
 
@@ -19,6 +19,16 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
     const checkYnChange =(event : React.ChangeEvent<HTMLInputElement>)=> {
         const checkedYn = event.target.checked;
         const inputName = event.target.name;
+        const preValue = (name : string) => {
+            switch (name) {
+                case "email" : 
+                    return userAuth.email;
+                case "displayName" : 
+                    return userAuth.displayName;
+                default :
+                    return null;
+            }
+        }
         // Enable to Input New Value
         if(checkedYn === true) {
             console.log("True")
@@ -26,8 +36,12 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
         // If check box values false, initialized input value
         } else {
             console.log("False")
-            dispatch(setUserInfo({infoName : inputName, value : userAuth.displayName === null ? "" : userAuth.displayName, editYn : false}))
+            dispatch(setUserInfo({infoName : inputName, value : preValue(inputName) === null ? "" : preValue(inputName), editYn : false}))
         }
+    }
+    
+    const validation = () => {
+
     }
 
     const getStateIdx = (propName : string)=> {
@@ -54,7 +68,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
             </div>
             <input
                 disabled={inputEditYn(reduxName)}
-                className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3'
+                className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3 dark:bg-black'
                 onChange={(e)=>inputValueChange(reduxName,e)}
                 value={infoReducer[getStateIdx(reduxName)].value}/>
         </div>
