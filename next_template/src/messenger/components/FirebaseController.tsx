@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { listAll, ref, uploadString } from 'firebase/storage';
+import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
 
 const userAuth = firebaseAuth;
 
@@ -56,4 +57,16 @@ export const updatePhotoURL = async(url : string)=> {
     } catch(error) {
         return false;
     } 
+}
+
+export const getUserListInStrg = async(keyword : string)=> {
+    const storageRef = ref(firebaseStrg, 'userInfo');    
+    try {
+        listAll(storageRef)
+            .then((response)=> {
+                return { result : true, value : response }
+            })
+    } catch(error){
+        return { result : false, value : null}
+    }
 }

@@ -1,9 +1,14 @@
 import React, { ChangeEvent } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/20/solid'
+import { getUserListInStrg } from '../FirebaseController'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [searchValue, setSearchValue] = React.useState("")
+
+    React.useEffect(()=> {
+        getUserListInStrg("test").then((result)=> console.log(result))
+    },[])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         const value = e.target.value
@@ -26,6 +31,11 @@ export function FriendAddModal({open} : {open : Function}) {
                         onChange={(e)=>onChangeInput(e)}
                         placeholder='example@email.com'>
                     </input>
+                </div>
+                <div>
+                    <h4 className=''>
+
+                    </h4>
                 </div>
             </div>
         </div>

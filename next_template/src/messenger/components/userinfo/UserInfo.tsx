@@ -44,7 +44,7 @@ export default function UserInfo() {
                     Name
                 </h3>
                 <h6 className='text-lg font-bold'>
-                    {userInfo?.displayName.length > 0 ? userInfo.displayName : "No Name"}
+                    {userInfo?.displayName ? userInfo.displayName : "No Name"}
                 </h6>
                 <h3 className='text-md text-gray-500'>
                     E-Mail
