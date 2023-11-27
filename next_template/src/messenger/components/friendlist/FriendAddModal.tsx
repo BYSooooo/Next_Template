@@ -5,10 +5,12 @@ import { getUserListInStrg } from '../FirebaseController'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [searchValue, setSearchValue] = React.useState("")
+    const [getUserList, setGetUserList] = React.useState([])
 
     React.useEffect(()=> {
-        getUserListInStrg("test").then((result)=> console.log(result))
-    },[])
+        getUserListInStrg("account")
+        
+    },[searchValue])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         const value = e.target.value

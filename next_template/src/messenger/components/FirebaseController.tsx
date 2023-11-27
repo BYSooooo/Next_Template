@@ -3,6 +3,7 @@ import React from 'react';
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
+import { Co2Sharp } from '@mui/icons-material';
 
 const userAuth = firebaseAuth;
 
@@ -59,12 +60,18 @@ export const updatePhotoURL = async(url : string)=> {
     } 
 }
 
-export const getUserListInStrg = async(keyword : string)=> {
+export const getUserListInStrg = async(keyword :  string)=> {
     const storageRef = ref(firebaseStrg, 'userInfo');    
+    let userList = []
     try {
         listAll(storageRef)
             .then((response)=> {
-                return { result : true, value : response }
+                response.prefixes.map((item)=> {
+                    console.log(item)
+                    {item.name === keyword && userList.push(item.name)}
+                })
+                console.log(userList)
+                return { result : true, value : userList }
             })
     } catch(error){
         return { result : false, value : null}
