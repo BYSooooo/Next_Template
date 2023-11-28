@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { listAll, ref, uploadString } from 'firebase/storage';
+import { ListResult, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
 import { Co2Sharp } from '@mui/icons-material';
 
@@ -60,19 +60,18 @@ export const updatePhotoURL = async(url : string)=> {
     } 
 }
 
-export const getUserListInStrg = async(keyword :  string)=> {
+export const getUserListInStrg = async()=> {
     const storageRef = ref(firebaseStrg, 'userInfo');    
     let userList = []
     try {
-        listAll(storageRef)
+        await listAll(storageRef)
             .then((response)=> {
-                response.prefixes.map((item)=> {
-                    console.log(item)
-                    {item.name === keyword && userList.push(item.name)}
+                response.prefixes.map((item : any)=> {
+                    const mailString = item._location.path_.split('/')[1];
+                    userList.push(mailString);
                 })
-                console.log(userList)
-                return { result : true, value : userList }
             })
+        return { result : true, value : userList }
     } catch(error){
         return { result : false, value : null}
     }

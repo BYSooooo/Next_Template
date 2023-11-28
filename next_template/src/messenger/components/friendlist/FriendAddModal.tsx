@@ -5,18 +5,25 @@ import { getUserListInStrg } from '../FirebaseController'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [searchValue, setSearchValue] = React.useState("")
-    const [getUserList, setGetUserList] = React.useState([])
+    const [getUserList, setGetUserList] = React.useState<string[]>([])
 
     React.useEffect(()=> {
-        getUserListInStrg("account")
-        
+        getAllList()
     },[searchValue])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         const value = e.target.value
         setSearchValue(value)
     }
-
+    const getAllList = () => {
+        {searchValue.length > 0 ? 
+            getUserListInStrg().then((response)=> {
+                {response?.result === true && setGetUserList(response.value)}
+            })
+            : setGetUserList([])
+        }
+    }
+    
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white'>
@@ -34,11 +41,15 @@ export function FriendAddModal({open} : {open : Function}) {
                         placeholder='example@email.com'>
                     </input>
                 </div>
-                <div>
-                    <h4 className=''>
-
-                    </h4>
-                </div>
+                {getUserList.map((item)=> (
+                    
+                    <div key={item}>
+                        <h4>
+                            {item}
+                        </h4>
+                    </div>
+                ))
+                }
             </div>
         </div>
     )
