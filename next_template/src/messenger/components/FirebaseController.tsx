@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { ListResult, listAll, ref, uploadString } from 'firebase/storage';
+import { ListResult, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
 import { Co2Sharp } from '@mui/icons-material';
 
@@ -75,4 +75,14 @@ export const getUserListInStrg = async()=> {
     } catch(error){
         return { result : false, value : null}
     }
+}
+export const getUserInfoInStrg = async(email : string)=> {
+    const storageRef = ref(firebaseStrg,`userInfo/${email}/photoURL`)
+    try {
+        const downURL = await getDownloadURL(storageRef)
+        return {result : true, value : downURL}
+    } catch(error) {
+        return {result : false, value : ""}
+    }
+    
 }
