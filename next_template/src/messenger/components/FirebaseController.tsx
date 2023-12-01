@@ -25,6 +25,11 @@ export const setInitUserInfo = async () => {
         console.log("Not Logined")
     }
 }
+
+export const getAllUserInDoc = async()=> {
+    const collectRef = collection(firebaseStore,'userInfo');
+    
+}
 export const getUserInfo = async() => {
     const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email);
     try {
