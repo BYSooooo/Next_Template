@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { ListResult, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
+import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
+import { Co2Sharp } from '@mui/icons-material';
 
 const userAuth = firebaseAuth;
 
@@ -22,6 +24,11 @@ export const setInitUserInfo = async () => {
     } else {
         console.log("Not Logined")
     }
+}
+
+export const getAllUserInDoc = async()=> {
+    const collectRef = collection(firebaseStore,'userInfo');
+    
 }
 export const getUserInfo = async() => {
     const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email);
@@ -56,4 +63,31 @@ export const updatePhotoURL = async(url : string)=> {
     } catch(error) {
         return false;
     } 
+}
+
+export const getUserListInStrg = async()=> {
+    const storageRef = ref(firebaseStrg, 'userInfo');    
+    let userList = []
+    try {
+        await listAll(storageRef)
+            .then((response)=> {
+                response.prefixes.map((item : any)=> {
+                    const mailString = item._location.path_.split('/')[1];
+                    userList.push(mailString);
+                })
+            })
+        return { result : true, value : userList }
+    } catch(error){
+        return { result : false, value : null}
+    }
+}
+export const getUserInfoInStrg = async(email : string)=> {
+    const storageRef = ref(firebaseStrg,`userInfo/${email}/photoURL`)
+    try {
+        const downURL = await getDownloadURL(storageRef)
+        return {result : true, value : downURL}
+    } catch(error) {
+        return {result : false, value : ""}
+    }
+    
 }
