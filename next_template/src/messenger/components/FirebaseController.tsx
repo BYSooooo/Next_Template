@@ -34,7 +34,7 @@ export const getAllUserInDoc = async()=> {
         await getDocs(collection(firebaseStore,"userInfo"))
             .then((response)=> {
                 response.forEach((docs)=> {
-                    userList.push(docs)
+                    userList.push(docs.data().email)
                 })
             })
         console.log(userList)
