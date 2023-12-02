@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { ListResult, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, query, collection } from 'firebase/firestore';
-import { Co2Sharp } from '@mui/icons-material';
+import { firebaseAuth, firebaseDb, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
+import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection } from 'firebase/firestore';
+import { DataSnapshot } from 'firebase/database';
+
+
 
 const userAuth = firebaseAuth;
 
@@ -27,9 +29,22 @@ export const setInitUserInfo = async () => {
 }
 
 export const getAllUserInDoc = async()=> {
-    const collectRef = collection(firebaseStore,'userInfo');
-    
+    let userList = []
+    try {
+        await getDocs(collection(firebaseStore,"userInfo"))
+            .then((response)=> {
+                response.forEach((docs)=> {
+                    userList.push(docs)
+                })
+            })
+        console.log(userList)
+        return { result : true, value : userList}
+        
+    } catch(error) {
+        return {result :false, value : []}
+    }
 }
+
 export const getUserInfo = async() => {
     const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email);
     try {

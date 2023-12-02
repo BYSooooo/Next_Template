@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { getUserListInStrg } from '../FirebaseController'
+import { getAllUserInDoc, getUserListInStrg } from '../FirebaseController'
 import { ListElement } from './ListElement'
 
 export function FriendAddModal({open} : {open : Function}) {
@@ -25,7 +25,7 @@ export function FriendAddModal({open} : {open : Function}) {
         setSearchValue(value)
     }
     const getAllList = () => {
-        getUserListInStrg().then((response)=> {
+        getAllUserInDoc().then((response)=> {
             {response?.result === true && setGetUserList(response.value)}
         })
     }
