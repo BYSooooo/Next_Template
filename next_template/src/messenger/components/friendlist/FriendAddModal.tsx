@@ -32,8 +32,7 @@ export function FriendAddModal({open} : {open : Function}) {
     const filterUser = ()=> {
         const resultArray = getUserList.filter((item)=> item.includes(searchValue.trim()))
         setSearchUser(resultArray)
-    }
-    
+    }    
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-black rounded-md p-3'>
@@ -72,7 +71,7 @@ export function FriendAddModal({open} : {open : Function}) {
                     ?   <div className='h-60 overflow-scroll'>
                             {searchUser.map((user)=> {
                             return (
-                                <ListElement key={user} mailAddress={user} />
+                                <ListElement key={user} mailAddress={user}/>
                             )
                             })}
                         </div>
