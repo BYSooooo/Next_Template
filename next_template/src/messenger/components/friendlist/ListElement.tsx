@@ -19,17 +19,16 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
     }
 
     const selectHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        
+        const selected = e.target
+        focus()
     }
 
     const onClickAddButton = ()=> {
-        
+        alert("Clicked")
     }
     return (
-        <button 
+        <li 
             onClick={(e)=> selectHandler(e)}
-            onFocus={()=>setSelected(true)}
-            onBlur={()=>setSelected(false)}
             className='flex w-80 p-2 m-1 rounded-md border-slate-500 border-2 hover:bg-slate-500 hover:text-white focus:hover:text-black hover:cursor-pointer transition duration-200 focus:h-32 focus:hover:bg-neutral-50'>
                 {
                     selected 
@@ -69,7 +68,7 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                         </div>
                 }
                 
-        </button>
+        </li>
     )
     
 }

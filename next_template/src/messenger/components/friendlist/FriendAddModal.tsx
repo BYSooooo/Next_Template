@@ -67,21 +67,32 @@ export function FriendAddModal({open} : {open : Function}) {
                         </input>
                     </label>
                 </div>
-                {searchUser.length > 0
-                    ?   <div className='h-60 overflow-scroll'>
-                            {searchUser.map((user)=> {
-                            return (
-                                <ListElement key={user} mailAddress={user}/>
-                            )
-                            })}
-                        </div>
-                    :   <div className='flex h-60 justify-center items-center'>
-                            <h4 className='font-bold'>
-                                No result found.
-                            </h4>
-                        </div>
-                    }
+                <ul className='list-none list-inside h-52 overflow-scroll' >
+                    {searchUser.map((user)=> {
+                        return (
+                            <ListElement key={user} mailAddress={user} />
+                        )
+                    })}
+                </ul>
+
+
+                
             </div>
         </div>
     )
 }
+
+// {searchUser.length > 0
+//     ?   <div className='h-60 overflow-scroll'>
+//             {searchUser.map((user)=> {
+//             return (
+//                 <ListElement key={user} mailAddress={user}/>
+//             )
+//             })}
+//         </div>
+//     :   <div className='flex h-60 justify-center items-center'>
+//             <h4 className='font-bold'>
+//                 No result found.
+//             </h4>
+//         </div>
+//     }
