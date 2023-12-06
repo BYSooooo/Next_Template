@@ -45,8 +45,8 @@ export const getAllUserInDoc = async()=> {
     }
 }
 
-export const getUserInfo = async() => {
-    const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email);
+export const getUserInfo = async(email: string) => {
+    const docRef = doc(firebaseStore,'userInfo',email);
     try {
         const result = await getDoc(docRef);
         return result.data()
