@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { firebaseAuth, firebaseDb, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
+import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection } from 'firebase/firestore';
-import { DataSnapshot } from 'firebase/database';
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 const userAuth = firebaseAuth;
 
+/**
+ * Get Current User Info in Document
+ */
 export const setInitUserInfo = async () => {
     if(userAuth.currentUser) {
         try {
@@ -28,13 +29,19 @@ export const setInitUserInfo = async () => {
     }
 }
 
+/**
+ * Get All User List In Document
+ * @return result - true or false depending on whether the request succeeds or not
+ * @return value - Array of User List
+ */
 export const getAllUserInDoc = async()=> {
     let userList = []
     try {
         await getDocs(collection(firebaseStore,"userInfo"))
             .then((response)=> {
                 response.forEach((docs)=> {
-                    userList.push(docs.data().email)
+                    {docs.data().email !== userAuth.currentUser.email 
+                        && userList.push(docs.data().email)}  
                 })
             })
         console.log(userList)
@@ -105,4 +112,45 @@ export const getUserInfoInStrg = async(email : string)=> {
         return {result : false, value : ""}
     }
     
+}
+
+/**
+ * Send a friend request to the selected user
+ * @param {string} email Who will receive friend requests
+ * @return result : boolean, value : message
+ */
+export const setRequestAddFriendInDoc = async(email : string) => {
+    try {
+        await setDoc(doc(firebaseStore,'friendReq', `${uuidv4()}`), {
+            from : userAuth.currentUser.email,
+            to : email,
+            checkYn : false,
+            status : "request",
+            req_date : new Date(),
+        })
+        return { result : true, value : "Request Success"}
+    } catch (error) {
+        return { result : false, value : `Error : ${error}`}
+    }
+}
+/**
+ * View the full list of friend add requests
+ * 
+ * Note : View the full list for reuse in other components. 
+ * @returns result : `Boolean`, value : `Array` of request List
+ */
+export const getReuestAddFriendInDoc = async()=> {
+    let docList = []
+    try {
+        await getDocs(collection(firebaseStore,'friendReq'))
+            .then((response)=> {
+                response.forEach((doc)=>
+                    docList.push(doc.data())
+                )
+            })
+            return {result : true, value : docList}
+    }catch (error) {
+        console.log(`Error : ${error}`)
+        return {result : false, value : []};
+    }
 }

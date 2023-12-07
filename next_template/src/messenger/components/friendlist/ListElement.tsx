@@ -1,18 +1,22 @@
 import React, { HTMLAttributes } from 'react'
 
 
-import { getUserInfo, getUserInfoInStrg } from '../FirebaseController'
+import { getReuestAddFriendInDoc, getUserInfo, getUserInfoInStrg, setRequestAddFriendInDoc } from '../FirebaseController'
 import { UserIcon } from '@heroicons/react/20/solid';
+import { firebaseAuth } from '../../../../firebaseConfig';
+
 import PopOver from '../public/PopOver';
 
 export function ListElement({mailAddress} : {mailAddress : string}) {
     const [photoURL, setPhotoURL] = React.useState("");
     const [selected, setSelected] = React.useState(false)
-    const [infoInDoc, setInfoInDoc] = React.useState<userInfo>()
+    const [infoInDoc, setInfoInDoc] = React.useState<userInfo>(null)
+    const [reqList, setReqList] = React.useState<requestFriend[]>([])
 
     React.useEffect(()=> {
-        getPhotoURL()
-        getSelectedUserInfo()
+        getPhotoURL();
+        getSelectedUserInfo();
+        getStatusRequestDoc();
     },[])
     
     const getPhotoURL = async()=> {
@@ -20,13 +24,12 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         setPhotoURL(value)
     }
 
-    const selectHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        const selected = e
-        console.log(selected)
-    }
-
     const onClickAddButton = ()=> {
-        
+        setRequestAddFriendInDoc(infoInDoc.email).then((result)=> {
+            if(result.result) {
+                alert("Success")
+            }
+        })
     }
 
     const getSelectedUserInfo = () => {
@@ -35,12 +38,36 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         })
     }
 
+    const getStatusRequestDoc = () => {
+        getReuestAddFriendInDoc().then((result)=> {
+            if(result.result) {
+               const filteringReq = result.value.filter((item)=> 
+                    item.from === firebaseAuth.currentUser.email         
+                )
+                setReqList(filteringReq)
+            }
+        })
+    }
+
+    const renderElement = () => {
+        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
+        const checkYn = reqIndex !== -1 && reqList[reqIndex].checkYn;
+        const status = reqIndex !== -1 && reqList[reqIndex].status
+        
+        
+        const cssClass : HTMLAttributes<HTMLLIElement> = {
+            className : "flex p-2 m-1 rounded-md border-slate-500 border-2 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32"  
+        } 
+        
+        return cssClass.className
+    }
+
+
     return (
         <li 
             onMouseOver={()=>setSelected(true)}
             onMouseOut={()=>setSelected(false)}
-            onClick={(e)=> selectHandler(e)}
-            className='flex p-2 m-1 rounded-md border-slate-500 border-2 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32'>
+            className={renderElement()}>
                 {
                     selected 
                     ?   <div>

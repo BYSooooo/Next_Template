@@ -1,14 +1,14 @@
 import React, { ChangeEvent } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { getAllUserInDoc, getUserListInStrg } from '../FirebaseController'
+import { getAllUserInDoc } from '../FirebaseController'
 import { ListElement } from './ListElement'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [searchValue, setSearchValue] = React.useState("")
     const [getUserList, setGetUserList] = React.useState<string[]>([])
     const [searchUser, setSearchUser] = React.useState<string[]>([]);
-
+    
     React.useEffect(()=> {
         getAllList()
     },[])
@@ -26,6 +26,7 @@ export function FriendAddModal({open} : {open : Function}) {
     }
     const getAllList = () => {
         getAllUserInDoc().then((response)=> {
+            
             {response?.result === true && setGetUserList(response.value)}
         })
     }
@@ -70,13 +71,10 @@ export function FriendAddModal({open} : {open : Function}) {
                 <ul className='list-none list-inside h-52 overflow-scroll' >
                     {searchUser.map((user)=> {
                         return (
-                            <ListElement key={user} mailAddress={user} />
+                            <ListElement key={user} mailAddress={user}  />
                         )
                     })}
-                </ul>
-
-
-                
+                </ul>               
             </div>
         </div>
     )
