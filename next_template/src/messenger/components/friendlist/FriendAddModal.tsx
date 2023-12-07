@@ -68,7 +68,7 @@ export function FriendAddModal({open} : {open : Function}) {
                         </input>
                     </label>
                 </div>
-                <ul className='list-none list-inside h-52 overflow-scroll' >
+                <ul className='list-none list-inside h-64 overflow-scroll' >
                     {searchUser.map((user)=> {
                         return (
                             <ListElement key={user} mailAddress={user}  />

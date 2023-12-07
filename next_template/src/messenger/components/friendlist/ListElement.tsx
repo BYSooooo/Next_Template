@@ -51,15 +51,38 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
 
     const renderElement = () => {
         const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
-        const checkYn = reqIndex !== -1 && reqList[reqIndex].checkYn;
         const status = reqIndex !== -1 && reqList[reqIndex].status
-        
+
+        let hoverCSS = ""
+        switch(status) {
+            case "request" :
+                hoverCSS = 'border-none hover:border-orange-500 hover:bg-orange-500 hover:border-solid'
+                break;
+            case "refusal" : 
+                hoverCSS = "border-none hover:border-red-500 hover:bg-red-500 hover:border-solid"
+                break;
+            case "success" : 
+                hoverCSS = "border-none hover:border-green-500 hover:bg-green-500 hover:border-solid"
+                break;
+            default : 
+                hoverCSS = "border-none hover:border-blue-500 hover:bg-blue-500 hover:border-solid"
+                break;
+        }
         
         const cssClass : HTMLAttributes<HTMLLIElement> = {
-            className : "flex p-2 m-1 rounded-md border-slate-500 border-2 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32"  
+            className : "flex p-2 m-1 rounded-md border-2 border-slate-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32"+hoverCSS  
         } 
-        
         return cssClass.className
+    }
+    const buttonContext = ()=> {
+        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
+        const checkYn = reqIndex !== -1 && reqList[reqIndex].checkYn;
+
+        const cssClass : HTMLAttributes<HTMLButtonElement> = {
+            className : 'flex w-full px-2 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-600 transition duration-200 justify-center'
+        }
+        return cssClass.className 
+        
     }
 
 
@@ -85,12 +108,11 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                                 </ul>
                             </div>
                             <div className='flex justify-end items-end mt-6'>
-                                <button
-                                    onClick={onClickAddButton} 
-                                    className='flex w-full px-2 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-600 transition duration-200 justify-center'>
-                                    Send Request
-                                </button>
-
+                            <button
+                                onClick={onClickAddButton} 
+                                className={buttonContext()}>
+                                Send Request
+                            </button>
                             </div>                            
                         </div>
                     :   <div className='flex items-center gap-2'>
