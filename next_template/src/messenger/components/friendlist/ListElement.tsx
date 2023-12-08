@@ -45,45 +45,63 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                     item.from === firebaseAuth.currentUser.email         
                 )
                 setReqList(filteringReq)
+
             }
         })
     }
-
+    
     const renderElement = () => {
         const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
         const status = reqIndex !== -1 && reqList[reqIndex].status
 
-        let hoverCSS = ""
+        let outlineCss = ""
         switch(status) {
             case "request" :
-                hoverCSS = 'border-none hover:border-orange-500 hover:bg-orange-500 hover:border-solid'
+                outlineCss = 'border-none hover:border-orange-500 hover:bg-orange-500 hover:border-solid'
                 break;
             case "refusal" : 
-                hoverCSS = "border-none hover:border-red-500 hover:bg-red-500 hover:border-solid"
+                outlineCss = "border-none hover:border-red-500 hover:bg-red-500 hover:border-solid"
                 break;
             case "success" : 
-                hoverCSS = "border-none hover:border-green-500 hover:bg-green-500 hover:border-solid"
+                outlineCss = "border-none hover:border-green-500 hover:bg-green-500 hover:border-solid"
                 break;
             default : 
-                hoverCSS = "border-none hover:border-blue-500 hover:bg-blue-500 hover:border-solid"
+                outlineCss = "border-none hover:border-blue-500 hover:bg-blue-500 hover:border-solid"
                 break;
         }
         
-        const cssClass : HTMLAttributes<HTMLLIElement> = {
-            className : "flex p-2 m-1 rounded-md border-2 border-slate-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32"+hoverCSS  
+        const outline : HTMLAttributes<HTMLLIElement> = {
+            className : "flex p-2 m-1 rounded-md border-2 border-slate-500 hover:text-white hover:cursor-pointer transition duration-200 hover:h-32"+outlineCss
         } 
-        return cssClass.className
+    
+        return outline.className
+        
     }
     const buttonContext = ()=> {
         const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
-        const checkYn = reqIndex !== -1 && reqList[reqIndex].checkYn;
-
-        const cssClass : HTMLAttributes<HTMLButtonElement> = {
-            className : 'flex w-full px-2 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-600 transition duration-200 justify-center'
-        }
-        return cssClass.className 
+        const status = reqIndex !== -1 && reqList[reqIndex].status
+        let buttonCss = "";
+        switch(status) {
+            case "request" : 
+                buttonCss = "bg-none bg-orange-400"
+                break;
+            case "refusal" : 
+                buttonCss = "bg-none bg-red-600"
+                break;
+            case "success" : 
+                buttonCss = "bg-none bg-green-600"
+                break;
+            default : 
+                buttonCss = "bg-none bg-blue-400"
+                break;
+        } 
         
+        const button : HTMLAttributes<HTMLButtonElement> = {
+            className : 'flex w-full px-2 py-1 rounded-full text-white transition duration-200 justify-center items-center'+buttonCss
+        }
+        return button.className 
     }
+
 
 
     return (
@@ -111,7 +129,7 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                             <button
                                 onClick={onClickAddButton} 
                                 className={buttonContext()}>
-                                Send Request
+                                    Send Request
                             </button>
                             </div>                            
                         </div>
