@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { getAllUserInDoc } from '../FirebaseController'
+import { getAllUserInDoc } from '../../FirebaseController'
 import { ListElement } from './ListElement'
 
 export function FriendAddModal({open} : {open : Function}) {

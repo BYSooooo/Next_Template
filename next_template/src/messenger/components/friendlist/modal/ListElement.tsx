@@ -1,11 +1,11 @@
 import React, { HTMLAttributes } from 'react'
 
 
-import { getReuestAddFriendInDoc, getUserInfo, getUserInfoInStrg, setRequestAddFriendInDoc } from '../FirebaseController'
+import { getReuestAddFriendInDoc, getUserInfo, getUserInfoInStrg, setRequestAddFriendInDoc } from '../../FirebaseController'
 import { UserIcon } from '@heroicons/react/20/solid';
-import { firebaseAuth } from '../../../../firebaseConfig';
+import { firebaseAuth } from '../../../../../firebaseConfig';
 
-import PopOver from '../public/PopOver';
+import PopOver from '../../public/PopOver';
 
 export function ListElement({mailAddress} : {mailAddress : string}) {
     const [photoURL, setPhotoURL] = React.useState("");
@@ -83,13 +83,13 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         let buttonCss = "";
         switch(status) {
             case "request" : 
-                buttonCss = "bg-none bg-orange-400"
+                buttonCss = "bg-none bg-orange-400 hover:bg-orange-700"
                 break;
             case "refusal" : 
-                buttonCss = "bg-none bg-red-600"
+                buttonCss = "bg-none bg-red-600 hover:bg-red-700"
                 break;
             case "success" : 
-                buttonCss = "bg-none bg-green-600"
+                buttonCss = "bg-none bg-green-600 hover:-green-700"
                 break;
             default : 
                 buttonCss = "bg-none bg-blue-400"
@@ -101,8 +101,16 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         }
         return button.className 
     }
-
-
+    const controlClickYn = () => {
+        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
+        const status = reqIndex !== -1 && reqList[reqIndex].status
+        if(status === "request" || status === "success") {
+            return true
+        } else {
+            return false
+        }
+        
+    }
 
     return (
         <li 
@@ -127,6 +135,7 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                             </div>
                             <div className='flex justify-end items-end mt-6'>
                             <button
+                                disabled={controlClickYn()}
                                 onClick={onClickAddButton} 
                                 className={buttonContext()}>
                                     Send Request
@@ -148,21 +157,3 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
     )
     
 }
-
-
-{/* <Popover>
-            <Popover.Button
-                className='flex p-2 m-1 w-80 items-center gap-2 rounded-md border-slate-500 border-2 hover:bg-slate-500 hover:text-white hover:cursor-pointer'>  
-                {photoURL.length > 0
-                    ?   <img className='w-8 h-8 rounded-full border-none shadow-none' src={photoURL} />
-                    :   <Spinner lightMode='black' darkMode='white' />
-
-                }
-                <h4 className='font-bold'>
-                    {mailAddress}
-                </h4>
-            </Popover.Button>
-            <Popover.Panel className='bg-slate-600 rounded-md ml-1 p-2 text-white w-80'>
-                Panel Content
-            </Popover.Panel>
-        </Popover> */}
