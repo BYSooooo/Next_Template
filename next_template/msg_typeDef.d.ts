@@ -13,7 +13,7 @@ interface userInfo {
  * @property status : The status of the current request
  * @property checkYn : Whether the user who received the request has been verified.
  */
-interface requestFriend {
+interface RequestFriend {
     from : string,
     to : string,
     req_date : Date,

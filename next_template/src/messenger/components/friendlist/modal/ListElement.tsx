@@ -5,13 +5,11 @@ import { getReuestAddFriendInDoc, getUserInfo, getUserInfoInStrg, setRequestAddF
 import { UserIcon } from '@heroicons/react/20/solid';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
-import PopOver from '../../public/PopOver';
-
 export function ListElement({mailAddress} : {mailAddress : string}) {
     const [photoURL, setPhotoURL] = React.useState("");
     const [selected, setSelected] = React.useState(false)
     const [infoInDoc, setInfoInDoc] = React.useState<userInfo>(null)
-    const [reqList, setReqList] = React.useState<requestFriend[]>([])
+    const [reqStatus, setReqStatus] = React.useState<"request" | "refusal" | "success"|"">("")
 
     React.useEffect(()=> {
         getPhotoURL();
@@ -41,21 +39,20 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
     const getStatusRequestDoc = () => {
         getReuestAddFriendInDoc().then((result)=> {
             if(result.result) {
-               const filteringReq = result.value.filter((item)=> 
+                
+                const filteringReq = result.value.filter((item : RequestFriend)=> 
                     item.from === firebaseAuth.currentUser.email         
                 )
-                setReqList(filteringReq)
-
+                const reqIndex = filteringReq.findIndex((request)=> request.to === mailAddress);
+                const status = reqIndex !== -1 && filteringReq[reqIndex].status
+                setReqStatus(status)
             }
         })
     }
     
     const renderElement = () => {
-        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
-        const status = reqIndex !== -1 && reqList[reqIndex].status
-
         let outlineCss = ""
-        switch(status) {
+        switch(reqStatus) {
             case "request" :
                 outlineCss = 'border-none hover:border-orange-500 hover:bg-orange-500 hover:border-solid'
                 break;
@@ -78,12 +75,10 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         
     }
     const buttonContext = ()=> {
-        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
-        const status = reqIndex !== -1 && reqList[reqIndex].status
         let buttonCss = "";
-        switch(status) {
+        switch(reqStatus) {
             case "request" : 
-                buttonCss = "bg-none bg-orange-400 hover:bg-orange-700"
+                buttonCss = "bg-none bg-orange-400 hover:bg-orange-300"
                 break;
             case "refusal" : 
                 buttonCss = "bg-none bg-red-600 hover:bg-red-700"
@@ -92,7 +87,7 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                 buttonCss = "bg-none bg-green-600 hover:-green-700"
                 break;
             default : 
-                buttonCss = "bg-none bg-blue-400"
+                buttonCss = "bg-none bg-blue-400 hover:bg-blue-600"
                 break;
         } 
         
@@ -101,20 +96,23 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
         }
         return button.className 
     }
-    const controlClickYn = () => {
-        const reqIndex = reqList.findIndex((request)=> request.to === mailAddress);
-        const status = reqIndex !== -1 && reqList[reqIndex].status
-        if(status === "request" || status === "success") {
-            return true
-        } else {
-            return false
+    
+    const controlBtnText = () => {
+        switch(reqStatus) {
+            case "request" : 
+                return "Waiting for approval"
+            case "refusal" : 
+                return "Resend a request"
+            case "success" : 
+                return "Already approved"
+            default :
+                return "Send Request"
         }
         
     }
 
     return (
-        <li 
-            onMouseOver={()=>setSelected(true)}
+        <li onMouseOver={()=>setSelected(true)}
             onMouseOut={()=>setSelected(false)}
             className={renderElement()}>
                 {
@@ -135,10 +133,10 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                             </div>
                             <div className='flex justify-end items-end mt-6'>
                             <button
-                                disabled={controlClickYn()}
+                                disabled={reqStatus === "success" || reqStatus === "request" ? true : false}
                                 onClick={onClickAddButton} 
                                 className={buttonContext()}>
-                                    Send Request
+                                    {controlBtnText()}
                             </button>
                             </div>                            
                         </div>
