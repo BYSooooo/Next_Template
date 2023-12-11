@@ -5,7 +5,7 @@ import { FriendAddReq } from './FriendAddReq'
 import { FriendAddRes } from './FriendAddRes'
 
 export function FriendAddModal({open} : {open : Function}) {
-    const [tabIndex, setTabIndex] = React.useState<number>()
+    const [tabIndex, setTabIndex] = React.useState<number>(1)
 
     const switchList = (index: number)=> {
         switch(index) {
