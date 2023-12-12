@@ -4,7 +4,7 @@ import PageRouter from '../components/PageRouter';
 import { useAppDispatch } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
 import HeaderMain from '../components/header/HeaderMain';
-import { setInitUserInfo } from '../components/FirebaseController';
+import { getAllUserInDoc, setInitUserInfo } from '../components/FirebaseController';
 
 
 export default function MainLogined () {

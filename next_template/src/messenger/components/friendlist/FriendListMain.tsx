@@ -1,6 +1,6 @@
 import { PlusIcon } from '@heroicons/react/20/solid';
 import React from 'react';
-import { FriendAddModal } from './FriendAddModal';
+import { FriendAddModal } from './modal/FriendAddModal';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)

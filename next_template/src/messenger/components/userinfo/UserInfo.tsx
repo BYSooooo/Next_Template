@@ -4,6 +4,7 @@ import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRouter } from '@/redux/features/messengerReducer';
 import { getUserInfo, setInitUserInfo } from '../FirebaseController';
+import { firebaseAuth } from '../../../../firebaseConfig';
 
 export default function UserInfo() {
     const [userInfo, setUserInfo] = React.useState<userInfo>(null)
@@ -11,7 +12,7 @@ export default function UserInfo() {
     
     React.useEffect(()=> {
         setInitUserInfo()
-        getUserInfo().then((result : userInfo)=> {
+        getUserInfo(firebaseAuth.currentUser.email).then((result : userInfo)=> {
             console.log("Get User Info ")
             console.log(result)
             setUserInfo(result);
