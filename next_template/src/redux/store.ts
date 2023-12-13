@@ -20,6 +20,7 @@ export const store = configureStore({
 
         messengerRouter : routerHook.reducer,
         messengerUserInfoEdit : userInfoHook.reducer
+
         
     }
     

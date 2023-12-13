@@ -1,49 +1,34 @@
 import React, { HTMLAttributes } from 'react'
 
 
-import { getReuestAddFriendInDoc, getUserInfo, getUserInfoInStrg, setRequestAddFriendInDoc } from '../../FirebaseController'
+import { getReuestAddFriendInDoc, setRequestAddFriendInDoc } from '../../FirebaseController'
 import { UserIcon } from '@heroicons/react/20/solid';
 import { firebaseAuth } from '../../../../../firebaseConfig';
+import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 
-export function ListElement({mailAddress} : {mailAddress : string}) {
-    const [photoURL, setPhotoURL] = React.useState("");
+export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
     const [selected, setSelected] = React.useState(false)
-    const [infoInDoc, setInfoInDoc] = React.useState<userInfo>(null)
     const [reqStatus, setReqStatus] = React.useState<"request" | "refusal" | "success"|"">("")
 
     React.useEffect(()=> {
-        getPhotoURL();
-        getSelectedUserInfo();
         getStatusRequestDoc();
     },[])
     
-    const getPhotoURL = async()=> {
-        const {result, value} = await getUserInfoInStrg(mailAddress)
-        setPhotoURL(value)
-    }
-
     const onClickAddButton = ()=> {
-        setRequestAddFriendInDoc(infoInDoc.email).then((result)=> {
+        setRequestAddFriendInDoc(userInfo.email).then((result)=> {
             if(result.result) {
                 alert("Success")
             }
         })
     }
 
-    const getSelectedUserInfo = () => {
-        getUserInfo(mailAddress).then((result: userInfo)=> {
-            setInfoInDoc(result)
-        })
-    }
-
     const getStatusRequestDoc = () => {
         getReuestAddFriendInDoc().then((result)=> {
             if(result.result) {
-                
                 const filteringReq = result.value.filter((item : RequestFriend)=> 
-                    item.from === firebaseAuth.currentUser.email         
+                    item.from === firebaseAuth.currentUser.email       
                 )
-                const reqIndex = filteringReq.findIndex((request)=> request.to === mailAddress);
+                const reqIndex = filteringReq.findIndex((request)=> request.to === userInfo.email);
                 const status = reqIndex !== -1 && filteringReq[reqIndex].status
                 setReqStatus(status)
             }
@@ -119,15 +104,15 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                     selected 
                     ?   <div>
                             <div className='flex items-center gap-3'>
-                                {photoURL.length > 0 
-                                ?   <img className='w-12 h-12 rounded-full border-none shadow-none' src={photoURL} /> 
+                                {userInfo.photoURL
+                                ?   <img className='w-12 h-12 rounded-full border-none shadow-none' src={userInfo.photoURL} /> 
                                 :   <UserIcon className='w-12 h-12 border-2 rounded-full border-white border-solid text-white'/>}
                                 <ul>
                                     <li className='font-bold text-lg'>
-                                        {mailAddress}
+                                        {userInfo.email}
                                     </li>
                                     <li className='font-bold text-sm'>
-                                        {infoInDoc.displayName}
+                                        {userInfo.displayName}
                                     </li>
                                 </ul>
                             </div>
@@ -141,13 +126,13 @@ export function ListElement({mailAddress} : {mailAddress : string}) {
                             </div>                            
                         </div>
                     :   <div className='flex items-center gap-2'>
-                            {photoURL
-                                ?   <img className='w-8 h-8 rounded-full border-none shadow-none' src={photoURL} />
+                            {userInfo.photoURL
+                                ?   <img className='w-8 h-8 rounded-full border-none shadow-none' src={userInfo.photoURL} />
                                 :   <UserIcon className='w-8 h-8 border-2 rounded-full border-slate-500 border-solid text-slate-500'/>
                                 
                             }
                             <h4 className='font-bold'>
-                                {mailAddress}
+                                {userInfo.email}
                             </h4>
                         </div>
                 }

@@ -1,12 +1,14 @@
 import React, { ChangeEvent } from 'react';
 
-import { ListElement } from './ListElement'
-import { getAllUserInDoc } from '../../FirebaseController'
+import { ReqListElement } from './ReqListElement'
+import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
+import { UserInfo } from '../../../../../msg_typeDef';
+import { firebaseAuth } from '../../../../../firebaseConfig';
 
 export function FriendAddReq() {
     const [searchValue, setSearchValue] = React.useState("")
-    const [getUserList, setGetUserList] = React.useState<string[]>([])
-    const [searchUser, setSearchUser] = React.useState<string[]>([]);
+    const [getUserList, setGetUserList] = React.useState<UserInfo[]>([])
+    const [searchUser, setSearchUser] = React.useState<UserInfo[]>([]);
 
     React.useEffect(()=> {
         getAllList()
@@ -20,7 +22,7 @@ export function FriendAddReq() {
     },[searchValue])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
-        const value = e.target.value
+        const value = e.target.value.trim()
         setSearchValue(value)
     }
     const getAllList = () => {
@@ -29,7 +31,7 @@ export function FriendAddReq() {
         })
     }
     const filterUser = ()=> {
-        const resultArray = getUserList.filter((item)=> item.includes(searchValue.trim()))
+        const resultArray = getUserList.filter((item)=> item.email.includes(searchValue.trim()))
         setSearchUser(resultArray)
     }    
     return (
@@ -65,7 +67,7 @@ export function FriendAddReq() {
             <ul className='list-none list-inside h-64 overflow-scroll' >
                 {searchUser.map((user)=> {
                     return (
-                        <ListElement key={user} mailAddress={user}  />
+                        <ReqListElement key={user.email} userInfo={user}  />
                     )
                 })}
             </ul>         

@@ -41,7 +41,7 @@ export const getAllUserInDoc = async()=> {
             .then((response)=> {
                 response.forEach((docs)=> {
                     {docs.data().email !== userAuth.currentUser.email 
-                        && userList.push(docs.data().email)}  
+                        && userList.push(docs.data())}  
                 })
             })
         console.log(userList)

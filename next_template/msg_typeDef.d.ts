@@ -1,4 +1,6 @@
-interface userInfo {
+import { Timestamp } from "firebase/firestore"
+
+interface UserInfo {
     displayName : string,
     email : string,
     emailVerified : boolean,
@@ -16,7 +18,7 @@ interface userInfo {
 interface RequestFriend {
     from : string,
     to : string,
-    req_date : Date,
+    req_date : Timestamp,
     status : "request" | "success" | "refusal",
     checkYn : boolean
 
