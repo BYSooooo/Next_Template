@@ -26,7 +26,7 @@ export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
         getReuestAddFriendInDoc().then((result)=> {
             if(result.result) {
                 const filteringReq = result.value.filter((item : RequestFriend)=> 
-                    item.from === firebaseAuth.currentUser.email       
+                    item.from === firebaseAuth.currentUser.email || item.to === firebaseAuth.currentUser.email      
                 )
                 const reqIndex = filteringReq.findIndex((request)=> request.to === userInfo.email);
                 const status = reqIndex !== -1 && filteringReq[reqIndex].status

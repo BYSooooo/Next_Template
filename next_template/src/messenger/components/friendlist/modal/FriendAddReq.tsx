@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import { ReqListElement } from './ReqListElement'
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
-import { UserInfo } from '../../../../../msg_typeDef';
+import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
 export function FriendAddReq() {
@@ -25,8 +25,25 @@ export function FriendAddReq() {
         const value = e.target.value.trim()
         setSearchValue(value)
     }
-    const getAllList = () => {
+    const getAllList = async () => {
+        // Test Case .1
+        // Check Request List in Modal Open
+        // const reqUserList : string[] = await getReuestAddFriendInDoc().then((response)=> {
+        //     if(response?.result) {
+        //         return response.value.filter((item : RequestFriend)=> {
+        //             item.to === firebaseAuth.currentUser.email
+        //         })
+        //     } else {
+        //         return [];
+        //     }
+        // })
         getAllUserInDoc().then((response)=> {
+            // const resultYn = response?.result === true
+            // if(resultYn && reqUserList.length > 0) {
+            //     response.value.map((item: UserInfo)=> {
+                    
+            //     })
+            // }
             {response?.result === true && setGetUserList(response.value)}
         })
     }

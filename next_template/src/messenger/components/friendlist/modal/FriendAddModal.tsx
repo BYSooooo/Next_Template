@@ -41,7 +41,6 @@ export function FriendAddModal({open} : {open : Function}) {
                     {switchList(tabIndex)}
                 </div>
             </div>
-
         </div>
     )
 }
