@@ -14,12 +14,10 @@ export function FriendAddRes() {
 
     const getRequestList = () => {
         getReuestAddFriendInDoc().then((result)=> {
-            console.log(result)
             if(result.result) {
                 const filterReq = result.value.filter((req : RequestFriend)=> 
-                    req.to === firebaseAuth.currentUser.email
+                    req.to === firebaseAuth.currentUser.email && req.status === "request"
                 )
-                console.log(filterReq)
                 setReqUserList(filterReq)
             }
         })

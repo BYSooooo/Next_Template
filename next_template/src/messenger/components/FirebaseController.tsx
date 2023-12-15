@@ -2,8 +2,9 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import { RequestFriend } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
@@ -120,8 +121,10 @@ export const getUserInfoInStrg = async(email : string)=> {
  * @return result : boolean, value : message
  */
 export const setRequestAddFriendInDoc = async(email : string) => {
+    const requestUUID = uuidv4()
     try {
-        await setDoc(doc(firebaseStore,'friendReq', `${uuidv4()}`), {
+        await setDoc(doc(firebaseStore,'friendReq', requestUUID), {
+            UUID : requestUUID,
             from : userAuth.currentUser.email,
             to : email,
             checkYn : false,
@@ -152,5 +155,38 @@ export const getReuestAddFriendInDoc = async()=> {
     }catch (error) {
         console.log(`Error : ${error}`)
         return {result : false, value : []};
+    }
+}
+
+/**
+ * Runs when a friend request is accepted or declined
+ * @param {RequestFriend} request friend request Information Object
+ * @param {boolean} acceptYn accept:`true`, decline:`false`
+ * 
+ */
+export const setFriendRequestControl = async (request : RequestFriend, acceptYn : boolean) => {
+    try {
+        if(acceptYn) {
+            const requestUUID = uuidv4()
+            await setDoc(doc(firebaseStore, 'friendList',requestUUID), {
+                favorite : false,
+                friendEmail : [firebaseAuth.currentUser.email, request.from],
+                acceptDate : new Date()
+            })
+            await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
+                friendList : arrayUnion(requestUUID)
+            })
+            await updateDoc(doc(firebaseStore,'friendReq',request.UUID),{
+                status : "success"
+            })
+        } else {
+            await updateDoc(doc(firebaseStore, 'friendReq', request.UUID),{
+                status : "refusal"
+            })
+        }
+        return true
+    } catch(error){
+        console.log(new Error(`Request Error : ${error}`))
+        return false
     }
 }

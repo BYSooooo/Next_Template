@@ -30,7 +30,11 @@ export function FriendAddReq() {
         await getReuestAddFriendInDoc().then((response)=> {
             if(response?.result) {
                 response.value.map((item : RequestFriend)=>
-                    {item.to === firebaseAuth.currentUser.email && receiveReqUserList.push(item.from)}
+                    {
+                        if(item.to === firebaseAuth.currentUser.email && item.status === "request"){
+                            receiveReqUserList.push(item.from)
+                        }
+                    }
                 )
             } else {
                 return [];
