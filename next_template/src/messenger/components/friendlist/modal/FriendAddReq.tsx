@@ -26,26 +26,26 @@ export function FriendAddReq() {
         setSearchValue(value)
     }
     const getAllList = async () => {
-        // Test Case .1
-        // Check Request List in Modal Open
-        // const reqUserList : string[] = await getReuestAddFriendInDoc().then((response)=> {
-        //     if(response?.result) {
-        //         return response.value.filter((item : RequestFriend)=> {
-        //             item.to === firebaseAuth.currentUser.email
-        //         })
-        //     } else {
-        //         return [];
-        //     }
-        // })
-        getAllUserInDoc().then((response)=> {
-            // const resultYn = response?.result === true
-            // if(resultYn && reqUserList.length > 0) {
-            //     response.value.map((item: UserInfo)=> {
-                    
-            //     })
-            // }
-            {response?.result === true && setGetUserList(response.value)}
+        const receiveReqUserList : string[] = []
+        await getReuestAddFriendInDoc().then((response)=> {
+            if(response?.result) {
+                response.value.map((item : RequestFriend)=>
+                    {item.to === firebaseAuth.currentUser.email && receiveReqUserList.push(item.from)}
+                )
+            } else {
+                return [];
+            }
         })
+        
+        const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
+            if(response?.result) {
+                return response.value.filter((item: UserInfo)=> 
+                    !receiveReqUserList.includes(item.email)
+                )
+            }
+        })
+        console.log(filterArray)
+        setGetUserList(filterArray)
     }
     const filterUser = ()=> {
         const resultArray = getUserList.filter((item)=> item.email.includes(searchValue.trim()))
