@@ -137,6 +137,22 @@ export const setRequestAddFriendInDoc = async(email : string) => {
     }
 }
 /**
+ * Move a friend request to request history,
+ * and delete request in friendReq
+ * 
+ * Note : This function is related to `setRequestAddFriendInDoc()`
+ */
+export const delAddFriendRequestInDoc = (uuid : string) => {
+    const docRef = doc(firebaseStore,'friendReq',uuid);
+
+    try {
+        
+    } catch(error) {
+
+    }
+}
+
+/**
  * View the full list of friend add requests
  * 
  * Note : View the full list for reuse in other components. 
@@ -174,6 +190,9 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
                 acceptDate : new Date()
             })
             await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
+                friendList : arrayUnion(requestUUID)
+            })
+            await updateDoc(doc(firebaseStore,'userInfo',request.from),{
                 friendList : arrayUnion(requestUUID)
             })
             await updateDoc(doc(firebaseStore,'friendReq',request.UUID),{
