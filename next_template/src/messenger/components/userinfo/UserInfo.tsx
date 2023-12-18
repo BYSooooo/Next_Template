@@ -14,7 +14,6 @@ export default function UserInfo() {
     React.useEffect(()=> {
         setInitUserInfo()
         getUserInfo(firebaseAuth.currentUser.email).then((result : UserInfo)=> {
-            console.log("Get User Info ")
             console.log(result)
             setUserInfo(result);
         })

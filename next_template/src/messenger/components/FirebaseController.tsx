@@ -2,8 +2,9 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import { RequestFriend } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
@@ -120,8 +121,10 @@ export const getUserInfoInStrg = async(email : string)=> {
  * @return result : boolean, value : message
  */
 export const setRequestAddFriendInDoc = async(email : string) => {
+    const requestUUID = uuidv4()
     try {
-        await setDoc(doc(firebaseStore,'friendReq', `${uuidv4()}`), {
+        await setDoc(doc(firebaseStore,'friendReq', requestUUID), {
+            UUID : requestUUID,
             from : userAuth.currentUser.email,
             to : email,
             checkYn : false,
@@ -133,6 +136,36 @@ export const setRequestAddFriendInDoc = async(email : string) => {
         return { result : false, value : `Error : ${error}`}
     }
 }
+/**
+ * Move a friend request to request history,
+ * and delete request in friendReq
+ * 
+ * Note : This function is related to `setRequestAddFriendInDoc()`
+ * @param {RequestFriend | null} friendRequest Object of Friend request Information
+ * @return {Boolean} success : true / fail : false
+ */
+export const delAddFriendRequestInDoc = async(friendRequest : RequestFriend | null) => {
+    try {
+        if(friendRequest !== null ){
+            await setDoc(doc(firebaseStore, 'reqHistory',friendRequest.UUID),{
+                UUID : friendRequest.UUID,
+                from : friendRequest.from,
+                to : friendRequest.to,
+                status : friendRequest.status,
+                req_date : friendRequest.req_date,
+            }).then(()=> {
+                deleteDoc(doc(firebaseStore,'friendReq',friendRequest.UUID))
+            })
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
+}
+
 /**
  * View the full list of friend add requests
  * 
@@ -152,5 +185,41 @@ export const getReuestAddFriendInDoc = async()=> {
     }catch (error) {
         console.log(`Error : ${error}`)
         return {result : false, value : []};
+    }
+}
+
+/**
+ * Runs when a friend request is accepted or declined
+ * @param {RequestFriend} request friend request Information Object
+ * @param {boolean} acceptYn accept:`true`, decline:`false`
+ * 
+ */
+export const setFriendRequestControl = async (request : RequestFriend, acceptYn : boolean) => {
+    try {
+        if(acceptYn) {
+            const requestUUID = uuidv4()
+            await setDoc(doc(firebaseStore, 'friendList',requestUUID), {
+                favorite : false,
+                friendEmail : [firebaseAuth.currentUser.email, request.from],
+                acceptDate : new Date()
+            })
+            await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
+                friendList : arrayUnion(requestUUID)
+            })
+            await updateDoc(doc(firebaseStore,'userInfo',request.from),{
+                friendList : arrayUnion(requestUUID)
+            })
+            await updateDoc(doc(firebaseStore,'friendReq',request.UUID),{
+                status : "success"
+            })
+        } else {
+            await updateDoc(doc(firebaseStore, 'friendReq', request.UUID),{
+                status : "refusal"
+            })
+        }
+        return true
+    } catch(error){
+        console.log(new Error(`Request Error : ${error}`))
+        return false
     }
 }

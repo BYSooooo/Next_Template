@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import { ReqListElement } from './ReqListElement'
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
-import { UserInfo } from '../../../../../msg_typeDef';
+import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
 export function FriendAddReq() {
@@ -25,10 +25,31 @@ export function FriendAddReq() {
         const value = e.target.value.trim()
         setSearchValue(value)
     }
-    const getAllList = () => {
-        getAllUserInDoc().then((response)=> {
-            {response?.result === true && setGetUserList(response.value)}
+    const getAllList = async () => {
+        const receiveReqUserList : string[] = []
+        await getReuestAddFriendInDoc().then((response)=> {
+            if(response?.result) {
+                response.value.map((item : RequestFriend)=>
+                    {
+                        if(item.to === firebaseAuth.currentUser.email && item.status === "request"){
+                            receiveReqUserList.push(item.from)
+                        }
+                    }
+                )
+            } else {
+                return [];
+            }
         })
+        
+        const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
+            if(response?.result) {
+                return response.value.filter((item: UserInfo)=> 
+                    !receiveReqUserList.includes(item.email)
+                )
+            }
+        })
+        console.log(filterArray)
+        setGetUserList(filterArray)
     }
     const filterUser = ()=> {
         const resultArray = getUserList.filter((item)=> item.email.includes(searchValue.trim()))

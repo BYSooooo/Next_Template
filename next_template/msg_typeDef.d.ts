@@ -9,6 +9,7 @@ interface UserInfo {
 
 }
 /**
+ * @property UUID : Unique ID for friend request.
  * @property from : User Who sent the friend request.
  * @property to : User who received a friend request.
  * @property req_date : The time the request was sent
@@ -16,6 +17,7 @@ interface UserInfo {
  * @property checkYn : Whether the user who received the request has been verified.
  */
 interface RequestFriend {
+    UUID : string,
     from : string,
     to : string,
     req_date : Timestamp,

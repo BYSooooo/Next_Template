@@ -1,9 +1,9 @@
 import React from 'react';
-import { getUserInfo, getUserInfoInStrg } from '../../FirebaseController';
+import { getUserInfo, getUserInfoInStrg, setFriendRequestControl} from '../../FirebaseController';
 import { UserIcon } from '@heroicons/react/20/solid';
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 
-export function ResListElement({requestInfo} : {requestInfo : RequestFriend}) {
+export function ResListElement({requestInfo, refresh} : {requestInfo : RequestFriend, refresh : Function}) {
     const [selected, setSelected] = React.useState(false)
     const [photoURL, setphotoURL] = React.useState("");
     const [infoInDoc, setInfoInDoc] = React.useState<UserInfo>(null);
@@ -24,10 +24,10 @@ export function ResListElement({requestInfo} : {requestInfo : RequestFriend}) {
         })
     }
 
-    const onClickHandler = (point : string)=> {
-        console.log(point)
+    const onClickHandler = async(acceptYn : boolean)=> {
+        await setFriendRequestControl(requestInfo,acceptYn)
+            .then((result)=> result === true && refresh())
     }
-
     
     return (
         <li onMouseOver={()=>setSelected(true)}
@@ -58,12 +58,12 @@ export function ResListElement({requestInfo} : {requestInfo : RequestFriend}) {
                         </div>
                         <div className='flex justify-between gap-1 mt-1 w-full'>
                             <button
-                                onClick={()=>onClickHandler("decline")} 
+                                onClick={()=>onClickHandler(false)} 
                                 className='p-1 w-1/2 rounded-md border-2 border-red-500 hover:text-white font-bold hover:bg-red-500 transition duration-200'>
                                 Decline
                             </button>
                             <button 
-                                onClick={()=>onClickHandler("accept")}
+                                onClick={()=>onClickHandler(true)}
                                 className='p-1 w-1/2 rounded-md border-2 border-blue-500 hover:text-white font-bold hover:bg-blue-500 transition duration-200'>
                                 Accept
                             </button>

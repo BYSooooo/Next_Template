@@ -14,12 +14,10 @@ export function FriendAddRes() {
 
     const getRequestList = () => {
         getReuestAddFriendInDoc().then((result)=> {
-            console.log(result)
             if(result.result) {
                 const filterReq = result.value.filter((req : RequestFriend)=> 
-                    req.to === firebaseAuth.currentUser.email
+                    req.to === firebaseAuth.currentUser.email && req.status === "request"
                 )
-                console.log(filterReq)
                 setReqUserList(filterReq)
             }
         })
@@ -46,7 +44,7 @@ export function FriendAddRes() {
             <ul className='list-none list-inside h-64 overflow-scroll mt-2'>
                 {reqUserList.map((item)=> {
                     return (
-                        <ResListElement key={item.from} requestInfo={item}/>
+                        <ResListElement key={item.from} requestInfo={item} refresh={getRequestList}/>
                     )
                 })}    
             </ul>
