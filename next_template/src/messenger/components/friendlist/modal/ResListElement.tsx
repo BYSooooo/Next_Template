@@ -3,7 +3,7 @@ import { getUserInfo, getUserInfoInStrg, setFriendRequestControl} from '../../Fi
 import { UserIcon } from '@heroicons/react/20/solid';
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 
-export function ResListElement({requestInfo} : {requestInfo : RequestFriend}) {
+export function ResListElement({requestInfo, refresh} : {requestInfo : RequestFriend, refresh : Function}) {
     const [selected, setSelected] = React.useState(false)
     const [photoURL, setphotoURL] = React.useState("");
     const [infoInDoc, setInfoInDoc] = React.useState<UserInfo>(null);
@@ -26,11 +26,8 @@ export function ResListElement({requestInfo} : {requestInfo : RequestFriend}) {
 
     const onClickHandler = async(acceptYn : boolean)=> {
         await setFriendRequestControl(requestInfo,acceptYn)
-            .then((result)=> {
-                result && alert("Success")
-            })
+            .then((result)=> result === true && refresh())
     }
-
     
     return (
         <li onMouseOver={()=>setSelected(true)}

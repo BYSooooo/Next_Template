@@ -1,25 +1,27 @@
 import React, { HTMLAttributes } from 'react'
 
-
-import { getReuestAddFriendInDoc, setRequestAddFriendInDoc } from '../../FirebaseController'
+import { delAddFriendRequestInDoc, getReuestAddFriendInDoc, setRequestAddFriendInDoc } from '../../FirebaseController'
 import { UserIcon } from '@heroicons/react/20/solid';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 
 export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
     const [selected, setSelected] = React.useState(false)
-    const [reqStatus, setReqStatus] = React.useState<"request" | "refusal" | "success"|"">("")
+    const [reqStatus, setReqStatus] = React.useState<"request"|"refusal"|"success"|"none">("none")
+    const [friendReq, setFriendReq] = React.useState<RequestFriend | null>(null)
 
     React.useEffect(()=> {
         getStatusRequestDoc();
     },[])
     
     const onClickAddButton = ()=> {
-        setRequestAddFriendInDoc(userInfo.email).then((result)=> {
-            if(result.result) {
-                alert("Success")
-            }
-        })
+        {reqStatus === "none" && setRequestAddFriendInDoc(userInfo.email)};
+        {reqStatus === "refusal" && 
+            delAddFriendRequestInDoc(friendReq).then(()=> {
+                setRequestAddFriendInDoc(userInfo.email)
+            })
+        }
+        getStatusRequestDoc() 
     }
 
     const getStatusRequestDoc = () => {
@@ -29,8 +31,12 @@ export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
                     item.from === firebaseAuth.currentUser.email || item.to === firebaseAuth.currentUser.email
                 )
                 const reqIndex = filteringReq.findIndex((request)=> request.to === userInfo.email || request.from === userInfo.email);
-                const status = reqIndex !== -1 && filteringReq[reqIndex].status
-                setReqStatus(status)
+                
+                {reqIndex !== -1 && setReqStatus(filteringReq[reqIndex].status)}
+                
+                if(reqIndex !== -1) {
+                    setFriendReq(filteringReq[reqIndex])
+                }
             }
         })
     }

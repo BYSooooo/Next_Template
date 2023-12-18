@@ -2,7 +2,7 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { RequestFriend } from '../../../msg_typeDef';
 
@@ -141,14 +141,28 @@ export const setRequestAddFriendInDoc = async(email : string) => {
  * and delete request in friendReq
  * 
  * Note : This function is related to `setRequestAddFriendInDoc()`
+ * @param {RequestFriend | null} friendRequest Object of Friend request Information
+ * @return {Boolean} success : true / fail : false
  */
-export const delAddFriendRequestInDoc = (uuid : string) => {
-    const docRef = doc(firebaseStore,'friendReq',uuid);
-
+export const delAddFriendRequestInDoc = async(friendRequest : RequestFriend | null) => {
     try {
-        
+        if(friendRequest !== null ){
+            await setDoc(doc(firebaseStore, 'reqHistory',friendRequest.UUID),{
+                UUID : friendRequest.UUID,
+                from : friendRequest.from,
+                to : friendRequest.to,
+                status : friendRequest.status,
+                req_date : friendRequest.req_date,
+            }).then(()=> {
+                deleteDoc(doc(firebaseStore,'friendReq',friendRequest.UUID))
+            })
+            return true
+        } else {
+            return false
+        }
     } catch(error) {
-
+        console.log(error)
+        return false
     }
 }
 

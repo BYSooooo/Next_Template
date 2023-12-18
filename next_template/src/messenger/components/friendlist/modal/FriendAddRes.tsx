@@ -44,7 +44,7 @@ export function FriendAddRes() {
             <ul className='list-none list-inside h-64 overflow-scroll mt-2'>
                 {reqUserList.map((item)=> {
                     return (
-                        <ResListElement key={item.from} requestInfo={item}/>
+                        <ResListElement key={item.from} requestInfo={item} refresh={getRequestList}/>
                     )
                 })}    
             </ul>
