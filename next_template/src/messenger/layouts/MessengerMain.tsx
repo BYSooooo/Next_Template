@@ -11,7 +11,6 @@ export default function MainLogined () {
     // const [showModal, setShowModal] = React.useState(false);
     const dispatch = useAppDispatch()
     
-    
     React.useEffect(()=> {
         dispatch(setPageRouter({page : "Default", title : "Home"}))
         setInitUserInfo()

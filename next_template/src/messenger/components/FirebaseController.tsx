@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestFriend } from '../../../msg_typeDef';
+import { RequestFriend, UserInfo } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
@@ -199,9 +199,10 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
         if(acceptYn) {
             const requestUUID = uuidv4()
             await setDoc(doc(firebaseStore, 'friendList',requestUUID), {
-                favorite : false,
+                UUID : requestUUID,
                 friendEmail : [firebaseAuth.currentUser.email, request.from],
-                acceptDate : new Date()
+                acceptDate : new Date(),
+                chatUUID : []
             })
             await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
                 friendList : arrayUnion(requestUUID)
@@ -222,4 +223,18 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
         console.log(new Error(`Request Error : ${error}`))
         return false
     }
+}
+
+export const getFriendInDoc = async() => {
+    let data = [];
+    const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email)
+    try {
+        const result = (await getDoc(docRef)).data()
+        result.friendList.forEach((item : string)=> {
+            console.log(item)
+        })
+    } catch(error) {
+        console.log(error)
+    }
+    
 }

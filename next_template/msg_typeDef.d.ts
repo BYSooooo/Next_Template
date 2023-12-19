@@ -5,7 +5,8 @@ interface UserInfo {
     email : string,
     emailVerified : boolean,
     photoURL : string,
-    uid : string   
+    uid : string,
+    friendList : Array<string>   
 
 }
 /**
@@ -24,4 +25,16 @@ interface RequestFriend {
     status : "request" | "success" | "refusal",
     checkYn : boolean
 
+}
+/**
+ * @property UUID : Individual IDs for Friendships
+ * @property friendEmail :  Emails from two users who are friends
+ * @property acceptDate : Date the friendship was established
+ * @property chatUUID : Unique value of a chat for two users
+ */
+interface FriendList {
+    UUID : string,
+    friendEmail : [string],
+    acceptDate : Timestamp,
+    chatUUID : string
 }
