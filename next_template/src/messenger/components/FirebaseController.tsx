@@ -2,29 +2,29 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { RequestFriend } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
 /**
  * Get Current User Info in Document
  */
-export const setInitUserInfo = async () => {
+export const setInitUserInfo = () => {
     if(userAuth.currentUser) {
+        const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email)
         try {
-            await setDoc(doc(firebaseStore,'userInfo',userAuth.currentUser.email), {
+            setDoc(docRef, {
                 uid : userAuth.currentUser.uid,
                 email : userAuth.currentUser.email,
                 emailVerified : userAuth.currentUser.emailVerified,
                 displayName : userAuth.currentUser.displayName,
-                photoURL : userAuth.currentUser.photoURL,
-            }, { merge : true})
+                photoURL : userAuth.currentUser.photoURL
+            }, { merge : true })
         } catch(error) {
             console.log("InitUserInfo Error : ",error)
         }
-        
     } else {
         console.log("Not Logined")
     }
@@ -56,7 +56,7 @@ export const getAllUserInDoc = async()=> {
 export const getUserInfo = async(email: string) => {
     const docRef = doc(firebaseStore,'userInfo',email);
     try {
-        const result = await getDoc(docRef);
+        const result = await getDocFromServer(docRef);
         return result.data()
     } catch(error) {
         console.log(error)
@@ -141,7 +141,7 @@ export const setRequestAddFriendInDoc = async(email : string) => {
  * and delete request in friendReq
  * 
  * Note : This function is related to `setRequestAddFriendInDoc()`
- * @param {RequestFriend | null} friendRequest Object of Friend request Information
+ * @param {Interface} friendRequest Object of Friend request Information
  * @return {Boolean} success : true / fail : false
  */
 export const delAddFriendRequestInDoc = async(friendRequest : RequestFriend | null) => {
@@ -227,14 +227,13 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
 
 export const getFriendInDoc = async() => {
     let data = [];
-    const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email)
+    const docRef = doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email)
     try {
-        const result = (await getDoc(docRef)).data()
-        result.friendList.forEach((item : string)=> {
-            console.log(item)
-        })
+        const response = await getDoc(docRef)
+        return {result : true, value : response.data()}
     } catch(error) {
         console.log(error)
+        return {result : false, value : null}
     }
     
 }

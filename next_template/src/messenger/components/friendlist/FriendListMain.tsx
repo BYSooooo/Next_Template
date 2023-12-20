@@ -2,20 +2,19 @@ import { PlusIcon } from '@heroicons/react/20/solid';
 import React from 'react';
 import { FriendAddModal } from './modal/FriendAddModal';
 import { getFriendInDoc, getUserInfo } from '../FirebaseController';
-import { firebaseAuth } from '../../../../firebaseConfig';
-import { UserInfo } from '../../../../msg_typeDef';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
     const [frList, setFrList] = React.useState<string[]>([])
 
     React.useEffect(()=> {
-        getFriendInDoc()
+        getFriendList()
     },[])
     
     const getFriendList = () => {
-
+        
     }
+    
 
     const controlModal =(openYn: boolean)=> setShowAdd(openYn)        
     

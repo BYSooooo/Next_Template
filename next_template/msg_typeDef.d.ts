@@ -6,8 +6,8 @@ interface UserInfo {
     emailVerified : boolean,
     photoURL : string,
     uid : string,
-    friendList : Array<string>   
-
+    friendList : Array<string>,
+    lastLogin : Timestamp
 }
 /**
  * @property UUID : Unique ID for friend request.
