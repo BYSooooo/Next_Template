@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { detailCompanyInfo, detailModalControl, discoverFilter, movieDetail, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
-import { routerHook, userInfoHook } from './features/messengerReducer';
+import { currentUserInfoHook, routerHook, userInfoHook } from './features/messengerReducer';
 
 export const store = configureStore({
     reducer : {
@@ -19,7 +19,8 @@ export const store = configureStore({
         companyDetail : detailCompanyInfo.reducer,
 
         messengerRouter : routerHook.reducer,
-        messengerUserInfoEdit : userInfoHook.reducer
+        messengerUserInfoEdit : userInfoHook.reducer,
+        messengerCurUserInfo : currentUserInfoHook.reducer
 
         
     }

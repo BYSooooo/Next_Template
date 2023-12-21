@@ -2,20 +2,21 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestFriend } from '../../../msg_typeDef';
+import { RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { useAppDispatch } from '@/redux/hook';
 
 const userAuth = firebaseAuth;
 
 /**
  * Get Current User Info in Document
  */
-export const setInitUserInfo = () => {
+export const setInitUserInfo = async() => {
     if(userAuth.currentUser) {
         const docRef = doc(firebaseStore,'userInfo',userAuth.currentUser.email)
         try {
-            setDoc(docRef, {
+            await setDoc(docRef, {
                 uid : userAuth.currentUser.uid,
                 email : userAuth.currentUser.email,
                 emailVerified : userAuth.currentUser.emailVerified,
@@ -56,8 +57,10 @@ export const getAllUserInDoc = async()=> {
 export const getUserInfo = async(email: string) => {
     const docRef = doc(firebaseStore,'userInfo',email);
     try {
-        const result = await getDocFromServer(docRef);
-        return result.data()
+        onSnapshot(docRef,(doc)=> {
+            return doc.data()
+        });
+        
     } catch(error) {
         console.log(error)
     }

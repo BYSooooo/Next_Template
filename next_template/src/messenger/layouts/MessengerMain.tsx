@@ -14,6 +14,7 @@ export default function MainLogined () {
     React.useEffect(()=> {
         dispatch(setPageRouter({page : "Default", title : "Home"}))
         setInitUserInfo()
+        
     },[])
     
 
