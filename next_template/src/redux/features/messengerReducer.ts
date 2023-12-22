@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserInfo } from "../../../msg_typeDef";
+import { FieldValue, Timestamp } from "firebase/firestore";
 
 export const routerHook = createSlice({
     name : 'MessengerRouter',
@@ -42,7 +43,8 @@ export const currentUserInfoHook = createSlice({
         emailVerified : false,
         friendList : [],
         photoURL : "",
-        uid : ""
+        uid : "",
+        lastLogin : Timestamp.now()
     },
     reducers : {
         setCurrentUserInfo : (state,action : PayloadAction<UserInfo>)=> {

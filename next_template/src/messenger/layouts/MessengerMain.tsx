@@ -2,20 +2,32 @@ import React from 'react';
 
 import PageRouter from '../components/PageRouter';
 import { useAppDispatch } from '@/redux/hook';
-import { setPageRouter } from '@/redux/features/messengerReducer';
+import { setPageRouter, setCurrentUserInfo } from '@/redux/features/messengerReducer';
 import HeaderMain from '../components/header/HeaderMain';
-import { getAllUserInDoc, setInitUserInfo } from '../components/FirebaseController';
+import { getUserInfo, setInitUserInfo } from '../components/FirebaseController';
+import { firebaseAuth } from '../../../firebaseConfig';
+import { UserInfo } from '../../../msg_typeDef';
+import { DocumentData } from 'firebase/firestore';
 
 
 export default function MainLogined () {
     // const [showModal, setShowModal] = React.useState(false);
     const dispatch = useAppDispatch()
-    
+
     React.useEffect(()=> {
+        setInitUserInfo().then((result)=> {
+            result === true && getCurrentUserInfo()
+        })
         dispatch(setPageRouter({page : "Default", title : "Home"}))
-        setInitUserInfo()
-        
     },[])
+    
+    const getCurrentUserInfo = async() => {
+        await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
+            const curData = result.value
+            console.log(curData)
+            dispatch(setCurrentUserInfo(curData))
+        })
+    }
     
 
     // const modalControl = (modalYn : boolean) => {

@@ -5,12 +5,13 @@ import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { RequestFriend, UserInfo } from '../../../msg_typeDef';
-import { useAppDispatch } from '@/redux/hook';
+import { get } from 'firebase/database';
 
 const userAuth = firebaseAuth;
 
 /**
  * Get Current User Info in Document
+ * 
  */
 export const setInitUserInfo = async() => {
     if(userAuth.currentUser) {
@@ -21,13 +22,16 @@ export const setInitUserInfo = async() => {
                 email : userAuth.currentUser.email,
                 emailVerified : userAuth.currentUser.emailVerified,
                 displayName : userAuth.currentUser.displayName,
-                photoURL : userAuth.currentUser.photoURL
+                photoURL : userAuth.currentUser.photoURL,
+                lastLogin : new Date()
             }, { merge : true })
+            return true
         } catch(error) {
-            console.log("InitUserInfo Error : ",error)
+            return false
         }
     } else {
         console.log("Not Logined")
+        return false
     }
 }
 
@@ -56,13 +60,14 @@ export const getAllUserInDoc = async()=> {
 
 export const getUserInfo = async(email: string) => {
     const docRef = doc(firebaseStore,'userInfo',email);
-    try {
-        onSnapshot(docRef,(doc)=> {
-            return doc.data()
-        });
+    try { 
+        const response = await getDoc(docRef);
+        const docData = response.data() as UserInfo
+        return { result : true, value : docData}
         
     } catch(error) {
         console.log(error)
+        return { result : false, value : null}
     }
 }
 /**
