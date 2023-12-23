@@ -24,6 +24,7 @@ export default function MainLogined () {
     const getCurrentUserInfo = async() => {
         await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
             const curData = result.value
+            
             console.log(curData)
             dispatch(setCurrentUserInfo(curData))
         })

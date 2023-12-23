@@ -13,6 +13,9 @@ export default function UserInfo() {
     React.useEffect(()=> {
         setUserInfo(msgCurUser)
     },[])
+
+
+
     // const initFireStroage = async () => {
         
     //     const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
