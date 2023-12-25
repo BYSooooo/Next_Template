@@ -44,7 +44,7 @@ export const currentUserInfoHook = createSlice({
         friendList : [],
         photoURL : "",
         uid : "",
-        lastLogin : null
+        lastLogin : new Date()
     },
     reducers : {
         setCurrentUserInfo : (state,action : PayloadAction<UserInfo>)=> {

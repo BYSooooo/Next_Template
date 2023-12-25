@@ -7,7 +7,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    lastLogin : Timestamp
+    lastLogin : Date
 }
 /**
  * @property UUID : Unique ID for friend request.

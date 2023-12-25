@@ -63,6 +63,7 @@ export const getUserInfo = async(email: string) => {
     try { 
         const response = await getDoc(docRef);
         const docData = response.data() as UserInfo
+        // docData.lastLogin.toDate()
         return { result : true, value : docData}
         
     } catch(error) {
