@@ -1,5 +1,13 @@
 import { Timestamp } from "firebase/firestore"
-
+/**
+ * @property dislayName : User Nickname
+ * @property email : The email user used to sign up
+ * @property emaiVerified : Users logged in through an external service
+ * @property photoURL : User's Profile Photo
+ * @property uid : Unique ID for User
+ * @property friendList Unique UUID for User's Frined Relation
+ * @property lastLogin : User's last loginned Time  
+ */
 interface UserInfo {
     displayName : string,
     email : string,
@@ -7,7 +15,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    lastLogin : Date
+    lastLogin : string
 }
 /**
  * @property UUID : Unique ID for friend request.

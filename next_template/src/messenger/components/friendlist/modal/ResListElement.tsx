@@ -6,7 +6,7 @@ import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 export function ResListElement({requestInfo, refresh} : {requestInfo : RequestFriend, refresh : Function}) {
     const [selected, setSelected] = React.useState(false)
     const [photoURL, setphotoURL] = React.useState("");
-    const [infoInDoc, setInfoInDoc] = React.useState<UserInfo>(null);
+    const [infoInDoc, setInfoInDoc] = React.useState<UserInfo>();
 
     React.useEffect(()=> { 
         getPhotoURL()
@@ -19,8 +19,8 @@ export function ResListElement({requestInfo, refresh} : {requestInfo : RequestFr
     }
 
     const getSelectedUserInfo = () => {
-        getUserInfo(requestInfo.from).then((result: UserInfo)=> {
-            setInfoInDoc(result)
+        getUserInfo(requestInfo.from).then((result)=> {
+            result.result === true && setInfoInDoc(result.value)
         })
     }
 

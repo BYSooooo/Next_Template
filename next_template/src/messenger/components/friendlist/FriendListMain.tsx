@@ -1,18 +1,22 @@
 import { PlusIcon } from '@heroicons/react/20/solid';
 import React from 'react';
 import { FriendAddModal } from './modal/FriendAddModal';
-import { getFriendInDoc, getUserInfo } from '../FirebaseController';
+import { useAppSelector } from '@/redux/hook';
+import { FriendListItem } from './FriendListItem';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
     const [frList, setFrList] = React.useState<string[]>([])
+    const msgCurrentUser = useAppSelector((state)=> state.messengerCurUserInfo);
+    
 
     React.useEffect(()=> {
         getFriendList()
-    },[])
+    },[msgCurrentUser])
     
     const getFriendList = () => {
-        
+        {msgCurrentUser.friendList && setFrList(msgCurrentUser.friendList)}
+        console.log(frList)
     }
     
 
@@ -28,11 +32,9 @@ export default function FriendListMain() {
                     <PlusIcon className='w-4 h-10'/>
                 </button>
             </div>
-            <ul>
+            <ul className='overflow-y-scroll'>
                 {frList.map((item)=> {
-                    return <h4>
-                        {item}
-                    </h4>
+                    return <FriendListItem key={item} uuid={item}/>
                 })}
             </ul>   
             {showAdd && <FriendAddModal open={controlModal}/>}    

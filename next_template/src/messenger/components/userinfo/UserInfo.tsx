@@ -6,24 +6,13 @@ import { setPageRouter } from '@/redux/features/messengerReducer';
 import { UserInfo } from '../../../../msg_typeDef';
 
 export default function UserInfo() {
-    const [userInfo, setUserInfo] = React.useState<UserInfo>(null);
+    const [userInfo, setUserInfo] = React.useState<UserInfo>();
     const msgCurUser = useAppSelector((state)=> state.messengerCurUserInfo);
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
         setUserInfo(msgCurUser)
-    },[])
-
-
-
-    // const initFireStroage = async () => {
-        
-    //     const fireRef = ref(firebaseStrg,`${userInfo.uid}/${uuidv4}`)
-    //     const reader = new FileReader()
-    //     const photoToURL = reader.readAsDataURL(userInfo.photoURL)
-    //     const response = await uploadString(fireRef,userInfo.photoURL,"data_url");
-    //     console.log(response)
-    // }
+    },[msgCurUser])
 
     return (
         <div className='w-fit p-2 m-2'>

@@ -6,9 +6,6 @@ import { setPageRouter, setCurrentUserInfo } from '@/redux/features/messengerRed
 import HeaderMain from '../components/header/HeaderMain';
 import { getUserInfo, setInitUserInfo } from '../components/FirebaseController';
 import { firebaseAuth } from '../../../firebaseConfig';
-import { UserInfo } from '../../../msg_typeDef';
-import { DocumentData } from 'firebase/firestore';
-
 
 export default function MainLogined () {
     // const [showModal, setShowModal] = React.useState(false);
@@ -24,7 +21,6 @@ export default function MainLogined () {
     const getCurrentUserInfo = async() => {
         await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
             const curData = result.value
-            
             console.log(curData)
             dispatch(setCurrentUserInfo(curData))
         })

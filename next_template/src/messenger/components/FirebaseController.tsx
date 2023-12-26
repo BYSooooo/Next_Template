@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { FriendList, RequestFriend, UserInfo } from '../../../msg_typeDef';
 import { get } from 'firebase/database';
 
 const userAuth = firebaseAuth;
@@ -62,9 +62,11 @@ export const getUserInfo = async(email: string) => {
     const docRef = doc(firebaseStore,'userInfo',email);
     try { 
         const response = await getDoc(docRef);
-        const docData = response.data() as UserInfo
-        // docData.lastLogin.toDate()
-        return { result : true, value : docData}
+        const docData = response.data() 
+        const reNewDate : Date = docData.lastLogin.toDate()
+        const resultValue = docData as UserInfo
+        resultValue.lastLogin = reNewDate.toString()
+        return { result : true, value : resultValue}
         
     } catch(error) {
         console.log(error)
@@ -244,5 +246,22 @@ export const getFriendInDoc = async() => {
         console.log(error)
         return {result : false, value : null}
     }
-    
+}
+/**
+ * Get the email address of the member based on the UUID of the friendList Collection.
+ * 
+ * @param uuid Unique ID in collection of 'friendList'
+ * @returns result : `Boolean` value : the other User Email
+ */
+export const getInfoInFriendListCol = async(uuid : string) => {
+    const currentUser = firebaseAuth.currentUser.email;
+    const docRef = doc(firebaseStore,'friendList',uuid);
+    try {
+        const response = (await getDoc(docRef)).data() as FriendList;
+        const otherUser = response.friendEmail.filter((item)=> item !== currentUser)[0];
+        return {result : true, value : otherUser}
+    } catch(error) {
+        console.log(error);
+        return { result : false, value : null}
+    }
 }
