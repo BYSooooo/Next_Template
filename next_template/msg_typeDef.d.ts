@@ -1,12 +1,21 @@
 import { Timestamp } from "firebase/firestore"
-
+/**
+ * @property dislayName : User Nickname
+ * @property email : The email user used to sign up
+ * @property emaiVerified : Users logged in through an external service
+ * @property photoURL : User's Profile Photo
+ * @property uid : Unique ID for User
+ * @property friendList Unique UUID for User's Frined Relation
+ * @property lastLogin : User's last loginned Time  
+ */
 interface UserInfo {
     displayName : string,
     email : string,
     emailVerified : boolean,
     photoURL : string,
-    uid : string   
-
+    uid : string,
+    friendList : Array<string>,
+    lastLogin : string
 }
 /**
  * @property UUID : Unique ID for friend request.
@@ -24,4 +33,16 @@ interface RequestFriend {
     status : "request" | "success" | "refusal",
     checkYn : boolean
 
+}
+/**
+ * @property UUID : Individual IDs for Friendships
+ * @property friendEmail :  Emails from two users who are friends
+ * @property acceptDate : Date the friendship was established
+ * @property chatUUID : Unique value of a chat for two users
+ */
+interface FriendList {
+    UUID : string,
+    friendEmail : [string],
+    acceptDate : Timestamp,
+    chatUUID : string
 }

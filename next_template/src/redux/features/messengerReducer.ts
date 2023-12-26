@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { UserInfo } from "../../../msg_typeDef";
 
 export const routerHook = createSlice({
     name : 'MessengerRouter',
@@ -33,10 +34,31 @@ export const userInfoHook = createSlice({
     }
 })
 
+export const currentUserInfoHook = createSlice({
+    name : 'CurrentUserInfo',
+    initialState : {
+        email : "",
+        displayName : "",
+        emailVerified : false,
+        friendList : [],
+        photoURL : "",
+        uid : "",
+        lastLogin : ""
+    },
+    reducers : {
+        setCurrentUserInfo : (state,action : PayloadAction<UserInfo>)=> 
+            state = action.payload
+        
+    }
+})
+
 export const { setPageRouter } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
+export const { setCurrentUserInfo } = currentUserInfoHook.actions;
 
 export default [
     routerHook.reducer,
-    userInfoHook.reducer
+    userInfoHook.reducer,
+    currentUserInfoHook.reducer
+
 ]
