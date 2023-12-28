@@ -3,13 +3,14 @@ import React from 'react';
 import { FriendAddModal } from './modal/FriendAddModal';
 import { useAppSelector } from '@/redux/hook';
 import { FriendListItem } from './FriendListItem';
+import { UserInfo } from '../../../../msg_typeDef';
+import { fileURLToPath } from 'url';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
     const [frList, setFrList] = React.useState<string[]>([])
     const msgCurrentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
-
     React.useEffect(()=> {
         getFriendList()
     },[msgCurrentUser])
@@ -19,8 +20,11 @@ export default function FriendListMain() {
         console.log(frList)
     }
     
-
     const controlModal =(openYn: boolean)=> setShowAdd(openYn)        
+    
+    const selectHandler = (email : string) => {
+        console.log(email)
+    }
     
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
@@ -34,7 +38,7 @@ export default function FriendListMain() {
             </div>
             <ul className='overflow-y-scroll'>
                 {frList.map((item)=> {
-                    return <FriendListItem key={item} uuid={item}/>
+                    return <FriendListItem key={item} uuid={item} selected={selectHandler}/>
                 })}
             </ul>   
             {showAdd && <FriendAddModal open={controlModal}/>}    

@@ -33,7 +33,7 @@ export default function MainLogined () {
     // }
     
     return (
-        <div className="container border-2 border-solid border-gray-600 rounded-md p-2">
+        <div className="container max-w-fit border-2 border-solid border-gray-600 rounded-md p-2">
             <HeaderMain />
             <PageRouter />
             {/* {showModal ? <UserInfoModal /> : null}             */}
