@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
-    const [frList, setFrList] = React.useState<string[]>([])
+    const [frList, setFrList] = React.useState<{uid : string, openYn : boolean}[]>([])
     const msgCurrentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
     React.useEffect(()=> {
@@ -16,14 +16,24 @@ export default function FriendListMain() {
     },[msgCurrentUser])
     
     const getFriendList = () => {
-        {msgCurrentUser.friendList && setFrList(msgCurrentUser.friendList)}
-        console.log(frList)
+        let listArray = []
+        if(msgCurrentUser.friendList) {
+            msgCurrentUser.friendList.map((friendEmail)=> {
+                listArray.push({uid : friendEmail, openYn : false})
+            })
+        }
+        setFrList(listArray)
+        // {msgCurrentUser.friendList && setFrList(msgCurrentUser.friendList)}
     }
     
     const controlModal =(openYn: boolean)=> setShowAdd(openYn)        
     
-    const selectHandler = (email : string) => {
-        console.log(email)
+    const selectHandler = (uid: string) => {
+        let renewArray = []
+        frList.map((friend)=> {
+            renewArray.push({uid : friend.uid, openYn : friend.uid === uid ? true : false})
+        })
+        setFrList(renewArray)
     }
     
     return (
@@ -38,7 +48,7 @@ export default function FriendListMain() {
             </div>
             <ul className='overflow-y-scroll'>
                 {frList.map((item)=> {
-                    return <FriendListItem key={item} uuid={item} selected={selectHandler}/>
+                    return <FriendListItem key={item.uid} uuid={item.uid} openYn={item.openYn} selected={selectHandler}/>
                 })}
             </ul>   
             {showAdd && <FriendAddModal open={controlModal}/>}    
