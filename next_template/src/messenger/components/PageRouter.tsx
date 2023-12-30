@@ -6,6 +6,7 @@ import UserInfoEdit from "@/messenger/components/info_edit/UserInfoEdit";
 import UserInfo from './userinfo/UserInfo';
 import { useAppSelector } from '@/redux/hook';
 import FriendListMain from './friendlist/FriendListMain';
+import { PublicBoard } from './board/PublicBoard';
 
 export default function PageRouter() {
     const messengerReducer = useAppSelector((state)=> state.messengerRouter);
@@ -21,8 +22,8 @@ export default function PageRouter() {
                 return (
                     <div className='flex grid-cols-3'>
                         <UserInfo />
+                        <PublicBoard />
                         <FriendListMain />
-                        <OtherInfo />
                     </div>
                 )
             case "Profile" : 
