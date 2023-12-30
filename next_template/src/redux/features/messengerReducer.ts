@@ -21,7 +21,8 @@ export const userInfoHook = createSlice({
         { infoName : "password", value : "", editYn : false},
         { infoName : "displayName", value : "", editYn : false},
         { infoName : "photoURL", value : "", editYn : false},
-        { infoName : "phoneNumber", value : "", editYn: false}
+        { infoName : "phoneNumber", value : "", editYn: false},
+        { infoName : "introduction", value : "", editYn : false}
         
     ],
     reducers : {
@@ -43,7 +44,8 @@ export const currentUserInfoHook = createSlice({
         friendList : [],
         photoURL : "",
         uid : "",
-        lastLogin : ""
+        lastLogin : "",
+        introduction : ""
     },
     reducers : {
         setCurrentUserInfo : (state,action : PayloadAction<UserInfo>)=> 

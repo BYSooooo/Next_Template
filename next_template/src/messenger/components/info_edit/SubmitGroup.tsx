@@ -4,12 +4,13 @@ import { setUserInfo } from '@/redux/features/messengerReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { firebaseAuth } from '../../../../firebaseConfig';
 
-type reduxType = "email" | "displayName" | "phoneNumber" | "photoURL"
+type reduxType = "email" | "displayName" | "phoneNumber" | "photoURL" | "introduction"
 
 
 export default function SubmitGroup({title, reduxName} : {title : string, reduxName : reduxType}) {
     const dispatch = useAppDispatch();
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit)
+    const currentInfoReducer = useAppSelector((state)=> state.messengerCurUserInfo)
     const userAuth = firebaseAuth.currentUser
 
     const inputValueChange = (propName : string, event : React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +26,8 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
                     return userAuth.email;
                 case "displayName" : 
                     return userAuth.displayName;
+                case "introduction" :
+                    return currentInfoReducer.introduction;
                 default :
                     return null;
             }

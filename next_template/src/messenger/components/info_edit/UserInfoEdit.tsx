@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { firebaseAuth } from '@/../../firebaseConfig';
+import { firebaseAuth, firebaseStore } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
@@ -9,6 +9,7 @@ import { getAuth, signOut, updateEmail, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
 import { updatePhotoURL, uploadPhotoToStrg } from '../FirebaseController';
 import PopOver from '../public/PopOver';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 export default function UserInfoEdit() {
     const [showLogout, setShowLogout] = React.useState(false);
@@ -16,6 +17,7 @@ export default function UserInfoEdit() {
     const [noEditModal, setNoEditModal] = React.useState(false);
     const userAuth = firebaseAuth.currentUser
     const infoReducer = useAppSelector((state)=> state.messengerUserInfoEdit);
+    const currentInroReducer = useAppSelector((state)=> state.messengerCurUserInfo)
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -23,9 +25,12 @@ export default function UserInfoEdit() {
     },[])
 
     const setInitInfo = () => {
+        /* Basic Information */
         {userAuth.email && dispatch(setUserInfo({infoName : "email", value : userAuth.email, editYn : false}))};
         {userAuth.displayName && dispatch(setUserInfo({infoName : "displayName", value : userAuth.displayName, editYn : false}))}
         {userAuth.photoURL && dispatch(setUserInfo({infoName : "photoURL", value : userAuth.photoURL, editYn : false}))}
+        /* Extra Information */
+        {currentInroReducer.introduction && dispatch(setUserInfo({infoName : "introduction", value : currentInroReducer.introduction, editYn : false }))}
     }
 
     const getStateIdx = (propName : string)=> {
@@ -41,11 +46,10 @@ export default function UserInfoEdit() {
         } else {
             setShowWarning(true)
         }
-
-
     }
 
     const updateAuthInfo = async () => {
+        const docRef = doc(firebaseStore,"userInfo",userAuth.email)
         // Close Warning Modal
         setShowWarning(false)
         // photoURL Edited Check
@@ -76,9 +80,19 @@ export default function UserInfoEdit() {
             const changedEmail = infoReducer[getStateIdx("email")].value;
             updateEmail(userAuth, changedEmail);
         }
-        setShowLogout(true)
+        //  edited check   
+        const introEdited = infoReducer[getStateIdx("introduction")].editYn;
+        // if Edited, Change Introduction text 
+        if(introEdited) {
+            const changeIntro = infoReducer[getStateIdx("introduction")].value;
+            await updateDoc(docRef, {
+                introduction : changeIntro
+            })
+        }    
         //dispatch(setPageRouter({page : "Default", title : "Home"}))
+        setShowLogout(true)
     }
+    
 
     const onTempPhotoHandler = (event : React.ChangeEvent<HTMLInputElement>) => {
         const { target : { files } } = event;
@@ -130,24 +144,25 @@ export default function UserInfoEdit() {
                 </div>
                 <SubmitGroup title="Email" reduxName='email' />
                 <SubmitGroup title="Display Name" reduxName='displayName' />
-                <div className='flex justify-end'>
-                    <button     
-                        onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}
-                        className='rounded-full border-2 border-red-500 mx-1 px-2 font-bold hover:bg-red-500 hover:text-white'>
-                        Return  
-                    </button>
-                    <button 
-                        onClick={onClickHandler}
-                        className='rounded-full border-2 border-blue-500 mx-1 px-2 font-bold hover:bg-blue-500 hover:text-white'>
-                        Confirm
-                    </button>
-                </div>                
+                                
             </div>
             <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2 my-2'>
                 <h4 className='font-bold'>
                     Extra Information
                 </h4>
-                <SubmitGroup title='Phone Number' reduxName='phoneNumber' />  
+                <SubmitGroup title="Indroduction" reduxName='introduction' />
+            </div>
+            <div className='flex justify-end'>
+                <button     
+                    onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}
+                    className='rounded-full border-2 border-red-500 mx-1 px-2 font-bold hover:bg-red-500 hover:text-white'>
+                    Return  
+                </button>
+                <button 
+                    onClick={onClickHandler}
+                    className='rounded-full border-2 border-blue-500 mx-1 px-2 font-bold hover:bg-blue-500 hover:text-white'>
+                    Confirm
+                </button>
             </div>
             { showLogout ? 
                 <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">

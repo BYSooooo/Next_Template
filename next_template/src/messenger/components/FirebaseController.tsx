@@ -213,7 +213,7 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
                 UUID : requestUUID,
                 friendEmail : [firebaseAuth.currentUser.email, request.from],
                 acceptDate : new Date(),
-                chatUUID : []
+                chatUUID : ""
             })
             await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
                 friendList : arrayUnion(requestUUID)
@@ -263,5 +263,33 @@ export const getInfoInFriendListCol = async(uuid : string) => {
     } catch(error) {
         console.log(error);
         return { result : false, value : null}
+    }
+}
+/**
+ * Returns the UUID value of the chat room created with the selected friend
+ * 
+ * Note :  If the chatUUID does not exist, function will be created and returned
+ * @param uuid Unique ID in Collection 'friendList'
+ * @return {string} value of chatUUID
+ * 
+ */
+
+export const getChatInfoInFriendList = async(uuid : string) => {    
+    const docRef = doc(firebaseStore,'friendList',uuid);
+    try {
+        const response = (await getDoc(docRef)).data() as FriendList
+        let chatUUID = ""
+        if(response.chatUUID.length === 0) {
+            const uuid = uuidv4();
+            await updateDoc(docRef,{ chatUUID : uuid}).then(()=>{
+                chatUUID = uuid
+            })
+        } else {
+            chatUUID = response.chatUUID
+        }
+        return {result : true, value : chatUUID}
+    } catch(error) {
+        console.log(error)
+        return {result : false, value : null}
     }
 }

@@ -15,7 +15,8 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    lastLogin : string
+    lastLogin : string,
+    introduction : string
 }
 /**
  * @property UUID : Unique ID for friend request.
