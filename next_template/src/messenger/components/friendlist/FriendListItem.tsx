@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
-import { getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import { getChatCollection, getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, UserIcon } from '@heroicons/react/20/solid';
 
@@ -33,9 +33,18 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         }
         return cssString
     }
-    const checkChatRoom = () => {
-        
-    }
+    const checkChatRoom = async() => {
+        const { chatRoomId } = await getChatInfoInFriendList(uuid)
+        try {
+            if(chatRoomId !== null) {
+                getChatCollection(chatRoomId)
+            }
+            
+
+        } catch(error) {
+            console.log(error)
+        }
+    }   
 
     return (
         <li onClick={clickHandler}

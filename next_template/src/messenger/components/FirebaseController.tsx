@@ -265,6 +265,7 @@ export const getInfoInFriendListCol = async(uuid : string) => {
         return { result : false, value : null}
     }
 }
+
 /**
  * Returns the UUID value of the chat room created with the selected friend
  * 
@@ -273,7 +274,6 @@ export const getInfoInFriendListCol = async(uuid : string) => {
  * @return {string} value of chatUUID
  * 
  */
-
 export const getChatInfoInFriendList = async(uuid : string) => {    
     const docRef = doc(firebaseStore,'friendList',uuid);
     try {
@@ -281,15 +281,28 @@ export const getChatInfoInFriendList = async(uuid : string) => {
         let chatUUID = ""
         if(response.chatUUID.length === 0) {
             const uuid = uuidv4();
+            await setDoc(doc(firebaseStore,'chatList',uuid),{
+                uuid : uuid,
+                friendListUUID : response.UUID,
+                members : response.friendEmail,
+                lastChat : new Date()
+            })
             await updateDoc(docRef,{ chatUUID : uuid}).then(()=>{
                 chatUUID = uuid
             })
         } else {
             chatUUID = response.chatUUID
         }
-        return {result : true, value : chatUUID}
+        return { chatRoomId : chatUUID }
     } catch(error) {
         console.log(error)
-        return {result : false, value : null}
+        return { chatRoomId : null }
     }
+}
+export const getChatCollection = async(uuid : string) => {
+    const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
+    await getDocs(colRef).then((result)=> {
+        console.log(result)
+        /* create Snapshot */
+    })
 }
