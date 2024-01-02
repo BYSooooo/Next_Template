@@ -1,45 +1,59 @@
 import React from 'react';
 
-import ChatList from "@/messenger/components/main/contents/ChatList";
-import OtherInfo from "@/messenger/components/main/contents/OtherInfo";
-import UserInfoEdit from "@/messenger/components/info_edit/UserInfoEdit";
+
 import UserInfo from './userinfo/UserInfo';
-import { useAppSelector } from '@/redux/hook';
 import FriendListMain from './friendlist/FriendListMain';
+import UserInfoEdit from './info_edit/UserInfoEdit';
+import { useAppSelector } from '@/redux/hook';
+import { ChatRoom } from './chat/ChatRoom';
 import { PublicBoard } from './board/PublicBoard';
 
 export default function PageRouter() {
-    const messengerReducer = useAppSelector((state)=> state.messengerRouter);
-    const [page, setPage] = React.useState("Default");
+    const msgPageReudcer = useAppSelector((state)=> state.messengerRouter);
 
-    React.useEffect(()=> {
-        setPage(messengerReducer.pageName)
-    },[messengerReducer.pageName])
-
-    const routing = () => {
-        switch (page) {
-            case "Default" : 
-                return (
-                    <div className='flex grid-cols-3'>
-                        <UserInfo />
-                        <PublicBoard />
-                        <FriendListMain />
-                    </div>
-                )
-            case "Profile" : 
-                return (
-                    <div className='flex grid-cols-1'>
-                        <UserInfoEdit />
-                    </div>
-                )
-            default : 
-                return (
-                    <div>
-                        Please Select
-                    </div>
-                )
+    const pageMapping = (componentName : string) => {
+        switch(componentName) {
+            case "UserInfo" : return ( <UserInfo />); 
+            case "UserInfoEdit" : return ( <UserInfoEdit /> )
+            case "FriendListMain" : return (<FriendListMain />); 
+            case "ChatRoom" : return (<ChatRoom />);
+            case "PublicBoard" : return ( <PublicBoard />)
+            default : return null;
         }
     }
+    
+    return (
+        <div className='flex grid-cols-3'>
+            { pageMapping(msgPageReudcer.left)}
+            { pageMapping(msgPageReudcer.middle)}
+            { pageMapping(msgPageReudcer.right)}
+        </div>
+    )
 
-    return routing()
 }
+
+// const routing = () => {
+//     switch (page) {
+//         case "Default" : 
+//             return (
+//                 <div className='flex grid-cols-3'>
+//                     <UserInfo />
+//                     <PublicBoard />
+//                     <FriendListMain />
+//                 </div>
+//             )
+//         case "Profile" : 
+//             return (
+//                 <div className='flex grid-cols-1'>
+//                     <UserInfoEdit />
+//                 </div>
+//             )
+//         default : 
+//             return (
+//                 <div>
+//                     Please Select
+//                 </div>
+//             )
+//     }
+// }
+// return routing()

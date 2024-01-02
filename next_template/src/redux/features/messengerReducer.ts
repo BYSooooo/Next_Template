@@ -2,15 +2,16 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserInfo } from "../../../msg_typeDef";
 
 export const routerHook = createSlice({
-    name : 'MessengerRouter',
-    initialState : {pageName : "Default", title : "Home"},
-    reducers : {
-        /* Selected Page View in Messenger Page */
-        setPageRouter : (state, action : PayloadAction<{page : string, title : string}>) => {
-            state.pageName = action.payload.page
-            state.title = action.payload.title
+    name : 'MessengerPage',
+    initialState : {title : "Home", left : "", middle : "", right : ""},
+    reducers: {
+        /* Page setting in Messenger Page */
+        setPageRendering : (state, action : PayloadAction<{title?: string, left? : string, middle?: string, right?: string}>)=> {
+            if(action.payload.title) state.title = action.payload.title;
+            if(action.payload.left) state.left = action.payload.left;
+            if(action.payload.middle) state.middle = action.payload.middle;
+            if(action.payload.right) state.right = action.payload.right;
         }
-
     }
 })
 
@@ -49,12 +50,11 @@ export const currentUserInfoHook = createSlice({
     },
     reducers : {
         setCurrentUserInfo : (state,action : PayloadAction<UserInfo>)=> 
-            state = action.payload
-        
+            state = action.payload 
     }
 })
 
-export const { setPageRouter } = routerHook.actions;
+export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
 

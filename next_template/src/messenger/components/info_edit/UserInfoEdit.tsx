@@ -2,7 +2,7 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setUserInfo, setPageRouter } from '@/redux/features/messengerReducer';
+import { setPageRendering, setUserInfo } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
 import SubmitGroup from './SubmitGroup';
 import { getAuth, signOut, updateEmail, updateProfile } from 'firebase/auth';
@@ -154,7 +154,7 @@ export default function UserInfoEdit() {
             </div>
             <div className='flex justify-end'>
                 <button     
-                    onClick={()=>dispatch(setPageRouter({page : "Default", title : "Home"}))}
+                    onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", middle : "ChatRoom", right : "FriendListMain"}))}
                     className='rounded-full border-2 border-red-500 mx-1 px-2 font-bold hover:bg-red-500 hover:text-white'>
                     Return  
                 </button>

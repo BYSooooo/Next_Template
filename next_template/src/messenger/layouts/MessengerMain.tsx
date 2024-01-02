@@ -2,7 +2,7 @@ import React from 'react';
 
 import PageRouter from '../components/PageRouter';
 import { useAppDispatch } from '@/redux/hook';
-import { setPageRouter, setCurrentUserInfo } from '@/redux/features/messengerReducer';
+import { setCurrentUserInfo, setPageRendering } from '@/redux/features/messengerReducer';
 import HeaderMain from '../components/header/HeaderMain';
 import { getUserInfo, setInitUserInfo } from '../components/FirebaseController';
 import { firebaseAuth } from '../../../firebaseConfig';
@@ -15,7 +15,8 @@ export default function MainLogined () {
         setInitUserInfo().then((result)=> {
             result === true && getCurrentUserInfo()
         })
-        dispatch(setPageRouter({page : "Default", title : "Home"}))
+        //dispatch(setPageRouter({page : "Default", title : "Home"}))
+        dispatch(setPageRendering({title : "Home", left : "UserInfo", middle : "PublicBoard", right : "FriendListMain"}))
     },[])
     
     const getCurrentUserInfo = async() => {

@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { FriendList, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 import { get } from 'firebase/database';
 
 const userAuth = firebaseAuth;
@@ -301,8 +301,13 @@ export const getChatInfoInFriendList = async(uuid : string) => {
 }
 export const getChatCollection = async(uuid : string) => {
     const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
-    await getDocs(colRef).then((result)=> {
-        console.log(result)
-        /* create Snapshot */
-    })
+    let resultArray:MessageInfo[] = []
+    try {
+        await getDocs(colRef).then((result)=> { 
+            {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
+        })}
+    catch(error) {
+        console.log(error)
+    }
+    return resultArray
 }
