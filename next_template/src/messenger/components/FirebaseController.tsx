@@ -299,6 +299,11 @@ export const getChatInfoInFriendList = async(uuid : string) => {
         return { chatRoomId : null }
     }
 }
+/**
+ * 
+ * @param uuid Unique ChatRoom ID in 'ChatList' Collection
+ * @returns {Array} Message List's Array
+ */
 export const getChatCollection = async(uuid : string) => {
     const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
     let resultArray:MessageInfo[] = []
