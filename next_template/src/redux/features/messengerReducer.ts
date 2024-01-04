@@ -54,13 +54,27 @@ export const currentUserInfoHook = createSlice({
     }
 })
 
+export const currentChatInfoHook = createSlice({
+    name : 'CurrentChatInfo',
+    initialState : {
+        chatListUUID : "" 
+    },
+    reducers : {
+        setChatListUUID : (state,action : PayloadAction<{chatListUUID : string}>)=>{
+            state.chatListUUID = action.payload.chatListUUID
+        }
+    }
+})
+
 export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
+export const { setChatListUUID } = currentChatInfoHook.actions;
 
 export default [
     routerHook.reducer,
     userInfoHook.reducer,
-    currentUserInfoHook.reducer
+    currentUserInfoHook.reducer,
+    currentChatInfoHook.reducer
 
 ]

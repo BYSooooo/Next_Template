@@ -3,7 +3,7 @@ import { getChatCollection, getChatInfoInFriendList, getInfoInFriendListCol, get
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
-import { setPageRendering } from '@/redux/features/messengerReducer';
+import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
@@ -38,14 +38,9 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
     }
     const checkChatRoom = async() => {
         const { chatRoomId } = await getChatInfoInFriendList(uuid)
-        try {
-            if(chatRoomId !== null) {
-                getChatCollection(chatRoomId)
-            }
-            dispatch(setPageRendering({middle : "ChatRoom"}))
-        } catch(error) {
-            console.log(error)
-        }
+        dispatch(setChatListUUID({chatListUUID : chatRoomId}));
+        dispatch(setPageRendering({middle : "ChatRoom"}))
+        
     }   
 
     return (

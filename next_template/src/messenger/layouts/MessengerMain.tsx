@@ -16,7 +16,7 @@ export default function MainLogined () {
             result === true && getCurrentUserInfo()
         })
         //dispatch(setPageRouter({page : "Default", title : "Home"}))
-        dispatch(setPageRendering({title : "Home", left : "UserInfo", middle : "PublicBoard", right : "FriendListMain"}))
+        dispatch(setPageRendering({title : "Home", left : "UserInfo", right : "FriendListMain"}))
     },[])
     
     const getCurrentUserInfo = async() => {

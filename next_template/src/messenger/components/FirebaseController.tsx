@@ -300,7 +300,9 @@ export const getChatInfoInFriendList = async(uuid : string) => {
     }
 }
 /**
+ * Retrieves a list of messages stored in the selected ChatList
  * 
+ * Note : This Function set Snapshot for Set up Snapshot to fetch messages in real time
  * @param uuid Unique ChatRoom ID in 'ChatList' Collection
  * @returns {Array} Message List's Array
  */
@@ -308,9 +310,13 @@ export const getChatCollection = async(uuid : string) => {
     const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
     let resultArray:MessageInfo[] = []
     try {
-        await getDocs(colRef).then((result)=> { 
-            {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
-        })}
+        onSnapshot(colRef,(snapShot)=> {
+            snapShot.docs.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))
+        })
+        // await getDocs(colRef).then((result)=> { 
+        //     {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
+        // })
+        }
     catch(error) {
         console.log(error)
     }
