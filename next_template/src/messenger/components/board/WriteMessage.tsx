@@ -1,14 +1,17 @@
 import React from 'react'
 
 import { DocumentIcon, DocumentPlusIcon } from '@heroicons/react/20/solid'
+import { sendMessage } from '../FirebaseController';
+import { MessageInfo } from '../../../../msg_typeDef';
 
-export function WriteMessage() {
+export function WriteMessage({chatUUID} : {chatUUID : string}) {
+    const [sendMessage, setSendMessage] = React.useState<MessageInfo>()
     const [msgContext, setMsgContext] = React.useState("")
     const [attachedFile, setAttachedFile] = React.useState<{name : string, value: string}>();
     const [fileType, setFileType] = React.useState("");
     
     const onClick = () => {
-        
+            
     }
     const tempFileHandler = (event : React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } } = event;
@@ -69,7 +72,7 @@ export function WriteMessage() {
                     onChange={(e)=>setMsgContext(e.target.value)} 
                     className='rounded-md border-2 border-slate-500 px-2' 
                     placeholder='Enter a message...'
-                    value={msgContext}/>
+                    value={sendMessage.message}/>
                 <button 
                     className='px-2 rounded-md border-none bg-blue-400 text-white hover:bg-blue-600 transition duration-200'
                     onClick={onClick}>

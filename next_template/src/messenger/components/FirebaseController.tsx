@@ -322,3 +322,21 @@ export const getChatCollection = async(uuid : string) => {
     }
     return resultArray
 }
+/**
+ * 
+ */
+export const sendMessage = async(uuid : string, msgInfo : MessageInfo, count: number) => {
+    const generateId :string = 'msg'+new Date().getDate().toString + (count+1).toString()
+    await getDocs(collection(firebaseStore,`chatList/${uuid}/messages`))
+        .then((response)=> {
+            
+        })  
+    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`);
+        console.log(colRef)
+    // try {
+    //     await setDoc(colRef,msgInfo).then(())
+    // }catch(error){
+    //     console.log(error)
+    // }
+
+}

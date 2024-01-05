@@ -31,7 +31,7 @@ export function ChatRoom() {
             <h4>
                 have Message
             </h4>}
-            <WriteMessage />
+            <WriteMessage chatUUID={chatRoomReducer.chatListUUID}/>
         </div>
     )
 }
