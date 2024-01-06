@@ -284,8 +284,7 @@ export const getChatInfoInFriendList = async(uuid : string) => {
                 uuid : uuid,
                 friendListUUID : response.UUID,
                 members : response.friendEmail,
-                lastChat : new Date(),
-                count : FieldValue
+                lastChat : new Date()
             })
             await updateDoc(docRef,{ chatUUID : uuid}).then(()=>{
                 chatUUID = uuid
@@ -307,11 +306,13 @@ export const getChatInfoInFriendList = async(uuid : string) => {
  * @returns {Array} Message List's Array
  */
 export const getMessageInChat = async(uuid : string) => {
-    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','asc'));
+    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
     try {
         onSnapshot(colRef,(snapShot)=> {
-            // let resultArray = [] as MessageInfo[]
+            let resultArray = [] as MessageInfo[]
             console.log('Call Snapshot')
+            snapShot.docs.forEach((item)=> resultArray.push(item.data() as MessageInfo))
+            console.log('Array : ',resultArray)
             return snapShot.docs
             
         })
