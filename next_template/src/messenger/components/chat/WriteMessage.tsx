@@ -6,7 +6,7 @@ import { firebaseAuth } from '../../../../firebaseConfig';
 import { sendChatMessage } from '../FirebaseController';
 import { MessageInfo } from '../../../../msg_typeDef';
 
-export function WriteMessage({ chatUUID, writeDate, newCount} : {chatUUID : string, writeDate : string, newCount : number}) {
+export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeDate : string }) {
     const [msgContext, setMsgContext] = React.useState("")
     const [attachedFile, setAttachedFile] = React.useState<{name: string, type:string, value: string} | null>(null);
 
@@ -22,7 +22,7 @@ export function WriteMessage({ chatUUID, writeDate, newCount} : {chatUUID : stri
             attachedValue : attachedFile ? attachedFile.value : null,
             author : firebaseAuth.currentUser.email
         }
-        await sendChatMessage(chatUUID,message,newCount)
+        await sendChatMessage(chatUUID,message)
     }
 
     const tempFileHandler = (event : React.ChangeEvent<HTMLInputElement>)=> {

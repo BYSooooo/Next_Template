@@ -2,7 +2,7 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment} from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 
@@ -307,21 +307,21 @@ export const getChatInfoInFriendList = async(uuid : string) => {
  * @returns {Array} Message List's Array
  */
 export const getMessageInChat = async(uuid : string) => {
-    const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
-    let resultArray:MessageInfo[] = []
+    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','asc'));
     try {
         onSnapshot(colRef,(snapShot)=> {
+            // let resultArray = [] as MessageInfo[]
             console.log('Call Snapshot')
-            snapShot.docs.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))
+            return snapShot.docs
+            
         })
         // await getDocs(colRef).then((result)=> { 
         //     {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
         // })
-        }
-    catch(error) {
+    } catch(error) {
         console.log(error)
+        return []
     }
-    return resultArray
 }
 /**
  * Send message 
@@ -331,12 +331,13 @@ export const getMessageInChat = async(uuid : string) => {
  * @param msgInfo message context object
  * @param count message number for create uuid
  */
-export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo, count: number) => {
+export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo) => {
     // await getDocs(collection(firebaseStore,`chatList/${uuid}/messages`))
     //     .then((response)=> {
     //         response.docs
     //     })
-    const colRef = doc(firebaseStore,`chatList/${uuid}/messages/`,msgInfo.UUID+'_'+count.toString());
+    const uid = uuidv4()
+    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,uid);
         console.log(colRef)
     try {
         await setDoc(colRef,msgInfo)
