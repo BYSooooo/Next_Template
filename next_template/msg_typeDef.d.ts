@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore"
+import { FieldValue, Timestamp } from "firebase/firestore"
 /**
  * @property dislayName : User Nickname
  * @property email : The email user used to sign up
@@ -35,6 +35,17 @@ interface RequestFriend {
     checkYn : boolean
 
 }
+
+ /**
+  * View routing Interface
+  */
+ interface ViewRoute {
+    title : string,
+    left : string,
+    middle : string,
+    right : string
+ }
+
 /**
  * @property UUID : Individual IDs for Friendships
  * @property friendEmail :  Emails from two users who are friends
@@ -46,4 +57,40 @@ interface FriendList {
     friendEmail : [string],
     acceptDate : Timestamp,
     chatUUID : string
+}
+/**
+ * @property UUID : Unique number of Message (Auto increment must be applied)
+ * @property message : Context of message
+ * @property viewYn : Whether the other person has acknowledged current User's message
+ * @property createDate : The date the message was created
+ * @property attachedYn : Presence of attached files
+ * @property attachedType : Type of attached file
+ * @property attachedValue : Value of attached file (Google Cloud Storage URL)
+ * @property author : Message author
+ *  
+ */
+interface MessageInfo {
+    UUID : string,
+    message : string,
+    viewYn : boolean
+    createDate : Timestamp,
+    attachedYn : boolean,
+    attachedName : string | null,
+    attachedType : string | null,
+    attachedValue : any | null,
+    author : string,
+}
+/**
+ * Interface of chatList in Firestore Cloud
+ * 
+ * @property uuid : Unique ID of chatList
+ * @property friendListUUID : ID of Selected chat in 'friendList'
+ * @property lastChat : last Date of Chat
+ * @property members : Member of participate in Chatting
+ */
+interface ChatRoomInfo {
+    uuid : string,
+    friendListUUID : string,
+    lastChat : Timestamp,
+    members : string[]
 }

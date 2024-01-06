@@ -2,10 +2,9 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, getDocFromServer, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { FriendList, RequestFriend, UserInfo } from '../../../msg_typeDef';
-import { get } from 'firebase/database';
+import { FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
@@ -299,10 +298,52 @@ export const getChatInfoInFriendList = async(uuid : string) => {
         return { chatRoomId : null }
     }
 }
-export const getChatCollection = async(uuid : string) => {
-    const colRef = collection(firebaseStore,`chatList/${uuid}/messages`)
-    await getDocs(colRef).then((result)=> {
-        console.log(result)
-        /* create Snapshot */
-    })
+/**
+ * Retrieves a list of messages stored in the selected ChatList
+ * 
+ * Note : This Function Set up Snapshot to fetch messages in real time
+ * @param uuid Unique ChatRoom ID in 'ChatList' Collection
+ * @returns {Array} Message List's Array
+ */
+export const getMessageInChat = async(uuid : string) => {
+    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
+    try {
+        onSnapshot(colRef,(snapShot)=> {
+            let resultArray = [] as MessageInfo[]
+            console.log('Call Snapshot')
+            snapShot.docs.forEach((item)=> resultArray.push(item.data() as MessageInfo))
+            console.log('Array : ',resultArray)
+            return snapShot.docs
+            
+        })
+        // await getDocs(colRef).then((result)=> { 
+        //     {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
+        // })
+    } catch(error) {
+        console.log(error)
+        return []
+    }
+}
+/**
+ * Send message 
+ * 
+ * Note : If message contain attached file, upload Firebase stroage first
+ * @param uuid chatList UUID
+ * @param msgInfo message context object
+ * @param count message number for create uuid
+ */
+export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo) => {
+    // await getDocs(collection(firebaseStore,`chatList/${uuid}/messages`))
+    //     .then((response)=> {
+    //         response.docs
+    //     })
+    const uid = uuidv4()
+    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,uid);
+        console.log(colRef)
+    try {
+        await setDoc(colRef,msgInfo)
+    }catch(error){
+        console.log(error)
+    }
+
 }

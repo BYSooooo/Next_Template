@@ -1,11 +1,14 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
-import { getChatCollection, getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import React from 'react';
+import { getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, UserIcon } from '@heroicons/react/20/solid';
+import { useAppDispatch } from '@/redux/hook';
+import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
-    
+    const dispatch = useAppDispatch()
+
     React.useEffect(()=> {
         getSelectedFriendInfo()
     },[])
@@ -35,15 +38,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
     }
     const checkChatRoom = async() => {
         const { chatRoomId } = await getChatInfoInFriendList(uuid)
-        try {
-            if(chatRoomId !== null) {
-                getChatCollection(chatRoomId)
-            }
-            
-
-        } catch(error) {
-            console.log(error)
-        }
+        dispatch(setChatListUUID({chatListUUID : chatRoomId}));
+        dispatch(setPageRendering({middle : "ChatRoom"}))
     }   
 
     return (

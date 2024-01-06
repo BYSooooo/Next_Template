@@ -2,8 +2,8 @@ import React from 'react';
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setPageRouter } from '@/redux/features/messengerReducer';
 import { UserInfo } from '../../../../msg_typeDef';
+import { setPageRendering } from '@/redux/features/messengerReducer';
 
 export default function UserInfo() {
     const [userInfo, setUserInfo] = React.useState<UserInfo>();
@@ -22,7 +22,7 @@ export default function UserInfo() {
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
-                <button onClick={()=>dispatch(setPageRouter({page : "Profile", title : "Profile Edit"}))}>
+                <button onClick={()=>dispatch(setPageRendering({title : "Edit", left : "UserInfoEdit", middle : "null", right : "null"}))}>
                     Edit
                 </button>
             </div>
