@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore"
+import { FieldValue, Timestamp } from "firebase/firestore"
 /**
  * @property dislayName : User Nickname
  * @property email : The email user used to sign up
@@ -66,18 +66,31 @@ interface FriendList {
  * @property attachedYn : Presence of attached files
  * @property attachedType : Type of attached file
  * @property attachedValue : Value of attached file (Google Cloud Storage URL)
- * @property from  : Message author
- * @property to : Message recipients
+ * @property author : Message author
  *  
  */
 interface MessageInfo {
-    UUID : number,
+    UUID : string,
     message : string,
     viewYn : boolean
     createDate : Timestamp,
     attachedYn : boolean,
-    attachedType : string,
-    attachedValue : any,
-    from : string,
-    to : string
+    attachedName : string | null,
+    attachedType : string | null,
+    attachedValue : any | null,
+    author : string,
+}
+/**
+ * Interface of chatList in Firestore Cloud
+ * 
+ * @property uuid : Unique ID of chatList
+ * @property friendListUUID : ID of Selected chat in 'friendList'
+ * @property lastChat : last Date of Chat
+ * @property members : Member of participate in Chatting
+ */
+interface ChatRoomInfo {
+    uuid : string,
+    friendListUUID : string,
+    lastChat : Timestamp,
+    members : string[]
 }

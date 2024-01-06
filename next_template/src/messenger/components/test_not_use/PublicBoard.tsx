@@ -1,5 +1,4 @@
 import React from 'react'
-import { WriteMessage } from './WriteMessage'
 
 export function PublicBoard() {
 
@@ -17,7 +16,6 @@ export function PublicBoard() {
             <div>
 
             </div>
-            <WriteMessage />
         </div>
     )
 }

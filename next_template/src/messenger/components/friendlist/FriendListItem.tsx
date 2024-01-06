@@ -1,5 +1,5 @@
 import React from 'react';
-import { getChatCollection, getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import { getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
@@ -40,7 +40,6 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         const { chatRoomId } = await getChatInfoInFriendList(uuid)
         dispatch(setChatListUUID({chatListUUID : chatRoomId}));
         dispatch(setPageRendering({middle : "ChatRoom"}))
-        
     }   
 
     return (

@@ -1,42 +1,53 @@
 import React from 'react'
 
 import { DocumentIcon, DocumentPlusIcon } from '@heroicons/react/20/solid'
-import { sendMessage } from '../FirebaseController';
+import { Timestamp } from 'firebase/firestore';
+import { firebaseAuth } from '../../../../firebaseConfig';
+import { sendChatMessage } from '../FirebaseController';
 import { MessageInfo } from '../../../../msg_typeDef';
 
-export function WriteMessage({chatUUID} : {chatUUID : string}) {
-    const [sendMessage, setSendMessage] = React.useState<MessageInfo>()
+export function WriteMessage({ chatUUID, writeDate, newCount} : {chatUUID : string, writeDate : string, newCount : number}) {
     const [msgContext, setMsgContext] = React.useState("")
-    const [attachedFile, setAttachedFile] = React.useState<{name : string, value: string}>();
-    const [fileType, setFileType] = React.useState("");
-    
-    const onClick = () => {
-            
+    const [attachedFile, setAttachedFile] = React.useState<{name: string, type:string, value: string} | null>(null);
+
+    const onClick = async() => {
+        const message : MessageInfo = {
+            UUID : 'msg_' + writeDate,
+            message : msgContext,
+            viewYn : false,
+            createDate : Timestamp.fromDate(new Date()),
+            attachedYn : attachedFile ? true : false,
+            attachedName : attachedFile ? attachedFile.name : null,
+            attachedType : attachedFile ? attachedFile.type : null,
+            attachedValue : attachedFile ? attachedFile.value : null,
+            author : firebaseAuth.currentUser.email
+        }
+        await sendChatMessage(chatUUID,message,newCount)
     }
+
     const tempFileHandler = (event : React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } } = event;
         const uploaded = files[0]
         const reader = new FileReader()
         reader.onloadend = (finished : any)=> {
             const { currentTarget : { result }} = finished;
-            setAttachedFile({name : uploaded.name, value:result})
-        }
-        setFileType(uploaded.type);
-        
+            setAttachedFile({name : uploaded.name, type: uploaded.type ,value:result})
+        }        
         reader.readAsDataURL(uploaded)
+    }
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setMsgContext(value)
     }
 
     const previewHandler = () => {
-        if(fileType.includes('image')) {
+        if(attachedFile.type.includes('image')) {
             return (    
                 <div className='flex flex-col w-20 h-fit items-center'>
                     <div className='w-fit h-fit rounded-md bg-black'>
                         <img src={attachedFile?.value} 
                             className=' w-20 h-20 rounded-md border-none bg-opacity-0 cursor-pointer hover:opacity-50'
-                            onClick={()=> { 
-                                setAttachedFile({name : "", value: ""})
-                                setFileType("")
-                                }}/>
+                            onClick={()=> { setAttachedFile(null)}}/>
                     </div>
                     <h4 className='text-sm flex-nowrap overflow-ellipsis'>
                         {attachedFile.name}
@@ -57,7 +68,7 @@ export function WriteMessage({chatUUID} : {chatUUID : string}) {
     
     return (
         <div className='p-2 bg-slate-200 rounded-lg'>
-            {attachedFile?.name.length > 0 && 
+            {attachedFile && 
                 <div className='flex flex-col justify-center'>
                     <h4 className='text-sm'>
                         Attached File
@@ -69,10 +80,10 @@ export function WriteMessage({chatUUID} : {chatUUID : string}) {
             }
             <div className='flex gap-1'>
                 <input
-                    onChange={(e)=>setMsgContext(e.target.value)} 
+                    onChange={onChangeHandler} 
                     className='rounded-md border-2 border-slate-500 px-2' 
                     placeholder='Enter a message...'
-                    value={sendMessage.message}/>
+                    value={msgContext}/>
                 <button 
                     className='px-2 rounded-md border-none bg-blue-400 text-white hover:bg-blue-600 transition duration-200'
                     onClick={onClick}>
@@ -81,7 +92,7 @@ export function WriteMessage({chatUUID} : {chatUUID : string}) {
                 <DocumentPlusIcon 
                     className='w-8 h-8 text-green-400 hover:text-green-600 transition duration-200 cursor-pointer'
                     onClick={()=>document.getElementById('tempAttach').click()}/>            
-                <input type='file' id='tempAttach' accept='image/*' onChange={(e)=> tempFileHandler(e)} style={{display : 'none'}}/>
+                <input type='file' id='tempAttach' accept='image/*' onChange={(e)=>tempFileHandler(e)} style={{display : 'none'}}/>
             </div>
         </div>
     )
