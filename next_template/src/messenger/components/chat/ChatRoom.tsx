@@ -1,9 +1,11 @@
 import React from 'react'
 
 import { useAppSelector } from '@/redux/hook'
-import { getMessageInChat } from '../FirebaseController';
 import { MessageInfo } from '../../../../msg_typeDef';
 import { WriteMessage } from './WriteMessage';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { firebaseStore } from '../../../../firebaseConfig';
+import { ViewMessage } from './ViewMessage';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
@@ -12,17 +14,18 @@ export function ChatRoom() {
 
     React.useEffect(()=> {
         getDateNow()
+        getMessageList()
     },[])
 
-    React.useEffect(()=> {
-        getMessageList()    
-    },[chatRoomReducer.chatListUUID])
-    
     /* set onSnapshot() for messages Collection in chatList Document */
     const getMessageList = async() => {
-        await getMessageInChat(chatRoomReducer.chatListUUID).then((result)=> {
-            console.log(result)
-            //setMessageList(result)
+        const colRef = query(collection(firebaseStore,`chatList/${chatRoomReducer.chatListUUID}/messages`),orderBy('createDate','asc'));
+        onSnapshot(colRef,(snapShot)=> {
+            const resultArray : MessageInfo[] = []
+            snapShot.docs.forEach((doc)=> {
+                resultArray.push(doc.data() as MessageInfo)
+                setMessageList(resultArray)
+            })
         })
         
     }
@@ -32,17 +35,10 @@ export function ChatRoom() {
         const current = new Date(new Date().getTime()-(offset*60*1000)).toISOString().split('T')[0]
         setCurrentDate(current)
     }
+    
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
-            {messageList?.length === 0 
-            ?
-            <h4 className='font-bold text-lg'>
-                No Message
-            </h4> 
-            : 
-            <h4>
-                have Message
-            </h4>}
+            {messageList && <ViewMessage messages={messageList}/>}
             <WriteMessage chatUUID={chatRoomReducer.chatListUUID} writeDate={currentDate} />
         </div>
     )
