@@ -22,7 +22,10 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
             attachedValue : attachedFile ? attachedFile.value : null,
             author : firebaseAuth.currentUser.email
         }
-        await sendChatMessage(chatUUID,message)
+        await sendChatMessage(chatUUID,message).then(()=> {
+            setMsgContext("")
+        })
+        
     }
 
     const tempFileHandler = (event : React.ChangeEvent<HTMLInputElement>)=> {

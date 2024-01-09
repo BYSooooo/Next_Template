@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 
 const userAuth = firebaseAuth;
 
@@ -236,7 +236,6 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
 }
 
 export const getFriendInDoc = async() => {
-    let data = [];
     const docRef = doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email)
     try {
         const response = await getDoc(docRef)
@@ -270,7 +269,7 @@ export const getInfoInFriendListCol = async(uuid : string) => {
  * 
  * Note :  If the chatUUID does not exist, function will be created and returned
  * @param uuid Unique ID in Collection 'friendList'
- * @return {string} value of chatUUID
+ * @return {string} value of chatList UUID
  * 
  */
 export const getChatInfoInFriendList = async(uuid : string) => {    
@@ -292,10 +291,25 @@ export const getChatInfoInFriendList = async(uuid : string) => {
         } else {
             chatUUID = response.chatUUID
         }
-        return { chatRoomId : chatUUID }
+        return {chatUUID : chatUUID };
     } catch(error) {
         console.log(error)
-        return { chatRoomId : null }
+        return { chatUUID : null }
+    }
+}
+
+export const getSelectedChatInfo = async(uuid: string) => {
+    const docRef = doc(firebaseStore,'chatList',uuid);
+    try {
+        const response = await getDoc(docRef);
+        const newChatInfo = response.data()
+        const lastChatDate : Date = newChatInfo.lastChat.toDate();
+        newChatInfo.lastChat = lastChatDate.toString()
+        return newChatInfo
+    }
+    catch(error) {
+        console.log(error)
+        return null;
     }
 }
 

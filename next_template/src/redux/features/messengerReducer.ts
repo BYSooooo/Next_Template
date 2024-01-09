@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserInfo } from "../../../msg_typeDef";
+import { ChatRoomInfo, UserInfo } from "../../../msg_typeDef";
+import { Timestamp } from "firebase/firestore";
 
 export const routerHook = createSlice({
     name : 'MessengerPage',
@@ -57,19 +58,26 @@ export const currentUserInfoHook = createSlice({
 export const currentChatInfoHook = createSlice({
     name : 'CurrentChatInfo',
     initialState : {
-        chatListUUID : "" 
+        uuid : "",
+        friendListUUID : "",
+        lastChat : "",
+        members : []
     },
     reducers : {
-        setChatListUUID : (state,action : PayloadAction<{chatListUUID : string}>)=>{
-            state.chatListUUID = action.payload.chatListUUID
-        }
+        setChatListUUID : (state,action:PayloadAction<string>)=> {
+            state.uuid = action.payload
+        },
+        setChatListInfo : (state,action : PayloadAction<ChatRoomInfo>)=>{
+            state = action.payload
+        },
+        
     }
 })
 
 export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
-export const { setChatListUUID } = currentChatInfoHook.actions;
+export const { setChatListUUID, setChatListInfo } = currentChatInfoHook.actions;
 
 export default [
     routerHook.reducer,
