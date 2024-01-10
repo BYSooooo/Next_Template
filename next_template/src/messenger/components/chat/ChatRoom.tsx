@@ -1,19 +1,23 @@
 import React from 'react'
 
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/hook'
-import { ChatRoomInfo, MessageInfo } from '../../../../msg_typeDef';
 import { WriteMessage } from './WriteMessage';
+import { ChatRoomInfo, MessageInfo, UserInfo } from '../../../../msg_typeDef';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
-import { MessageList } from './MessageList';
-import { getSelectedChatInfo } from '../FirebaseController';
-import { useDispatch } from 'react-redux';
-import { setChatListInfo } from '@/redux/features/messengerReducer';
+import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
+import { MessageItem } from './MessageItem';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
     const [currentDate, setCurrentDate] = React.useState("")
+    const [membersInfo, setMembersInfo] = React.useState<UserInfo[]>([]);
+    const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
+
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
+    const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
+
     const dispatch = useDispatch();
 
     React.useEffect(()=> {
@@ -44,16 +48,32 @@ export function ChatRoom() {
     /* get Chat Room Info */
     const getChatRoomInfo = async() => {
         const chatInfo = await getSelectedChatInfo(chatRoomReducer.uuid) as ChatRoomInfo;
+        console.log('ChatRoom');
         console.log(chatInfo)
-        dispatch(setChatListInfo(chatInfo))   
+        setChatRoomInfo(chatInfo)
+        chatInfo.members.forEach(async(member)=> {
+            const {result, value} = await getUserInfo(member);
+            {result === true && setMembersInfo(prev => [...prev, value])}
+        })
     }
+
+    const authorCheck = (email : string) => currentUserInfo.email === email ? true : false
+    const authorInfo = (email: string)=> membersInfo.find((member)=>  member.email === email)
     
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className=''>
 
             </div>
-            {messageList && <MessageList messages={messageList} chatRoomInfo={chatRoomReducer}/>}
+            <div className='overflow-y-scroll'>
+                {messageList.map((message)=> {
+                    return <MessageItem key={message.UUID} 
+                                message={message} 
+                                authorYn={authorCheck(message.author)} 
+                                authorInfo={authorInfo(message.author)}/>
+                })}
+            </div>
+            {/* {messageList && <MessageList messages={messageList} chatRoomInfo={chatRoomReducer}/>} */}
             <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} />
         </div>
     )
