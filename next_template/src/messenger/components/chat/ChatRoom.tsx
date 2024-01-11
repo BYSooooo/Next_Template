@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/hook'
 import { WriteMessage } from './WriteMessage';
 import { ChatRoomInfo, MessageInfo, UserInfo } from '../../../../msg_typeDef';
@@ -17,8 +16,6 @@ export function ChatRoom() {
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
-
-    const dispatch = useDispatch();
 
     React.useEffect(()=> {
         setMessageList([])
@@ -59,18 +56,32 @@ export function ChatRoom() {
 
     const authorCheck = (email : string) => currentUserInfo.email === email ? true : false
     const authorInfo = (email: string)=> membersInfo.find((member)=>  member.email === email)
+    const chatMember = () => {
+        const member = membersInfo.find((member)=> member.email !== currentUserInfo.email)
+        return(  
+            <h4 className='font-bold text-lg'>
+                Chat - {member.displayName ? member.displayName : 'No Name'}
+            </h4> 
+        )
+    } 
+        
+        
     
-    return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
-            <div className=''>
 
+    return (
+        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2 grid-rows-3'>
+            <div className='flex justify-center p-2'>
+                <h4 className='font-bold text-lg'>
+                    Chat
+                </h4>
             </div>
-            <div className='overflow-y-scroll'>
+            <div className='h-3/4 overflow-y-scroll my-1 '>
                 {messageList.map((message)=> {
                     return <MessageItem key={message.UUID} 
-                                message={message} 
-                                authorYn={authorCheck(message.author)} 
-                                authorInfo={authorInfo(message.author)}/>
+                                    message={message} 
+                                    authorYn={authorCheck(message.author)} 
+                                    authorInfo={authorInfo(message.author)}/>
+                        
                 })}
             </div>
             {/* {messageList && <MessageList messages={messageList} chatRoomInfo={chatRoomReducer}/>} */}

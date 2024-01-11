@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ChatRoomInfo, MessageInfo, UserInfo } from '../../../../msg_typeDef'
 import { useAppSelector } from '@/redux/hook'
-import { MessageItem } from './MessageItem';
+import { MessageItem } from '../chat/MessageItem';
 import { getUserInfo } from '../FirebaseController';
 
 export function MessageList({messages, chatRoomInfo} : {messages : MessageInfo[], chatRoomInfo : ChatRoomInfo}) {
