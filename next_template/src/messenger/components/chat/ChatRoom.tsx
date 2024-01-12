@@ -13,6 +13,8 @@ export function ChatRoom() {
     const [currentDate, setCurrentDate] = React.useState("")
     const [membersInfo, setMembersInfo] = React.useState<UserInfo[]>([]);
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
+    const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
+    const dayCheck = React.useRef<Date|null>(null)
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -23,6 +25,10 @@ export function ChatRoom() {
         getMessageList()
         getChatRoomInfo()
     },[chatRoomReducer.uuid])
+
+    React.useEffect(()=> {
+        chatMember()
+    },[membersInfo])
 
     /* set onSnapshot() for messages Collection in chatList Document */
     const getMessageList = async() => {
@@ -44,9 +50,8 @@ export function ChatRoom() {
     }
     /* get Chat Room Info */
     const getChatRoomInfo = async() => {
+        setMembersInfo([])
         const chatInfo = await getSelectedChatInfo(chatRoomReducer.uuid) as ChatRoomInfo;
-        console.log('ChatRoom');
-        console.log(chatInfo)
         setChatRoomInfo(chatInfo)
         chatInfo.members.forEach(async(member)=> {
             const {result, value} = await getUserInfo(member);
@@ -58,33 +63,38 @@ export function ChatRoom() {
     const authorInfo = (email: string)=> membersInfo.find((member)=>  member.email === email)
     const chatMember = () => {
         const member = membersInfo.find((member)=> member.email !== currentUserInfo.email)
-        return(  
-            <h4 className='font-bold text-lg'>
-                Chat - {member.displayName ? member.displayName : 'No Name'}
-            </h4> 
-        )
+        setMemberInfo(member)
     } 
-        
-        
-    
+    const checkDate = (message : MessageInfo) => {
+        if(!dayCheck) dayCheck.current = message.createDate.toDate();
+        if(dayCheck?.current?.getDate() !== message.createDate.toDate().getDate()){
+            return <div>
+                <h4>
+                    day Change
+                </h4>
+            </div>
+        }
 
+    }
+    
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2 grid-rows-3'>
             <div className='flex justify-center p-2'>
                 <h4 className='font-bold text-lg'>
-                    Chat
+                    Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
             </div>
             <div className='h-3/4 overflow-y-scroll my-1 '>
                 {messageList.map((message)=> {
-                    return <MessageItem key={message.UUID} 
-                                    message={message} 
-                                    authorYn={authorCheck(message.author)} 
-                                    authorInfo={authorInfo(message.author)}/>
-                        
+                    {checkDate(message)}
+                    return ( <MessageItem key={message.UUID} 
+                        message={message} 
+                        authorYn={authorCheck(message.author)} 
+                        authorInfo={authorInfo(message.author)}/>     
+                )
                 })}
+                    
             </div>
-            {/* {messageList && <MessageList messages={messageList} chatRoomInfo={chatRoomReducer}/>} */}
             <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} />
         </div>
     )
