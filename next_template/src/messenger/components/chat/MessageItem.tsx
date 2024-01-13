@@ -1,8 +1,7 @@
 import React from 'react';
 import { MessageInfo, UserInfo } from '../../../../msg_typeDef';
 
-export function MessageItem({message, authorYn, authorInfo} : {message : MessageInfo, authorYn : boolean, authorInfo : UserInfo}) {
-    
+export function MessageItem({message, authorYn, authorInfo, dateChange} : {message : MessageInfo, authorYn : boolean, authorInfo : UserInfo, dateChange : boolean}) {
     const checkAuthor = ()=> {
         let defaultCSS = 'flex w-full h-fit px-2 text-sm'
         switch(authorYn) {
@@ -33,6 +32,13 @@ export function MessageItem({message, authorYn, authorInfo} : {message : Message
     
     return (
         <div className='my-2'>
+            {dateChange && 
+                <div className='flex rounded-lg bg-zinc-500 justify-center items-center my-4 '>
+                    <h6 className='text-sm text-white'>
+                        {message.createDate.toDate().toLocaleDateString()}
+                    </h6>
+                </div>
+            }
             <div className={checkAuthor()}>
                 {(authorYn === false && authorInfo) && <img src={authorInfo.photoURL} className='w-10 h-10 rounded-full mr-2'/>}
                 <div>

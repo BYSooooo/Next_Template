@@ -14,7 +14,7 @@ export function ChatRoom() {
     const [membersInfo, setMembersInfo] = React.useState<UserInfo[]>([]);
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
-    const dayCheck = React.useRef<Date|null>(null)
+    const dayCheck = React.useRef<Date>()
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -65,16 +65,12 @@ export function ChatRoom() {
         const member = membersInfo.find((member)=> member.email !== currentUserInfo.email)
         setMemberInfo(member)
     } 
-    const checkDate = (message : MessageInfo) => {
-        if(!dayCheck) dayCheck.current = message.createDate.toDate();
-        if(dayCheck?.current?.getDate() !== message.createDate.toDate().getDate()){
-            return <div>
-                <h4>
-                    day Change
-                </h4>
-            </div>
-        }
-
+    
+    const dateCheck = (date : Date) => {
+        {!dayCheck.current && (dayCheck.current = date)}
+        const result = dayCheck.current.getDate() !== date.getDate() 
+        dayCheck.current = date
+        return result
     }
     
     return (
@@ -85,13 +81,14 @@ export function ChatRoom() {
                 </h4>
             </div>
             <div className='h-3/4 overflow-y-scroll my-1 '>
-                {messageList.map((message)=> {
-                    {checkDate(message)}
-                    return ( <MessageItem key={message.UUID} 
-                        message={message} 
-                        authorYn={authorCheck(message.author)} 
-                        authorInfo={authorInfo(message.author)}/>     
-                )
+                {messageList.map((message)=> { 
+                    return (
+                        <MessageItem key={message.UUID} 
+                            message={message} 
+                            authorYn={authorCheck(message.author)} 
+                            authorInfo={authorInfo(message.author)}
+                            dateChange={dateCheck(message.createDate.toDate())}/>     
+                    )
                 })}
                     
             </div>
