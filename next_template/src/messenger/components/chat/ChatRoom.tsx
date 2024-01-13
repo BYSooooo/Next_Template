@@ -15,20 +15,26 @@ export function ChatRoom() {
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
     const dayCheck = React.useRef<Date>()
+    const listRef = React.useRef<HTMLDivElement>(null)
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
+        dayCheck.current = undefined
         setMessageList([])
         getDateNow()
         getMessageList()
-        getChatRoomInfo()
+        getChatRoomInfo()  
     },[chatRoomReducer.uuid])
 
     React.useEffect(()=> {
         chatMember()
     },[membersInfo])
+    
+    React.useEffect(()=> {
+        scrollBottom()
+    },[messageList])
 
     /* set onSnapshot() for messages Collection in chatList Document */
     const getMessageList = async() => {
@@ -72,15 +78,23 @@ export function ChatRoom() {
         dayCheck.current = date
         return result
     }
+
+    const scrollBottom  =()=> {
+        console.log('Scroll Bottom Call')
+        listRef.current.scroll({
+            top : listRef.current.scrollHeight,
+            behavior : 'instant'
+        })
+    }
     
     return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2 grid-rows-3'>
-            <div className='flex justify-center p-2'>
+        <div className='border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+            <div className='flex h-10 justify-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
             </div>
-            <div className='h-3/4 overflow-y-scroll my-1 '>
+            <div className='h-56 overflow-y-scroll my-1' ref={listRef}>
                 {messageList.map((message)=> { 
                     return (
                         <MessageItem key={message.UUID} 
@@ -90,7 +104,6 @@ export function ChatRoom() {
                             dateChange={dateCheck(message.createDate.toDate())}/>     
                     )
                 })}
-                    
             </div>
             <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} />
         </div>

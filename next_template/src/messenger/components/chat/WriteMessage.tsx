@@ -70,7 +70,7 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
     }
     
     return (
-        <div className='p-2 bg-slate-200 rounded-lg'>
+        <div className='h-30 p-2 bg-slate-200 rounded-lg'>
             {attachedFile && 
                 <div className='flex flex-col justify-center'>
                     <h4 className='text-sm'>
