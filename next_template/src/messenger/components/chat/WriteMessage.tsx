@@ -1,18 +1,20 @@
 import React from 'react'
 
-import { DocumentIcon, DocumentPlusIcon } from '@heroicons/react/20/solid'
 import { Timestamp } from 'firebase/firestore';
+import { DocumentIcon, DocumentPlusIcon } from '@heroicons/react/20/solid'
+import { v4 as uuidv4 } from 'uuid';
+import { sendChatAttachedFile, sendChatMessage } from '../FirebaseController';
 import { firebaseAuth } from '../../../../firebaseConfig';
-import { sendChatMessage } from '../FirebaseController';
 import { MessageInfo } from '../../../../msg_typeDef';
 
-export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeDate : string }) {
+export function WriteMessage({ chatUUID, writeDate, attachedYn} : {chatUUID : string, writeDate : string, attachedYn : Function }) {
     const [msgContext, setMsgContext] = React.useState("")
     const [attachedFile, setAttachedFile] = React.useState<{name: string, type:string, value: string} | null>(null);
 
     const onClick = async() => {
+        const uid = uuidv4();
         const message : MessageInfo = {
-            UUID : 'msg_' + writeDate,
+            UUID : uid,
             message : msgContext,
             viewYn : false,
             createDate : Timestamp.fromDate(new Date()),
@@ -22,8 +24,14 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
             attachedValue : attachedFile ? attachedFile.value : null,
             author : firebaseAuth.currentUser.email
         }
+        if(attachedFile) {
+            await sendChatAttachedFile(attachedFile,chatUUID,uid).then((result)=> {
+                message.attachedValue = result
+            })
+        } 
         await sendChatMessage(chatUUID,message).then(()=> {
             setMsgContext("")
+            setAttachedFile(null)
         })
         
     }
@@ -35,6 +43,7 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
         reader.onloadend = (finished : any)=> {
             const { currentTarget : { result }} = finished;
             setAttachedFile({name : uploaded.name, type: uploaded.type ,value:result})
+            attachedYn(true)
         }        
         reader.readAsDataURL(uploaded)
     }
@@ -50,7 +59,10 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
                     <div className='w-fit h-fit rounded-md bg-black'>
                         <img src={attachedFile?.value} 
                             className=' w-20 h-20 rounded-md border-none bg-opacity-0 cursor-pointer hover:opacity-50'
-                            onClick={()=> { setAttachedFile(null)}}/>
+                            onClick={()=> { 
+                                setAttachedFile(null)
+                                attachedYn(false) }}
+                        />
                     </div>
                     <h4 className='text-sm flex-nowrap overflow-ellipsis'>
                         {attachedFile.name}
@@ -68,6 +80,8 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
             )
         }
     }
+    const handleKeyDown = (event: React.KeyboardEvent)=> {event.key === "Enter" && onClick()}
+    
     
     return (
         <div className='h-30 p-2 bg-slate-200 rounded-lg'>
@@ -83,6 +97,7 @@ export function WriteMessage({ chatUUID, writeDate} : {chatUUID : string, writeD
             }
             <div className='flex gap-1'>
                 <input
+                    onKeyDown={handleKeyDown}
                     onChange={onChangeHandler} 
                     className='rounded-md border-2 border-slate-500 px-2' 
                     placeholder='Enter a message...'

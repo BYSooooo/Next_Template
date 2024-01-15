@@ -5,6 +5,7 @@ import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { Props } from '@headlessui/react/dist/types';
 
 const userAuth = firebaseAuth;
 
@@ -339,16 +340,26 @@ export const getMessageInChat = (uuid : string) => {
  * Note : If message contain attached file, upload Firebase stroage first
  * @param uuid chatList UUID
  * @param msgInfo message context object
- * @param count message number for create uuid
  */
 export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo) => {
-    
-    const uid = uuidv4()
-    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,uid);
+    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,msgInfo.UUID);
     try {
-        msgInfo.UUID += '_' + uid
         await setDoc(colRef,msgInfo)
     }catch(error){
         console.log(error)
+    }
+}
+
+export const sendChatAttachedFile = async(attached : {name: string, type:string, value: string}, chatListUUID : string, messageUUID : string)=> {
+    const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${messageUUID}`); 
+    try {
+        const result = await uploadString(storageRef,attached.value,'data_url',{customMetadata : { name : attached.name}}).then(()=> {
+            return getDownloadURL(storageRef)
+        });
+        return result
+        
+    }catch(error){
+        console.log(error)
+        return null
     }
 }

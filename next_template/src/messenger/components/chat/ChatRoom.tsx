@@ -14,6 +14,7 @@ export function ChatRoom() {
     const [membersInfo, setMembersInfo] = React.useState<UserInfo[]>([]);
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
+    const [attachCheck, setAttachCheck] = React.useState(false)
     const dayCheck = React.useRef<Date>()
     const listRef = React.useRef<HTMLDivElement>(null)
 
@@ -86,15 +87,28 @@ export function ChatRoom() {
             behavior : 'instant'
         })
     }
+    const controlAttach = ()=> {
+        let defaultCSS = 'w-80 overflow-y-scroll my-1';
+        switch (attachCheck) {
+            case true : 
+                defaultCSS +=' h-60'
+                break;
+            case false : 
+                defaultCSS +=' h-96'
+                break;
+            default : break;
+        }
+        return defaultCSS;
+    }
     
     return (
-        <div className='border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex h-10 justify-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
             </div>
-            <div className='h-56 overflow-y-scroll my-1' ref={listRef}>
+            <div className={controlAttach()} ref={listRef}>
                 {messageList.map((message)=> { 
                     return (
                         <MessageItem key={message.UUID} 
@@ -105,7 +119,7 @@ export function ChatRoom() {
                     )
                 })}
             </div>
-            <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} />
+            <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} attachedYn={setAttachCheck} />
         </div>
     )
 }
