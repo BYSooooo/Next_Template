@@ -42,7 +42,8 @@ export function MessageList({messages, chatRoomInfo} : {messages : MessageInfo[]
             {membersInfo && messages.map((item)=> {
                     return <MessageItem key={item.UUID} 
                                         message={item} 
-                                        authorYn={authorCheck(item.author)} 
+                                        authorYn={authorCheck(item.author)}
+                                        dateChange={false} 
                                         authorInfo={authorInfo(item.author)}/>
                 })
             }
