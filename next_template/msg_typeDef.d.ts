@@ -91,6 +91,6 @@ interface MessageInfo {
 interface ChatRoomInfo {
     uuid : string,
     friendListUUID : string,
-    lastChat : Timestamp,
+    lastChat : string,
     members : string[]
 }

@@ -1,28 +1,51 @@
 import React from 'react'
 
 import { useAppSelector } from '@/redux/hook'
-import { getMessageInChat } from '../FirebaseController';
-import { MessageInfo } from '../../../../msg_typeDef';
 import { WriteMessage } from './WriteMessage';
+import { ChatRoomInfo, MessageInfo, UserInfo } from '../../../../msg_typeDef';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { firebaseStore } from '../../../../firebaseConfig';
+import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
+import { MessageItem } from './MessageItem';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
     const [currentDate, setCurrentDate] = React.useState("")
+    const [membersInfo, setMembersInfo] = React.useState<UserInfo[]>([]);
+    const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
+    const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
+    const [attachCheck, setAttachCheck] = React.useState(false)
+    const dayCheck = React.useRef<Date>()
+    const listRef = React.useRef<HTMLDivElement>(null)
+
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
+    const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
+        dayCheck.current = undefined
+        setMessageList([])
         getDateNow()
-    },[])
+        getMessageList()
+        getChatRoomInfo()  
+    },[chatRoomReducer.uuid])
 
     React.useEffect(()=> {
-        getMessageList()    
-    },[chatRoomReducer.chatListUUID])
+        chatMember()
+    },[membersInfo])
     
+    React.useEffect(()=> {
+        scrollBottom()
+    },[messageList])
+
     /* set onSnapshot() for messages Collection in chatList Document */
     const getMessageList = async() => {
-        await getMessageInChat(chatRoomReducer.chatListUUID).then((result)=> {
-            console.log(result)
-            //setMessageList(result)
+        const colRef = query(collection(firebaseStore,`chatList/${chatRoomReducer.uuid}/messages`),orderBy('createDate','asc'));
+        onSnapshot(colRef,(snapShot)=> {
+            const resultArray : MessageInfo[] = []
+            snapShot.docs.forEach((doc)=> {
+                resultArray.push(doc.data() as MessageInfo)
+                setMessageList(resultArray)
+            })
         })
         
     }
@@ -32,18 +55,71 @@ export function ChatRoom() {
         const current = new Date(new Date().getTime()-(offset*60*1000)).toISOString().split('T')[0]
         setCurrentDate(current)
     }
+    /* get Chat Room Info */
+    const getChatRoomInfo = async() => {
+        setMembersInfo([])
+        const chatInfo = await getSelectedChatInfo(chatRoomReducer.uuid) as ChatRoomInfo;
+        setChatRoomInfo(chatInfo)
+        chatInfo.members.forEach(async(member)=> {
+            const {result, value} = await getUserInfo(member);
+            {result === true && setMembersInfo(prev => [...prev, value])}
+        })
+    }
+
+    const authorCheck = (email : string) => currentUserInfo.email === email ? true : false
+    const authorInfo = (email: string)=> membersInfo.find((member)=>  member.email === email)
+    const chatMember = () => {
+        const member = membersInfo.find((member)=> member.email !== currentUserInfo.email)
+        setMemberInfo(member)
+    } 
+    
+    const dateCheck = (date : Date) => {
+        {!dayCheck.current && (dayCheck.current = date)}
+        const result = dayCheck.current.getDate() !== date.getDate() 
+        dayCheck.current = date
+        return result
+    }
+
+    const scrollBottom  =()=> {
+        console.log('Scroll Bottom Call')
+        listRef.current.scroll({
+            top : listRef.current.scrollHeight,
+            behavior : 'instant'
+        })
+    }
+    const controlAttach = ()=> {
+        let defaultCSS = 'w-80 overflow-y-scroll my-1';
+        switch (attachCheck) {
+            case true : 
+                defaultCSS +=' h-60'
+                break;
+            case false : 
+                defaultCSS +=' h-96'
+                break;
+            default : break;
+        }
+        return defaultCSS;
+    }
+    
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
-            {messageList?.length === 0 
-            ?
-            <h4 className='font-bold text-lg'>
-                No Message
-            </h4> 
-            : 
-            <h4>
-                have Message
-            </h4>}
-            <WriteMessage chatUUID={chatRoomReducer.chatListUUID} writeDate={currentDate} />
+            <div className='flex h-10 justify-center p-2'>
+                <h4 className='font-bold text-lg'>
+                    Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
+                </h4>
+            </div>
+            <div className={controlAttach()} ref={listRef}>
+                {messageList.map((message)=> { 
+                    return (
+                        <MessageItem key={message.UUID} 
+                            message={message} 
+                            authorYn={authorCheck(message.author)} 
+                            authorInfo={authorInfo(message.author)}
+                            dateChange={dateCheck(message.createDate.toDate())}/>     
+                    )
+                })}
+            </div>
+            <WriteMessage chatUUID={chatRoomReducer.uuid} writeDate={currentDate} attachedYn={setAttachCheck} />
         </div>
     )
 }

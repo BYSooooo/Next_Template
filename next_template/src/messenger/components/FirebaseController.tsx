@@ -4,7 +4,8 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { Props } from '@headlessui/react/dist/types';
 
 const userAuth = firebaseAuth;
 
@@ -236,7 +237,6 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
 }
 
 export const getFriendInDoc = async() => {
-    let data = [];
     const docRef = doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email)
     try {
         const response = await getDoc(docRef)
@@ -270,7 +270,7 @@ export const getInfoInFriendListCol = async(uuid : string) => {
  * 
  * Note :  If the chatUUID does not exist, function will be created and returned
  * @param uuid Unique ID in Collection 'friendList'
- * @return {string} value of chatUUID
+ * @return {string} value of chatList UUID
  * 
  */
 export const getChatInfoInFriendList = async(uuid : string) => {    
@@ -292,27 +292,36 @@ export const getChatInfoInFriendList = async(uuid : string) => {
         } else {
             chatUUID = response.chatUUID
         }
-        return { chatRoomId : chatUUID }
+        return {chatUUID : chatUUID };
     } catch(error) {
         console.log(error)
-        return { chatRoomId : null }
+        return { chatUUID : null }
     }
 }
-/**
- * Retrieves a list of messages stored in the selected ChatList
- * 
- * Note : This Function Set up Snapshot to fetch messages in real time
- * @param uuid Unique ChatRoom ID in 'ChatList' Collection
- * @returns {Array} Message List's Array
- */
-export const getMessageInChat = async(uuid : string) => {
+
+export const getSelectedChatInfo = async(uuid: string) => {
+    const docRef = doc(firebaseStore,'chatList',uuid);
+    try {
+        const response = await getDoc(docRef);
+        const newChatInfo = response.data()
+        const lastChatDate : Date = newChatInfo.lastChat.toDate();
+        newChatInfo.lastChat = lastChatDate.toString()
+        return newChatInfo
+    }
+    catch(error) {
+        console.log(error)
+        return null;
+    }
+}
+
+/* 
+export const getMessageInChat = (uuid : string) => {
     const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
     try {
         onSnapshot(colRef,(snapShot)=> {
             let resultArray = [] as MessageInfo[]
             console.log('Call Snapshot')
             snapShot.docs.forEach((item)=> resultArray.push(item.data() as MessageInfo))
-            console.log('Array : ',resultArray)
             return snapShot.docs
             
         })
@@ -324,26 +333,33 @@ export const getMessageInChat = async(uuid : string) => {
         return []
     }
 }
+*/
 /**
  * Send message 
  * 
  * Note : If message contain attached file, upload Firebase stroage first
  * @param uuid chatList UUID
  * @param msgInfo message context object
- * @param count message number for create uuid
  */
 export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo) => {
-    // await getDocs(collection(firebaseStore,`chatList/${uuid}/messages`))
-    //     .then((response)=> {
-    //         response.docs
-    //     })
-    const uid = uuidv4()
-    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,uid);
-        console.log(colRef)
+    const colRef = doc(firebaseStore,`chatList/${uuid}/messages`,msgInfo.UUID);
     try {
         await setDoc(colRef,msgInfo)
     }catch(error){
         console.log(error)
     }
+}
 
+export const sendChatAttachedFile = async(attached : {name: string, type:string, value: string}, chatListUUID : string, messageUUID : string)=> {
+    const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${messageUUID}`); 
+    try {
+        const result = await uploadString(storageRef,attached.value,'data_url',{customMetadata : { name : attached.name}}).then(()=> {
+            return getDownloadURL(storageRef)
+        });
+        return result
+        
+    }catch(error){
+        console.log(error)
+        return null
+    }
 }

@@ -37,8 +37,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         return cssString
     }
     const checkChatRoom = async() => {
-        const { chatRoomId } = await getChatInfoInFriendList(uuid)
-        dispatch(setChatListUUID({chatListUUID : chatRoomId}));
+        const { chatUUID } = await getChatInfoInFriendList(uuid)
+        dispatch(setChatListUUID(chatUUID));
         dispatch(setPageRendering({middle : "ChatRoom"}))
     }   
 
