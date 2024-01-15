@@ -32,6 +32,7 @@ export function WriteMessage({ chatUUID, writeDate, attachedYn} : {chatUUID : st
         await sendChatMessage(chatUUID,message).then(()=> {
             setMsgContext("")
             setAttachedFile(null)
+            attachedYn(false)
         })
         
     }
