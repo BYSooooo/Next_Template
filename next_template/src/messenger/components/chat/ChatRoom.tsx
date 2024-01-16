@@ -7,6 +7,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
 import { MessageItem } from './MessageItem';
+import { Bars4Icon } from '@heroicons/react/20/solid';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
@@ -107,6 +108,7 @@ export function ChatRoom() {
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
+                <Bars4Icon />
             </div>
             <div className={controlAttach()} ref={listRef}>
                 {messageList.map((message)=> { 
