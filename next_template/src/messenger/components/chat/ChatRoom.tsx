@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { useAppSelector } from '@/redux/hook'
 import { WriteMessage } from './WriteMessage';
@@ -8,6 +8,8 @@ import { firebaseStore } from '../../../../firebaseConfig';
 import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
 import { MessageItem } from './MessageItem';
 import { Bars4Icon } from '@heroicons/react/20/solid';
+import { Menu, Transition } from '@headlessui/react';
+import { relative } from 'path';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
@@ -101,14 +103,48 @@ export function ChatRoom() {
         }
         return defaultCSS;
     }
+    const onClickMenu =()=> {
+
+    }
     
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
-            <div className='flex h-10 justify-center p-2'>
+            <div className='flex h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
-                <Bars4Icon />
+                <Menu as='div' className='relative inline-block text-right'>
+                    <div>
+                        <Menu.Button className='inline-flex w-full justify-center'>
+                            <Bars4Icon className='absoulte w-5 h-5 text-end hover:cursor-pointer' onClick={onClickMenu}/>
+                        </Menu.Button>
+                    </div>
+                    <Transition as={Fragment}
+                    enter='transition ease-out duration-100'
+                    enterFrom='transform opacity-0 scale-95'
+                    enterTo='transform opacity-100 scale-100'
+                    leave='transition ease-in duration-75'
+                    leaveFrom='transform opacity-100 scale-100'
+                    leaveTo='transform opacity-0 scale-95'
+                    show={true}>
+                        
+                    <Menu.Items className='absolute right-0 z-20'>
+                        <div>
+                            <Menu.Item>
+                                {({active}) => (
+                                    <a className={active ? 'bg-gray-50' : 'bg-gray-300'}>
+                                        Edit
+                                    </a>
+                                )}
+                            </Menu.Item>
+                        </div>
+                    </Menu.Items>
+                </Transition>
+                </Menu>
+                
+                
+                
+            
             </div>
             <div className={controlAttach()} ref={listRef}>
                 {messageList.map((message)=> { 
