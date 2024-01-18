@@ -7,7 +7,7 @@ import { sendChatAttachedFile, sendChatMessage } from '../FirebaseController';
 import { firebaseAuth } from '../../../../firebaseConfig';
 import { MessageInfo } from '../../../../msg_typeDef';
 
-export function WriteMessage({ chatUUID, writeDate, attachedYn} : {chatUUID : string, writeDate : string, attachedYn : Function }) {
+export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attachedYn : Function }) {
     const [msgContext, setMsgContext] = React.useState("")
     const [attachedFile, setAttachedFile] = React.useState<{name: string, type:string, value: string} | null>(null);
 

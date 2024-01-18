@@ -1,10 +1,9 @@
-import { PlusIcon } from '@heroicons/react/20/solid';
 import React from 'react';
+
+import { PlusIcon } from '@heroicons/react/20/solid';
 import { FriendAddModal } from './modal/FriendAddModal';
 import { useAppSelector } from '@/redux/hook';
 import { FriendListItem } from './FriendListItem';
-import { UserInfo } from '../../../../msg_typeDef';
-import { fileURLToPath } from 'url';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
