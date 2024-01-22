@@ -3,15 +3,17 @@ import React from 'react';
 import { ChatRoomMenu } from './ChatRoomMenu';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRendering } from '@/redux/features/messengerReducer';
-import { getSelectedChatInfo } from '../FirebaseController';
-import { ChatRoomInfo, MessageInfo } from '../../../../msg_typeDef';
+import { AttachedInfo, MessageInfo } from '../../../../msg_typeDef';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
-import { messageDown } from './messageDown';
+import { attachedDown, messageDown } from './messageDown';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
+
+
 
 export function ChatRoomOption() {
-    const [attached, setAttached] = React.useState<MessageInfo[]>([])
-    const [messages, setMessages] = React.useState<MessageInfo[]>([])
+    const [attached, setAttached] = React.useState<AttachedInfo[]>([])
+    const [messages, setMessages] = React.useState<MessageInfo[]>([]) 
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -29,11 +31,12 @@ export function ChatRoomOption() {
 
     const getMessagesList = async()=> {
         const colRef = query(collection(firebaseStore,`chatList/${chatRoomReducer.uuid}/messages`),orderBy('createDate','asc'));
-        const attachArray : MessageInfo[] = []
+        const attachArray : AttachedInfo[] = []
         const messageArray : MessageInfo[] = []
         await getDocs(colRef).then((items)=> {
             items.forEach((message)=> {
-                const item = message.data() as MessageInfo
+                const item = message.data() as AttachedInfo
+                item.selectedYn = false
                 {item.attachedYn === true && attachArray.push(item)}
                 messageArray.push(item)
             })
@@ -43,7 +46,7 @@ export function ChatRoomOption() {
     }
 
     const exportToText = (e :React.MouseEvent)=> {
-        e.preventDefault();
+        e.preventDefault()
         const array = [];
         messages.map((item)=> {
             const context = {
@@ -55,7 +58,7 @@ export function ChatRoomOption() {
             }
             array.push(context)
         })
-        messageDown(JSON.stringify(array,null,"\t"),'test.txt','text/txt')            
+        messageDown(JSON.stringify(array,null,"\t"),`export_msg_${new Date().toLocaleDateString()}.txt`,'text/txt')            
     }
 
     const exportToCsv = (e: React.MouseEvent) => {
@@ -66,49 +69,84 @@ export function ChatRoomOption() {
             acc.push([createDate.toDate().toLocaleString(),author, message, attachedYn, attachedName].join(','))
             return acc
         },[])
-        messageDown([...headers, ...csvContext].join('\n'), 'text.csv','text/csv')   
+        messageDown([...headers, ...csvContext].join('\n'), `export_msg_${new Date().toLocaleDateString()}.csv`,'text/csv')   
+    }
+
+    const onClickAttached = (e: React.MouseEvent, selected : AttachedInfo)=> {
+           e.preventDefault();
+           const changeArray = attached.map((attached)=> {
+                if(attached.UUID === selected.UUID) {
+                    attached.selectedYn = !attached.selectedYn   
+                }
+                return attached
+           })
+           setAttached(changeArray)
+    }
+    
+    const onClickDownload = ()=> {
+        const selection = attached.filter((item)=> item.selectedYn === true)
+        console.log(selection)
+        attachedDown(selection)
     }
 
     return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='w-80 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex w-72 h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - Option
                 </h4>
                 <ChatRoomMenu />
             </div>
-            <div className='p-1 border-2 border-solid border-slate-600 rounded-md my-1'>
+            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
                 <h4 className='font-bold text-sm'>
                     Attached File
                 </h4>
                 <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'>
                     {attached.map((item)=> {
                         return (
-                            <img src={item.attachedValue} className='rounded-md w-20 h-20'/>
+                            <div key={item.UUID} 
+                                className='relative cursor-pointer hover:opacity-60'
+                                onClick={(e)=>onClickAttached(e,item)}>
+                                <div className='absolute right-2 top-1'>
+                                    {item.selectedYn 
+                                    ?   <CheckCircleIcon className='w-4 h-4 fill-green-600 stroke-white stroke-2'/> 
+                                    :   <span className='w-4 h-4 border-white inline-block border-2 border-solid rounded-full'/>}
+                                </div>
+                                <img src={item.attachedValue} className='rounded-md w-20 h-20'/>
+                            </div>
                         )
                     })}
                 </div>
+                <div className='grid grid-cols-2 my-2 gap-2'>
+                    <button className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
+                        Delete
+                    </button>
+                    <button onClick={()=>onClickDownload()}
+                        className='rounded-full border-2 border-solid border-blue-500'>
+                        Download
+                    </button>
+                    
+                </div>
             </div>
             
-            <div className='p-1 border-2 border-solid border-slate-600 rounded-md my-1'>
-                <h4 className='font-bold text-sm'>
+            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
+                <h4 className='font-bold text-sm mb-1'>
                     Messages Export
                 </h4>
-                <h4 className='text-xs'>
-                    You can save your conversations.
-                </h4>
-                <h4 className='text-xs'>
-                    You can check the conversation content, creation time, and author.
-                </h4>
-                <h4 className='text-xs'>
-                    Attachments are not saved.
-                </h4>
+                <div className='my-1'>
+                    <h4 className='text-xs'>
+                        You can export Messages.
+                    </h4>
+                    <h4 className='text-xs'>
+                        Attachments are not saved.
+                    </h4>
+                </div>
                 <div className='grid grid-cols-2 gap-2'>
-                    <button className='w-full rounded-lg border-2 border-solid border-green-600'
+                    <button className='w-full rounded-full border-2 border-solid border-gray-500'
                             onClick={(e)=>exportToText(e)}>
                         Text
                     </button>
-                    <button className='w-full rounded-lg border-2 border-solid border-green-600'
+                    <button className='w-full rounded-full border-2 border-solid border-green-600'
                             onClick={(e)=>exportToCsv(e)}>
                         CSV
                     </button>
@@ -116,7 +154,8 @@ export function ChatRoomOption() {
             </div>
                 
             <div>
-                <button onClick={()=>onClickHandler("ok")}>
+                <button className='w-full border-2'
+                    onClick={()=>onClickHandler("ok")}>
                     return
                 </button>
             </div>

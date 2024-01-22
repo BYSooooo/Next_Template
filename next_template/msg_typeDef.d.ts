@@ -80,6 +80,15 @@ interface MessageInfo {
     attachedValue : any | null,
     author : string,
 }
+
+/**
+ * Extend of MessageInfo for Selection for Attached File to Download
+ * @prop selectedYn : Select Attachement
+ */
+interface AttachedInfo extends MessageInfo {
+    selectedYn : boolean
+}
+
 /**
  * Interface of chatList in Firestore Cloud
  * 
