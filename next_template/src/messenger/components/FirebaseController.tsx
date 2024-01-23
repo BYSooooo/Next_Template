@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
+import { getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 import { Props } from '@headlessui/react/dist/types';
+import JSZip from 'jszip';
+import saveAs from 'file-saver';
 
 const userAuth = firebaseAuth;
 
@@ -362,4 +364,23 @@ export const sendChatAttachedFile = async(attached : {name: string, type:string,
         console.log(error)
         return null
     }
+}
+
+export function attachedDown(selected : AttachedInfo[],chatListUUID : string) {
+    const zip = new JSZip();
+    let folder = zip.folder('Attachement');
+    try {
+        selected.map(async(item)=> {
+            const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
+            getBlob(storageRef).then((res)=> {
+                console.log(res)
+                folder.file(item.attachedName,res)
+            })
+        })
+    } catch(error) {
+        console.error(error)
+    }
+    zip.generateAsync({type : 'blob'}).then((res)=> {
+        saveAs(res,'test.zip')
+    })
 }

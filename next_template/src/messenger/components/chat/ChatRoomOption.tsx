@@ -6,8 +6,9 @@ import { setPageRendering } from '@/redux/features/messengerReducer';
 import { AttachedInfo, MessageInfo } from '../../../../msg_typeDef';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
-import { attachedDown, messageDown } from './messageDown';
+import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import { attachedDown } from '../FirebaseController';
 
 
 
@@ -86,7 +87,7 @@ export function ChatRoomOption() {
     const onClickDownload = ()=> {
         const selection = attached.filter((item)=> item.selectedYn === true)
         console.log(selection)
-        attachedDown(selection)
+        attachedDown(selection,chatRoomReducer.uuid)
     }
 
     return (
