@@ -8,7 +8,7 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown } from '../FirebaseController';
+import { attachedDown, deleteAttachment } from '../FirebaseController';
 
 
 
@@ -98,7 +98,10 @@ export function ChatRoomOption() {
 
     const onClickDelete = ()=> {
         const selection = attached.filter((item)=>item.selectedYn === true);
-        
+        const result = deleteAttachment(selection,chatRoomReducer.uuid)   
+        if(result) {
+            getMessagesList()
+        } 
     }
 
     return (

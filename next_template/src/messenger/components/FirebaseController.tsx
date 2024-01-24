@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
-import { getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
+import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
@@ -352,6 +352,14 @@ export const sendChatMessage = async(uuid : string, msgInfo : MessageInfo) => {
     }
 }
 
+/**
+ * Upload Attached File to Firestore Storage 
+ * 
+ * @param attached Attachment Information
+ * @param chatListUUID UUID of ChatRoom
+ * @param messageUUID UUID of Message 
+ * @returns File download path in Firebase Cloud Storage 
+ */
 export const sendChatAttachedFile = async(attached : {name: string, type:string, value: string}, chatListUUID : string, messageUUID : string)=> {
     const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${messageUUID}`); 
     try {
@@ -365,22 +373,59 @@ export const sendChatAttachedFile = async(attached : {name: string, type:string,
         return null
     }
 }
+/**
+ * File Download in ChatRoom by Select Attached File List
+ * 
+ * Note : If multiple files are selected, they will be downloaded as a zip 
+ * 
+ * @param selected Selected items in the attachment list
+ * @param chatListUUID UUID of the currently selected ChatRoom
+ * @returns 
+ */
 
 export function attachedDown(selected : AttachedInfo[],chatListUUID : string) {
-    let zip = new JSZip();
-    try {
-        selected.map((item)=> {
-            const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
-            const getData = getBlob(storageRef);
-            zip.file(item.attachedName,getData)
-        })
-        zip.generateAsync({type : 'blob'}).then((res)=> {
-            saveAs(res,`attachment.zip`)
-        })
-        return true;
-    } catch(error) {
-        console.error(error)
-        return false;
+    if(selected.length > 1) {
+        let zip = new JSZip();
+        try {
+            selected.map((item)=> {
+                const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
+                const getData = getBlob(storageRef);
+                zip.file(item.attachedName,getData)
+            })
+            zip.generateAsync({type : 'blob'}).then((res)=> {
+                saveAs(res,`attachment.zip`)
+            })
+            return true;
+        } catch(error) {
+            console.error(error)
+            return false;
+        }
+    } else {
+        try {
+            const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
+            getBlob(storageRef).then((res)=> {
+                saveAs(res,selected[0].attachedName)
+            });
+            return true;
+        } catch(error) {
+            console.error(error)
+            return false
+        }
     }
-    
+}
+
+export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string) {
+    if(selected.length > 1) {
+        return true
+    } else if(selected.length === 1) {
+        const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
+        deleteObject(storageRef).then(()=> {
+            const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,selected[0].UUID)
+            updateDoc(docRef,{ attachedYn : false, attachedType : null, attachedValue : null, attachedName : null })
+            return true;
+        }).catch((error)=> {
+            console.error(error)
+            return false
+        })
+    }
 }
