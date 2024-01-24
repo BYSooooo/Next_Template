@@ -367,20 +367,13 @@ export const sendChatAttachedFile = async(attached : {name: string, type:string,
 }
 
 export function attachedDown(selected : AttachedInfo[],chatListUUID : string) {
-    const zip = new JSZip();
-    let folder = zip.folder('Attachement');
-    try {
-        selected.map(async(item)=> {
-            const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
-            getBlob(storageRef).then((res)=> {
-                console.log(res)
-                folder.file(item.attachedName,res)
-            })
-        })
-    } catch(error) {
-        console.error(error)
-    }
-    zip.generateAsync({type : 'blob'}).then((res)=> {
-        saveAs(res,'test.zip')
+    let zip = new JSZip();
+    selected.map((item)=> {
+        const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
+        const getData = getBlob(storageRef);
+        zip.file(item.attachedName,getData)
     })
+    zip.generateAsync({type : 'blob'}).then((res)=> {
+        console.log(res)
+        saveAs(res,`attachment.zip`)})
 }
