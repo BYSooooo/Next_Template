@@ -86,8 +86,19 @@ export function ChatRoomOption() {
     
     const onClickDownload = ()=> {
         const selection = attached.filter((item)=> item.selectedYn === true)
-        console.log(selection)
-        attachedDown(selection,chatRoomReducer.uuid)
+        const result = attachedDown(selection,chatRoomReducer.uuid)
+        if(result) {
+            const initArray = attached.map((item)=> {
+                item.selectedYn = false
+                return item;
+            })   
+            setAttached(initArray)
+        }
+    }
+
+    const onClickDelete = ()=> {
+        const selection = attached.filter((item)=>item.selectedYn === true);
+        
     }
 
     return (
@@ -119,11 +130,12 @@ export function ChatRoomOption() {
                     })}
                 </div>
                 <div className='grid grid-cols-2 my-2 gap-2'>
-                    <button className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
+                    <button onClick={()=>onClickDelete()}
+                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
                         Delete
                     </button>
                     <button onClick={()=>onClickDownload()}
-                        className='rounded-full border-2 border-solid border-blue-500'>
+                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 transition duration-200'>
                         Download
                     </button>
                     
