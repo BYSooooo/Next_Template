@@ -24,16 +24,22 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
             attachedValue : attachedFile ? attachedFile.value : null,
             author : firebaseAuth.currentUser.email
         }
-        if(attachedFile) {
-            await sendChatAttachedFile(attachedFile,chatUUID,uid).then((result)=> {
-                message.attachedValue = result
+        if(message.message.length === 0 && message.attachedYn === false) {
+            return alert("No Context");
+            
+        } else {
+            if(attachedFile) {
+                await sendChatAttachedFile(attachedFile,chatUUID,uid).then((result)=> {
+                    message.attachedValue = result
+                })
+            } 
+            await sendChatMessage(chatUUID,message).then(()=> {
+                setMsgContext("")
+                setAttachedFile(null)
+                attachedYn(false)
             })
-        } 
-        await sendChatMessage(chatUUID,message).then(()=> {
-            setMsgContext("")
-            setAttachedFile(null)
-            attachedYn(false)
-        })
+        }
+        
         
     }
 
