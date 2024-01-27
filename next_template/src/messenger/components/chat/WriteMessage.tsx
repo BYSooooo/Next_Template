@@ -25,6 +25,7 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
             author : firebaseAuth.currentUser.email
         }
         if(message.message.length === 0 && message.attachedYn === false) {
+            // have to Add Check Logic
             return alert("No Context");
             
         } else {

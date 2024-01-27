@@ -416,6 +416,16 @@ export function attachedDown(selected : AttachedInfo[],chatListUUID : string) {
 
 export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string) {
     if(selected.length > 1) {
+        selected.map((item)=> {
+            const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
+            deleteObject(storageRef).then(()=> {
+                const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,item.UUID);
+                updateDoc(docRef, { attachedYn : false, attachedType : null, attachedName : null})
+            }).catch((error)=> {
+                console.log(error);
+                return false
+            })
+        })
         return true
     } else if(selected.length === 1) {
         const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
