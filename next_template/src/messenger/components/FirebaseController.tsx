@@ -316,7 +316,7 @@ export const getSelectedChatInfo = async(uuid: string) => {
     }
 }
 
-/* 
+
 export const getMessageInChat = (uuid : string) => {
     const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
     try {
@@ -335,7 +335,7 @@ export const getMessageInChat = (uuid : string) => {
         return []
     }
 }
-*/
+
 /**
  * Send message 
  * 
