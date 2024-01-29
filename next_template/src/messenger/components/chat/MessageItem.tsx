@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageInfo, UserInfo } from '../../../../msg_typeDef';
+import Link from 'next/link';
 
 export function MessageItem({message, authorYn, authorInfo, dateChange} : {message : MessageInfo, authorYn : boolean, authorInfo : UserInfo, dateChange : boolean}) {
     const checkAuthor = ()=> {
@@ -29,7 +30,7 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
             {dateString}
         </h5>
     }
-    
+
     return (
         <div className='my-2'>
             {dateChange && 
@@ -47,8 +48,11 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
                     <div className='flex flex-row items-end gap-2'>
                         {authorYn === true && showCreateDate()}
                         <div className='w-fit rounded-lg border-none bg-slate-300 dark:bg-slate-700 px-2 py-1'>
-                            {message.attachedYn === true 
-                                && <img src={message.attachedValue} className='w-32 h-32 rounded-md m-2'/>
+                            {message.attachedYn === true && 
+                                <Link href={message.attachedValue} target='_blank'>
+                                    <img src={message.attachedValue} 
+                                        className='w-32 h-32 rounded-md m-2 hover:cursor-pointer hover:opacity-50'/>
+                                </Link>
                             }
                             <h4>                
                                     {message.message}
