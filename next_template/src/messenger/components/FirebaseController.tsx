@@ -418,9 +418,14 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
     if(selected.length > 1) {
         selected.map((item)=> {
             const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
+            
             deleteObject(storageRef).then(()=> {
                 const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,item.UUID);
-                updateDoc(docRef, { attachedYn : false, attachedType : null, attachedName : null})
+                if(item.message.length > 0) {
+                    updateDoc(docRef, { attachedYn : false, attachedType : null, attachedName : null})
+                } else {
+                    deleteDoc(docRef)
+                }
             }).catch((error)=> {
                 console.log(error);
                 return false
@@ -431,7 +436,11 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
         const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
         deleteObject(storageRef).then(()=> {
             const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,selected[0].UUID)
-            updateDoc(docRef,{ attachedYn : false, attachedType : null, attachedValue : null, attachedName : null })
+            if(selected[0].message.length > 0) {
+                updateDoc(docRef,{ attachedYn : false, attachedType : null, attachedValue : null, attachedName : null })
+            } else {
+                deleteDoc(docRef)
+            }
             return true;
         }).catch((error)=> {
             console.error(error)
