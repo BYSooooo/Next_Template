@@ -426,6 +426,7 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
                 } else {
                     deleteDoc(docRef)
                 }
+                
             }).catch((error)=> {
                 console.log(error);
                 return false
@@ -441,10 +442,10 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
             } else {
                 deleteDoc(docRef)
             }
-            return true;
         }).catch((error)=> {
             console.error(error)
             return false
         })
+        return true
     }
 }

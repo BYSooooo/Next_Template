@@ -98,10 +98,8 @@ export function ChatRoomOption() {
 
     const onClickDelete = ()=> {
         const selection = attached.filter((item)=>item.selectedYn === true);
-        const result = deleteAttachment(selection,chatRoomReducer.uuid)   
-        if(result) {
-            getMessagesList()
-        } 
+        const result = deleteAttachment(selection,chatRoomReducer.uuid)
+        if(result) getMessagesList()
     }
 
     return (
