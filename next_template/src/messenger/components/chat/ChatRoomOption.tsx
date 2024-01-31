@@ -4,17 +4,16 @@ import { ChatRoomMenu } from './ChatRoomMenu';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRendering } from '@/redux/features/messengerReducer';
 import { AttachedInfo, MessageInfo } from '../../../../msg_typeDef';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { attachedDown, deleteAttachment } from '../FirebaseController';
 
 
-
 export function ChatRoomOption() {
     const [attached, setAttached] = React.useState<AttachedInfo[]>([])
-    const [messages, setMessages] = React.useState<MessageInfo[]>([]) 
+    const [messages, setMessages] = React.useState<MessageInfo[]>([])
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -32,18 +31,28 @@ export function ChatRoomOption() {
 
     const getMessagesList = async()=> {
         const colRef = query(collection(firebaseStore,`chatList/${chatRoomReducer.uuid}/messages`),orderBy('createDate','asc'));
-        const attachArray : AttachedInfo[] = []
-        const messageArray : MessageInfo[] = []
-        await getDocs(colRef).then((items)=> {
-            items.forEach((message)=> {
-                const item = message.data() as AttachedInfo
+        onSnapshot(colRef,(snapShot)=> {
+            let attachArray : AttachedInfo[] = []
+            let messageArray : MessageInfo[] = []
+            snapShot.docs.forEach((res)=> {
+                const item = res.data() as AttachedInfo
+                console.log(item)
                 item.selectedYn = false
                 {item.attachedYn === true && attachArray.push(item)}
                 messageArray.push(item)
             })
+            setAttached(attachArray)
+            setMessages(messageArray)
         })
-        setAttached(attachArray)
-        setMessages(messageArray)
+        // await getDocs(colRef).then((items)=> {
+        //     items.forEach((message)=> {
+        //         const item = message.data() as AttachedInfo
+        //         item.selectedYn = false
+        //         {item.attachedYn === true && attachArray.push(item)}
+        //         messageArray.push(item)
+        //     })
+        // })
+        
     }
 
     const exportToText = (e :React.MouseEvent)=> {
@@ -96,10 +105,10 @@ export function ChatRoomOption() {
         }
     }
 
-    const onClickDelete = ()=> {
+    const onClickDelete = (e: React.MouseEvent)=> {
+        e.preventDefault()
         const selection = attached.filter((item)=>item.selectedYn === true);
-        const result = deleteAttachment(selection,chatRoomReducer.uuid)
-        if(result) getMessagesList()
+        deleteAttachment(selection,chatRoomReducer.uuid);
     }
 
     return (
@@ -114,8 +123,8 @@ export function ChatRoomOption() {
                 <h4 className='font-bold text-sm'>
                     Attached File
                 </h4>
-                <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'>
-                    {attached.map((item)=> {
+                <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'> 
+                    {attached.map(item=> {
                         return (
                             <div key={item.UUID} 
                                 className='relative cursor-pointer hover:opacity-60'
@@ -131,7 +140,7 @@ export function ChatRoomOption() {
                     })}
                 </div>
                 <div className='grid grid-cols-2 my-2 gap-2'>
-                    <button onClick={()=>onClickDelete()}
+                    <button onClick={(e)=>onClickDelete(e)}
                         className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
                         Delete
                     </button>
@@ -156,11 +165,11 @@ export function ChatRoomOption() {
                     </h4>
                 </div>
                 <div className='grid grid-cols-2 gap-2'>
-                    <button className='w-full rounded-full border-2 border-solid border-gray-500'
+                    <button className='w-full rounded-full border-2 border-solid border-gray-500 hover:bg-gray-500 transition duration-200'
                             onClick={(e)=>exportToText(e)}>
                         Text
                     </button>
-                    <button className='w-full rounded-full border-2 border-solid border-green-600'
+                    <button className='w-full rounded-full border-2 border-solid border-green-600 hover:bg-green-600 transition duration-200'
                             onClick={(e)=>exportToCsv(e)}>
                         CSV
                     </button>

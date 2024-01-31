@@ -418,7 +418,6 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
     if(selected.length > 1) {
         selected.map((item)=> {
             const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
-            
             deleteObject(storageRef).then(()=> {
                 const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,item.UUID);
                 if(item.message.length > 0) {
@@ -426,13 +425,10 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
                 } else {
                     deleteDoc(docRef)
                 }
-                
             }).catch((error)=> {
-                console.log(error);
-                return false
+                console.log(error);      
             })
         })
-        return true
     } else if(selected.length === 1) {
         const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
         deleteObject(storageRef).then(()=> {
@@ -444,8 +440,6 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
             }
         }).catch((error)=> {
             console.error(error)
-            return false
         })
-        return true
     }
 }
