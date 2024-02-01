@@ -101,5 +101,6 @@ interface ChatRoomInfo {
     uuid : string,
     friendListUUID : string,
     lastChat : string,
+    active : boolean,
     members : string[]
 }

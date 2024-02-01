@@ -215,7 +215,8 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
                 UUID : requestUUID,
                 friendEmail : [firebaseAuth.currentUser.email, request.from],
                 acceptDate : new Date(),
-                chatUUID : ""
+                chatUUID : "",
+                
             })
             await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
                 friendList : arrayUnion(requestUUID)
@@ -286,6 +287,7 @@ export const getChatInfoInFriendList = async(uuid : string) => {
                 uuid : uuid,
                 friendListUUID : response.UUID,
                 members : response.friendEmail,
+                active : true,
                 lastChat : new Date()
             })
             await updateDoc(docRef,{ chatUUID : uuid}).then(()=>{

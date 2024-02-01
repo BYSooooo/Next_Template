@@ -175,6 +175,22 @@ export function ChatRoomOption() {
                     </button>
                 </div>  
             </div>
+            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
+                <h4 className='font-bold text-sm mb-1'>
+                    ChatRoom Delete
+                </h4>
+                <div className='my-1'>
+                    <h4 className='text-xs'>
+                        Delete a room.
+                    </h4>
+                    <h4 className='text-xs'>
+                        Chat rooms will be frozen and unavailable.
+                    </h4>
+                
+                </div>
+
+
+            </div>
                 
             <div>
                 <button className='w-full border-2'
