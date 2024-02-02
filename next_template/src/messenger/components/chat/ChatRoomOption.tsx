@@ -8,7 +8,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown, deleteAttachment } from '../FirebaseController';
+import { attachedDown, deleteAttachment, deleteChatRoom} from '../FirebaseController';
 
 
 export function ChatRoomOption() {
@@ -110,6 +110,13 @@ export function ChatRoomOption() {
         const selection = attached.filter((item)=>item.selectedYn === true);
         deleteAttachment(selection,chatRoomReducer.uuid);
     }
+    const onClickDeleteChat = async(e: React.MouseEvent)=> {
+        e.preventDefault();
+        const result = await deleteChatRoom(chatRoomReducer.uuid,currentUserInfo.email);
+        if(result) {
+            dispatch(setPageRendering({middle : "ChatRoom"}))
+        }
+    }
 
     return (
         <div className='w-80 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
@@ -119,6 +126,9 @@ export function ChatRoomOption() {
                 </h4>
                 <ChatRoomMenu />
             </div>
+            <div className='overflow-y-scroll h-96'>
+
+            
             <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
                 <h4 className='font-bold text-sm'>
                     Attached File
@@ -141,11 +151,11 @@ export function ChatRoomOption() {
                 </div>
                 <div className='grid grid-cols-2 my-2 gap-2'>
                     <button onClick={(e)=>onClickDelete(e)}
-                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
+                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white transition duration-200'>
                         Delete
                     </button>
                     <button onClick={()=>onClickDownload()}
-                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 transition duration-200'>
+                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white transition duration-200'>
                         Download
                     </button>
                     
@@ -156,20 +166,21 @@ export function ChatRoomOption() {
                 <h4 className='font-bold text-sm mb-1'>
                     Messages Export
                 </h4>
-                <div className='my-1'>
-                    <h4 className='text-xs'>
+                <ul className='my-1 list-disc px-2'>
+                    <li className='text-xs'>
                         You can export Messages.
-                    </h4>
-                    <h4 className='text-xs'>
+                    </li>
+                    <li className='text-xs'>
                         Attachments are not saved.
-                    </h4>
-                </div>
+                    </li>
+                    
+                </ul>
                 <div className='grid grid-cols-2 gap-2'>
-                    <button className='w-full rounded-full border-2 border-solid border-gray-500 hover:bg-gray-500 transition duration-200'
+                    <button className='w-full rounded-full border-2 border-solid border-gray-500 hover:bg-gray-500 hover:text-white transition duration-200'
                             onClick={(e)=>exportToText(e)}>
                         Text
                     </button>
-                    <button className='w-full rounded-full border-2 border-solid border-green-600 hover:bg-green-600 transition duration-200'
+                    <button className='w-full rounded-full border-2 border-solid border-green-600 hover:bg-green-600 hover:text-white transition duration-200'
                             onClick={(e)=>exportToCsv(e)}>
                         CSV
                     </button>
@@ -179,21 +190,31 @@ export function ChatRoomOption() {
                 <h4 className='font-bold text-sm mb-1'>
                     ChatRoom Delete
                 </h4>
-                <div className='my-1'>
-                    <h4 className='text-xs'>
-                        Delete a room.
-                    </h4>
-                    <h4 className='text-xs'>
+                <ul className='my-1 list-disc px-2'>
+                    <li className='text-xs'>
+                        Freeze a Chat. 
+                    </li>
+                    <li className='text-xs'>
+                        Permanently deleted if the other person allows it.
+                    </li>
+                    <li className='text-xs'>
                         Chat rooms will be frozen and unavailable.
-                    </h4>
-                
-                </div>
-
+                    </li>
+                    <li className='text-xs'>
+                        After being frozen, it is not possible to create a message, only view it.
+                    </li>
+                </ul>
+                <button 
+                    className='w-full border-2 border-solid rounded-full border-red-500 hover:bg-red-500 transition duration-200 hover:text-white'
+                    onClick={(e)=>onClickDeleteChat(e)}>
+                    Freeze
+                </button>
 
             </div>
-                
-            <div>
-                <button className='w-full border-2'
+            
+            </div>
+            <div className='mt-1'>
+                <button className='w-full border-2 border-solid border-slate-500 rounded-full hover:bg-slate-500 hover:text-white transition duration-200'
                     onClick={()=>onClickHandler("ok")}>
                     return
                 </button>

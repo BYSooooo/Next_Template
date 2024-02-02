@@ -318,26 +318,6 @@ export const getSelectedChatInfo = async(uuid: string) => {
     }
 }
 
-
-export const getMessageInChat = (uuid : string) => {
-    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
-    try {
-        onSnapshot(colRef,(snapShot)=> {
-            let resultArray = [] as MessageInfo[]
-            console.log('Call Snapshot')
-            snapShot.docs.forEach((item)=> resultArray.push(item.data() as MessageInfo))
-            return snapShot.docs
-            
-        })
-        // await getDocs(colRef).then((result)=> { 
-        //     {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
-        // })
-    } catch(error) {
-        console.log(error)
-        return []
-    }
-}
-
 /**
  * Send message 
  * 
@@ -443,5 +423,32 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
         }).catch((error)=> {
             console.error(error)
         })
+    }
+}
+/**
+ * Freeze / Delete Chat Room
+ * 
+ * Note : If the room is already frozen, delete it
+ * @param chatListUUID Selected ChatRoom UUID
+ * @param user The user who requested to freeze the chat room
+ */
+export async function deleteChatRoom(chatListUUID : string, user : string) {
+    const docRef = doc(firebaseStore,'chatList',chatListUUID);
+    try {
+        const response = (await getDoc(docRef)).data() as ChatRoomInfo;
+        // Freeze ChatRoom
+        if(response.active === true) {
+            updateDoc(docRef,{
+                active : false,
+                disableRequest : user
+            })
+        // Delete ChatRoom
+        } else {
+
+        }
+        return true;
+    }catch(error) {
+        console.error(error)
+        return false;
     }
 }

@@ -94,13 +94,43 @@ export function ChatRoom() {
         return defaultCSS;
     }
 
+    const chatRoomFreezCheck = ()=> {
+        const checkResult = chatRoomInfo?.active;
+        switch(checkResult) {
+            case true :
+                return <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
+            case false : 
+                return noticeChatFreeze()
+        }
+    }
+    const noticeChatFreeze = ()=> {
+        return (
+            <div className='border-none bg-gray-200 rounded-md p-2'>
+                <h4 className='text-sm font-bold'>
+                    This Chat Room is Frozen
+                </h4>
+                <ul className='pl-3 list-disc list-outside text-xs'>
+                    <li>
+                        You can't write new messages to frozen chat rooms
+                    </li>
+                    <li>
+                        If the person allows deletion, the room will be deleted.
+                    </li>
+                    <li>
+                        There can be only one user-to-user chat room. If you want to create a new chat with your current partner, ask them to delete it
+                    </li>
+                </ul>
+            </div>
+        )
+    } 
+    
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
-                <ChatRoomMenu />
+                {chatRoomInfo?.active && <ChatRoomMenu />}
             </div>
             <div className={controlAttach()} ref={listRef}>
                 {messageList.map((message)=> { 
@@ -113,7 +143,10 @@ export function ChatRoom() {
                     )
                 })}
             </div>
-            <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
+            {chatRoomFreezCheck()}
+            {/* {chatRoomInfo?.active 
+            ? <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
+            : noticeChatFreeze() } */}
         </div>
     )
 }

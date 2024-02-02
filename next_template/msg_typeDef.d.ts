@@ -95,6 +95,8 @@ interface AttachedInfo extends MessageInfo {
  * @property uuid : Unique ID of chatList
  * @property friendListUUID : ID of Selected chat in 'friendList'
  * @property lastChat : last Date of Chat
+ * @property active : Activation of chatRoom
+ * @property disableRequest : Users who have applied to freeze a chat room
  * @property members : Member of participate in Chatting
  */
 interface ChatRoomInfo {
@@ -102,5 +104,6 @@ interface ChatRoomInfo {
     friendListUUID : string,
     lastChat : string,
     active : boolean,
+    disableRequest? : string,
     members : string[]
 }
