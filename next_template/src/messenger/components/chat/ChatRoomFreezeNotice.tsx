@@ -27,13 +27,13 @@ export function ChatRoomFreezeNotice({viewYn} : {viewYn : Function}) {
                 <div className='flex my-2'>
                     <ul className='pl-3 list-disc list-outside text-xs'>
                         <li>
-                            You can't write new messages to frozen chat room.
+                            You can&apos;t write new messages to frozen chat room.
                         </li>
                         <li>
                             If the person allows deletion, the room will be deleted.
                         </li>
                         <li>
-                            If you want to resume the conversation, you must unfreeze it or reopen it after the other person's approval of deletion.
+                            If you want to resume the conversation, you must unfreeze it or reopen it after the other person&apos;s approval of deletion.
                         </li>
                     </ul>
                 </div> 
