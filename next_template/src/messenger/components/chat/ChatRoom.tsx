@@ -8,6 +8,8 @@ import { firebaseStore } from '../../../../firebaseConfig';
 import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
 import { MessageItem } from './MessageItem';
 import { ChatRoomMenu } from './ChatRoomMenu';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
+import { ChatRoomFreezeNotice } from './ChatRoomFreezeNotice';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
@@ -15,6 +17,7 @@ export function ChatRoom() {
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
     const [attachCheck, setAttachCheck] = React.useState(false)
+    const [activeYn, setActiveYn] = React.useState(false)
     const dayCheck = React.useRef<Date>()
     const listRef = React.useRef<HTMLDivElement>(null)
     
@@ -22,6 +25,7 @@ export function ChatRoom() {
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
+        setAttachCheck(false)
         dayCheck.current = undefined
         setMessageList([])
         getMessageList()
@@ -94,35 +98,6 @@ export function ChatRoom() {
         return defaultCSS;
     }
 
-    const chatRoomFreezCheck = ()=> {
-        const checkResult = chatRoomInfo?.active;
-        switch(checkResult) {
-            case true :
-                return <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
-            case false : 
-                return noticeChatFreeze()
-        }
-    }
-    const noticeChatFreeze = ()=> {
-        return (
-            <div className='border-none bg-gray-200 rounded-md p-2'>
-                <h4 className='text-sm font-bold'>
-                    This Chat Room is Frozen
-                </h4>
-                <ul className='pl-3 list-disc list-outside text-xs'>
-                    <li>
-                        You can't write new messages to frozen chat rooms
-                    </li>
-                    <li>
-                        If the person allows deletion, the room will be deleted.
-                    </li>
-                    <li>
-                        There can be only one user-to-user chat room. If you want to create a new chat with your current partner, ask them to delete it
-                    </li>
-                </ul>
-            </div>
-        )
-    } 
     
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
@@ -142,11 +117,11 @@ export function ChatRoom() {
                             dateChange={dateCheck(message.createDate.toDate())}/>     
                     )
                 })}
+                
             </div>
-            {chatRoomFreezCheck()}
-            {/* {chatRoomInfo?.active 
+            {chatRoomInfo?.active 
             ? <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
-            : noticeChatFreeze() } */}
+            : <ChatRoomFreezeNotice viewYn={setAttachCheck}/> }
         </div>
     )
 }

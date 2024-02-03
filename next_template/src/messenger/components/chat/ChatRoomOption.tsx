@@ -44,15 +44,6 @@ export function ChatRoomOption() {
             setAttached(attachArray)
             setMessages(messageArray)
         })
-        // await getDocs(colRef).then((items)=> {
-        //     items.forEach((message)=> {
-        //         const item = message.data() as AttachedInfo
-        //         item.selectedYn = false
-        //         {item.attachedYn === true && attachArray.push(item)}
-        //         messageArray.push(item)
-        //     })
-        // })
-        
     }
 
     const exportToText = (e :React.MouseEvent)=> {
