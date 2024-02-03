@@ -215,7 +215,8 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
                 UUID : requestUUID,
                 friendEmail : [firebaseAuth.currentUser.email, request.from],
                 acceptDate : new Date(),
-                chatUUID : ""
+                chatUUID : "",
+                
             })
             await updateDoc(doc(firebaseStore,'userInfo',firebaseAuth.currentUser.email),{
                 friendList : arrayUnion(requestUUID)
@@ -286,6 +287,7 @@ export const getChatInfoInFriendList = async(uuid : string) => {
                 uuid : uuid,
                 friendListUUID : response.UUID,
                 members : response.friendEmail,
+                active : true,
                 lastChat : new Date()
             })
             await updateDoc(docRef,{ chatUUID : uuid}).then(()=>{
@@ -313,26 +315,6 @@ export const getSelectedChatInfo = async(uuid: string) => {
     catch(error) {
         console.log(error)
         return null;
-    }
-}
-
-
-export const getMessageInChat = (uuid : string) => {
-    const colRef = query(collection(firebaseStore,`chatList/${uuid}/messages`),orderBy('createDate','desc'));
-    try {
-        onSnapshot(colRef,(snapShot)=> {
-            let resultArray = [] as MessageInfo[]
-            console.log('Call Snapshot')
-            snapShot.docs.forEach((item)=> resultArray.push(item.data() as MessageInfo))
-            return snapShot.docs
-            
-        })
-        // await getDocs(colRef).then((result)=> { 
-        //     {result && result.forEach((doc)=> resultArray.push(doc.data() as MessageInfo))}
-        // })
-    } catch(error) {
-        console.log(error)
-        return []
     }
 }
 
@@ -418,7 +400,6 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
     if(selected.length > 1) {
         selected.map((item)=> {
             const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${item.UUID}`);
-            
             deleteObject(storageRef).then(()=> {
                 const docRef = doc(firebaseStore,`chatList/${chatListUUID}/messages`,item.UUID);
                 if(item.message.length > 0) {
@@ -427,11 +408,9 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
                     deleteDoc(docRef)
                 }
             }).catch((error)=> {
-                console.log(error);
-                return false
+                console.log(error);      
             })
         })
-        return true
     } else if(selected.length === 1) {
         const storageRef = ref(firebaseStrg,`chatList/${chatListUUID}/${selected[0].UUID}`);
         deleteObject(storageRef).then(()=> {
@@ -441,10 +420,35 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
             } else {
                 deleteDoc(docRef)
             }
-            return true;
         }).catch((error)=> {
             console.error(error)
-            return false
         })
+    }
+}
+/**
+ * Freeze / Delete Chat Room
+ * 
+ * Note : If the room is already frozen, delete it
+ * @param chatListUUID Selected ChatRoom UUID
+ * @param user The user who requested to freeze the chat room
+ */
+export async function deleteChatRoom(chatListUUID : string, user : string) {
+    const docRef = doc(firebaseStore,'chatList',chatListUUID);
+    try {
+        const response = (await getDoc(docRef)).data() as ChatRoomInfo;
+        // Freeze ChatRoom
+        if(response.active === true) {
+            updateDoc(docRef,{
+                active : false,
+                disableRequest : user
+            })
+        // Delete ChatRoom
+        } else {
+
+        }
+        return true;
+    }catch(error) {
+        console.error(error)
+        return false;
     }
 }

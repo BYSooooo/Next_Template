@@ -13,8 +13,14 @@ export function ChatRoomMenu () {
     }
 
     const onClickHandler = (selected:string)=> {
-        if(selected === "Option") {
-            dispatch(setPageRendering({middle : "ChatRoomOption"}))
+        switch(selected) {
+            case "Option" : 
+                dispatch(setPageRendering({middle : "ChatRoomOption"}))
+                break;
+            case "Exit" : 
+                dispatch(setPageRendering({middle : "null"}))
+                break;
+            default : break;
         }
     }
 

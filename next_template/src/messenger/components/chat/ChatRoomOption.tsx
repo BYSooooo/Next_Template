@@ -4,17 +4,16 @@ import { ChatRoomMenu } from './ChatRoomMenu';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRendering } from '@/redux/features/messengerReducer';
 import { AttachedInfo, MessageInfo } from '../../../../msg_typeDef';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown, deleteAttachment } from '../FirebaseController';
-
+import { attachedDown, deleteAttachment, deleteChatRoom} from '../FirebaseController';
 
 
 export function ChatRoomOption() {
     const [attached, setAttached] = React.useState<AttachedInfo[]>([])
-    const [messages, setMessages] = React.useState<MessageInfo[]>([]) 
+    const [messages, setMessages] = React.useState<MessageInfo[]>([])
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -32,18 +31,19 @@ export function ChatRoomOption() {
 
     const getMessagesList = async()=> {
         const colRef = query(collection(firebaseStore,`chatList/${chatRoomReducer.uuid}/messages`),orderBy('createDate','asc'));
-        const attachArray : AttachedInfo[] = []
-        const messageArray : MessageInfo[] = []
-        await getDocs(colRef).then((items)=> {
-            items.forEach((message)=> {
-                const item = message.data() as AttachedInfo
+        onSnapshot(colRef,(snapShot)=> {
+            let attachArray : AttachedInfo[] = []
+            let messageArray : MessageInfo[] = []
+            snapShot.docs.forEach((res)=> {
+                const item = res.data() as AttachedInfo
+                console.log(item)
                 item.selectedYn = false
                 {item.attachedYn === true && attachArray.push(item)}
                 messageArray.push(item)
             })
+            setAttached(attachArray)
+            setMessages(messageArray)
         })
-        setAttached(attachArray)
-        setMessages(messageArray)
     }
 
     const exportToText = (e :React.MouseEvent)=> {
@@ -96,12 +96,17 @@ export function ChatRoomOption() {
         }
     }
 
-    const onClickDelete = ()=> {
+    const onClickDelete = (e: React.MouseEvent)=> {
+        e.preventDefault()
         const selection = attached.filter((item)=>item.selectedYn === true);
-        const result = deleteAttachment(selection,chatRoomReducer.uuid)   
+        deleteAttachment(selection,chatRoomReducer.uuid);
+    }
+    const onClickDeleteChat = async(e: React.MouseEvent)=> {
+        e.preventDefault();
+        const result = await deleteChatRoom(chatRoomReducer.uuid,currentUserInfo.email);
         if(result) {
-            getMessagesList()
-        } 
+            dispatch(setPageRendering({middle : "ChatRoom"}))
+        }
     }
 
     return (
@@ -112,12 +117,15 @@ export function ChatRoomOption() {
                 </h4>
                 <ChatRoomMenu />
             </div>
+            <div className='overflow-y-scroll h-96'>
+
+            
             <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
                 <h4 className='font-bold text-sm'>
                     Attached File
                 </h4>
-                <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'>
-                    {attached.map((item)=> {
+                <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'> 
+                    {attached.map(item=> {
                         return (
                             <div key={item.UUID} 
                                 className='relative cursor-pointer hover:opacity-60'
@@ -133,12 +141,12 @@ export function ChatRoomOption() {
                     })}
                 </div>
                 <div className='grid grid-cols-2 my-2 gap-2'>
-                    <button onClick={()=>onClickDelete()}
-                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 transition duration-200'>
+                    <button onClick={(e)=>onClickDelete(e)}
+                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white transition duration-200'>
                         Delete
                     </button>
                     <button onClick={()=>onClickDownload()}
-                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 transition duration-200'>
+                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white transition duration-200'>
                         Download
                     </button>
                     
@@ -149,28 +157,55 @@ export function ChatRoomOption() {
                 <h4 className='font-bold text-sm mb-1'>
                     Messages Export
                 </h4>
-                <div className='my-1'>
-                    <h4 className='text-xs'>
+                <ul className='my-1 list-disc px-2'>
+                    <li className='text-xs'>
                         You can export Messages.
-                    </h4>
-                    <h4 className='text-xs'>
+                    </li>
+                    <li className='text-xs'>
                         Attachments are not saved.
-                    </h4>
-                </div>
+                    </li>
+                    
+                </ul>
                 <div className='grid grid-cols-2 gap-2'>
-                    <button className='w-full rounded-full border-2 border-solid border-gray-500'
+                    <button className='w-full rounded-full border-2 border-solid border-gray-500 hover:bg-gray-500 hover:text-white transition duration-200'
                             onClick={(e)=>exportToText(e)}>
                         Text
                     </button>
-                    <button className='w-full rounded-full border-2 border-solid border-green-600'
+                    <button className='w-full rounded-full border-2 border-solid border-green-600 hover:bg-green-600 hover:text-white transition duration-200'
                             onClick={(e)=>exportToCsv(e)}>
                         CSV
                     </button>
                 </div>  
             </div>
-                
-            <div>
-                <button className='w-full border-2'
+            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
+                <h4 className='font-bold text-sm mb-1'>
+                    ChatRoom Delete
+                </h4>
+                <ul className='my-1 list-disc px-2'>
+                    <li className='text-xs'>
+                        Freeze a Chat. 
+                    </li>
+                    <li className='text-xs'>
+                        Permanently deleted if the other person allows it.
+                    </li>
+                    <li className='text-xs'>
+                        Chat rooms will be frozen and unavailable.
+                    </li>
+                    <li className='text-xs'>
+                        After being frozen, it is not possible to create a message, only view it.
+                    </li>
+                </ul>
+                <button 
+                    className='w-full border-2 border-solid rounded-full border-red-500 hover:bg-red-500 transition duration-200 hover:text-white'
+                    onClick={(e)=>onClickDeleteChat(e)}>
+                    Freeze
+                </button>
+
+            </div>
+            
+            </div>
+            <div className='mt-1'>
+                <button className='w-full border-2 border-solid border-slate-500 rounded-full hover:bg-slate-500 hover:text-white transition duration-200'
                     onClick={()=>onClickHandler("ok")}>
                     return
                 </button>

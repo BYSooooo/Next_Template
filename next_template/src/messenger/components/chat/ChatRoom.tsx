@@ -8,6 +8,8 @@ import { firebaseStore } from '../../../../firebaseConfig';
 import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
 import { MessageItem } from './MessageItem';
 import { ChatRoomMenu } from './ChatRoomMenu';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
+import { ChatRoomFreezeNotice } from './ChatRoomFreezeNotice';
 
 export function ChatRoom() {
     const [messageList, setMessageList] = React.useState<MessageInfo[]>([])
@@ -15,6 +17,7 @@ export function ChatRoom() {
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
     const [attachCheck, setAttachCheck] = React.useState(false)
+    const [activeYn, setActiveYn] = React.useState(false)
     const dayCheck = React.useRef<Date>()
     const listRef = React.useRef<HTMLDivElement>(null)
     
@@ -22,6 +25,7 @@ export function ChatRoom() {
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
+        setAttachCheck(false)
         dayCheck.current = undefined
         setMessageList([])
         getMessageList()
@@ -94,13 +98,14 @@ export function ChatRoom() {
         return defaultCSS;
     }
 
+    
     return (
         <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
                 </h4>
-                <ChatRoomMenu />
+                {chatRoomInfo?.active && <ChatRoomMenu />}
             </div>
             <div className={controlAttach()} ref={listRef}>
                 {messageList.map((message)=> { 
@@ -112,8 +117,11 @@ export function ChatRoom() {
                             dateChange={dateCheck(message.createDate.toDate())}/>     
                     )
                 })}
+                
             </div>
-            <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
+            {chatRoomInfo?.active 
+            ? <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
+            : <ChatRoomFreezeNotice viewYn={setAttachCheck}/> }
         </div>
     )
 }
