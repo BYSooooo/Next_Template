@@ -8,7 +8,6 @@ import { firebaseStore } from '../../../../firebaseConfig';
 import { getSelectedChatInfo, getUserInfo } from '../FirebaseController';
 import { MessageItem } from './MessageItem';
 import { ChatRoomMenu } from './ChatRoomMenu';
-import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import { ChatRoomFreezeNotice } from './ChatRoomFreezeNotice';
 
 export function ChatRoom() {
@@ -17,7 +16,6 @@ export function ChatRoom() {
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [memberInfo, setMemberInfo] = React.useState<UserInfo>()
     const [attachCheck, setAttachCheck] = React.useState(false)
-    const [activeYn, setActiveYn] = React.useState(false)
     const dayCheck = React.useRef<Date>()
     const listRef = React.useRef<HTMLDivElement>(null)
     
@@ -121,7 +119,7 @@ export function ChatRoom() {
             </div>
             {chatRoomInfo?.active 
             ? <WriteMessage chatUUID={chatRoomReducer.uuid} attachedYn={setAttachCheck} />
-            : <ChatRoomFreezeNotice viewYn={setAttachCheck}/> }
+            : <ChatRoomFreezeNotice chatUUID={chatRoomReducer.uuid} viewYn={setAttachCheck}/> }
         </div>
     )
 }
