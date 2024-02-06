@@ -8,7 +8,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown, deleteAttachment, freezeChatRoom, getSelectedChatInfo} from '../FirebaseController';
+import { attachedDown, deleteAttachment, deleteChatRoom, freezeChatRoom, getSelectedChatInfo} from '../FirebaseController';
 
 
 export function ChatRoomOption() {
@@ -115,9 +115,23 @@ export function ChatRoomOption() {
 
     const onClickDeleteChat = async(e: React.MouseEvent)=> {
         e.preventDefault();
-        const result = await freezeChatRoom(chatRoomReducer.uuid,currentUserInfo.email);
-        if(result) {
-            dispatch(setPageRendering({middle : "ChatRoom"}))
+        // Check Active
+        const activeYn = chatRoomInfo?.active
+        const freezeFn = async()=> await freezeChatRoom(chatRoomReducer.uuid,currentUserInfo.email)
+            .then((result)=> {
+                result && dispatch(setPageRendering({middle : "ChatRoom"}))
+            });
+        // Check Request User = currentUser
+        // If it is an active chat room, request to freeze
+        if(activeYn) {
+            freezeFn()
+        // If the room is frozen
+        } else {
+            chatRoomInfo.disableRequest === currentUserInfo.email
+            // Unfreeze if the current user is the user who applied for freezing
+            ?  freezeFn()
+            //Delete a chat room if the current user has not applied for freezing
+            : deleteChatRoom(chatRoomInfo.uuid);
         }
     }
 

@@ -449,3 +449,15 @@ export async function freezeChatRoom(chatListUUID : string, user : string) {
         return false;
     }
 }
+
+export function deleteChatRoom(chatListUUID : string) {
+    const docRef = doc(firebaseStore,'chatHistory',chatListUUID);
+    try{
+        //Move existing room data
+        
+
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
