@@ -6,7 +6,7 @@ import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, delete
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 import { Props } from '@headlessui/react/dist/types';
-import JSZip from 'jszip';
+import JSZip, { forEach } from 'jszip';
 import saveAs from 'file-saver';
 
 const userAuth = firebaseAuth;
@@ -450,12 +450,23 @@ export async function freezeChatRoom(chatListUUID : string, user : string) {
     }
 }
 
-export function deleteChatRoom(chatListUUID : string) {
-    const docRef = doc(firebaseStore,'chatHistory',chatListUUID);
-    try{
+export async function deleteChatRoom(chatListUUID : string) {
+    const prevDocRef = doc(firebaseStore,'chatList',chatListUUID);
+     try{
+        const prevChatData = (await getDoc(prevDocRef)).data();
         //Move existing room data
+        const newDocRef = doc(firebaseStore,'chatListHistory',chatListUUID)
+        const prevSubCol = collection(firebaseStore,`chatList/${chatListUUID}/messages`) 
+        setDoc(newDocRef,prevChatData)
+            .then(()=> { getDocs(prevSubCol)
+                .then((response)=> { 
+                    response.forEach((item)=> {
+                        const data = item.data()
+                        setDoc(doc(firebaseStore,`chatListHistory/${chatListUUID}/messages`,data.UUID),data)
+                })
+            });
+        })
         
-
     }catch(error){
         console.log(error)
         return false
