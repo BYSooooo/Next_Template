@@ -8,7 +8,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown, deleteAttachment, deleteChatRoom, freezeChatRoom, getSelectedChatInfo} from '../FirebaseController';
+import { attachedDown, deleteAttachment, copyChatRoom, freezeChatRoom, getSelectedChatInfo, deleteChatRoom} from '../FirebaseController';
 
 
 export function ChatRoomOption() {
@@ -131,7 +131,15 @@ export function ChatRoomOption() {
             // Unfreeze if the current user is the user who applied for freezing
             ?  freezeFn()
             //Delete a chat room if the current user has not applied for freezing
-            : deleteChatRoom(chatRoomInfo.uuid);
+            : copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
+                if(response){
+                    const result = await deleteChatRoom(chatRoomInfo.uuid)
+                    result === true && dispatch(setPageRendering({middle : "Null"}))
+                    //Require Message Box
+                    alert("ChatRoom Delete Success")
+                }
+            })
+                
         }
     }
 

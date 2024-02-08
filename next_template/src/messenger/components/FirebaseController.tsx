@@ -2,10 +2,9 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit, deleteField} from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
-import { Props } from '@headlessui/react/dist/types';
 import JSZip, { forEach } from 'jszip';
 import saveAs from 'file-saver';
 
@@ -450,7 +449,7 @@ export async function freezeChatRoom(chatListUUID : string, user : string) {
     }
 }
 
-export async function deleteChatRoom(chatListUUID : string) {
+export async function copyChatRoom(chatListUUID : string) {
     const prevDocRef = doc(firebaseStore,'chatList',chatListUUID);
      try{
         const prevChatData = (await getDoc(prevDocRef)).data();
@@ -466,9 +465,37 @@ export async function deleteChatRoom(chatListUUID : string) {
                 })
             });
         })
-        
+        return true ;
     }catch(error){
         console.log(error)
         return false
     }
 }
+
+export async function deleteChatRoom(chatListUUID : string) {
+    const docRef = doc(firebaseStore, 'chatList', chatListUUID);
+    const subCol = collection(firebaseStore,`chatList/${chatListUUID}/messages`,)
+    try {
+        const batch = writeBatch(firebaseStore);
+        const querySnapShot = await getDocs(subCol);
+        querySnapShot.forEach((doc)=> {
+            batch.delete(doc.ref)
+        })
+        await batch.commit().then(async()=> {
+            const { friendListUUID } = (await getDoc(docRef)).data();
+            console.log(friendListUUID);
+            const friendDocRef = doc(firebaseStore,'friendList',friendListUUID);
+            updateDoc(friendDocRef,{chatUUID : ""}).then(()=> {
+                deleteDoc(docRef)
+            })
+        });
+
+        return true;
+    }catch(error){
+        console.error(error);
+        return false
+        
+    }
+}
+
+
