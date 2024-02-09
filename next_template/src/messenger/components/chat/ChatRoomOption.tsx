@@ -115,6 +115,7 @@ export function ChatRoomOption() {
 
     const onClickDeleteChat = async(e: React.MouseEvent)=> {
         e.preventDefault();
+        
         // Check Active
         const activeYn = chatRoomInfo?.active
         const freezeFn = async()=> await freezeChatRoom(chatRoomReducer.uuid,currentUserInfo.email)
@@ -127,20 +128,27 @@ export function ChatRoomOption() {
             freezeFn()
         // If the room is frozen
         } else {
-            chatRoomInfo.disableRequest === currentUserInfo.email
-            // Unfreeze if the current user is the user who applied for freezing
-            ?  freezeFn()
-            //Delete a chat room if the current user has not applied for freezing
-            : copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
-                if(response){
-                    const result = await deleteChatRoom(chatRoomInfo.uuid)
-                    result === true && dispatch(setPageRendering({middle : "Null"}))
-                    //Require Message Box
-                    alert("ChatRoom Delete Success")
-                }
-            })
+            if(chatRoomInfo.disableRequest === currentUserInfo.email){
+                // Unfreeze if the current user is the user who applied for freezing
+                freezeFn()
+            } else {
+                //Delete a chat room if the current user has not applied for freezing
+                copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
+                    if(response){
+                        const result = await deleteChatRoom(chatRoomInfo.uuid)
+                        result === true && dispatch(setPageRendering({middle : "Null"}))
+                        //Require Message Box
+                        alert("ChatRoom Delete Success")
+                    }
+                })
+            }
                 
         }
+    }
+
+    const checkModal = ()=> {
+        
+
     }
 
     const changeNotiText = ()=> {
@@ -285,7 +293,9 @@ export function ChatRoomOption() {
                     return
                 </button>
             </div>
-            
+            <div className='fixed hidden z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60'>
+
+            </div>
         </div>
     )
 }
