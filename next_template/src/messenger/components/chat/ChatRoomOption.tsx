@@ -9,6 +9,7 @@ import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { attachedDown, deleteAttachment, copyChatRoom, freezeChatRoom, getSelectedChatInfo, deleteChatRoom} from '../FirebaseController';
+import { BeforeDeleteModal } from './modal/BeforeDeleteModal';
 
 
 export function ChatRoomOption() {
@@ -16,6 +17,7 @@ export function ChatRoomOption() {
     const [messages, setMessages] = React.useState<MessageInfo[]>([])
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [freezeReqYn, setFreezeReqYn] = React.useState<"Request"|"Receive"|"">("")
+    const [openDelModal, setOpenDelModal] = React.useState(false)
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -132,25 +134,24 @@ export function ChatRoomOption() {
                 // Unfreeze if the current user is the user who applied for freezing
                 freezeFn()
             } else {
-                //Delete a chat room if the current user has not applied for freezing
-                copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
-                    if(response){
-                        const result = await deleteChatRoom(chatRoomInfo.uuid)
-                        result === true && dispatch(setPageRendering({middle : "Null"}))
-                        //Require Message Box
-                        alert("ChatRoom Delete Success")
-                    }
-                })
+                // Opne Modal for Check before Delete
+                setOpenDelModal(true)
             }
                 
         }
     }
-
-    const checkModal = ()=> {
-        
-
+    const onClickDeleteInModal = ()=> {
+        //Delete a chat room if the current user has not applied for freezing
+        copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
+            if(response){
+                const result = await deleteChatRoom(chatRoomInfo.uuid)
+                result === true && dispatch(setPageRendering({middle : "Null"}))
+                //Require Message Box
+                alert("ChatRoom Delete Success")
+            }
+        })
     }
-
+    
     const changeNotiText = ()=> {
         const check = chatRoomInfo?.active;    
         switch(check) {
@@ -293,9 +294,7 @@ export function ChatRoomOption() {
                     return
                 </button>
             </div>
-            <div className='fixed hidden z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60'>
-
-            </div>
+            {openDelModal && <BeforeDeleteModal closeFn={setOpenDelModal} clickFn={onClickDeleteInModal}/>}
         </div>
     )
 }
