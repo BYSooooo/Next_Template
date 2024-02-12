@@ -10,6 +10,8 @@ import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { attachedDown, deleteAttachment, copyChatRoom, freezeChatRoom, getSelectedChatInfo, deleteChatRoom} from '../FirebaseController';
 import { BeforeDeleteModal } from './modal/BeforeDeleteModal';
+import { BeforeDeleteAttach } from './modal/BeforeDeleteAttach';
+import PopOver from '../public/PopOver';
 
 
 export function ChatRoomOption() {
@@ -18,6 +20,8 @@ export function ChatRoomOption() {
     const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
     const [freezeReqYn, setFreezeReqYn] = React.useState<"Request"|"Receive"|"">("")
     const [openDelModal, setOpenDelModal] = React.useState(false)
+    const [openDelAttach, setOpenDelAttach] = React.useState(false)
+    const [showPopOver, setShowPopOver] = React.useState(false)
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -112,7 +116,11 @@ export function ChatRoomOption() {
     const onClickDelete = (e: React.MouseEvent)=> {
         e.preventDefault()
         const selection = attached.filter((item)=>item.selectedYn === true);
-        deleteAttachment(selection,chatRoomReducer.uuid);
+        if(selection.length === 0) {
+            setShowPopOver(true)
+        } else {
+            setOpenDelAttach(true)
+        }
     }
 
     const onClickDeleteChat = async(e: React.MouseEvent)=> {
@@ -140,6 +148,13 @@ export function ChatRoomOption() {
                 
         }
     }
+
+    const onClickDeleteInAttach = ()=> {
+        const selection = attached.filter((item)=>item.selectedYn === true);
+        deleteAttachment(selection,chatRoomReducer.uuid);
+        
+    }
+
     const onClickDeleteInModal = ()=> {
         //Delete a chat room if the current user has not applied for freezing
         copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
@@ -294,6 +309,8 @@ export function ChatRoomOption() {
                     return
                 </button>
             </div>
+            {showPopOver && <PopOver content={'Not Selected'} type='fail' control={setShowPopOver} />}
+            {openDelAttach && <BeforeDeleteAttach closeFn={setOpenDelAttach} clickFn={onClickDeleteInAttach} />}
             {openDelModal && <BeforeDeleteModal closeFn={setOpenDelModal} clickFn={onClickDeleteInModal}/>}
         </div>
     )

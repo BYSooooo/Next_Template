@@ -1,12 +1,13 @@
-import { XMarkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from '@heroicons/react/20/solid';
+import React from 'react';
 
-export function BeforeDeleteModal({closeFn, clickFn} : {closeFn : Function, clickFn : Function}) {
+export function BeforeDeleteAttach({closeFn, clickFn}:{closeFn : Function, clickFn : Function}) {
 
     const onClickDelete = ()=> {
         closeFn(false)
         clickFn()
     }
-    
+
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-black rounded-md p-3 w-80'>
@@ -20,13 +21,10 @@ export function BeforeDeleteModal({closeFn, clickFn} : {closeFn : Function, clic
                 </div>
                 <ul className='my-1 list-disc px-2'>
                     <li className="text-xs">
-                        When you delete a room, all history is deleted
+                        Click the Delete button to delete the attachment.
                     </li>
-                    <li className="text-xs">
-                        Once deleted, there is no going back.
-                    </li>
-                    <li className="text-xs">
-                        Please export the required materials in advance
+                    <li className='text-xs'>
+                        Once an attachment is deleted, it cannot be recovered.
                     </li>
                 </ul>
                 <div >
@@ -39,4 +37,5 @@ export function BeforeDeleteModal({closeFn, clickFn} : {closeFn : Function, clic
             </div>
         </div>
     )
+
 }
