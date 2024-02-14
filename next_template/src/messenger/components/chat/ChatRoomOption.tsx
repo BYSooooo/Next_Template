@@ -3,23 +3,32 @@ import React from 'react';
 import { ChatRoomMenu } from './ChatRoomMenu';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRendering } from '@/redux/features/messengerReducer';
-import { AttachedInfo, MessageInfo } from '../../../../msg_typeDef';
+import { AttachedInfo, ChatRoomInfo, MessageInfo } from '../../../../msg_typeDef';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
 import { messageDown } from './messageDown';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { attachedDown, deleteAttachment, deleteChatRoom} from '../FirebaseController';
+import { attachedDown, deleteAttachment, copyChatRoom, freezeChatRoom, getSelectedChatInfo, deleteChatRoom} from '../FirebaseController';
+import { BeforeDeleteModal } from './modal/BeforeDeleteModal';
+import { BeforeDeleteAttach } from './modal/BeforeDeleteAttach';
+import PopOver from '../public/PopOver';
 
 
 export function ChatRoomOption() {
     const [attached, setAttached] = React.useState<AttachedInfo[]>([])
     const [messages, setMessages] = React.useState<MessageInfo[]>([])
+    const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomInfo>()
+    const [freezeReqYn, setFreezeReqYn] = React.useState<"Request"|"Receive"|"">("")
+    const [openDelModal, setOpenDelModal] = React.useState(false)
+    const [openDelAttach, setOpenDelAttach] = React.useState(false)
+    const [showPopOver, setShowPopOver] = React.useState(false)
 
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
+        getChatRoomInfo()
         getMessagesList()
     },[])
 
@@ -27,6 +36,15 @@ export function ChatRoomOption() {
         if(select === "ok") {
             dispatch(setPageRendering({middle : "ChatRoom"}))
         }
+    }
+    const getChatRoomInfo = async()=> {
+        await getSelectedChatInfo(chatRoomReducer.uuid).then((response)=> {
+            const result = response as ChatRoomInfo
+            setChatRoomInfo(result)
+            if(!result.active) {
+                setFreezeReqYn(result.disableRequest === currentUserInfo.email ? 'Request' : 'Receive');
+            }
+        })
     }
 
     const getMessagesList = async()=> {
@@ -36,7 +54,6 @@ export function ChatRoomOption() {
             let messageArray : MessageInfo[] = []
             snapShot.docs.forEach((res)=> {
                 const item = res.data() as AttachedInfo
-                console.log(item)
                 item.selectedYn = false
                 {item.attachedYn === true && attachArray.push(item)}
                 messageArray.push(item)
@@ -99,13 +116,103 @@ export function ChatRoomOption() {
     const onClickDelete = (e: React.MouseEvent)=> {
         e.preventDefault()
         const selection = attached.filter((item)=>item.selectedYn === true);
-        deleteAttachment(selection,chatRoomReducer.uuid);
+        if(selection.length === 0) {
+            setShowPopOver(true)
+        } else {
+            setOpenDelAttach(true)
+        }
     }
+
     const onClickDeleteChat = async(e: React.MouseEvent)=> {
         e.preventDefault();
-        const result = await deleteChatRoom(chatRoomReducer.uuid,currentUserInfo.email);
-        if(result) {
-            dispatch(setPageRendering({middle : "ChatRoom"}))
+        
+        // Check Active
+        const activeYn = chatRoomInfo?.active
+        const freezeFn = async()=> await freezeChatRoom(chatRoomReducer.uuid,currentUserInfo.email)
+            .then((result)=> {
+                result && dispatch(setPageRendering({middle : "ChatRoom"}))
+            });
+        // Check Request User = currentUser
+        // If it is an active chat room, request to freeze
+        if(activeYn) {
+            freezeFn()
+        // If the room is frozen
+        } else {
+            if(chatRoomInfo.disableRequest === currentUserInfo.email){
+                // Unfreeze if the current user is the user who applied for freezing
+                freezeFn()
+            } else {
+                // Opne Modal for Check before Delete
+                setOpenDelModal(true)
+            }
+                
+        }
+    }
+
+    const onClickDeleteInAttach = ()=> {
+        const selection = attached.filter((item)=>item.selectedYn === true);
+        deleteAttachment(selection,chatRoomReducer.uuid);
+        
+    }
+
+    const onClickDeleteInModal = ()=> {
+        //Delete a chat room if the current user has not applied for freezing
+        copyChatRoom(chatRoomInfo.uuid).then(async (response)=> {
+            if(response){
+                const result = await deleteChatRoom(chatRoomInfo.uuid)
+                result === true && dispatch(setPageRendering({middle : "Null"}))
+                //Require Message Box
+                alert("ChatRoom Delete Success")
+            }
+        })
+    }
+    
+    const changeNotiText = ()=> {
+        const check = chatRoomInfo?.active;    
+        switch(check) {
+            case true : 
+                return (
+                    <ul className='my-1 list-disc px-2'>
+                        <li className='text-xs'>
+                            Freeze a Chat. 
+                        </li>
+                        <li className='text-xs'>
+                            Chat rooms will be frozen and unavailable.
+                        </li>
+                        <li className='text-xs'>
+                            After being frozen, it is not possible to create a message, only view it.
+                        </li>
+                    </ul>
+                )
+            case false : 
+                switch (freezeReqYn) {
+                    case 'Request' : 
+                    return (
+                        <ul className='my-1 list-disc px-2'>
+                            <li className='text-xs'>
+                                Unfreeze a Chat.
+                            </li>
+                            <li className='text-xs'>
+                                The chat room will be unfrozen and available again.
+                            </li>
+                        </ul>
+                    )
+                    case 'Receive' : 
+                    return (
+                        <ul className='my-1 list-disc px-2'>
+                            <li className='text-xs'>
+                                Accept Delete a Chat
+                            </li>
+                            <li className='text-xs'>
+                                If you accept the request, the room will be permanently deleted.
+                            </li>
+                            <li className='text-xs'>
+                                Please note that once a chat room is deleted, it cannot be recovered
+                            </li>
+                        </ul>
+                    )
+                }
+                
         }
     }
 
@@ -115,10 +222,9 @@ export function ChatRoomOption() {
                 <h4 className='font-bold text-lg'>
                     Chat - Option
                 </h4>
-                <ChatRoomMenu />
+                {chatRoomInfo?.active && <ChatRoomMenu />}
             </div>
             <div className='overflow-y-scroll h-96'>
-
             
             <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
                 <h4 className='font-bold text-sm'>
@@ -141,8 +247,10 @@ export function ChatRoomOption() {
                     })}
                 </div>
                 <div className='grid grid-cols-2 my-2 gap-2'>
-                    <button onClick={(e)=>onClickDelete(e)}
-                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white transition duration-200'>
+                    <button 
+                        disabled={!chatRoomInfo?.active}
+                        onClick={(e)=>onClickDelete(e)}
+                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white disabled:border-gray-200 disabled:hover:bg-gray-200 disabled:hover:text-neutral-900 transition duration-200'>
                         Delete
                     </button>
                     <button onClick={()=>onClickDownload()}
@@ -179,28 +287,19 @@ export function ChatRoomOption() {
             </div>
             <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
                 <h4 className='font-bold text-sm mb-1'>
-                    ChatRoom Delete
+                    ChatRoom Freeze
                 </h4>
-                <ul className='my-1 list-disc px-2'>
-                    <li className='text-xs'>
-                        Freeze a Chat. 
-                    </li>
-                    <li className='text-xs'>
-                        Permanently deleted if the other person allows it.
-                    </li>
-                    <li className='text-xs'>
-                        Chat rooms will be frozen and unavailable.
-                    </li>
-                    <li className='text-xs'>
-                        After being frozen, it is not possible to create a message, only view it.
-                    </li>
-                </ul>
+                {changeNotiText()}
                 <button 
-                    className='w-full border-2 border-solid rounded-full border-red-500 hover:bg-red-500 transition duration-200 hover:text-white'
+                    className='w-full border-2 border-solid rounded-full border-purple-500 hover:bg-purple-500 transition duration-200 hover:text-white'
                     onClick={(e)=>onClickDeleteChat(e)}>
-                    Freeze
+                    {chatRoomInfo?.active 
+                        ? 'Freeze' 
+                        : freezeReqYn === 'Request' 
+                            ? 'Freeze Cancel'
+                            : 'Delete' 
+                    }
                 </button>
-
             </div>
             
             </div>
@@ -210,7 +309,9 @@ export function ChatRoomOption() {
                     return
                 </button>
             </div>
-            
+            {showPopOver && <PopOver content={'Not Selected'} type='fail' control={setShowPopOver} />}
+            {openDelAttach && <BeforeDeleteAttach closeFn={setOpenDelAttach} clickFn={onClickDeleteInAttach} />}
+            {openDelModal && <BeforeDeleteModal closeFn={setOpenDelModal} clickFn={onClickDeleteInModal}/>}
         </div>
     )
 }

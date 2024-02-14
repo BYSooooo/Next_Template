@@ -1,12 +1,17 @@
 import React from 'react';
 import { getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
-import { ChatBubbleLeftRightIcon, UserIcon } from '@heroicons/react/20/solid';
+import { ChatBubbleLeftRightIcon, NoSymbolIcon, UserIcon, UserMinusIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
+import { FriendInterceptModal } from './modal/FriendInterceptModal';
+import { FriendDeleteModal } from './modal/FriendDeleteModal';
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
+    const [showDeleteModal, setShowDeleteModal] = React.useState(false)
+    const [showInterCeptModal, setShowInterCeptModal] = React.useState(false)
+    
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -68,6 +73,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                         </h4>
                         <div className='flex flex-row gap-1 '>
                             <ChatBubbleLeftRightIcon className='w-7 h-7 fill-green-600 hover:cursor-pointer' onClick={checkChatRoom} />
+                            <UserMinusIcon className='w-7 h-7 fill-red-800 hover:cursor-pointer' onClick={()=>setShowDeleteModal(true)} />
+                            <NoSymbolIcon className='w-7 h-7 fill-purple-800 hover:cursor-pointer' onClick={()=>setShowInterCeptModal(true)}/>
                         </div>    
                     </div>
                 :   <div className='flex flex-row items-center gap-3 px-2'>
@@ -81,6 +88,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                     </div> 
                 }
             </div>
+            {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} />}
+            {showInterCeptModal && <FriendInterceptModal closeFn={setShowInterCeptModal}/>}
         </li>
     )
 }

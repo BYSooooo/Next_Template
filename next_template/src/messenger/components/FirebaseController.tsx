@@ -2,11 +2,10 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, onSnapshot, addDoc, FieldValue, increment, orderBy, query, limit} from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
-import { Props } from '@headlessui/react/dist/types';
-import JSZip from 'jszip';
+import JSZip, { forEach } from 'jszip';
 import saveAs from 'file-saver';
 
 const userAuth = firebaseAuth;
@@ -430,21 +429,18 @@ export function deleteAttachment(selected : AttachedInfo[],chatListUUID : string
  * 
  * Note : If the room is already frozen, delete it
  * @param chatListUUID Selected ChatRoom UUID
- * @param user The user who requested to freeze the chat room
+ * @param user current User's Email Address
  */
-export async function deleteChatRoom(chatListUUID : string, user : string) {
+export async function freezeChatRoom(chatListUUID : string, user : string) {
     const docRef = doc(firebaseStore,'chatList',chatListUUID);
     try {
         const response = (await getDoc(docRef)).data() as ChatRoomInfo;
         // Freeze ChatRoom
         if(response.active === true) {
-            updateDoc(docRef,{
-                active : false,
-                disableRequest : user
-            })
-        // Delete ChatRoom
+            updateDoc(docRef,{ active : false, disableRequest : user })
+        // unFreeze ChatRoom
         } else {
-
+            updateDoc(docRef, { active : true, disableRequest : deleteField() })
         }
         return true;
     }catch(error) {
@@ -452,3 +448,54 @@ export async function deleteChatRoom(chatListUUID : string, user : string) {
         return false;
     }
 }
+
+export async function copyChatRoom(chatListUUID : string) {
+    const prevDocRef = doc(firebaseStore,'chatList',chatListUUID);
+     try{
+        const prevChatData = (await getDoc(prevDocRef)).data();
+        //Move existing room data
+        const newDocRef = doc(firebaseStore,'chatListHistory',chatListUUID)
+        const prevSubCol = collection(firebaseStore,`chatList/${chatListUUID}/messages`) 
+        setDoc(newDocRef,prevChatData)
+            .then(()=> { getDocs(prevSubCol)
+                .then((response)=> { 
+                    response.forEach((item)=> {
+                        const data = item.data()
+                        setDoc(doc(firebaseStore,`chatListHistory/${chatListUUID}/messages`,data.UUID),data)
+                })
+            });
+        })
+        return true ;
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
+
+export async function deleteChatRoom(chatListUUID : string) {
+    const docRef = doc(firebaseStore, 'chatList', chatListUUID);
+    const subCol = collection(firebaseStore,`chatList/${chatListUUID}/messages`,)
+    try {
+        const batch = writeBatch(firebaseStore);
+        const querySnapShot = await getDocs(subCol);
+        querySnapShot.forEach((doc)=> {
+            batch.delete(doc.ref)
+        })
+        await batch.commit().then(async()=> {
+            const { friendListUUID } = (await getDoc(docRef)).data();
+            console.log(friendListUUID);
+            const friendDocRef = doc(firebaseStore,'friendList',friendListUUID);
+            updateDoc(friendDocRef,{chatUUID : ""}).then(()=> {
+                deleteDoc(docRef)
+            })
+        });
+
+        return true;
+    }catch(error){
+        console.error(error);
+        return false
+        
+    }
+}
+
+

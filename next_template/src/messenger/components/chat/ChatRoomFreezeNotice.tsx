@@ -1,15 +1,20 @@
 import { InformationCircleIcon } from '@heroicons/react/20/solid'
 import React from 'react'
+import { freezeChatRoom } from '../FirebaseController'
+import { useAppDispatch, useAppSelector } from '@/redux/hook'
+import { setPageRendering } from '@/redux/features/messengerReducer'
 
-export function ChatRoomFreezeNotice({viewYn} : {viewYn : Function}) {
+export function ChatRoomFreezeNotice({chatUUID,viewYn} : {chatUUID : string, viewYn : Function}) {
     const [viewModal, setViewModal] = React.useState(false)
-    
+    const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
+    const dispatch = useAppDispatch()
+
     React.useEffect(()=> {
         viewYn(false)
         setViewModal(false)
     },[])
 
-    const onClickNotice = ()=> {
+    const onClickNotice =()=> {
         viewYn(!viewModal)
         setViewModal(!viewModal)
     }
@@ -27,7 +32,7 @@ export function ChatRoomFreezeNotice({viewYn} : {viewYn : Function}) {
                 <div className='flex my-2'>
                     <ul className='pl-3 list-disc list-outside text-xs'>
                         <li>
-                            You can&apos;t write new messages to frozen chat room.
+                            In a frozen room, you can&apos;t make any modifications.
                         </li>
                         <li>
                             If the person allows deletion, the room will be deleted.
@@ -37,14 +42,13 @@ export function ChatRoomFreezeNotice({viewYn} : {viewYn : Function}) {
                         </li>
                     </ul>
                 </div> 
-                <button className='w-full border-2 border-solid border-blue-500 justify-center rounded-full'>
-                    Unfreeze
+                <button 
+                    onClick={()=>dispatch(setPageRendering({middle : "ChatRoomOption"}))}
+                    className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
+                    Option
                 </button>
             </div>
             }
-            
-
-            
         </div>
     )
 }
