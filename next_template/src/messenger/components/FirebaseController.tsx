@@ -497,5 +497,27 @@ export async function deleteChatRoom(chatListUUID : string) {
         
     }
 }
+/**
+ * Delete Selected Friend in Friends List
+ * @param friendListUUID uuid of FriendList Collection
+ * @param uuid uuid of current userInfo Collection
+ * 
+ */
+export async function deleteFriend(friendListUUID: string, uuid:string) {
+    const prevDocRef = doc(firebaseStore,"friendList",friendListUUID)
+    const historyDocRef = doc(firebaseStore,"friendListHistory",friendListUUID);
+    const userInfoDocRef = doc(firebaseStore,"userInfo",uuid);
+    try {
+        // friendList Document move to friendListHistory
+        await getDoc(prevDocRef).then((doc)=> {
+            setDoc(historyDocRef,{...doc.data(), deleteDate : new Date()}).then(()=> {
+            // if move success, delete friendList Document
 
+            })
+        })
 
+    } catch(err) {
+        console.log(err)
+    }
+
+}

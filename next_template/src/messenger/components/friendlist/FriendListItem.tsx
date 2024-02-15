@@ -1,5 +1,5 @@
 import React from 'react';
-import { getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import { deleteFriend, getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, NoSymbolIcon, UserIcon, UserMinusIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
@@ -41,11 +41,16 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         }
         return cssString
     }
+    
     const checkChatRoom = async() => {
         const { chatUUID } = await getChatInfoInFriendList(uuid)
         dispatch(setChatListUUID(chatUUID));
         dispatch(setPageRendering({middle : "ChatRoom"}))
     }   
+
+    const onClickDelete = ()=> {
+        //deleteFriend(uuid,)
+    }
 
     return (
         <li onClick={clickHandler}
@@ -88,7 +93,7 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                     </div> 
                 }
             </div>
-            {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} />}
+            {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} deleteFn={onClickDelete}/>}
             {showInterCeptModal && <FriendInterceptModal closeFn={setShowInterCeptModal}/>}
         </li>
     )
