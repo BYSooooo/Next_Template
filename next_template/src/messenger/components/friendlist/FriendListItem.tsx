@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/redux/hook';
 import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
 import { FriendInterceptModal } from './modal/FriendInterceptModal';
 import { FriendDeleteModal } from './modal/FriendDeleteModal';
+import { firebaseAuth } from '../../../../firebaseConfig';
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
@@ -48,8 +49,9 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         dispatch(setPageRendering({middle : "ChatRoom"}))
     }   
 
-    const onClickDelete = ()=> {
-        //deleteFriend(uuid,)
+    const onClickDelete = async()=> {
+        const result = await deleteFriend(uuid,firebaseAuth.currentUser.uid);
+        console.log(result)
     }
 
     return (

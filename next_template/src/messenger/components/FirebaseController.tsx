@@ -2,10 +2,10 @@ import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
-import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch} from 'firebase/firestore';
+import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch, FieldValue, arrayRemove} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
-import JSZip, { forEach } from 'jszip';
+import JSZip, { filter, forEach } from 'jszip';
 import saveAs from 'file-saver';
 
 const userAuth = firebaseAuth;
@@ -507,17 +507,53 @@ export async function deleteFriend(friendListUUID: string, uuid:string) {
     const prevDocRef = doc(firebaseStore,"friendList",friendListUUID)
     const historyDocRef = doc(firebaseStore,"friendListHistory",friendListUUID);
     const userInfoDocRef = doc(firebaseStore,"userInfo",uuid);
-    try {
-        // friendList Document move to friendListHistory
+    
+    // friendList Document move to friendListHistory
+    const moveToHistory = async()=> {    
         await getDoc(prevDocRef).then((doc)=> {
-            setDoc(historyDocRef,{...doc.data(), deleteDate : new Date()}).then(()=> {
-            // if move success, delete friendList Document
-
+            setDoc(historyDocRef,{...doc.data(), deleteDate : new Date()})
+        }).catch((error)=> {
+            console.log(error)
+            
+        }) 
+    }
+    // Delete friendListUUID in chatList
+    // If ChatRoom restart later, friendListUUID is change new one
+    const modifyChatList = async() => {
+        const chatUUID = (await getDoc(prevDocRef)).data().chatUUID    
+        const docRef = doc(firebaseStore,'chatList',chatUUID)
+        console.log(`modify chatUUID : ${chatUUID}`)
+        updateDoc(docRef, {
+                friendListUUID : ""
+            }
+        );
+    }
+    // Delete Friend Email From both user information
+    const removeEmailInUserInfo = async()=> {
+        const users : string[] = (await getDoc(userInfoDocRef)).data().friendList;
+        users.forEach((userEmail) => {
+            console.log(`remove Email in UserInfo : ${userEmail}`)
+            const docRef = doc(firebaseStore,'userInfo',userEmail)
+            updateDoc(docRef,{
+                friendList : arrayRemove(userEmail)
             })
         })
-
-    } catch(err) {
-        console.log(err)
+    }
+    // Delete Document in FriendList
+    const removeFriendList = async()=> {
+        await deleteDoc(prevDocRef)
+    }
+    try {
+        moveToHistory()
+            .then(()=> modifyChatList()
+                .then(()=> removeEmailInUserInfo()
+                    .then(()=> removeFriendList())
+                )
+            )
+        return true;
+    } catch(error) {
+        console.log(error)
+        return false;
     }
 
 }
