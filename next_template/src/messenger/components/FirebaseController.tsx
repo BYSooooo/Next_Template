@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
@@ -212,6 +212,7 @@ export const setFriendRequestControl = async (request : RequestFriend, acceptYn 
             const requestUUID = uuidv4()
             await setDoc(doc(firebaseStore, 'friendList',requestUUID), {
                 UUID : requestUUID,
+                friendReqUUID : request.UUID,
                 friendEmail : [firebaseAuth.currentUser.email, request.from],
                 acceptDate : new Date(),
                 chatUUID : "",
@@ -500,56 +501,114 @@ export async function deleteChatRoom(chatListUUID : string) {
 /**
  * Delete Selected Friend in Friends List
  * @param friendListUUID uuid of FriendList Collection
- * @param uuid uuid of current userInfo Collection
+ * @param currentUserEmail Email of current user logined
  * 
  */
-export async function deleteFriend(friendListUUID: string, uuid:string) {
+export async function deleteFriend(friendListUUID: string, currentUserEmail:string) {
     const prevDocRef = doc(firebaseStore,"friendList",friendListUUID)
     const historyDocRef = doc(firebaseStore,"friendListHistory",friendListUUID);
-    const userInfoDocRef = doc(firebaseStore,"userInfo",uuid);
     
+    /*
+
+
     // friendList Document move to friendListHistory
-    const moveToHistory = async()=> {    
+    const moveToHistory = async()=> {
         await getDoc(prevDocRef).then((doc)=> {
             setDoc(historyDocRef,{...doc.data(), deleteDate : new Date()})
         }).catch((error)=> {
             console.log(error)
-            
-        }) 
+            return null;
+        })
+        
     }
     // Delete friendListUUID in chatList
     // If ChatRoom restart later, friendListUUID is change new one
-    const modifyChatList = async() => {
-        const chatUUID = (await getDoc(prevDocRef)).data().chatUUID    
+    const modifyChatList = async(chatUUID : string) => {
+        //const chatUUID = (await getDoc(prevDocRef)).data().chatUUID    
         const docRef = doc(firebaseStore,'chatList',chatUUID)
         console.log(`modify chatUUID : ${chatUUID}`)
         updateDoc(docRef, {
                 friendListUUID : ""
             }
-        );
+        ).catch((error)=> {
+            console.log(error)
+        });
     }
-    // Delete Friend Email From both user information
+    // Delete FriendListUUID From both user information
     const removeEmailInUserInfo = async()=> {
-        const users : string[] = (await getDoc(userInfoDocRef)).data().friendList;
-        users.forEach((userEmail) => {
-            console.log(`remove Email in UserInfo : ${userEmail}`)
+        const { friendEmail  } = (await getDoc(prevDocRef)).data();
+        friendEmail.forEach((userEmail : string) => {
+            console.log(`remove FriendListUUID in UserInfo : ${userEmail}`)
             const docRef = doc(firebaseStore,'userInfo',userEmail)
             updateDoc(docRef,{
-                friendList : arrayRemove(userEmail)
+                friendList : arrayRemove(friendListUUID)
+            }).catch((error)=> {
+                console.log(error)
             })
         })
     }
+    // Move friendReq Document to FriendReqHistory Collection
+    const moveToFriendReqHistory = async() => {
+        const { friendReqUUID } = (await getDoc(prevDocRef)).data();
+        const friendReqDoc = doc(firebaseStore,'friendReq',friendReqUUID);
+        await getDoc(friendReqDoc).then(async (response)=> {
+            const data = response.data() as RequestFriend;
+            const result = await delAddFriendRequestInDoc(data);
+            console.log(result)
+        }).catch((error)=> {
+            console.log(error)
+        })
+        
+    }
+    
     // Delete Document in FriendList
     const removeFriendList = async()=> {
-        await deleteDoc(prevDocRef)
+        await deleteDoc(prevDocRef).catch((error)=> {
+            console.log(error)
+        })
     }
+    // moveToHistory()
+    //     .then((chatUUID)=> {chatUUID && modifyChatList(chatUUID)})
+    //     .then(()=> removeEmailInUserInfo()
+    //         .then(()=> removeFriendList()
+    //             .then(()=> moveToFriendReqHistory())))
+
+
+    */
     try {
-        moveToHistory()
-            .then(()=> modifyChatList()
-                .then(()=> removeEmailInUserInfo()
-                    .then(()=> removeFriendList())
-                )
-            )
+        await getDoc(prevDocRef).then(async (response)=> {
+            const friendDoc = response.data() as FriendList
+            console.log(`friendList Doc : ${friendDoc}`);
+            // friendList Document move to friendListHistory
+            await setDoc(historyDocRef,{...friendDoc, deleteDate : new Date()})
+                .finally(()=> { console.log('Success : Move to friendListHistory')})
+            // Delete friendListUUID in chatList
+            if(friendDoc.chatUUID) {
+                const chatRef = doc(firebaseStore,'chatList',friendDoc.chatUUID);
+                await updateDoc(chatRef,{ friendListUUID : "" })
+                    .finally(()=> { console.log('Success : Delete friendListUUID in chatList')})
+            }
+            // Delete FriendListUUID From both user information
+            const friendList = friendDoc.friendEmail
+            friendList.forEach(async (email)=> {
+                const userRef = doc(firebaseStore,'userInfo',email);
+                await updateDoc(userRef,{ friendList : arrayRemove(friendDoc.UUID)})
+                    .finally(()=> { console.log(`Success : Delete FriendListUUID in UserInfo ${email}`)});
+            })
+            // Move friendReq Document to FriendReqHistory Collection
+            const reqRef = doc(firebaseStore,'friendReq',friendDoc.friendReqUUID);
+            await getDoc(reqRef).then(async (req) => {
+                const requestDoc = req.data() as RequestFriend
+                const result = await delAddFriendRequestInDoc(requestDoc);
+                console.log(result)
+            }).finally(()=> { console.log('Success : Move friendReq to History Collection')})
+        }).then(async()=> {
+            await deleteDoc(prevDocRef)
+                .finally(()=> console.log('Success : Delete FriendList'))
+        })
+
+
+
         return true;
     } catch(error) {
         console.log(error)

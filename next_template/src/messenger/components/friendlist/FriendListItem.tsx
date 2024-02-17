@@ -50,8 +50,10 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
     }   
 
     const onClickDelete = async()=> {
-        const result = await deleteFriend(uuid,firebaseAuth.currentUser.uid);
-        console.log(result)
+        const result = await deleteFriend(uuid,firebaseAuth.currentUser.email);
+        if(result) {
+
+        }
     }
 
     return (

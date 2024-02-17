@@ -48,12 +48,14 @@ interface RequestFriend {
 
 /**
  * @property UUID : Individual IDs for Friendships
+ * @property friendReqUUID : friendReq UUID 
  * @property friendEmail :  Emails from two users who are friends
  * @property acceptDate : Date the friendship was established
  * @property chatUUID : Unique value of a chat for two users
  */
 interface FriendList {
     UUID : string,
+    friendReqUUID : string,
     friendEmail : [string],
     acceptDate : Timestamp,
     chatUUID : string
