@@ -4,8 +4,10 @@ import PageRouter from '../components/PageRouter';
 import { useAppDispatch } from '@/redux/hook';
 import { setCurrentUserInfo, setPageRendering } from '@/redux/features/messengerReducer';
 import HeaderMain from '../components/header/HeaderMain';
-import { getUserInfo, setInitUserInfo } from '../components/FirebaseController';
-import { firebaseAuth } from '../../../firebaseConfig';
+import { setInitUserInfo } from '../components/FirebaseController';
+import { firebaseAuth, firebaseStore } from '../../../firebaseConfig';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { UserInfo } from '../../../msg_typeDef';
 
 export default function MainLogined () {
     // const [showModal, setShowModal] = React.useState(false);
@@ -20,10 +22,18 @@ export default function MainLogined () {
     },[])
     
     const getCurrentUserInfo = async() => {
-        await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
-            const curData = result.value
-            dispatch(setCurrentUserInfo(curData))
+        console.log("getCurrentInfo Called")
+        const docRef = doc(firebaseStore, 'userInfo',firebaseAuth.currentUser.email);
+        onSnapshot(docRef,(snapShot)=> {
+            const userInfo = snapShot.data() as UserInfo
+            const reNewDate: Date = snapShot.data().lastLogin.toDate()
+            userInfo.lastLogin = reNewDate.toString()
+            dispatch(setCurrentUserInfo(userInfo))
         })
+        // await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
+        //     const curData = result.value
+        //     dispatch(setCurrentUserInfo(curData))
+        // })
     }
     
 
