@@ -506,7 +506,7 @@ export async function deleteChatRoom(chatListUUID : string) {
  * @param currentUserEmail Email of current user logined
  * 
  */
-export async function deleteFriend(friendListUUID: string, currentUserEmail:string) {
+export async function deleteFriend(friendListUUID: string) {
     const prevDocRef = doc(firebaseStore,"friendList",friendListUUID)
     const historyDocRef = doc(firebaseStore,"friendListHistory",friendListUUID);
     
@@ -541,13 +541,14 @@ export async function deleteFriend(friendListUUID: string, currentUserEmail:stri
             await deleteDoc(prevDocRef)
                 .finally(()=> console.log('Success : Delete FriendList'))
         })
-
-
-
         return true;
     } catch(error) {
         console.log(error)
         return false;
     }
+
+}
+
+export function interceptFriend (friendUUID : string) {
 
 }

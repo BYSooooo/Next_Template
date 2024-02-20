@@ -40,7 +40,7 @@ export default function AuthController(service : "Google" | "Github" | "Email" |
             })
     }
     const authForTest = () => { 
-        signInWithEmailAndPassword(firebaseAuth,"test_user05@test.com","test1234")
+        signInWithEmailAndPassword(firebaseAuth,"test_user06@test.com","test1234")
             .then((result)=> {
                 console.log(result);
             })

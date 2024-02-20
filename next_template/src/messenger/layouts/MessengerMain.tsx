@@ -30,10 +30,6 @@ export default function MainLogined () {
             userInfo.lastLogin = reNewDate.toString()
             dispatch(setCurrentUserInfo(userInfo))
         })
-        // await getUserInfo(firebaseAuth.currentUser.email).then((result)=> {
-        //     const curData = result.value
-        //     dispatch(setCurrentUserInfo(curData))
-        // })
     }
     
 

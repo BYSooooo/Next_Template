@@ -4,15 +4,19 @@ import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, NoSymbolIcon, UserIcon, UserMinusIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
-import { FriendInterceptModal } from './modal/FriendInterceptModal';
+
 import { FriendDeleteModal } from './modal/FriendDeleteModal';
 import { firebaseAuth } from '../../../../firebaseConfig';
+import PopOver from '../public/PopOver';
+import { FriendBlockModal } from './modal/FriendBlockModal';
+
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
     const [showDeleteModal, setShowDeleteModal] = React.useState(false)
     const [showInterCeptModal, setShowInterCeptModal] = React.useState(false)
-    
+    const [showPopover, setShowPopOver] = React.useState(false)
+
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -50,9 +54,10 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
     }   
 
     const onClickDelete = async()=> {
-        const result = await deleteFriend(uuid,firebaseAuth.currentUser.email);
+        const result = await deleteFriend(uuid);
         if(result) {
-
+            setShowDeleteModal(false);
+            setShowPopOver(true);
         }
     }
 
@@ -98,7 +103,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                 }
             </div>
             {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} deleteFn={onClickDelete}/>}
-            {showInterCeptModal && <FriendInterceptModal closeFn={setShowInterCeptModal}/>}
+            {showInterCeptModal && <FriendBlockModal closeFn={setShowInterCeptModal}/>}
+            {showPopover && <PopOver content='Delete Success' control={setShowPopOver} type='success'/>}
         </li>
     )
 }
