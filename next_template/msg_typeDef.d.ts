@@ -15,6 +15,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
+    blockedFrom? : [string],
     lastLogin : string,
     introduction : string
 }

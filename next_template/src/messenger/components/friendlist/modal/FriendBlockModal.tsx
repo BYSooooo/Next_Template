@@ -1,10 +1,13 @@
 import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import { blockUser } from '../../FirebaseController';
 
-export function FriendBlockModal({closeFn} : {closeFn: Function}) {
+export function FriendBlockModal({closeFn, selectedUser} : {closeFn: Function, selectedUser: string}) {
 
-    const onClickIntercept = ()=> {
-
+    const onClickIntercept = async()=> {
+        await blockUser(selectedUser).then((response)=> {
+            console.log(response)
+        })
         closeFn(false)
     }
 

@@ -503,7 +503,7 @@ export async function deleteChatRoom(chatListUUID : string) {
 /**
  * Delete Selected Friend in Friends List
  * @param friendListUUID uuid of FriendList Collection
- * @param currentUserEmail Email of current user logined
+ * @returns Success : true, Fail : false
  * 
  */
 export async function deleteFriend(friendListUUID: string) {
@@ -548,7 +548,21 @@ export async function deleteFriend(friendListUUID: string) {
     }
 
 }
-
-export function interceptFriend (friendUUID : string) {
-
+/** Block User
+ * 
+ * Note : If currentUser deletes a user who is a friend, need to remove the friend after blocking based on the Return value.
+ * @param selectedUser Email of the user current want to block
+ * @returns Boolean of Success or Failed Block
+ */
+export async function blockUser (selectedUser : string) {
+    const docRef = doc(firebaseStore,'userInfo',selectedUser);
+    try {
+        setDoc(docRef,{
+            blockedFrom : arrayUnion(firebaseAuth.currentUser.email)
+        },{merge : true});
+        return true;
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
