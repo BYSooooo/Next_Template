@@ -1,9 +1,11 @@
 import React from 'react'
 
-import { ArrowDownIcon, ArrowUpIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { FriendAddReq } from './FriendAddReq'
+import { ArrowDownIcon, MagnifyingGlassIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/20/solid'
+
 import { FriendAddRes } from './FriendAddRes'
+
 import FriendBlockManage from './FriendBlockManage'
+import FriendSearch from './FriendSearch'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [tabIndex, setTabIndex] = React.useState<number>(1)
@@ -11,7 +13,7 @@ export function FriendAddModal({open} : {open : Function}) {
     const switchList = (index: number)=> {
         switch(index) {
             case 1:
-                return <FriendAddReq />
+                return <FriendSearch />
             case 2:
                 return <FriendAddRes />
             case 3:
@@ -27,13 +29,13 @@ export function FriendAddModal({open} : {open : Function}) {
                     <div className='flex flex-wrap -mb-px text-xs font-medium text-center items-center'>
                         <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
                                 onClick={()=>setTabIndex(1)}>
-                            <ArrowUpIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
-                            Request
+                            <MagnifyingGlassIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
+                            Search
                         </button>
                         <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
                                 onClick={()=>setTabIndex(2)}>
                             <ArrowDownIcon className='w-4 h-4  dark:text-white focus:text-blue-500 '/>
-                            Response    
+                            Requests    
                         </button>
                         <button
                             className='flex me-2 p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'

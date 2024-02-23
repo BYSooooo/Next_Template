@@ -5,7 +5,7 @@ import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseControll
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
-export function FriendAddReq() {
+export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
     const [getUserList, setGetUserList] = React.useState<UserInfo[]>([])
     const [searchUser, setSearchUser] = React.useState<UserInfo[]>([]);
@@ -44,7 +44,7 @@ export function FriendAddReq() {
         const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
             if(response?.result) {
                 return response.value.filter((item: UserInfo)=> 
-                    !receiveReqUserList.includes(item.email)
+                    !receiveReqUserList.includes(item.email) || !item.blockedFrom.includes(firebaseAuth.currentUser.email) 
                 )
             }
         })
@@ -56,23 +56,21 @@ export function FriendAddReq() {
         setSearchUser(resultArray)
     }    
     return (
-        <>
+        <div className='px-2'>
             <div className='flex justify-between'>
                 <h4 className='font-bold text-lg'>
-                    Add New Friend
+                    Search User
                 </h4>
             </div>
-            <div className='block'>
-                <h4 className='text-sm'>
-                    * Can add friends via email search
-                </h4>
-                <h4 className='text-sm'>
-                    * The other person must accept the request
-                </h4>
-                <h4 className='text-sm pl-3'>
-                    before you can communicate
-                </h4>
-            </div>    
+            <ul className='block text-sm list-disc list-outside disc px-4'>
+                <li>
+                    You can select a user to add as a friend or block them.
+                </li>
+                <li>
+                    In order to have a 1:1 conversation, you need to register as a friend.
+                </li>
+
+            </ul> 
             <div className='flex justify-center my-3'>
                 <label >
                     <h4 className='font-bold'>
@@ -92,6 +90,6 @@ export function FriendAddReq() {
                     )
                 })}
             </ul>         
-        </>   
+        </div>   
     )
 }
