@@ -44,7 +44,7 @@ export default function FriendSearch() {
         const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
             if(response?.result) {
                 return response.value.filter((item: UserInfo)=> 
-                    !receiveReqUserList.includes(item.email) || !item.blockedFrom.includes(firebaseAuth.currentUser.email) 
+                    !receiveReqUserList.includes(item.email)
                 )
             }
         })
