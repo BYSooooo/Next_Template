@@ -1,9 +1,13 @@
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import React from 'react';
+import { XMarkIcon } from '@heroicons/react/20/solid';
+import { blockUser } from '../../FirebaseController';
 
-export function FriendInterceptModal({closeFn} : {closeFn: Function}) {
+export function FriendBlockModal({closeFn, selectedUser} : {closeFn: Function, selectedUser: string}) {
 
-    const onClickIntercept = ()=> {
+    const onClickIntercept = async()=> {
+        await blockUser(selectedUser).then((response)=> {
+            console.log(response)
+        })
         closeFn(false)
     }
 
@@ -12,7 +16,7 @@ export function FriendInterceptModal({closeFn} : {closeFn: Function}) {
             <div className='absolute self-center bg-white dark:bg-black rounded-md p-3 w-80'>
                 <div className='flex mb-2 border-b-slate-500 justify-between' >
                     <h4 className="font-bold">
-                        Caution - Intercept
+                        Caution - Block
                     </h4>
                     <button onClick={()=>closeFn(false)}>
                         <XMarkIcon className='w-6 h-6 text-red-500'/>
@@ -32,7 +36,7 @@ export function FriendInterceptModal({closeFn} : {closeFn: Function}) {
                 <button
                     onClick={onClickIntercept}
                     className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
-                    Intercept
+                    Block
                 </button>
             </div>
         </div>

@@ -1,8 +1,11 @@
 import React from 'react'
 
-import { ArrowDownIcon, ArrowUpIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { FriendAddReq } from './FriendAddReq'
+import { ArrowDownIcon, MagnifyingGlassIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/20/solid'
+
 import { FriendAddRes } from './FriendAddRes'
+
+import FriendBlockManage from './FriendBlockManage'
+import FriendSearch from './FriendSearch'
 
 export function FriendAddModal({open} : {open : Function}) {
     const [tabIndex, setTabIndex] = React.useState<number>(1)
@@ -10,27 +13,35 @@ export function FriendAddModal({open} : {open : Function}) {
     const switchList = (index: number)=> {
         switch(index) {
             case 1:
-                return <FriendAddReq />
+                return <FriendSearch />
             case 2:
                 return <FriendAddRes />
+            case 3:
+                return <FriendBlockManage />
             default : break;
         }    
         
     }
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
-            <div className='absolute self-center bg-white dark:bg-black rounded-md p-3 w-80'>
-                <div className='flex mb-2 border-b-slate-500 justify-between' >
-                    <div className='flex flex-wrap -mb-px text-sm font-medium text-center' >
-                        <button className='flex me-2 p-2 border-b-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-200'
+            <div className='absolute self-center bg-white dark:bg-slate-800 rounded-md p-3 w-80'>
+                <div className='flex mb-2 justify-between border-b-2' >
+                    <div className='flex flex-wrap -mb-px text-xs font-medium text-center items-center'>
+                        <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
                                 onClick={()=>setTabIndex(1)}>
-                            <ArrowUpIcon className='w-5 h-5  dark:text-white focus:text-blue-500'/>
-                            Request
+                            <MagnifyingGlassIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
+                            Search
                         </button>
-                        <button className='flex me-2 p-2 border-b-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-200'
+                        <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
                                 onClick={()=>setTabIndex(2)}>
-                            <ArrowDownIcon className='w-5 h-5  dark:text-white focus:text-blue-500 '/>
-                            Response    
+                            <ArrowDownIcon className='w-4 h-4  dark:text-white focus:text-blue-500 '/>
+                            Requests    
+                        </button>
+                        <button
+                            className='flex me-2 p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
+                            onClick={()=>setTabIndex(3)}>
+                                <NoSymbolIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
+                            Block
                         </button>
                     </div>
                     <button onClick={()=>open(false)}>

@@ -1,17 +1,21 @@
 import React from 'react';
-import { getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import { deleteFriend, getChatInfoInFriendList, getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
 import { UserInfo } from '../../../../msg_typeDef';
 import { ChatBubbleLeftRightIcon, NoSymbolIcon, UserIcon, UserMinusIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
-import { FriendInterceptModal } from './modal/FriendInterceptModal';
+
 import { FriendDeleteModal } from './modal/FriendDeleteModal';
+import PopOver from '../public/PopOver';
+import { FriendBlockModal } from './modal/FriendBlockModal';
+
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
     const [selectUser, setSelectUser] = React.useState<UserInfo>()
     const [showDeleteModal, setShowDeleteModal] = React.useState(false)
     const [showInterCeptModal, setShowInterCeptModal] = React.useState(false)
-    
+    const [showPopover, setShowPopOver] = React.useState(false)
+
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -41,11 +45,20 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
         }
         return cssString
     }
+    
     const checkChatRoom = async() => {
         const { chatUUID } = await getChatInfoInFriendList(uuid)
         dispatch(setChatListUUID(chatUUID));
         dispatch(setPageRendering({middle : "ChatRoom"}))
     }   
+
+    const onClickDelete = async()=> {
+        const result = await deleteFriend(uuid);
+        if(result) {
+            setShowDeleteModal(false);
+            setShowPopOver(true);
+        }
+    }
 
     return (
         <li onClick={clickHandler}
@@ -88,8 +101,9 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                     </div> 
                 }
             </div>
-            {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} />}
-            {showInterCeptModal && <FriendInterceptModal closeFn={setShowInterCeptModal}/>}
+            {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} deleteFn={onClickDelete}/>}
+            {showInterCeptModal && <FriendBlockModal closeFn={setShowInterCeptModal} selectedUser={selectUser.email}/>}
+            {showPopover && <PopOver content='Delete Success' control={setShowPopOver} type='success'/>}
         </li>
     )
 }
