@@ -5,7 +5,7 @@ import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } fro
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch, FieldValue, arrayRemove} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
-import JSZip, { filter, forEach } from 'jszip';
+import JSZip from 'jszip';
 import saveAs from 'file-saver';
 
 const userAuth = firebaseAuth;

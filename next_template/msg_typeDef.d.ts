@@ -6,6 +6,7 @@ import { FieldValue, Timestamp } from "firebase/firestore"
  * @property photoURL : User's Profile Photo
  * @property uid : Unique ID for User
  * @property friendList Unique UUID for User's Frined Relation
+ * @property blockedFrom : Other users who have blocked the current user
  * @property lastLogin : User's last loginned Time  
  */
 interface UserInfo {
@@ -15,7 +16,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    blockedFrom? : [string],
+    blockedFrom : Array<string>,
     lastLogin : string,
     introduction : string
 }

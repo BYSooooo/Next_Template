@@ -4,11 +4,14 @@ import { ReqListElement } from './ReqListElement'
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
+import { useAppSelector } from '@/redux/hook';
+import { SlideshowTwoTone } from '@mui/icons-material';
 
 export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
     const [getUserList, setGetUserList] = React.useState<UserInfo[]>([])
     const [searchUser, setSearchUser] = React.useState<UserInfo[]>([]);
+    const currentUser = useAppSelector((state)=> state.messengerCurUserInfo)
 
     React.useEffect(()=> {
         getAllList()
@@ -42,17 +45,27 @@ export default function FriendSearch() {
         })
         
         const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
+            const list = []
             if(response?.result) {
-                return response.value.filter((item: UserInfo)=> 
-                    !receiveReqUserList.includes(item.email)
-                )
+                response.value.forEach((item : UserInfo)=> {
+                    if(!receiveReqUserList.includes(item.email)) {
+                        currentUser.blockedFrom 
+                        ? 
+                            !currentUser.blockedFrom.includes(item.email) && list.push(item)
+                        :
+                            list.push(item)
+                    }
+                })
             }
+            return list;
         })
         console.log(filterArray)
         setGetUserList(filterArray)
     }
     const filterUser = ()=> {
-        const resultArray = getUserList.filter((item)=> item.email.includes(searchValue.trim()))
+        const resultArray = getUserList.filter((item)=> 
+            item.email.includes(searchValue.trim())
+        )
         setSearchUser(resultArray)
     }    
     return (
