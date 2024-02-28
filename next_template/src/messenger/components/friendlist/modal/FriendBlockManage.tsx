@@ -1,12 +1,9 @@
 import React from 'react';
 
 import { useAppSelector } from '@/redux/hook';
-import { UserInfo } from '../../../../../msg_typeDef';
-import { getUserInfo } from '../../FirebaseController';
 import BlockUserElement from './BlockUserElement';
 
 export default function FriendManageBlock() {
-    const [blockList, setBlockList] = React.useState<UserInfo[]>([]);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
     
     return (
@@ -25,8 +22,8 @@ export default function FriendManageBlock() {
                 </li>
             </ul>
             <ul>
-                {currentUserInfo.blockedFrom && currentUserInfo.blockedFrom.map((user)=> {
-                    return <BlockUserElement key={user} email={user}/>
+                {currentUserInfo.block && currentUserInfo.block.map((user)=> {
+                    return <BlockUserElement key={user.blockUser} blockUserEmail={user.blockUser} blockDate={user.blockedDate}/>
                 })}
             </ul>
 

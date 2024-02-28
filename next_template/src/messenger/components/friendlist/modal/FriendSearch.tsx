@@ -5,7 +5,6 @@ import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseControll
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { useAppSelector } from '@/redux/hook';
-import { SlideshowTwoTone } from '@mui/icons-material';
 
 export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
@@ -49,11 +48,13 @@ export default function FriendSearch() {
             if(response?.result) {
                 response.value.forEach((item : UserInfo)=> {
                     if(!receiveReqUserList.includes(item.email)) {
-                        currentUser.blockedFrom 
-                        ? 
-                            !currentUser.blockedFrom.includes(item.email) && list.push(item)
-                        :
+                        if(currentUser.block) {
+                            const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
+                            !checkBlocked && list.push(item)
+                        } else {
                             list.push(item)
+                        }
+                        
                     }
                 })
             }

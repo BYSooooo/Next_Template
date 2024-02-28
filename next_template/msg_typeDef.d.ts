@@ -16,7 +16,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    blockedFrom : Array<string>,
+    block : [{blockUser: string, blockedDate:Timestamp | null}],
     lastLogin : string,
     introduction : string
 }
