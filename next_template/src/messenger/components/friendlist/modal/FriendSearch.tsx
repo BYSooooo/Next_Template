@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
-import { ReqListElement } from './ReqListElement'
+import SearchListElement from './ReqListElement';
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
@@ -100,7 +100,7 @@ export default function FriendSearch() {
             <ul className='list-none list-inside h-64 overflow-scroll' >
                 {searchUser.map((user)=> {
                     return (
-                        <ReqListElement key={user.email} userInfo={user}  />
+                        <SearchListElement key={user.email} userInfo={user}  />
                     )
                 })}
             </ul>         
