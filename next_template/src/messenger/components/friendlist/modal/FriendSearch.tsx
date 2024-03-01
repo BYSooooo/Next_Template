@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 
-import SearchListElement from './ReqListElement';
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { useAppSelector } from '@/redux/hook';
+import SearchListElement from './SearchListElement';
 
 export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
