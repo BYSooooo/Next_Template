@@ -23,7 +23,7 @@ export default function FriendManageBlock() {
             </ul>
             <ul>
                 {currentUserInfo.block && currentUserInfo.block.map((user)=> {
-                    return <BlockUserElement key={user.blockUser} blockUserEmail={user.blockUser} blockDate={user.blockedDate}/>
+                    return <BlockUserElement key={user.blockUser} blockUserEmail={user.blockUser} blockDate={user.blockDate}/>
                 })}
             </ul>
 

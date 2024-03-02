@@ -4,7 +4,7 @@ import { UserInfo } from '../../../../../msg_typeDef';
 import { ArrowRightOnRectangleIcon, InformationCircleIcon, UserCircleIcon, UserIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { Timestamp } from 'firebase/firestore';
 
-export default function BlockUserElement({blockUserEmail, blockDate} : {blockUserEmail : string, blockDate : Timestamp}) {
+export default function BlockUserElement({blockUserEmail, blockDate} : {blockUserEmail : string, blockDate : string}) {
     const [blockUser, setBlockUser] = React.useState<UserInfo>(); 
     const [clicked, setClicked] = React.useState(false)
 
@@ -63,7 +63,7 @@ export default function BlockUserElement({blockUserEmail, blockDate} : {blockUse
                         {blockUser.displayName || 'No Name' }
                      </h4>
                      <h4 className='font-medium text-xs'>
-                        Block Date : {blockDate.toDate().toDateString()}
+                        Block Date : {new Date(blockDate).toLocaleDateString()}
                      </h4>
                 </div>
                 <button className='w-full rounded-full text-center mt-1 border-2 border-solid border-purple-600'>

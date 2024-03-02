@@ -5,6 +5,7 @@ import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { useAppSelector } from '@/redux/hook';
 import SearchListElement from './SearchListElement';
+import SearchListElement2 from './SearchListElement2';
 
 export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
@@ -100,7 +101,8 @@ export default function FriendSearch() {
             <ul className='list-none list-inside h-64 overflow-scroll' >
                 {searchUser.map((user)=> {
                     return (
-                        <SearchListElement key={user.email} userInfo={user}  />
+                        <SearchListElement2 key={user.email} userInfo={user} />
+                        //<SearchListElement key={user.email} userInfo={user}  />
                     )
                 })}
             </ul>         
