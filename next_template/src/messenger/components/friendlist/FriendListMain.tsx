@@ -2,13 +2,15 @@ import React from 'react';
 
 import { PlusIcon } from '@heroicons/react/20/solid';
 import { FriendAddModal } from './modal/FriendAddModal';
-import { useAppSelector } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { FriendListItem } from './FriendListItem';
+import { setPageRendering } from '@/redux/features/messengerReducer';
 
 export default function FriendListMain() {
     const [showAdd, setShowAdd] = React.useState(false)
     const [frList, setFrList] = React.useState<{uid : string, openYn : boolean}[]>([])
     const msgCurrentUser = useAppSelector((state)=> state.messengerCurUserInfo);
+    const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
         getFriendList()
@@ -41,16 +43,20 @@ export default function FriendListMain() {
                 <h4 className='font-bold text-lg'>
                     Friends List
                 </h4>
-                <button onClick={()=>setShowAdd(true)}>
+                <button onClick={()=>dispatch(setPageRendering({middle : "UserManageMain"}))}>
                     <PlusIcon className='w-4 h-10'/>
                 </button>
+
+                {/* <button onClick={()=>setShowAdd(true)}>
+                    <PlusIcon className='w-4 h-10'/>
+                </button> */}
             </div>
             <ul className='overflow-y-scroll'>
                 {frList.map((item)=> {
                     return <FriendListItem key={item.uid} uuid={item.uid} openYn={item.openYn} selected={selectHandler}/>
                 })}
             </ul>   
-            {showAdd && <FriendAddModal open={controlModal}/>}    
+            {/* {showAdd && <FriendAddModal open={controlModal}/>}     */}
         </div>
         
     )
