@@ -12,6 +12,10 @@ export default function UserManageMain() {
     const [selectedIndex, setSelectedIndex] = React.useState<number>(1);
     const dispatch = useAppDispatch();
 
+    React.useEffect(()=> {
+        
+    },[])
+
     const renderingList = ()=>{
         switch(selectedIndex) {
             case 1 :

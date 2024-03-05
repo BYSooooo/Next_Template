@@ -15,11 +15,6 @@ export default function UserSearchManage() {
         getAllList()
     },[]);
 
-    const inputHandler = (e: ChangeEvent<HTMLInputElement>)=> {
-        const value = e.target.value.trim();
-        setInputValue(value)
-    }
-
     const getAllList = async() => {
         const receiveRequestFromOther : string[] = [];
         await getReuestAddFriendInDoc().then((response)=> {
@@ -29,6 +24,9 @@ export default function UserSearchManage() {
                 })
             }
         })
+    }
+    const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
+        setInputValue(e.target.value.trim())
     }
 
     
@@ -44,6 +42,24 @@ export default function UserSearchManage() {
                 <li>
                     You can search for a user by entering email address. 
                 </li>
+                <li>
+                Select a user to view their detailed information.
+                </li>
+            </ul>
+            <div className='flex justify-center my-3'>
+                <label>
+                    <h4 className='font-bold'>
+                        Email
+                    </h4>
+                    <input 
+                        className='py-1 pl-2 w-72 rounded-md border-2 border-gray-500 dark:bg-black'
+                        onChange={(e)=> onChangeInput(e)}
+                        placeholder='Example@email.com'>
+                    </input>
+                </label>
+            </div>
+            <ul className='list-none list-inside overflow-y-scroll'>
+                
             </ul>
         </>
     )
