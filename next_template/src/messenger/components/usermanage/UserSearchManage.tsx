@@ -1,8 +1,9 @@
 import React, { ChangeEvent } from 'react';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import { useAppSelector } from '@/redux/hook';
-import { getReuestAddFriendInDoc } from '../FirebaseController';
+import { getAllUserInDoc, getReuestAddFriendInDoc } from '../FirebaseController';
 import { firebaseAuth } from '../../../../firebaseConfig';
+import ListElement from './ListElement';
 
 
 export default function UserSearchManage() {
@@ -15,21 +16,60 @@ export default function UserSearchManage() {
         getAllList()
     },[]);
 
+    React.useEffect(()=> {
+        {inputValue.length > 0 ? filterUser() : setFilteringList([])}
+    },[inputValue])
+
     const getAllList = async() => {
         const receiveRequestFromOther : string[] = [];
         await getReuestAddFriendInDoc().then((response)=> {
             if(response?.result){
                 response.value.map((item: RequestFriend)=> {
-                    
+                    if(item.to === firebaseAuth.currentUser.email && item.status === "request") {
+                        receiveRequestFromOther.push(item.from)
+                    }
                 })
+            } else {
+                return [];
             }
         })
+
+        const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
+            const list = []
+            if(response?.result) {
+                response.value.forEach((item : UserInfo)=> {
+                    if(!receiveRequestFromOther.includes(item.email)) {
+                        if(currentUser.block) {
+                            const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
+                            !checkBlocked && list.push(item)
+                        } else {
+                            list.push(item)
+                        }
+                        
+                    }
+                })
+            }
+            return list;
+        })
+        console.log(filterArray)
+        setUserList(filterArray)
+
     }
+
+    const filterUser = ()=> {
+        const resultArray = getUserList.filter((item)=> 
+            item.email.includes(inputValue)
+        )
+        setFilteringList(resultArray)
+    }    
+
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         setInputValue(e.target.value.trim())
     }
 
-    
+    const onClickInUserList = (info : UserInfo)=> {
+        console.log(info)
+    }
 
     return (
         <>
@@ -52,14 +92,18 @@ export default function UserSearchManage() {
                         Email
                     </h4>
                     <input 
-                        className='py-1 pl-2 w-72 rounded-md border-2 border-gray-500 dark:bg-black'
+                        className='py-1 pl-2 w-80 rounded-md border-2 border-gray-500 dark:bg-black'
                         onChange={(e)=> onChangeInput(e)}
                         placeholder='Example@email.com'>
                     </input>
                 </label>
             </div>
             <ul className='list-none list-inside overflow-y-scroll'>
-                
+                {filteringList.map((result)=> {
+                    return (
+                        <ListElement key={result.uid} selected={result}/>
+                    )
+                })}
             </ul>
         </>
     )

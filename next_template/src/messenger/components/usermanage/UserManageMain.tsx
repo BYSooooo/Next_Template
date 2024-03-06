@@ -12,10 +12,6 @@ export default function UserManageMain() {
     const [selectedIndex, setSelectedIndex] = React.useState<number>(1);
     const dispatch = useAppDispatch();
 
-    React.useEffect(()=> {
-        
-    },[])
-
     const renderingList = ()=>{
         switch(selectedIndex) {
             case 1 :
@@ -23,9 +19,9 @@ export default function UserManageMain() {
             case 2 :
                 return <FriendRequestManage />
             case 3 : 
-                return <FriendResponseManage />
+                return <FriendResponseManage /> 
             case 4 :
-                return <UserBlockManage />
+                return <UserBlockManage /> //Use UserInfo Snapshot in MessageMain
             default : break;
         }
     }
