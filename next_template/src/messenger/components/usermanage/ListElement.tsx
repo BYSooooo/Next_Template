@@ -4,6 +4,13 @@ import { UserIcon } from '@heroicons/react/20/solid';
 
 export default function ListElement({selected} : {selected : UserInfo}) {
     
+
+    React.useEffect(()=> {
+    
+    },[])
+
+    
+
     const onClickElement =()=> {
         console.log("Clicked")
     }

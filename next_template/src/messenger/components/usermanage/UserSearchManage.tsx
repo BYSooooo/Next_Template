@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import { useAppSelector } from '@/redux/hook';
-import { getAllUserInDoc, getReuestAddFriendInDoc } from '../FirebaseController';
+import { getAllUserInDoc, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
 import { firebaseAuth } from '../../../../firebaseConfig';
 import ListElement from './ListElement';
 
@@ -10,10 +10,12 @@ export default function UserSearchManage() {
     const [inputValue, setInputValue] = React.useState("");
     const [getUserList, setUserList] = React.useState<UserInfo[]>([]);
     const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
+    const [friendEmails, setFriendEmails] = React.useState([]);
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
     React.useEffect(()=> {
         getAllList()
+        getFriendEmailList()
     },[]);
 
     React.useEffect(()=> {
@@ -67,8 +69,14 @@ export default function UserSearchManage() {
         setInputValue(e.target.value.trim())
     }
 
-    const onClickInUserList = (info : UserInfo)=> {
-        console.log(info)
+    const getFriendEmailList = ()=> {
+        currentUser.friendList.forEach((friendUUID : string)=> {
+            getInfoInFriendListCol(friendUUID).then((result)=> {
+                console.log(result)
+                result.result && setFriendEmails([...friendEmails,result.value])
+            })
+            
+        })
     }
 
     return (
@@ -83,7 +91,7 @@ export default function UserSearchManage() {
                     You can search for a user by entering email address. 
                 </li>
                 <li>
-                Select a user to view their detailed information.
+                    Select a user to view their detailed information.
                 </li>
             </ul>
             <div className='flex justify-center my-3'>
@@ -100,8 +108,10 @@ export default function UserSearchManage() {
             </div>
             <ul className='list-none list-inside overflow-y-scroll'>
                 {filteringList.map((result)=> {
+                    const friendYn = friendEmails.includes(result.email);
+                    console.log(friendEmails)
                     return (
-                        <ListElement key={result.uid} selected={result}/>
+                        !friendYn && <ListElement key={result.uid} selected={result} />
                     )
                 })}
             </ul>

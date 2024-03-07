@@ -262,7 +262,7 @@ export const getInfoInFriendListCol = async(uuid : string) => {
     const docRef = doc(firebaseStore,'friendList',uuid);
     try {
         const response = (await getDoc(docRef)).data() as FriendList;
-        const otherUser = response.friendEmail.filter((item)=> item !== currentUser)[0];
+        const otherUser = response.friendEmail.find((item)=> item !== currentUser);
         return {result : true, value : otherUser}
     } catch(error) {
         console.log(error);
