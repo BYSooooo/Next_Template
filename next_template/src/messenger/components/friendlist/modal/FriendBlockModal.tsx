@@ -4,7 +4,7 @@ import { blockUser } from '../../FirebaseController';
 
 export function FriendBlockModal({closeFn, selectedUser} : {closeFn: Function, selectedUser: string}) {
 
-    const onClickIntercept = async()=> {
+    const onClickBlockUser = async()=> {
         await blockUser(selectedUser).then((response)=> {
             console.log(response)
         })
@@ -34,7 +34,7 @@ export function FriendBlockModal({closeFn, selectedUser} : {closeFn: Function, s
                     </li>
                 </ul>
                 <button
-                    onClick={onClickIntercept}
+                    onClick={onClickBlockUser}
                     className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
                     Block
                 </button>

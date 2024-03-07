@@ -5,7 +5,7 @@ import { UserIcon } from '@heroicons/react/20/solid';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 
-export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
+export default function SearchListElement({userInfo} : {userInfo : UserInfo}) {
     const [selected, setSelected] = React.useState(false)
     const [reqStatus, setReqStatus] = React.useState<"request"|"refusal"|"success"|"none">("none")
     const [friendReq, setFriendReq] = React.useState<RequestFriend | null>(null)
@@ -122,7 +122,7 @@ export function ReqListElement({userInfo} : {userInfo : UserInfo}) {
                                     </li>
                                 </ul>
                             </div>
-                            <div className='flex justify-end items-end mt-6'>
+                            <div className='flex items-end mt-6'>
                             <button
                                 disabled={reqStatus === "success" || reqStatus === "request" ? true : false}
                                 onClick={onClickAddButton} 

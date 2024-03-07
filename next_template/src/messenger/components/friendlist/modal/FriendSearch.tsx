@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 
-import { ReqListElement } from './ReqListElement'
 import { getAllUserInDoc, getReuestAddFriendInDoc } from '../../FirebaseController'
 import { RequestFriend, UserInfo } from '../../../../../msg_typeDef';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { useAppSelector } from '@/redux/hook';
-import { SlideshowTwoTone } from '@mui/icons-material';
+import SearchListElement from './SearchListElement';
+import SearchListElement2 from './SearchListElement2';
 
 export default function FriendSearch() {
     const [searchValue, setSearchValue] = React.useState("")
@@ -49,11 +49,13 @@ export default function FriendSearch() {
             if(response?.result) {
                 response.value.forEach((item : UserInfo)=> {
                     if(!receiveReqUserList.includes(item.email)) {
-                        currentUser.blockedFrom 
-                        ? 
-                            !currentUser.blockedFrom.includes(item.email) && list.push(item)
-                        :
+                        if(currentUser.block) {
+                            const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
+                            !checkBlocked && list.push(item)
+                        } else {
                             list.push(item)
+                        }
+                        
                     }
                 })
             }
@@ -99,7 +101,8 @@ export default function FriendSearch() {
             <ul className='list-none list-inside h-64 overflow-scroll' >
                 {searchUser.map((user)=> {
                     return (
-                        <ReqListElement key={user.email} userInfo={user}  />
+                        <SearchListElement2 key={user.email} userInfo={user} />
+                        //<SearchListElement key={user.email} userInfo={user}  />
                     )
                 })}
             </ul>         

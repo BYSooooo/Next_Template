@@ -262,7 +262,7 @@ export const getInfoInFriendListCol = async(uuid : string) => {
     const docRef = doc(firebaseStore,'friendList',uuid);
     try {
         const response = (await getDoc(docRef)).data() as FriendList;
-        const otherUser = response.friendEmail.filter((item)=> item !== currentUser)[0];
+        const otherUser = response.friendEmail.find((item)=> item !== currentUser);
         return {result : true, value : otherUser}
     } catch(error) {
         console.log(error);
@@ -555,10 +555,11 @@ export async function deleteFriend(friendListUUID: string) {
  * @returns Boolean of Success or Failed Block
  */
 export async function blockUser (selectedUser : string) {
-    const docRef = doc(firebaseStore,'userInfo',selectedUser);
+    const currentEmail = firebaseAuth.currentUser.email
+    const docRef = doc(firebaseStore,'userInfo',currentEmail);
     try {
         setDoc(docRef,{
-            blockedFrom : arrayUnion(firebaseAuth.currentUser.email)
+            block :  arrayUnion({blockUser : selectedUser, blockDate : new Date()})
         },{merge : true});
         return true;
     } catch(error) {

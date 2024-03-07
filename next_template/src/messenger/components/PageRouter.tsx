@@ -6,6 +6,7 @@ import UserInfoEdit from './info_edit/UserInfoEdit';
 import { useAppSelector } from '@/redux/hook';
 import { ChatRoom } from './chat/ChatRoom';
 import { ChatRoomOption } from './chat/ChatRoomOption';
+import UserManageMain from './usermanage/UserManageMain';
 
 export default function PageRouter() {
     const msgPageReudcer = useAppSelector((state)=> state.messengerRouter);
@@ -17,6 +18,7 @@ export default function PageRouter() {
             case "FriendListMain" : return (<FriendListMain />); 
             case "ChatRoom" : return (<ChatRoom />);
             case "ChatRoomOption" : return (<ChatRoomOption />);
+            case "UserManageMain" : return (<UserManageMain />)
             default : return null;
         }
     }
