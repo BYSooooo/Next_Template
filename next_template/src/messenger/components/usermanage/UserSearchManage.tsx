@@ -47,15 +47,12 @@ export default function UserSearchManage() {
                         } else {
                             list.push(item)
                         }
-                        
                     }
                 })
             }
             return list;
         })
-        console.log(filterArray)
         setUserList(filterArray)
-
     }
 
     const filterUser = ()=> {
@@ -72,10 +69,8 @@ export default function UserSearchManage() {
     const getFriendEmailList = ()=> {
         currentUser.friendList.forEach((friendUUID : string)=> {
             getInfoInFriendListCol(friendUUID).then((result)=> {
-                console.log(result)
-                result.result && setFriendEmails([...friendEmails,result.value])
-            })
-            
+                result.result && setFriendEmails(prev=> { return [...prev, result.value]})
+            })  
         })
     }
 
@@ -92,6 +87,9 @@ export default function UserSearchManage() {
                 </li>
                 <li>
                     Select a user to view their detailed information.
+                </li>
+                <li>
+                    Users who are already friends or blocked won&apos;t be found.
                 </li>
             </ul>
             <div className='flex justify-center my-3'>
