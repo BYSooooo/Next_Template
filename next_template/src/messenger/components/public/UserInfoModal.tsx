@@ -1,12 +1,51 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { UserIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { setRequestAddFriendInDoc } from '../FirebaseController';
 
 export default function UserInfoModal({info,status,openYn} : {info : UserInfo, status: "Default"|"Request"|"Friend"|"Block", openYn : Function}) {
     React.useEffect(()=>{
      
     },[])
+
+    const checkStatus = ()=> {
+        switch(status) {
+            case "Default" : 
+                return (
+                    <div className='flex mx-4 justify-center items-end gap-2'>
+                        {sendRequestIcon()}
+                        {userBlockIcon()}
+                    </div>
+                )
+
+        }
+    }
+
+    const sendRequestIcon = ()=> {
+        const onClick = async()=> {
+            await setRequestAddFriendInDoc(info.email).then((response)=> {
+                console.log(response)
+            })
+        }
+        return (
+            <UserPlusIcon className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer'  onClick={onClick}/>
+        )
+    }
+
+    const userBlockIcon = ()=> {
+        const onClick = async()=> {
+            console.log("Clicked")
+        }
+        return (
+            <NoSymbolIcon className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer' onClick={onClick}/>
+        )
+    }
+
+    const openChatRoom =()=> {
+        
+    }
+    
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
@@ -34,11 +73,12 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                         {info.email}
                     </h4>
                 </div>
-                <div className='mx-4 mt-2 rounded-md bg-gray-300 text-center'>
+                <div className='mx-4 my-2 rounded-md bg-gray-300 text-center'>
                     <h4 className='font-light text-xs'>
                         {info.introduction ??= 'No Infroduce Phrase'}
                     </h4>
                 </div>
+                {checkStatus()}
             </div>
         </div>
     )
