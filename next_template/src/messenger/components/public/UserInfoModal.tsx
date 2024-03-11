@@ -3,8 +3,12 @@ import React from 'react';
 import { UserInfo } from '../../../../msg_typeDef';
 import { NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { setRequestAddFriendInDoc } from '../FirebaseController';
+import UserBlockModal from '../usermanage/modal/UserBlockModal';
 
 export default function UserInfoModal({info,status,openYn} : {info : UserInfo, status: "Default"|"Request"|"Friend"|"Block", openYn : Function}) {
+    const [extraModal, setExtraModal] = React.useState(false)
+    const [modalName, setModalName] = React.useState("")
+    
     React.useEffect(()=>{
      
     },[])
@@ -18,7 +22,16 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                         {userBlockIcon()}
                     </div>
                 )
+        }
+    }
+    
+    const showModalSwitch = ()=> {
+        const modalClose = (showYn : boolean)=> setExtraModal(showYn)
 
+        switch(modalName) {
+            case "UserBlockModal" : 
+                return <UserBlockModal closeFn={modalClose} selectedUser={info.email} />
+            default : break;
         }
     }
 
@@ -34,8 +47,9 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
     }
 
     const userBlockIcon = ()=> {
-        const onClick = async()=> {
-            console.log("Clicked")
+        const onClick = ()=> {
+            setModalName("UserBlockModal");
+            setExtraModal(true);
         }
         return (
             <NoSymbolIcon className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer' onClick={onClick}/>
@@ -48,7 +62,7 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
     
 
     return (
-        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
+        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-slate-800 rounded-md p-3 w-80'>
                 <div className='flex justify-between'>
                     <text className='text-xl font-bold'>
@@ -58,7 +72,7 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                         className='w-5 h-5 text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white rounded-full transition duration-200' 
                         onClick={()=>openYn(false)}/>
                 </div>
-                <div className='flex justify-center mt-4 mb-14'>
+                <div className='flex justify-center my-14'>
                     {
                         info.photoURL 
                         ?  <img src={info.photoURL} className='w-32 h-32 rounded-full '/>
@@ -80,6 +94,7 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                 </div>
                 {checkStatus()}
             </div>
+            {extraModal && showModalSwitch()}
         </div>
     )
 

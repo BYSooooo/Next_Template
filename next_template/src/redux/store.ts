@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { detailCompanyInfo, detailModalControl, discoverFilter, movieDetail, popular, searchFilter, searchResult, selectedDateRange, selectedGenre, selectedRateRange } from './features/movieReducer';
-import { currentChatInfoHook, currentUserInfoHook, routerHook, userInfoHook } from './features/messengerReducer';
+import { currentChatInfoHook, currentUserInfoHook, popOverToggleHook, routerHook, userInfoHook } from './features/messengerReducer';
 
 export const store = configureStore({
     reducer : {
@@ -21,7 +21,8 @@ export const store = configureStore({
         messengerRouter : routerHook.reducer,
         messengerUserInfoEdit : userInfoHook.reducer,
         messengerCurUserInfo : currentUserInfoHook.reducer,
-        messengerCurChatInfo : currentChatInfoHook.reducer
+        messengerCurChatInfo : currentChatInfoHook.reducer,
+        messengerPopOverControl : popOverToggleHook.reducer
 
     }
     

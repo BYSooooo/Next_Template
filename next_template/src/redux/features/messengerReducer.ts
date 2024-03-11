@@ -75,15 +75,35 @@ export const currentChatInfoHook = createSlice({
     }
 })
 
+export const popOverToggleHook = createSlice({
+    name : 'PopOverToggle',
+    initialState : {
+        showYn : false,
+        messageString : "",
+        type: "default"
+    },
+    reducers : {
+        setPopOverToggle : (state, action: PayloadAction<boolean>)=> {
+            state.showYn = action.payload
+        },
+        initPopOverToggle : (state)=> {
+            state.showYn = false,
+            state.messageString = ""
+            state.type ="default"
+        }
+    }
+})
+
 export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
 export const { setChatListUUID, setChatListInfo } = currentChatInfoHook.actions;
+export const { setPopOverToggle,initPopOverToggle } = popOverToggleHook.actions;
 
 export default [
     routerHook.reducer,
     userInfoHook.reducer,
     currentUserInfoHook.reducer,
-    currentChatInfoHook.reducer
-
+    currentChatInfoHook.reducer,
+    popOverToggleHook.reducer
 ]

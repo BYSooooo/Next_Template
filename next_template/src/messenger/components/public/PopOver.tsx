@@ -1,5 +1,7 @@
-import { CheckIcon, XCircleIcon } from '@heroicons/react/20/solid';
 import React from 'react';
+
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { CheckIcon, XCircleIcon } from '@heroicons/react/20/solid';
 
 /**
  * Call the window with the text you set at the bottom of the window.
@@ -12,6 +14,9 @@ import React from 'react';
 export default function PopOver({content, type, control} : {content : string, type : "success"|"fail", control: Function}) {
     const [isOpen, setIsOpen] = React.useState(false);
     
+    const dispatch = useAppDispatch();
+    const popReducer = useAppSelector((state)=> state.messengerPopOverControl);
+
     React.useEffect(()=> {
         setIsOpen(true)
         if(isOpen) {
