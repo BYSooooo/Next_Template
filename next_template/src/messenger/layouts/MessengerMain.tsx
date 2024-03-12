@@ -8,6 +8,7 @@ import { setInitUserInfo } from '../components/FirebaseController';
 import { firebaseAuth, firebaseStore } from '../../../firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { UserInfo } from '../../../msg_typeDef';
+import PopOver from '../components/public/PopOver';
 
 export default function MainLogined () {
     const dispatch = useAppDispatch()
@@ -49,7 +50,7 @@ export default function MainLogined () {
         <div className="container max-w-fit border-2 border-solid border-gray-600 rounded-md p-2">
             <HeaderMain />
             <PageRouter />
-            {/* {popOverReducer.showYn && } */}
+            {popOverReducer.showYn && <PopOver />}
         </div>
     )
 }

@@ -83,8 +83,11 @@ export const popOverToggleHook = createSlice({
         type: "default"
     },
     reducers : {
-        setPopOverToggle : (state, action: PayloadAction<boolean>)=> {
-            state.showYn = action.payload
+        setPopOverToggle : (state, action: PayloadAction<{showYn : boolean, messageString? : string, type? : "default"|"success"|"fail"}>)=> {
+            state.showYn = action.payload.showYn
+            state.type = action.payload.type ??= 'default' 
+            state.messageString = action.payload.messageString ??= ""
+
         },
         initPopOverToggle : (state)=> {
             state.showYn = false,

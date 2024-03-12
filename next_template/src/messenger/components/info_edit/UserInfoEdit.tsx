@@ -219,7 +219,7 @@ export default function UserInfoEdit() {
                     </div>
                 </div>
             }
-            { noEditModal && <PopOver content='Nothing to edit' type='fail' control={()=>setNoEditModal(false)}/>}
+            {/* { noEditModal && <PopOver content='Nothing to edit' type='fail' control={()=>setNoEditModal(false)}/>} */}
         </div>
 
     )

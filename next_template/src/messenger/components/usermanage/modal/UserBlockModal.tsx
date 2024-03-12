@@ -1,12 +1,16 @@
 import React from 'react';
-import { blockUser } from '../../FirebaseController';
+
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import PopOver from '../../public/PopOver';
+import { useAppDispatch } from '@/redux/hook';
+import { setPopOverToggle } from '@/redux/features/messengerReducer';
 
 export default function UserBlockModal({closeFn, selectedUser} : {closeFn : Function, selectedUser : string}) {
-    const [popYn, setPopYn] = React.useState(false)
+    const dispatch = useAppDispatch();
 
     const onClickBtn = async()=> {
+        dispatch(setPopOverToggle({showYn : true, messageString : "Block Complete", type : "success"}))
+
+
         // await blockUser(selectedUser).then((res)=> {
         //     res 
         //     ? closeFn(false) 
@@ -42,7 +46,6 @@ export default function UserBlockModal({closeFn, selectedUser} : {closeFn : Func
                     Block
                 </button>
             </div>
-            {popYn && <PopOver content={"Block Success"} control={()=>setPopYn(true)} type={'success'}/>}
         </div>
     )
 
