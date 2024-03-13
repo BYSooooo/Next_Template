@@ -3,19 +3,23 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle } from '@/redux/features/messengerReducer';
+import { blockUser } from '../../FirebaseController';
 
-export default function UserBlockModal({closeFn, selectedUser} : {closeFn : Function, selectedUser : string}) {
+export default function UserBlockModal({openYn, selectedUser} : {openYn : Function, selectedUser : string}) {
     const dispatch = useAppDispatch();
 
     const onClickBtn = async()=> {
-        dispatch(setPopOverToggle({showYn : true, messageString : "Block Complete", type : "success"}))
+        await blockUser(selectedUser).then((res)=> {
+            if(res) {
+                openYn(false)
+                dispatch(setPopOverToggle({showYn : true, messageString : "Block Complete", type : "success"}))
+            } else {
+                dispatch(setPopOverToggle({showYn : true, messageString : "Block Failed", type : "fail"}))   
+            }
+        })
 
 
-        // await blockUser(selectedUser).then((res)=> {
-        //     res 
-        //     ? closeFn(false) 
-        //     : 
-        // })
+
         
     }
     return (
@@ -25,7 +29,7 @@ export default function UserBlockModal({closeFn, selectedUser} : {closeFn : Func
                     <h4 className="font-bold">
                         Caution - Block
                     </h4>
-                    <button onClick={()=>closeFn(false)}>
+                    <button onClick={()=>openYn(false)}>
                         <XMarkIcon className='w-6 h-6 text-red-500'/>
                     </button>
                 </div>

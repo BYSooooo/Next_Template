@@ -26,11 +26,14 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
     }
     
     const showModalSwitch = ()=> {
-        const modalClose = (showYn : boolean)=> setExtraModal(showYn)
+        const modalClose = (showYn : boolean)=> {
+            setExtraModal(showYn);
+            openYn(showYn);
+        }
 
         switch(modalName) {
             case "UserBlockModal" : 
-                return <UserBlockModal closeFn={modalClose} selectedUser={info.email} />
+                return <UserBlockModal openYn={modalClose} selectedUser={info.email} />
             default : break;
         }
     }
@@ -42,17 +45,23 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
             })
         }
         return (
-            <UserPlusIcon className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer'  onClick={onClick}/>
+            <UserPlusIcon 
+                className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer'
+                onClick={onClick}
+            />
         )
     }
 
     const userBlockIcon = ()=> {
-        const onClick = ()=> {
+        const _onClickBlock = ()=> {
             setModalName("UserBlockModal");
             setExtraModal(true);
         }
         return (
-            <NoSymbolIcon className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer' onClick={onClick}/>
+            <NoSymbolIcon 
+                className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer'
+                onClick={_onClickBlock}
+            />
         )
     }
 
@@ -65,9 +74,9 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-slate-800 rounded-md p-3 w-80'>
                 <div className='flex justify-between'>
-                    <text className='text-xl font-bold'>
+                    <h4 className='text-xl font-bold'>
                         Information
-                    </text>
+                    </h4>
                     <XMarkIcon 
                         className='w-5 h-5 text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white rounded-full transition duration-200' 
                         onClick={()=>openYn(false)}/>

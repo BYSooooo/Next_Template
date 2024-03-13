@@ -16,7 +16,7 @@ export default function UserSearchManage() {
     React.useEffect(()=> {
         getAllList()
         getFriendEmailList()
-    },[]);
+    },[currentUser]);
 
     React.useEffect(()=> {
         {inputValue.length > 0 ? filterUser() : setFilteringList([])}
@@ -104,10 +104,9 @@ export default function UserSearchManage() {
                     </input>
                 </label>
             </div>
-            <ul className='list-none list-inside overflow-y-scroll'>
+            <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {filteringList.map((result)=> {
                     const friendYn = friendEmails.includes(result.email);
-                    console.log(friendEmails)
                     return (
                         !friendYn && <ListElement key={result.uid} selected={result} />
                     )
