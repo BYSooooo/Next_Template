@@ -10,7 +10,6 @@ export default function ListElement({selected} : {selected : UserInfo}) {
     },[])
 
     const toggleModal =(openYn: boolean)=> {
-        console.log(openYn)
         setModalOpenYn(openYn)
     }
 

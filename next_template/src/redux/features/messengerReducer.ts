@@ -97,16 +97,30 @@ export const popOverToggleHook = createSlice({
     }
 })
 
+export const selectTabUserManageHook = createSlice({
+    name : 'UserManageTab',
+    initialState : {
+        selected : 1
+    },
+    reducers : {
+        setSelectedTab : (state, action : PayloadAction<number>)=> {
+            state.selected = action.payload
+        }
+    }
+})
+
 export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
 export const { setChatListUUID, setChatListInfo } = currentChatInfoHook.actions;
 export const { setPopOverToggle,initPopOverToggle } = popOverToggleHook.actions;
+export const { setSelectedTab } = selectTabUserManageHook.actions;
 
 export default [
     routerHook.reducer,
     userInfoHook.reducer,
     currentUserInfoHook.reducer,
     currentChatInfoHook.reducer,
-    popOverToggleHook.reducer
+    popOverToggleHook.reducer,
+    selectTabUserManageHook.reducer
 ]

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
-import { setPopOverToggle } from '@/redux/features/messengerReducer';
+import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
 import { blockUser } from '../../FirebaseController';
 
 export default function UserBlockModal({openYn, selectedUser} : {openYn : Function, selectedUser : string}) {
@@ -13,14 +13,12 @@ export default function UserBlockModal({openYn, selectedUser} : {openYn : Functi
             if(res) {
                 openYn(false)
                 dispatch(setPopOverToggle({showYn : true, messageString : "Block Complete", type : "success"}))
+                dispatch(setSelectedTab(4))
             } else {
                 dispatch(setPopOverToggle({showYn : true, messageString : "Block Failed", type : "fail"}))   
             }
         })
 
-
-
-        
     }
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">

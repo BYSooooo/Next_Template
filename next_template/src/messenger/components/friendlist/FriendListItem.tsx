@@ -7,7 +7,6 @@ import { setChatListUUID, setPageRendering } from '@/redux/features/messengerRed
 
 import { FriendDeleteModal } from './modal/FriendDeleteModal';
 import PopOver from '../public/PopOver';
-import { FriendBlockModal } from './modal/FriendBlockModal';
 
 
 export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn : boolean, selected : Function}) {
@@ -102,8 +101,8 @@ export function FriendListItem({uuid, openYn, selected} : {uuid : string, openYn
                 }
             </div>
             {showDeleteModal && <FriendDeleteModal closeFn={setShowDeleteModal} deleteFn={onClickDelete}/>}
-            {showInterCeptModal && <FriendBlockModal closeFn={setShowInterCeptModal} selectedUser={selectUser.email}/>}
-            {showPopover && <PopOver content='Delete Success' control={setShowPopOver} type='success'/>}
+            {/* {showInterCeptModal && <FriendBlockModal closeFn={setShowInterCeptModal} selectedUser={selectUser.email}/>} */}
+            {/* {showPopover && <PopOver content='Delete Success' control={setShowPopOver} type='success'/>} */}
         </li>
     )
 }

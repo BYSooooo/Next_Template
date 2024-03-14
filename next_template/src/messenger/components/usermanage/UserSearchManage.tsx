@@ -100,6 +100,7 @@ export default function UserSearchManage() {
                     <input 
                         className='py-1 pl-2 w-80 rounded-md border-2 border-gray-500 dark:bg-black'
                         onChange={(e)=> onChangeInput(e)}
+                        value={inputValue}
                         placeholder='Example@email.com'>
                     </input>
                 </label>
