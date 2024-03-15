@@ -2,16 +2,11 @@ import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
 import { NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import { setRequestAddFriendInDoc } from '../FirebaseController';
-import UserBlockModal from '../usermanage/modal/UserBlockModal';
+import UserExtraModal from '../usermanage/modal/UserExtraModal';
 
 export default function UserInfoModal({info,status,openYn} : {info : UserInfo, status: "Default"|"Request"|"Friend"|"Block", openYn : Function}) {
     const [extraModal, setExtraModal] = React.useState(false)
-    const [modalName, setModalName] = React.useState("")
-    
-    React.useEffect(()=>{
-     
-    },[])
+    const [selectAction, setSelectAction] = React.useState("")
 
     const checkStatus = ()=> {
         switch(status) {
@@ -25,42 +20,36 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
         }
     }
     
-    const showModalSwitch = ()=> {
+    const showExtraModal = ()=> {
         const modalClose = (showYn : boolean)=> {
             setExtraModal(showYn);
             openYn(showYn);
         }
-
-        switch(modalName) {
-            case "UserBlockModal" : 
-                return <UserBlockModal openYn={modalClose} selectedUser={info.email} />
-            default : break;
-        }
+        return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction}/>
     }
 
     const sendRequestIcon = ()=> {
-        const onClick = async()=> {
-            await setRequestAddFriendInDoc(info.email).then((response)=> {
-                console.log(response)
-            })
+        const onClickRequest = async()=> {
+            setSelectAction("userBlock");
+            setExtraModal(true)
         }
         return (
             <UserPlusIcon 
                 className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer'
-                onClick={onClick}
+                onClick={onClickRequest}
             />
         )
     }
 
     const userBlockIcon = ()=> {
-        const _onClickBlock = ()=> {
-            setModalName("UserBlockModal");
+        const onClickBlock = ()=> {
+            setSelectAction("sendRequest");
             setExtraModal(true);
         }
         return (
             <NoSymbolIcon 
                 className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer'
-                onClick={_onClickBlock}
+                onClick={onClickBlock}
             />
         )
     }
@@ -103,7 +92,7 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                 </div>
                 {checkStatus()}
             </div>
-            {extraModal && showModalSwitch()}
+            {extraModal && showExtraModal()}
         </div>
     )
 
