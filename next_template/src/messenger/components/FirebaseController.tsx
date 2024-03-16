@@ -51,7 +51,6 @@ export const getAllUserInDoc = async()=> {
                         && userList.push(docs.data())}  
                 })
             })
-        console.log(userList)
         return { result : true, value : userList}
         
     } catch(error) {

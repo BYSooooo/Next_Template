@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChatRoomMenu } from './ChatRoomMenu';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setPageRendering } from '@/redux/features/messengerReducer';
+import { setPageRendering, setPopOverToggle } from '@/redux/features/messengerReducer';
 import { AttachedInfo, ChatRoomInfo, MessageInfo } from '../../../../msg_typeDef';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { firebaseStore } from '../../../../firebaseConfig';
@@ -21,8 +21,7 @@ export function ChatRoomOption() {
     const [freezeReqYn, setFreezeReqYn] = React.useState<"Request"|"Receive"|"">("")
     const [openDelModal, setOpenDelModal] = React.useState(false)
     const [openDelAttach, setOpenDelAttach] = React.useState(false)
-    const [showPopOver, setShowPopOver] = React.useState(false)
-
+    
     const chatRoomReducer = useAppSelector((state)=> state.messengerCurChatInfo);
     const currentUserInfo = useAppSelector((state)=> state.messengerCurUserInfo);
     const dispatch = useAppDispatch()
@@ -117,7 +116,8 @@ export function ChatRoomOption() {
         e.preventDefault()
         const selection = attached.filter((item)=>item.selectedYn === true);
         if(selection.length === 0) {
-            setShowPopOver(true)
+            dispatch(setPopOverToggle({showYn: true, messageString : "Not Selected", type : "fail" }))
+            
         } else {
             setOpenDelAttach(true)
         }
@@ -309,7 +309,6 @@ export function ChatRoomOption() {
                     return
                 </button>
             </div>
-            {showPopOver && <PopOver content={'Not Selected'} type='fail' control={setShowPopOver} />}
             {openDelAttach && <BeforeDeleteAttach closeFn={setOpenDelAttach} clickFn={onClickDeleteInAttach} />}
             {openDelModal && <BeforeDeleteModal closeFn={setOpenDelModal} clickFn={onClickDeleteInModal}/>}
         </div>

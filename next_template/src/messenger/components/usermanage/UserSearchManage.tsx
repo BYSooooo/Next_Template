@@ -16,7 +16,7 @@ export default function UserSearchManage() {
     React.useEffect(()=> {
         getAllList()
         getFriendEmailList()
-    },[]);
+    },[currentUser]);
 
     React.useEffect(()=> {
         {inputValue.length > 0 ? filterUser() : setFilteringList([])}
@@ -47,15 +47,12 @@ export default function UserSearchManage() {
                         } else {
                             list.push(item)
                         }
-                        
                     }
                 })
             }
             return list;
         })
-        console.log(filterArray)
         setUserList(filterArray)
-
     }
 
     const filterUser = ()=> {
@@ -72,10 +69,8 @@ export default function UserSearchManage() {
     const getFriendEmailList = ()=> {
         currentUser.friendList.forEach((friendUUID : string)=> {
             getInfoInFriendListCol(friendUUID).then((result)=> {
-                console.log(result)
-                result.result && setFriendEmails([...friendEmails,result.value])
-            })
-            
+                result.result && setFriendEmails(prev=> { return [...prev, result.value]})
+            })  
         })
     }
 
@@ -93,6 +88,9 @@ export default function UserSearchManage() {
                 <li>
                     Select a user to view their detailed information.
                 </li>
+                <li>
+                    Users who are already friends or blocked won&apos;t be found.
+                </li>
             </ul>
             <div className='flex justify-center my-3'>
                 <label>
@@ -102,14 +100,14 @@ export default function UserSearchManage() {
                     <input 
                         className='py-1 pl-2 w-80 rounded-md border-2 border-gray-500 dark:bg-black'
                         onChange={(e)=> onChangeInput(e)}
+                        value={inputValue}
                         placeholder='Example@email.com'>
                     </input>
                 </label>
             </div>
-            <ul className='list-none list-inside overflow-y-scroll'>
+            <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {filteringList.map((result)=> {
                     const friendYn = friendEmails.includes(result.email);
-                    console.log(friendEmails)
                     return (
                         !friendYn && <ListElement key={result.uid} selected={result} />
                     )

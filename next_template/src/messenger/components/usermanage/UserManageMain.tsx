@@ -5,15 +5,15 @@ import FriendRequestManage from './FriendRequestManage';
 import FriendResponseManage from './FriendResponseManage';
 import UserBlockManage from './UserBlockManage';
 import { ArrowDownIcon, ArrowUpIcon, MagnifyingGlassIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import { useAppDispatch } from '@/redux/hook';
-import { setPageRendering } from '@/redux/features/messengerReducer';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setPageRendering, setSelectedTab } from '@/redux/features/messengerReducer';
 
 export default function UserManageMain() {
-    const [selectedIndex, setSelectedIndex] = React.useState<number>(1);
+    const selectedTab = useAppSelector((state)=> state.messengerUserManageTab);
     const dispatch = useAppDispatch();
 
     const renderingList = ()=>{
-        switch(selectedIndex) {
+        switch(selectedTab.selected) {
             case 1 :
                 return <UserSearchManage />
             case 2 :
@@ -31,23 +31,23 @@ export default function UserManageMain() {
             <div className='flex justify-between items-center border-b-2 '>
                 <div className='flex flex-nowrap -mb-px text-xs font-medium text-center items-center'>
                     <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
-                            onClick={()=>setSelectedIndex(1)}>
+                            onClick={()=>dispatch(setSelectedTab(1))}>
                         <MagnifyingGlassIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
                         Search
                     </button>
                     <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
-                            onClick={()=>setSelectedIndex(2)}>
+                            onClick={()=>dispatch(setSelectedTab(2))}>
                         <ArrowUpIcon className='w-4 h-4  dark:text-white focus:text-blue-500 '/>
                         Requests    
                     </button>
                     <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
-                        onClick={()=>setSelectedIndex(3)}>
+                        onClick={()=>dispatch(setSelectedTab(3))}>
                         <ArrowDownIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
                         Response
                     </button>
                     <button
                         className='flex me-2 p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
-                        onClick={()=>setSelectedIndex(4)}>
+                        onClick={()=>dispatch(setSelectedTab(4))}>
                             <NoSymbolIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
                         Block
                     </button>
