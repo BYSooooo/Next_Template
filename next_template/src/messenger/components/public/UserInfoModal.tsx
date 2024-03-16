@@ -19,23 +19,36 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                 )
         }
     }
+
+    const setStatusIconByAction = ()=> {
+        switch(status) {
+            case "Default" : 
+                return (
+                    <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
+                        <h4 className='px-2 text-xs text-white'>
+                            No Relation
+                        </h4>
+                    </div>
+                )
+        }
+    }
     
     const showExtraModal = ()=> {
-        const modalClose = (showYn : boolean)=> {
-            setExtraModal(showYn);
-            openYn(showYn);
+        const modalClose = (res: {open : boolean, target: string})=> {
+            setExtraModal(res.open)
+            res.target === "all" && openYn(open)
         }
         return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction}/>
     }
 
     const sendRequestIcon = ()=> {
         const onClickRequest = async()=> {
-            setSelectAction("userBlock");
+            setSelectAction("sendRequest");
             setExtraModal(true)
         }
         return (
             <UserPlusIcon 
-                className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer'
+                className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer dark:bg-blue-600'
                 onClick={onClickRequest}
             />
         )
@@ -43,12 +56,12 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
 
     const userBlockIcon = ()=> {
         const onClickBlock = ()=> {
-            setSelectAction("sendRequest");
+            setSelectAction("userBlock");
             setExtraModal(true);
         }
         return (
             <NoSymbolIcon 
-                className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer'
+                className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer dark:bg-red-600'
                 onClick={onClickBlock}
             />
         )
@@ -85,7 +98,10 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                         {info.email}
                     </h4>
                 </div>
-                <div className='mx-4 my-2 rounded-md bg-gray-300 text-center'>
+                <div className='flex w-full justify-center'>
+                    {setStatusIconByAction()}
+                </div>
+                <div className='mx-4 my-2 rounded-md bg-gray-300 text-center dark:bg-gray-700'>
                     <h4 className='font-light text-xs'>
                         {info.introduction ??= 'No Infroduce Phrase'}
                     </h4>
