@@ -16,11 +16,30 @@ export default function UserSearchManage() {
     React.useEffect(()=> {
         getAllList()
         getFriendEmailList()
+        getUserList2()
     },[currentUser]);
 
     React.useEffect(()=> {
         {inputValue.length > 0 ? filterUser() : setFilteringList([])}
     },[inputValue])
+
+
+    const getUserList2 = async()=> {
+        await getReuestAddFriendInDoc().then((response)=> {
+            if(response?.result) {
+                console.log(response.value)
+                const filtering = response.value.filter((item: RequestFriend)=> 
+                    currentUser.email !== item.from && currentUser.email !== item.to
+                )
+                return filtering;
+            }else {
+                return []
+            }
+        })
+    }
+
+
+
 
     const getAllList = async() => {
         const receiveRequestFromOther : string[] = [];

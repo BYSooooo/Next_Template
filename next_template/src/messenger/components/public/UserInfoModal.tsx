@@ -36,7 +36,7 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
     const showExtraModal = ()=> {
         const modalClose = (res: {open : boolean, target: string})=> {
             setExtraModal(res.open)
-            res.target === "all" && openYn(open)
+            res.target === "all" && openYn(res.open)
         }
         return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction}/>
     }
