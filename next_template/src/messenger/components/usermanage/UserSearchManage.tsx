@@ -14,7 +14,7 @@ export default function UserSearchManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
     React.useEffect(()=> {
-        getAllList()
+        // getAllList()
         getFriendEmailList()
         getUserList2()
     },[currentUser]);
@@ -25,54 +25,62 @@ export default function UserSearchManage() {
 
 
     const getUserList2 = async()=> {
+        
+        await getAllUserInDoc().then((response)=> {
+            response.result && setUserList(response.value);
+        })
+
+
+        let resultArray = []
         await getReuestAddFriendInDoc().then((response)=> {
             if(response?.result) {
                 console.log(response.value)
                 const filtering = response.value.filter((item: RequestFriend)=> 
                     currentUser.email !== item.from && currentUser.email !== item.to
                 )
-                return filtering;
+                return resultArray = [...filtering]
             }else {
                 return []
             }
         })
+        console.log(resultArray)
     }
 
 
 
 
-    const getAllList = async() => {
-        const receiveRequestFromOther : string[] = [];
-        await getReuestAddFriendInDoc().then((response)=> {
-            if(response?.result){
-                response.value.map((item: RequestFriend)=> {
-                    if(item.to === firebaseAuth.currentUser.email && item.status === "request") {
-                        receiveRequestFromOther.push(item.from)
-                    }
-                })
-            } else {
-                return [];
-            }
-        })
+    // const getAllList = async() => {
+    //     const receiveRequestFromOther : string[] = [];
+    //     await getReuestAddFriendInDoc().then((response)=> {
+    //         if(response?.result){
+    //             response.value.map((item: RequestFriend)=> {
+    //                 if(item.to === firebaseAuth.currentUser.email && item.status === "request") {
+    //                     receiveRequestFromOther.push(item.from)
+    //                 }
+    //             })
+    //         } else {
+    //             return [];
+    //         }
+    //     })
 
-        const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
-            const list = []
-            if(response?.result) {
-                response.value.forEach((item : UserInfo)=> {
-                    if(!receiveRequestFromOther.includes(item.email)) {
-                        if(currentUser.block) {
-                            const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
-                            !checkBlocked && list.push(item)
-                        } else {
-                            list.push(item)
-                        }
-                    }
-                })
-            }
-            return list;
-        })
-        setUserList(filterArray)
-    }
+    //     const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
+    //         const list = []
+    //         if(response?.result) {
+    //             response.value.forEach((item : UserInfo)=> {
+    //                 if(!receiveRequestFromOther.includes(item.email)) {
+    //                     if(currentUser.block) {
+    //                         const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
+    //                         !checkBlocked && list.push(item)
+    //                     } else {
+    //                         list.push(item)
+    //                     }
+    //                 }
+    //             })
+    //         }
+    //         return list;
+    //     })
+    //     setUserList(filterArray)
+    // }
 
     const filterUser = ()=> {
         const resultArray = getUserList.filter((item)=> 
