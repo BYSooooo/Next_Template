@@ -25,10 +25,28 @@ export default function UserSearchManage() {
 
 
     const getUserList2 = async()=> {
-        
+
+        // Get All User List
         await getAllUserInDoc().then((response)=> {
-            response.result && setUserList(response.value);
+            if(response.result) {
+                const allUser = response.value as UserInfo[];
+                // filtering Block User in All User List
+                const fBlockUser = allUser.filter((item)=> 
+                    currentUser.block.some(i => i.blockUser !== item.email)
+                )
+                // filtering Friend User in Previous User List
+                console.log(friendEmails)
+                const fFriendUser = fBlockUser.filter((item)=> 
+                    friendEmails.some(i => i.email !== item.email)
+                )
+                console.log(friendEmails)
+                console.log(fFriendUser)
+                
+            } 
         })
+        
+        
+        
 
 
         let resultArray = []
