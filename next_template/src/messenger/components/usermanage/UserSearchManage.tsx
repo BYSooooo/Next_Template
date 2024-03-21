@@ -4,19 +4,20 @@ import { useAppSelector } from '@/redux/hook';
 import { getAllUserInDoc, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
 import { firebaseAuth } from '../../../../firebaseConfig';
 import ListElement from './ListElement';
+import { current } from '@reduxjs/toolkit';
 
 
 export default function UserSearchManage() {
     const [inputValue, setInputValue] = React.useState("");
-    const [getUserList, setUserList] = React.useState<UserInfo[]>([]);
+    const [userList, setUserList] = React.useState<UserInfo[]>([]);
     const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
     const [friendEmails, setFriendEmails] = React.useState([]);
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
     React.useEffect(()=> {
-        // getAllList()
         getFriendEmailList()
         getUserList2()
+        // getAllList()
     },[currentUser]);
 
     React.useEffect(()=> {
@@ -25,32 +26,34 @@ export default function UserSearchManage() {
 
 
     const getUserList2 = async()=> {
-
-        // Get All User List
+        // Filtering Block User in All User
+        let filteringUser : UserInfo[] = []
         await getAllUserInDoc().then((response)=> {
             if(response.result) {
                 const allUser = response.value as UserInfo[];
                 // filtering Block User in All User List
-                const fBlockUser = allUser.filter((item)=> 
+                return filteringUser = allUser.filter((item)=> 
                     currentUser.block.some(i => i.blockUser !== item.email)
                 )
-                // filtering Friend User in Previous User List
-                console.log(friendEmails)
-                const fFriendUser = fBlockUser.filter((item)=> 
-                    friendEmails.some(i => i.email !== item.email)
-                )
-                console.log(friendEmails)
-                console.log(fFriendUser)
-                
             } 
-        })
-        
-        
-        
+        });
+
+        let emailList = [];
+        currentUser.friendList.forEach(async (friendUUID : string)=>
+            await getInfoInFriendListCol(friendUUID).then((response)=>{
+                response.result && emailList.push(response.value)
+                console.log(emailList)
+
+            })
+        )
+        console.log(emailList)
+
+    }
 
 
+    const requestDummy = ()=> {
         let resultArray = []
-        await getReuestAddFriendInDoc().then((response)=> {
+        getReuestAddFriendInDoc().then((response)=> {
             if(response?.result) {
                 console.log(response.value)
                 const filtering = response.value.filter((item: RequestFriend)=> 
@@ -63,6 +66,7 @@ export default function UserSearchManage() {
         })
         console.log(resultArray)
     }
+
 
 
 
@@ -100,16 +104,14 @@ export default function UserSearchManage() {
     //     setUserList(filterArray)
     // }
 
+
+
     const filterUser = ()=> {
-        const resultArray = getUserList.filter((item)=> 
+        const resultArray = userList.filter((item)=> 
             item.email.includes(inputValue)
         )
         setFilteringList(resultArray)
     }    
-
-    const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
-        setInputValue(e.target.value.trim())
-    }
 
     const getFriendEmailList = ()=> {
         currentUser.friendList.forEach((friendUUID : string)=> {
@@ -118,7 +120,10 @@ export default function UserSearchManage() {
             })  
         })
     }
-
+    
+    const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
+        setInputValue(e.target.value.trim())
+    }
     return (
         <>
             <div className='flex justify-between'>
