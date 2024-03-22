@@ -9,14 +9,19 @@ import { current } from '@reduxjs/toolkit';
 
 export default function UserSearchManage() {
     const [inputValue, setInputValue] = React.useState("");
+
+    const [allUser, setAllUser] = React.useState<UserInfo[]>([]);
+    const [friendEmails, setFriendEmails] = React.useState([]);
+    
+
+
     const [userList, setUserList] = React.useState<UserInfo[]>([]);
     const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
-    const [friendEmails, setFriendEmails] = React.useState([]);
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
     React.useEffect(()=> {
-        getFriendEmailList()
-        getUserList2()
+        //getFriendEmailList()
+        getReqResList()
         // getAllList()
     },[currentUser]);
 
@@ -25,30 +30,34 @@ export default function UserSearchManage() {
     },[inputValue])
 
 
-    const getUserList2 = async()=> {
-        // Filtering Block User in All User
-        let filteringUser : UserInfo[] = []
-        await getAllUserInDoc().then((response)=> {
-            if(response.result) {
-                const allUser = response.value as UserInfo[];
-                // filtering Block User in All User List
-                return filteringUser = allUser.filter((item)=> 
-                    currentUser.block.some(i => i.blockUser !== item.email)
-                )
-            } 
-        });
-
-        let emailList = [];
-        currentUser.friendList.forEach(async (friendUUID : string)=>
-            await getInfoInFriendListCol(friendUUID).then((response)=>{
-                response.result && emailList.push(response.value)
-                console.log(emailList)
-
-            })
+    const getAllUser = async()=>{ 
+        await getAllUserInDoc().then((response)=> 
+            response.result && setAllUser(response.value)
         )
-        console.log(emailList)
-
     }
+
+    const getFriendEmailList = ()=> {
+        currentUser.friendList.forEach((friendUUID : string)=> {
+            getInfoInFriendListCol(friendUUID).then((result)=> {
+                result.result && setFriendEmails(prev=> { return [...prev, result.value]})
+            })  
+        })
+    }
+
+    const getReqResList = async()=> {
+        const listArray : RequestFriend[] = []
+        await getReuestAddFriendInDoc().then((response)=> {
+            
+            response.result && response.value.forEach((req: RequestFriend)=> {
+              
+            })
+        })
+    }
+
+
+
+
+    
 
 
     const requestDummy = ()=> {
@@ -113,13 +122,7 @@ export default function UserSearchManage() {
         setFilteringList(resultArray)
     }    
 
-    const getFriendEmailList = ()=> {
-        currentUser.friendList.forEach((friendUUID : string)=> {
-            getInfoInFriendListCol(friendUUID).then((result)=> {
-                result.result && setFriendEmails(prev=> { return [...prev, result.value]})
-            })  
-        })
-    }
+    
     
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         setInputValue(e.target.value.trim())

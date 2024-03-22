@@ -12,6 +12,9 @@ export default function UserManageMain() {
     const selectedTab = useAppSelector((state)=> state.messengerUserManageTab);
     const dispatch = useAppDispatch();
 
+    
+
+
     const renderingList = ()=>{
         switch(selectedTab.selected) {
             case 1 :
