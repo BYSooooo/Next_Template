@@ -1,132 +1,73 @@
 import React, { ChangeEvent } from 'react';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import { useAppSelector } from '@/redux/hook';
-import { getAllUserInDoc, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
-import { firebaseAuth } from '../../../../firebaseConfig';
+import { blockUser, getAllUserInDoc, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
 import ListElement from './ListElement';
-import { current } from '@reduxjs/toolkit';
 
 
 export default function UserSearchManage() {
-    const [inputValue, setInputValue] = React.useState("");
-
-    const [allUser, setAllUser] = React.useState<UserInfo[]>([]);
-    const [friendEmails, setFriendEmails] = React.useState([]);
-    
-
-
-    const [userList, setUserList] = React.useState<UserInfo[]>([]);
-    const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     
+    const [inputValue, setInputValue] = React.useState("");
+    const [userList, setUserList] = React.useState<UserInfo[]>([]);
+    const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
+    
     React.useEffect(()=> {
-        //getFriendEmailList()
-        getReqResList()
-        // getAllList()
-    },[currentUser]);
+        checkFilters()
+    } ,[currentUser]);
 
     React.useEffect(()=> {
         {inputValue.length > 0 ? filterUser() : setFilteringList([])}
     },[inputValue])
 
-
-    const getAllUser = async()=>{ 
-        await getAllUserInDoc().then((response)=> 
-            response.result && setAllUser(response.value)
-        )
-    }
-
-    const getFriendEmailList = ()=> {
-        currentUser.friendList.forEach((friendUUID : string)=> {
-            getInfoInFriendListCol(friendUUID).then((result)=> {
-                result.result && setFriendEmails(prev=> { return [...prev, result.value]})
-            })  
-        })
-    }
-
-    const getReqResList = async()=> {
-        const listArray : RequestFriend[] = []
-        await getReuestAddFriendInDoc().then((response)=> {
-            
-            response.result && response.value.forEach((req: RequestFriend)=> {
-              
-            })
-        })
-    }
-
-
-
-
     
-
-
-    const requestDummy = ()=> {
-        let resultArray = []
-        getReuestAddFriendInDoc().then((response)=> {
-            if(response?.result) {
-                console.log(response.value)
-                const filtering = response.value.filter((item: RequestFriend)=> 
-                    currentUser.email !== item.from && currentUser.email !== item.to
-                )
-                return resultArray = [...filtering]
-            }else {
-                return []
-            }
-        })
-        console.log(resultArray)
-    }
-
-
-
-
-
-    // const getAllList = async() => {
-    //     const receiveRequestFromOther : string[] = [];
-    //     await getReuestAddFriendInDoc().then((response)=> {
-    //         if(response?.result){
-    //             response.value.map((item: RequestFriend)=> {
-    //                 if(item.to === firebaseAuth.currentUser.email && item.status === "request") {
-    //                     receiveRequestFromOther.push(item.from)
-    //                 }
-    //             })
-    //         } else {
-    //             return [];
-    //         }
-    //     })
-
-    //     const filterArray : UserInfo[] = await getAllUserInDoc().then((response)=> {
-    //         const list = []
-    //         if(response?.result) {
-    //             response.value.forEach((item : UserInfo)=> {
-    //                 if(!receiveRequestFromOther.includes(item.email)) {
-    //                     if(currentUser.block) {
-    //                         const checkBlocked = currentUser.block.find((blockInfo) => blockInfo.blockUser === item.email);
-    //                         !checkBlocked && list.push(item)
-    //                     } else {
-    //                         list.push(item)
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //         return list;
-    //     })
-    //     setUserList(filterArray)
-    // }
-
-
-
     const filterUser = ()=> {
-        const resultArray = userList.filter((item)=> 
-            item.email.includes(inputValue)
-        )
+        const resultArray = userList.filter((item)=> item.email.includes(inputValue))
         setFilteringList(resultArray)
     }    
 
-    
-    
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         setInputValue(e.target.value.trim())
     }
+    const checkFilters= async()=> {
+        // get All User List
+        const allUser = [];
+        await getAllUserInDoc().then((response)=> {
+            if(response.result) allUser.push(...response.value)
+        })
+         // get All Friend Email List
+        const friendList = [];    
+        currentUser.friendList.forEach(async (friendUUID : string)=> {
+            await getInfoInFriendListCol(friendUUID).then((result)=> {
+                result.result && friendList.push(result.value)
+            })  
+        })
+        // get User List of send or receive Request
+        const reqResArray = [];
+        await getReuestAddFriendInDoc().then((response)=> 
+            response.result && response.value.forEach((req: RequestFriend)=> {
+                if(req.from === currentUser.email) reqResArray.push(req.to)
+                if(req.to === currentUser.email) reqResArray.push(req.from)
+            })
+        )
+        
+        // Filtering Block User
+        const fBlockUserList = allUser.filter((item)=> 
+            !currentUser.block.some((block)=> block.blockUser === item.email)
+        )
+        // Filtering Friend in Previous Array
+        const fFriendList = fBlockUserList.filter((item)=> 
+            !friendList.includes(item.email)
+        )   
+        // Filtering User send or receive request in Previous Array
+        const fReqResList = fFriendList.filter((item)=> 
+            !reqResArray.includes(item.email)
+        )
+        
+        return setUserList(fReqResList)
+    }
+
+
     return (
         <>
             <div className='flex justify-between'>
@@ -159,12 +100,10 @@ export default function UserSearchManage() {
                 </label>
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
-                {filteringList.map((result)=> {
-                    const friendYn = friendEmails.includes(result.email);
-                    return (
-                        !friendYn && <ListElement key={result.uid} selected={result} />
-                    )
-                })}
+                {   filteringList.map((result)=> {
+                        return <ListElement key={result.uid} selected={result} />
+                    })
+                }
             </ul>
         </>
     )
