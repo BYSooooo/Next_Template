@@ -1,11 +1,13 @@
 import { useAppSelector } from '@/redux/hook';
 import React, { ChangeEvent } from 'react';
-import { getReuestAddFriendInDoc } from '../FirebaseController';
-import { RequestFriend } from '../../../../msg_typeDef';
+import { getReuestAddFriendInDoc, getUserInfo } from '../FirebaseController';
+import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
+import ListElement from './ListElement';
 
 export default function FriendRequestManage() {
     const [inputValue, setInputValue] = React.useState("");
-    const [requestList, setRequestList] = React.useState<RequestFriend[]>([]);
+    const [reqUserList, setReqUserList] = React.useState<UserInfo[]>([]);
+    const [filteringList, setFilteringList] = React.useState<UserInfo[]>([])
 
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
 
@@ -14,22 +16,37 @@ export default function FriendRequestManage() {
     },[])
 
     React.useEffect(()=> {
-        
+        filtering()
     },[inputValue])
 
     const getRequestList = async()=> {
+        const requestArray : RequestFriend[] = []
         await getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {
                 const requests = response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success");
-                setRequestList(requests);
+                requestArray.push(...requests)
             }
         })
+        requestArray.forEach((req)=> 
+            getUserInfo(req.to).then((response)=>
+                response.result && setReqUserList(prev => { return [...prev, response.value]})
+            )
+        )
     }
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value.trim())
     }
     
+    const filtering = ()=> {
+        // if(inputValue.length > 0) {
+        //     const filterArray = reqUserList.filter((item)=> item.email.includes(inputValue))
+        //     setFilteringList(filterArray)
+        // } else {
+        //     setFilteringList([...reqUserList])
+        // }
+    }
+
     return (
         <>
             <div className='flex justify-between'>
@@ -63,7 +80,10 @@ export default function FriendRequestManage() {
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {
-                    
+                    filteringList.map((item)=> {
+                        console.log(item)
+                        return <ListElement key={item.email} selected={item} />
+                    })
                 }
             </ul>
         </>

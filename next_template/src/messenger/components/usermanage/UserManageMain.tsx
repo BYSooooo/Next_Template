@@ -12,9 +12,6 @@ export default function UserManageMain() {
     const selectedTab = useAppSelector((state)=> state.messengerUserManageTab);
     const dispatch = useAppDispatch();
 
-    
-
-
     const renderingList = ()=>{
         switch(selectedTab.selected) {
             case 1 :
@@ -30,7 +27,7 @@ export default function UserManageMain() {
     }
 
     return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='w-96 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex justify-between items-center border-b-2 '>
                 <div className='flex flex-nowrap -mb-px text-xs font-medium text-center items-center'>
                     <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
