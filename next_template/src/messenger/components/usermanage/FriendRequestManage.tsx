@@ -16,13 +16,22 @@ export default function FriendRequestManage() {
     },[])
 
     React.useEffect(()=> {
-        filtering()
+        inputValue.length > 0 ? filtering() : setFilteringList(reqUserList)
     },[inputValue])
 
     const getRequestList = async()=> {
         const requestArray : RequestFriend[] = []
         await getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {
+                // response.value.map((req) => {
+                //     if(req.from === currentUser.email) {
+                //         if(req.status !=="success") {
+                //             requestArray.push(req)
+
+                //         }
+                //     }
+                // })
+
                 const requests = response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success");
                 requestArray.push(...requests)
             }
@@ -39,12 +48,8 @@ export default function FriendRequestManage() {
     }
     
     const filtering = ()=> {
-        // if(inputValue.length > 0) {
-        //     const filterArray = reqUserList.filter((item)=> item.email.includes(inputValue))
-        //     setFilteringList(filterArray)
-        // } else {
-        //     setFilteringList([...reqUserList])
-        // }
+        const filterArray = reqUserList.filter((item)=> item.email.includes(inputValue))
+        setFilteringList(filterArray)
     }
 
     return (
