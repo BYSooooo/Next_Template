@@ -12,7 +12,7 @@ export default function FriendRequestManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
-        getRequestList()
+        getRequestList();
     },[])
 
     React.useEffect(()=> {
@@ -20,27 +20,20 @@ export default function FriendRequestManage() {
     },[inputValue])
 
     const getRequestList = async()=> {
-        const requestArray : RequestFriend[] = []
         await getReuestAddFriendInDoc().then((response)=> {
-            if(response.result) {
-                // response.value.map((req) => {
-                //     if(req.from === currentUser.email) {
-                //         if(req.status !=="success") {
-                //             requestArray.push(req)
-
-                //         }
-                //     }
-                // })
-
-                const requests = response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success");
-                requestArray.push(...requests)
+            if(response.result) {    
+                return response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success"); 
             }
+        }).then(async (array : RequestFriend[])=> {
+            let infoArray : UserInfo[] = [];
+            array.forEach(async(item)=> {
+                const { result, value } = await getUserInfo(item.to)
+                if(result) {
+                    !infoArray.some((item)=> item.email === value.email) && infoArray.push(value)
+                }
+            })
+            return setReqUserList(infoArray)
         })
-        requestArray.forEach((req)=> 
-            getUserInfo(req.to).then((response)=>
-                response.result && setReqUserList(prev => { return [...prev, response.value]})
-            )
-        )
     }
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,11 +77,16 @@ export default function FriendRequestManage() {
                 </label>
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
-                {
-                    filteringList.map((item)=> {
-                        console.log(item)
-                        return <ListElement key={item.email} selected={item} />
+                {   
+                    inputValue
+                    ?
+                        filteringList.map((item)=> {
+                            return <ListElement key={item.email} selected={item} />
+                        })
+                    :   reqUserList.map((item)=> {
+                            return <ListElement key={item.email} selected={item} />
                     })
+                    
                 }
             </ul>
         </>
