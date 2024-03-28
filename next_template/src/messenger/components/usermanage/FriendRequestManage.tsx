@@ -1,37 +1,35 @@
-import { useAppSelector } from '@/redux/hook';
 import React, { ChangeEvent } from 'react';
+
+import { useAppSelector } from '@/redux/hook';
 import { getReuestAddFriendInDoc, getUserInfo } from '../FirebaseController';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import ListElement from './ListElement';
 
 export default function FriendRequestManage() {
-    const [inputValue, setInputValue] = React.useState("");
+    const [inputValue, setInputValue] = React.useState<string>("");
     const [reqUserList, setReqUserList] = React.useState<UserInfo[]>([]);
-    const [filteringList, setFilteringList] = React.useState<UserInfo[]>([])
-
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
 
     React.useEffect(()=> {
         getRequestList();
     },[])
 
-    React.useEffect(()=> {
-        inputValue.length > 0 ? filtering() : setFilteringList(reqUserList)
-    },[inputValue])
-
+    
     const getRequestList = async()=> {
         await getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {    
                 return response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success"); 
             }
-        }).then(async (array : RequestFriend[])=> {
+        }).then((array : RequestFriend[])=> {
             let infoArray : UserInfo[] = [];
-            array.forEach(async(item)=> {
-                const { result, value } = await getUserInfo(item.to)
-                if(result) {
-                    !infoArray.some((item)=> item.email === value.email) && infoArray.push(value)
-                }
+            array.forEach((item)=> {
+                getUserInfo(item.to).then((response2) => {
+                    if(response2.result)  {
+                        !infoArray.some((item)=> item.email === response2.value.email) && infoArray.push(response2.value)
+                    }
+                })
             })
+            console.log(infoArray)
             return setReqUserList(infoArray)
         })
     }
@@ -40,11 +38,6 @@ export default function FriendRequestManage() {
         setInputValue(e.target.value.trim())
     }
     
-    const filtering = ()=> {
-        const filterArray = reqUserList.filter((item)=> item.email.includes(inputValue))
-        setFilteringList(filterArray)
-    }
-
     return (
         <>
             <div className='flex justify-between'>
@@ -77,7 +70,13 @@ export default function FriendRequestManage() {
                 </label>
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
-                {   
+                {
+                    reqUserList.filter((item)=> item.email.includes(inputValue)).map((item2)=> {
+                        console.log(item2)
+                        return <ListElement key={item2.email} selected={item2} />
+                    })
+                }
+                {/* {   
                     inputValue
                     ?
                         filteringList.map((item)=> {
@@ -87,7 +86,7 @@ export default function FriendRequestManage() {
                             return <ListElement key={item.email} selected={item} />
                     })
                     
-                }
+                } */}
             </ul>
         </>
     )
