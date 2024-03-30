@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
 import { useAppSelector } from '@/redux/hook';
 import { getReuestAddFriendInDoc, getUserInfo } from '../FirebaseController';
@@ -6,32 +6,32 @@ import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import ListElement from './ListElement';
 
 export default function FriendRequestManage() {
-    const [reqUserList, setReqUserList] = React.useState<UserInfo[]>([]);
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
+    const [reqUserInfo, setReqUserInfo ] = React.useState<UserInfo[]>([]);
 
     React.useEffect(()=> {
-        getRequestList();
+        getReqList()
+        .then((result)=> getReqUserInfo(result))
     },[])
 
-    
-    const getRequestList = async()=> {
-        let infoArray : UserInfo[] = []
-        await getReuestAddFriendInDoc().then((response)=> {
-            if(response.result) {    
-                return response.value.filter((req: RequestFriend)=> req.from === currentUser.email && req.status !=="success"); 
-            }
-        }).then((array : RequestFriend[])=> {
-            array.map((item)=> {
-                getUserInfo(item.to).then((response2) => {
-                    if(response2.result)  {
-                        !infoArray.some((item)=> item.email === response2.value.email) && infoArray.push(response2.value)
-                    }
-                })
-            })
-        })
-        return setReqUserList(infoArray)
+    const getReqList = async()=> {
+        const { result, value } = await getReuestAddFriendInDoc();  
+        if(result) {
+            const reqArray : RequestFriend[] = value.filter((item : RequestFriend)=> item.from === currentUser.email && item.status !== "success")
+            return reqArray
+        }
     }
-    
+
+    const getReqUserInfo = (reqs : RequestFriend[])=> {
+        reqs.map((async (item)=> {
+            const { result, value } = await getUserInfo(item.to)
+            result && setReqUserInfo(prev => {
+                const check = prev.some((info) => info.email === value.email)
+                return !check ? [...prev, value] : [...prev]
+            })
+        }))
+    }
+
     return (
         <div>
             <div className='flex justify-between'>
@@ -51,22 +51,13 @@ export default function FriendRequestManage() {
                 </li>
             </ul>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
-                { reqUserList && reqUserList.map((item)=> {
-                    
-                    return <ListElement key={item.uid} selected={item} />
+                { reqUserInfo.map((item)=> {
+                    return (  
+                        <ListElement key={item.uid} selected={item} />
+                    )
                 }) }
-                {/* {   
-                    inputValue
-                    ?
-                        filteringList.map((item)=> {
-                            return <ListElement key={item.email} selected={item} />
-                        })
-                    :   reqUserList.map((item)=> {
-                            return <ListElement key={item.email} selected={item} />
-                    })
-                    
-                } */}
             </ul>
         </div>
     )
+
 }
