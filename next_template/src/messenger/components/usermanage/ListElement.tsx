@@ -3,10 +3,11 @@ import { UserInfo } from '../../../../msg_typeDef';
 import { UserIcon } from '@heroicons/react/20/solid';
 import UserInfoModal from '../public/UserInfoModal';
 
-export default function ListElement({selected} : {selected : UserInfo}) {
+export default function ListElement({selected, openFrom, } : {selected : UserInfo, openFrom : string }) {
     const [modalOpenYn, setModalOpenYn] = React.useState(false);
+    const [income, setIncome] = React.useState("");
     React.useEffect(()=> {
-    
+        setIncome(openFrom)
     },[])
 
     const toggleModal =(openYn: boolean)=> {
@@ -29,7 +30,7 @@ export default function ListElement({selected} : {selected : UserInfo}) {
                     </div>
                 </div>
             </li>
-            {modalOpenYn &&  <UserInfoModal info={selected} status='Default' openYn={toggleModal}/>}
+            {modalOpenYn &&  <UserInfoModal info={selected} openFrom={income} openYn={toggleModal}/>}
         </>
     )
 }

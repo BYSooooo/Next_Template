@@ -22,6 +22,8 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 return userBlockAction()
             case "sendRequest" : 
                 return sendRequestAction()
+            case "cancelRequest" : 
+                return cancelRequestAction()
             default : break;
         }    
     }
@@ -33,6 +35,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 break;
             case "sendRequest" : 
                 setHeaderText("Send Request")
+                break;
+            case "cancelRequest" : 
+                setHeaderText("Cancel Request")
                 break;
             default : break;
         }
@@ -54,6 +59,11 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                         "Requests awaiting approval can be canceled."
                     ];
                     break;
+                case "cancelRequest" : 
+                    textArray = [
+                        "You can cancel a request you send other user"
+                    ]
+                    break;
                 default : 
                     textArray = ["Invalid Access"]
                     break;
@@ -71,6 +81,11 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 return <button onClick={onClickBtn}
                         className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
                             Send Request
+                        </button>
+            case "cancelRequest" :
+                return <button onClick={onClickBtn}
+                        className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
+                            Cancel Request
                         </button>
             default : break;
         }
@@ -98,6 +113,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 dispatch(setPopOverToggle({showYn : true, messageString : "Request Fail", type : "fail"}))
             }
         })
+    }
+    const cancelRequestAction =async()=> {
+
     }
 
     return (

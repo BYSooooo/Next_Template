@@ -53,7 +53,7 @@ export default function FriendRequestManage() {
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 { reqUserInfo.map((item)=> {
                     return (  
-                        <ListElement key={item.uid} selected={item} />
+                        <ListElement key={item.uid} selected={item} openFrom={"Request"} />
                     )
                 }) }
             </ul>

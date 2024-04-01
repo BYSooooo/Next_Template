@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
 
-export default function UserInfoModal({info,status,openYn} : {info : UserInfo, status: "Default"|"Request"|"Friend"|"Block", openYn : Function}) {
+export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
 
     const checkStatus = ()=> {
-        switch(status) {
+        switch(openFrom) {
             case "Default" : 
                 return (
                     <div className='flex mx-4 justify-center items-end gap-2'>
@@ -17,16 +17,30 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                         {userBlockIcon()}
                     </div>
                 )
+            case "Request" : 
+                return (
+                    <div className='flex mx-4 justify-center items-end gap-2'>
+                        {cancelRequestIcon()}
+                    </div>
+                )
         }
     }
 
     const setStatusIconByAction = ()=> {
-        switch(status) {
+        switch(openFrom) {
             case "Default" : 
                 return (
                     <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
                         <h4 className='px-2 text-xs text-white'>
                             No Relation
+                        </h4>
+                    </div>
+                )
+            case "Request" : 
+                return (
+                    <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
+                        <h4 className='px-2 text-xs text-white'>
+                            Pending approval
                         </h4>
                     </div>
                 )
@@ -64,6 +78,17 @@ export default function UserInfoModal({info,status,openYn} : {info : UserInfo, s
                 className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer dark:bg-red-600'
                 onClick={onClickBlock}
             />
+        )
+    }
+
+    const cancelRequestIcon = ()=> {
+        const onClickCancel = ()=> {
+            setSelectAction("cancelRequest")
+        }
+        return (
+            <DocumentMinusIcon
+                className='w-7 h-7 bg-yellow-300 rounded-full p-1 hover:cursor-pointer dark:bg-yellow-600'
+                onClick={onClickCancel} />
         )
     }
 

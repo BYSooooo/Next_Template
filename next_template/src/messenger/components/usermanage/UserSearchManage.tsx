@@ -101,7 +101,7 @@ export default function UserSearchManage() {
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {   filteringList.map((result)=> {
-                        return <ListElement key={result.uid} selected={result} />
+                        return <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
                     })
                 }
             </ul>
