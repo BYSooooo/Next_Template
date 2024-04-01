@@ -84,6 +84,7 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
     const cancelRequestIcon = ()=> {
         const onClickCancel = ()=> {
             setSelectAction("cancelRequest")
+            setExtraModal(true);
         }
         return (
             <DocumentMinusIcon
