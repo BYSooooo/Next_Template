@@ -3,7 +3,7 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser, cancelSendRequest, setRequestAddFriendInDoc } from '../../FirebaseController';
 
 export default function UserExtraModal({openYn, selectedUser, action} : {openYn : Function, selectedUser : string, action: string}) {
     const [headerText, setHeaderText] = React.useState("");
@@ -84,7 +84,7 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                         </button>
             case "cancelRequest" :
                 return <button onClick={onClickBtn}
-                        className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
+                        className='w-full border-2 border-solid border-yellow-500 justify-center rounded-full hover:bg-yellow-500 hover:text-white transition duration-200'>
                             Cancel Request
                         </button>
             default : break;
@@ -115,7 +115,7 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
         })
     }
     const cancelRequestAction =async()=> {
-
+        await cancelSendRequest(selectedUser)
     }
 
     return (

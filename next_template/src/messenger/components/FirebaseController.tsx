@@ -566,3 +566,37 @@ export async function blockUser (selectedUser : string) {
         return false
     }
 }
+
+export async function cancelSendRequest(selectedUser : string) {
+    const currentEmail = firebaseAuth.currentUser.email
+    const colRef = collection(firebaseStore,'friendReq')
+    try {
+        getDocs(colRef).then((response)=> {
+            var friendReqUUID = ""
+            response.forEach((doc)=> {
+                const data = doc.data() as RequestFriend
+                if(data.from === currentEmail && data.to === selectedUser ) {
+                    friendReqUUID = data.UUID
+                }
+            })
+            return friendReqUUID
+        }).then((uuid)=> {
+            const docRef = doc(firebaseStore, "friendReq", uuid);
+            // Move to ReqHistory
+
+
+            
+            // deleteDoc(docRef).then(()=> {
+            //     return true;
+            // }).catch((error)=> {
+            //     console.log(error)
+            //     return false;
+                
+            // })
+        });
+
+    } catch(error) {
+        console.log(error)
+        return false;
+    }
+}
