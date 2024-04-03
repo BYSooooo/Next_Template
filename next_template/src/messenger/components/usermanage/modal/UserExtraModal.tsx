@@ -115,7 +115,14 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
         })
     }
     const cancelRequestAction =async()=> {
-        await cancelSendRequest(selectedUser)
+        await cancelSendRequest(selectedUser).then((result)=> {
+            if(result === true ) {
+                openYn({open : false, target: "all"})
+                dispatch(setPopOverToggle({showYn : true, messageString : "Delete Success", type : "success"}))
+            } else {
+                dispatch(setPopOverToggle({showYn : true, messageString : "Delete Failed", type : "fail"}))
+            }
+        })
     }
 
     return (

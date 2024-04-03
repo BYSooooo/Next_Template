@@ -566,35 +566,30 @@ export async function blockUser (selectedUser : string) {
         return false
     }
 }
-
+/** cancelSendRequest
+ * 
+ * Cancel request that send current user to Another User;
+ * 
+ * Note : borrow external function of `delAddFriendRequestInDoc()` 
+ * @param selectedUser another user's Email Address
+ * @returns Boolean value of Delete Result
+ */
 export async function cancelSendRequest(selectedUser : string) {
     const currentEmail = firebaseAuth.currentUser.email
     const colRef = collection(firebaseStore,'friendReq')
     try {
-        getDocs(colRef).then((response)=> {
-            var friendReqUUID = ""
-            response.forEach((doc)=> {
-                const data = doc.data() as RequestFriend
-                if(data.from === currentEmail && data.to === selectedUser ) {
-                    friendReqUUID = data.UUID
+        await getDocs(colRef).then((response)=> {
+            var result : RequestFriend | null = null
+            response.forEach((item)=> {
+                const checkDoc = item.data() as RequestFriend
+                if(checkDoc.from === currentEmail && checkDoc.to === selectedUser) {
+                    delAddFriendRequestInDoc(result).then((delResult)=> {
+                        return delResult
+                    })
+                    
                 }
             })
-            return friendReqUUID
-        }).then((uuid)=> {
-            const docRef = doc(firebaseStore, "friendReq", uuid);
-            // Move to ReqHistory
-
-
-            
-            // deleteDoc(docRef).then(()=> {
-            //     return true;
-            // }).catch((error)=> {
-            //     console.log(error)
-            //     return false;
-                
-            // })
-        });
-
+        })
     } catch(error) {
         console.log(error)
         return false;
