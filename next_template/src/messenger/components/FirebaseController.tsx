@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React from 'react';
 
 import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConfig';
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
@@ -578,18 +578,22 @@ export async function cancelSendRequest(selectedUser : string) {
     const currentEmail = firebaseAuth.currentUser.email
     const colRef = collection(firebaseStore,'friendReq')
     try {
-        await getDocs(colRef).then((response)=> {
-            var result : RequestFriend | null = null
-            response.forEach((item)=> {
-                const checkDoc = item.data() as RequestFriend
-                if(checkDoc.from === currentEmail && checkDoc.to === selectedUser) {
-                    delAddFriendRequestInDoc(result).then((delResult)=> {
-                        return delResult
-                    })
-                    
-                }
+        await getDocs(colRef)
+            .then((response)=> { 
+                var result : RequestFriend | null = null
+                response.forEach((item)=> {
+                    const checkDoc = item.data() as RequestFriend
+                    if(checkDoc.from === currentEmail && checkDoc.to === selectedUser) {
+                        result = checkDoc     
+                    }
+                })
+            return result;
+        }).then(async (response)=> {
+            await delAddFriendRequestInDoc(response).then((delResult)=> {
+                return delResult
             })
         })
+        
     } catch(error) {
         console.log(error)
         return false;
