@@ -3,7 +3,8 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser, cancelSendRequest, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser,delAddFriendRequestInDoc,getReuestAddFriendInDoc, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { firebaseAuth } from '../../../../../firebaseConfig';
 
 export default function UserExtraModal({openYn, selectedUser, action} : {openYn : Function, selectedUser : string, action: string}) {
     const [headerText, setHeaderText] = React.useState("");
@@ -115,14 +116,20 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
         })
     }
     const cancelRequestAction =async()=> {
-        await cancelSendRequest(selectedUser).then((result)=> {
-            if(result === true ) {
-                openYn({open : false, target: "all"})
-                dispatch(setPopOverToggle({showYn : true, messageString : "Delete Success", type : "success"}))
-            } else {
-                dispatch(setPopOverToggle({showYn : true, messageString : "Delete Failed", type : "fail"}))
-            }
-        })
+        await getReuestAddFriendInDoc()
+            .then((response)=> {
+                 return response.result 
+                    && response.value.find((reqDoc)=> 
+                        reqDoc.from === firebaseAuth.currentUser.email && reqDoc.to === selectedUser)})
+            .then(async(response2) => {
+                const result = await delAddFriendRequestInDoc(response2)
+                if(result) {
+                    openYn({open : false, target: "all"}) 
+                    dispatch(setPopOverToggle({showYn : true, messageString : "Delete Success", type : "success"}))
+                } else {
+                    dispatch(setPopOverToggle({showYn : true, messageString : "Delete Failed", type : "fail"})) 
+                }
+            })
     }
 
     return (

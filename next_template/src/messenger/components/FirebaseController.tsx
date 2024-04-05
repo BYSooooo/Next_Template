@@ -186,12 +186,12 @@ export const delAddFriendRequestInDoc = async(friendRequest : RequestFriend | nu
  * @returns result : `Boolean`, value : `Array` of request List
  */
 export const getReuestAddFriendInDoc = async()=> {
-    let docList = []
+    let docList : RequestFriend[] = [] 
     try {
         await getDocs(collection(firebaseStore,'friendReq'))
             .then((response)=> {
                 response.forEach((doc)=>
-                    docList.push(doc.data())
+                    docList.push(doc.data() as RequestFriend)
                 )
             })
             return {result : true, value : docList}
@@ -564,38 +564,5 @@ export async function blockUser (selectedUser : string) {
     } catch(error) {
         console.log(error)
         return false
-    }
-}
-/** cancelSendRequest
- * 
- * Cancel request that send current user to Another User;
- * 
- * Note : borrow external function of `delAddFriendRequestInDoc()` 
- * @param selectedUser another user's Email Address
- * @returns Boolean value of Delete Result
- */
-export async function cancelSendRequest(selectedUser : string) {
-    const currentEmail = firebaseAuth.currentUser.email
-    const colRef = collection(firebaseStore,'friendReq')
-    try {
-        await getDocs(colRef)
-            .then((response)=> { 
-                var result : RequestFriend | null = null
-                response.forEach((item)=> {
-                    const checkDoc = item.data() as RequestFriend
-                    if(checkDoc.from === currentEmail && checkDoc.to === selectedUser) {
-                        result = checkDoc     
-                    }
-                })
-            return result;
-        }).then(async (response)=> {
-            await delAddFriendRequestInDoc(response).then((delResult)=> {
-                return delResult
-            })
-        })
-        
-    } catch(error) {
-        console.log(error)
-        return false;
     }
 }
