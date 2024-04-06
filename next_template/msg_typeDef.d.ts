@@ -32,7 +32,7 @@ interface RequestFriend {
     UUID : string,
     from : string,
     to : string,
-    req_date : Timestamp,
+    req_date : any,
     status : "request" | "success" | "refusal",
     checkYn : boolean
 

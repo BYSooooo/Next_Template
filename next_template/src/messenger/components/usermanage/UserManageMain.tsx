@@ -6,11 +6,39 @@ import FriendResponseManage from './FriendResponseManage';
 import UserBlockManage from './UserBlockManage';
 import { ArrowDownIcon, ArrowUpIcon, MagnifyingGlassIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setPageRendering, setSelectedTab } from '@/redux/features/messengerReducer';
+import { setFriendReq, setPageRendering, setSelectedTab } from '@/redux/features/messengerReducer';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { firebaseStore } from '../../../../firebaseConfig';
+import { RequestFriend } from '../../../../msg_typeDef';
 
 export default function UserManageMain() {
     const selectedTab = useAppSelector((state)=> state.messengerUserManageTab);
+    
     const dispatch = useAppDispatch();
+
+    React.useEffect(()=> {
+        setSnapshotToDoc()
+    },[])
+
+    const setSnapshotToDoc =()=> {
+        const colRef = collection(firebaseStore,"friendReq")
+        onSnapshot(colRef,(response)=>{
+            console.log("Get FriendRequest Snapshot Called")
+            const resultArray :RequestFriend[] = [] 
+            response.docs.map((item)=> {
+                const reqData = item.data()
+                resultArray.push({
+                    UUID    : reqData.UUID,
+                    from    : reqData.from,
+                    to      : reqData.to,
+                    req_date: reqData.req_date.toDate().toString(),
+                    status  : reqData.status,
+                    checkYn : reqData.checkYn
+                })
+            })
+            dispatch(setFriendReq(resultArray));
+        })
+    }
 
     const renderingList = ()=>{
         switch(selectedTab.selected) {

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ChatRoomInfo, UserInfo } from "../../../msg_typeDef";
+import { ChatRoomInfo, RequestFriend, UserInfo } from "../../../msg_typeDef";
 import { Timestamp } from "firebase/firestore";
 
 export const routerHook = createSlice({
@@ -109,12 +109,24 @@ export const selectTabUserManageHook = createSlice({
     }
 })
 
+export const friendRequestListHook = createSlice({
+    name : 'FriendRequestHook',
+    initialState : [],
+    reducers : {
+        setFriendReq : (state, action: PayloadAction<RequestFriend[]>)=> {
+            state.length = 0
+            state.push(...action.payload)   
+        }
+    }
+})
+
 export const { setPageRendering } = routerHook.actions;
 export const { setUserInfo } = userInfoHook.actions;
 export const { setCurrentUserInfo } = currentUserInfoHook.actions;
 export const { setChatListUUID, setChatListInfo } = currentChatInfoHook.actions;
 export const { setPopOverToggle,initPopOverToggle } = popOverToggleHook.actions;
 export const { setSelectedTab } = selectTabUserManageHook.actions;
+export const { setFriendReq } = friendRequestListHook.actions;
 
 export default [
     routerHook.reducer,
@@ -122,5 +134,6 @@ export default [
     currentUserInfoHook.reducer,
     currentChatInfoHook.reducer,
     popOverToggleHook.reducer,
-    selectTabUserManageHook.reducer
+    selectTabUserManageHook.reducer,
+    friendRequestListHook.reducer
 ]
