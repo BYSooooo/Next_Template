@@ -4,6 +4,7 @@ import { useAppSelector } from '@/redux/hook';
 import { getUserInfo } from '../FirebaseController';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import ListElement from './ListElement';
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 export default function FriendRequestManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -11,7 +12,7 @@ export default function FriendRequestManage() {
     const [reqUserInfo, setReqUserInfo ] = React.useState<UserInfo[]>([]);
 
     React.useEffect(()=> {
-        console.log("useEffect Call")
+        setReqUserInfo([])
         getReqUserInfo(getReqList())
     },[requestList])
 
@@ -70,13 +71,15 @@ export default function FriendRequestManage() {
                                 <ListElement key={item.uid} selected={item} openFrom={"Request"} />
                             )
                         })
-                    :   <div>
-                            <h4>
-                                No Data
-                            </h4>
+                    :   
+                        <div className='flex w-full h-full items-center justify-center'>
+                            <div className='flex-col align-middle'>
+                                <ExclamationCircleIcon className='w-15 h-15'/>
+                                <h4 className='font-bold'>
+                                    No Data
+                                </h4>
+                            </div>
                         </div>
-
-                    
                 }
             </ul>
         </div>
