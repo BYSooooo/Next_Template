@@ -25,6 +25,8 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 return sendRequestAction()
             case "cancelRequest" : 
                 return cancelRequestAction()
+            case "allowRequest" : 
+                return allowRequestAction()
             default : break;
         }    
     }
@@ -40,6 +42,8 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
             case "cancelRequest" : 
                 setHeaderText("Cancel Request")
                 break;
+            case "allowRequest" : 
+                setHeaderText("Allow Request")
             default : break;
         }
     }
@@ -65,6 +69,13 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                         "You can cancel a request you send other user"
                     ]
                     break;
+                case "allowRequest" : 
+                    textArray = [
+                        "Allow Request from other user.",
+                        "Once you form a friendship, you can have a 1:1 conversation.",
+                        "After accepting the request, you can check the selected user in your friend list."
+                    ]
+                    break;
                 default : 
                     textArray = ["Invalid Access"]
                     break;
@@ -87,6 +98,11 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 return <button onClick={onClickBtn}
                         className='w-full border-2 border-solid border-yellow-500 justify-center rounded-full hover:bg-yellow-500 hover:text-white transition duration-200'>
                             Cancel Request
+                        </button>
+            case "allowRequest" : 
+                return <button onClick={onClickBtn}
+                        className='w-full border-2 border-solid border-green-500 justify-center rounded-full hover:bg-green-500 hover:text-white transition duration-200'>
+                            Allow Request
                         </button>
             default : break;
         }
@@ -130,6 +146,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                     dispatch(setPopOverToggle({showYn : true, messageString : "Delete Failed", type : "fail"})) 
                 }
             })
+    }
+    const allowRequestAction =async()=> {
+
     }
 
     return (

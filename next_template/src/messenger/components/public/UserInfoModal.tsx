@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
 
 export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
@@ -21,6 +21,13 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
                 return (
                     <div className='flex mx-4 justify-center items-end gap-2'>
                         {cancelRequestIcon()}
+                    </div>
+                )
+            case "Response" :
+                return (
+                    <div className='flex mx-4 justify-center items-end gap-2'>
+                        {allowRequestIcon()}
+                        {denyRequestIcon()}
                     </div>
                 )
         }
@@ -93,10 +100,30 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
         )
     }
 
-    const openChatRoom =()=> {
-        
+    const allowRequestIcon = ()=> {
+        const onClickAllow = ()=> {
+            setSelectAction("allowRequest")
+            setExtraModal(true);
+        }
+        return (
+            <CheckIcon 
+                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-green-500 dark:text-slate-600 dark:bg-green-600'
+                onClick={onClickAllow} />
+        )
     }
-    
+
+    const denyRequestIcon = ()=> {
+        const onClickDeny = ()=> {
+            setSelectAction("denyRequest")
+            setExtraModal(true);
+        }
+        return (
+            <XCircleIcon
+                className='w-5 h-5 text-white rounded-full  hover:cursor-pointer bg-red-500 dark:bg-red-700 dark:text-slate-800 '
+                onClick={onClickDeny} />
+        )
+    }
+
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">

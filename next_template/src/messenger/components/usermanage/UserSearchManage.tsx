@@ -36,12 +36,14 @@ export default function UserSearchManage() {
             if(response.result) allUser.push(...response.value)
         })
          // get All Friend Email List
-        const friendList = [];    
-        currentUser.friendList.forEach(async (friendUUID : string)=> {
-            await getInfoInFriendListCol(friendUUID).then((result)=> {
-                result.result && friendList.push(result.value)
-            })  
-        })
+        const friendList = [];
+        if(currentUser.friendList) {
+            currentUser.friendList.forEach(async (friendUUID : string)=> {
+                await getInfoInFriendListCol(friendUUID).then((result)=> {
+                    result.result && friendList.push(result.value)
+                })  
+            })
+        }    
         // get User List of send or receive Request
         const reqResArray = [];
         await getReuestAddFriendInDoc().then((response)=> 
@@ -53,7 +55,7 @@ export default function UserSearchManage() {
         
         // Filtering Block User
         const fBlockUserList = allUser.filter((item)=> 
-            !currentUser.block.some((block)=> block.blockUser === item.email)
+            !currentUser.block?.some((block)=> block.blockUser === item.email)
         )
         // Filtering Friend in Previous Array
         const fFriendList = fBlockUserList.filter((item)=> 
