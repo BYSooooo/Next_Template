@@ -12,22 +12,22 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
         switch(openFrom) {
             case "Default" : 
                 return (
-                    <div className='flex mx-4 justify-center items-end gap-2'>
+                    <div className='flex mx-4 justify-center items-center gap-2'>
                         {sendRequestIcon()}
                         {userBlockIcon()}
                     </div>
                 )
             case "Request" : 
                 return (
-                    <div className='flex mx-4 justify-center items-end gap-2'>
+                    <div className='flex mx-4 justify-center items-center gap-2'>
                         {cancelRequestIcon()}
                     </div>
                 )
             case "Response" :
                 return (
-                    <div className='flex mx-4 justify-center items-end gap-2'>
+                    <div className='flex mx-4 justify-center items-center gap-2'>
                         {allowRequestIcon()}
-                        {denyRequestIcon()}
+                        {rejectRequestIcon()}
                     </div>
                 )
         }
@@ -45,9 +45,17 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
                 )
             case "Request" : 
                 return (
-                    <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
+                    <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
                         <h4 className='px-2 text-xs text-white'>
-                            Pending approval
+                            Pending approval 
+                        </h4>
+                    </div>
+                )
+            case "Response" : 
+                return (
+                    <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
+                        <h4 className='px-2 text-xs text-white'>
+                            Waiting your approval
                         </h4>
                     </div>
                 )
@@ -112,15 +120,15 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
         )
     }
 
-    const denyRequestIcon = ()=> {
-        const onClickDeny = ()=> {
-            setSelectAction("denyRequest")
+    const rejectRequestIcon = ()=> {
+        const onClickReject = ()=> {
+            setSelectAction("rejectRequest")
             setExtraModal(true);
         }
         return (
-            <XCircleIcon
-                className='w-5 h-5 text-white rounded-full  hover:cursor-pointer bg-red-500 dark:bg-red-700 dark:text-slate-800 '
-                onClick={onClickDeny} />
+            <XMarkIcon
+                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-red-500 dark:text-slate-600 dark:bg-red-600'
+                onClick={onClickReject} />
         )
     }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser,delAddFriendRequestInDoc,getReuestAddFriendInDoc, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser,delAddFriendRequestInDoc,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
 export default function UserExtraModal({openYn, selectedUser, action} : {openYn : Function, selectedUser : string, action: string}) {
@@ -26,7 +26,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
             case "cancelRequest" : 
                 return cancelRequestAction()
             case "allowRequest" : 
-                return allowRequestAction()
+                return responseRequestAction(true)
+            case "rejectRequest" : 
+                return responseRequestAction(false)
             default : break;
         }    
     }
@@ -44,6 +46,10 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 break;
             case "allowRequest" : 
                 setHeaderText("Allow Request")
+                break;
+            case "rejectRequest" :
+                setHeaderText("Reject Request")
+                break;
             default : break;
         }
     }
@@ -76,6 +82,12 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                         "After accepting the request, you can check the selected user in your friend list."
                     ]
                     break;
+                case "rejectRequest" : 
+                    textArray = [
+                        "Reject Request from other user.",
+                        "Rejected requests are deleted and cannot be undone."
+                    ]
+                    break;
                 default : 
                     textArray = ["Invalid Access"]
                     break;
@@ -103,6 +115,11 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 return <button onClick={onClickBtn}
                         className='w-full border-2 border-solid border-green-500 justify-center rounded-full hover:bg-green-500 hover:text-white transition duration-200'>
                             Allow Request
+                        </button>
+            case "rejectRequest" : 
+                return  <button onClick={onClickBtn}
+                            className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
+                            Reject Request
                         </button>
             default : break;
         }
@@ -147,9 +164,25 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 }
             })
     }
-    const allowRequestAction =async()=> {
-
+    const responseRequestAction =async(allowYn : boolean)=> {
+        await getReuestAddFriendInDoc()
+            .then((response)=> {
+                return response.result
+                    && response.value.find((reqDoc)=> 
+                        reqDoc.to === firebaseAuth.currentUser.email && reqDoc.from === selectedUser
+                    )
+            })
+            .then(async(response2)=> {
+                const result = await setFriendRequestControl(response2,allowYn)
+                if(result) {
+                    openYn({open: false, target: "all"})
+                    dispatch(setPopOverToggle({showYn : true, messageString : "Accept Success", type : "success"}))
+                } else {
+                    dispatch(setPopOverToggle({showYn : true, messageString : "Accept Failed", type : "fail"}))
+                }
+            })
     }
+
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
