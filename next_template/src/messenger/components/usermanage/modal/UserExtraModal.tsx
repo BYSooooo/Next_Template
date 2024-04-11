@@ -176,9 +176,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                 const result = await setFriendRequestControl(response2,allowYn)
                 if(result) {
                     openYn({open: false, target: "all"})
-                    dispatch(setPopOverToggle({showYn : true, messageString : "Accept Success", type : "success"}))
+                    dispatch(setPopOverToggle({showYn : true, messageString : allowYn ? "Accept Success" : "Reject Success", type : "success"}))
                 } else {
-                    dispatch(setPopOverToggle({showYn : true, messageString : "Accept Failed", type : "fail"}))
+                    dispatch(setPopOverToggle({showYn : true, messageString : allowYn ? "Accept Failed" : "Reject Failed", type : "fail"}))
                 }
             })
     }

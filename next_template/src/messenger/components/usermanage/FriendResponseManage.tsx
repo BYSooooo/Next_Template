@@ -19,7 +19,7 @@ export default function FriendResponseManage(){
     const getOthersList = ()=> {
         if(requestList) {
             const reqArray : RequestFriend[] = requestList.filter((item:RequestFriend)=> 
-                item.to === currentUser.email && item.status !== "success"
+                item.to === currentUser.email && item.status === "request"
             )
             return reqArray
         }

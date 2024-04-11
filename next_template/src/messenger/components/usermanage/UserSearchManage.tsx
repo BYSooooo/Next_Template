@@ -43,7 +43,25 @@ export default function UserSearchManage() {
                     result.result && friendList.push(result.value)
                 })  
             })
-        }    
+        }
+        // List of Block User Email  
+        // const fBlockUserList = allUser.filter((item)=> 
+        //     !currentUser.block?.some((block)=> block.blockUser === item.email)
+        // )
+        
+        // await getReuestAddFriendInDoc().then((response)=> {
+        //     if(response.result) {
+        //         const result = response.value.reduce((acc,cur)=> {
+        //             if(cur.status !== "success") {
+        //                 if(cur.from !== currentUser.email) {
+                        
+        //                 }
+
+        //             }
+        //         },[])
+        //     }
+        // })
+
         // get User List of send or receive Request
         const reqResArray = [];
         await getReuestAddFriendInDoc().then((response)=> 
@@ -57,6 +75,7 @@ export default function UserSearchManage() {
         const fBlockUserList = allUser.filter((item)=> 
             !currentUser.block?.some((block)=> block.blockUser === item.email)
         )
+
         // Filtering Friend in Previous Array
         const fFriendList = fBlockUserList.filter((item)=> 
             !friendList.includes(item.email)
@@ -65,6 +84,7 @@ export default function UserSearchManage() {
         const fReqResList = fFriendList.filter((item)=> 
             !reqResArray.includes(item.email)
         )
+        
         
         return setUserList(fReqResList)
     }
