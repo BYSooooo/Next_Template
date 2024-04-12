@@ -7,7 +7,8 @@ import ListElement from './ListElement';
 
 export default function UserSearchManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
-    
+    const requestList = useAppSelector((state)=> state.messengerFriendReq)
+
     const [inputValue, setInputValue] = React.useState("");
     const [userList, setUserList] = React.useState<UserInfo[]>([]);
     const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
@@ -30,6 +31,44 @@ export default function UserSearchManage() {
         setInputValue(e.target.value.trim())
     }
     const checkFilters= async()=> {
+        // get Friend Email List
+        /*
+        const friendEmails = []
+        if(currentUser.friendList) {
+            currentUser.friendList.map((uuid: string)=> {
+                getInfoInFriendListCol(uuid).then((response)=> {
+                    response.result && friendEmails.push(response.value)
+                })
+            })
+        }
+        console.log(friendEmails)
+        // get All User List
+        await getAllUserInDoc().then((response)=> {
+            if(response.result) {
+                const allUser = response.value as UserInfo[];
+                const filteredUser = allUser.reduce((acc,cur)=> {
+                    // true - Block User / false : netural User
+                    const blockYn = currentUser.block.some((item)=> item.blockUser === cur.email);
+                    if(!blockYn) {
+                        // true = Friend / False : non Friend
+                        const friendYn = friendEmails.includes(cur.email);
+                        if(!friendYn) {
+                            // true : send Request of receive Request / false : None
+                            const requestYn = requestList.some((item)=> 
+                                item.from === currentUser.email && item.to === cur.email || 
+                                item.from === cur.email && item.to === currentUser.email )
+                            if(!requestYn) {
+                                
+                            }
+                        }
+                    }
+                    
+                },[])
+                console.log(filterUser)
+            }
+        })
+        */
+        
         // get All User List
         const allUser = [];
         await getAllUserInDoc().then((response)=> {
@@ -44,25 +83,9 @@ export default function UserSearchManage() {
                 })  
             })
         }
-        // List of Block User Email  
-        // const fBlockUserList = allUser.filter((item)=> 
-        //     !currentUser.block?.some((block)=> block.blockUser === item.email)
-        // )
         
-        // await getReuestAddFriendInDoc().then((response)=> {
-        //     if(response.result) {
-        //         const result = response.value.reduce((acc,cur)=> {
-        //             if(cur.status !== "success") {
-        //                 if(cur.from !== currentUser.email) {
-                        
-        //                 }
-
-        //             }
-        //         },[])
-        //     }
-        // })
-
         // get User List of send or receive Request
+        
         const reqResArray = [];
         await getReuestAddFriendInDoc().then((response)=> 
             response.result && response.value.forEach((req: RequestFriend)=> {
@@ -84,8 +107,6 @@ export default function UserSearchManage() {
         const fReqResList = fFriendList.filter((item)=> 
             !reqResArray.includes(item.email)
         )
-        
-        
         return setUserList(fReqResList)
     }
 
