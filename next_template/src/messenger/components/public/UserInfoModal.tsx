@@ -1,12 +1,21 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { CheckIcon, DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
+import { useAppSelector } from '@/redux/hook';
 
-export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
+export default function UserInfoModal({info, openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
+    const requestList = useAppSelector((state)=> state.messengerFriendReq);
+    const currentInfo = useAppSelector((state)=> state.messengerCurUserInfo)
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
+
+    const requestCheck = () => {
+        const currentEmail = currentInfo.email;
+        var result = { sort : "", FromTo : ""}
+        
+    }
 
     const checkStatus = ()=> {
         switch(openFrom) {
@@ -35,7 +44,8 @@ export default function UserInfoModal({info,openFrom, openYn} : {info : UserInfo
 
     const setStatusIconByAction = ()=> {
         switch(openFrom) {
-            case "Default" : 
+            case "Default" :
+                requestCheck()
                 return (
                     <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
                         <h4 className='px-2 text-xs text-white'>
