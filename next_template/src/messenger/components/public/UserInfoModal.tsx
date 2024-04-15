@@ -11,9 +11,18 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
 
+    React.useEffect(()=> {
+        requestCheck()
+    },[])
+
     const requestCheck = () => {
         const currentEmail = currentInfo.email;
-        var result = { sort : "", FromTo : ""}
+        var result = { sort : "", FromTo : ""};
+        const currentCheck = requestList.find((item)=> {
+            ((item.from === currentEmail) && (item.to === info.email)) ||
+            ((item.to === currentEmail) && (item.from === info.email) )
+        })
+        console.log(currentCheck)
         
     }
 
@@ -62,6 +71,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
                     </div>
                 )
             case "Response" : 
+                
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
                         <h4 className='px-2 text-xs text-white'>
