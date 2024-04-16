@@ -44,8 +44,9 @@ export default function UserSearchManage() {
         getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {
                 const filter = response.value.filter((item)=> 
-                    ((item.from || item.to) === currentUser.email) && item.status !== "success"
+                    ((item.from || item.to) === currentUser.email) && (item.status === ("success" || "request")) 
                 )
+                console.log(filter)
                 reqLists.push(...filter)
             }
         })
@@ -57,7 +58,7 @@ export default function UserSearchManage() {
                     const filterUser = []
                     response.value.map((user : UserInfo)=> {
                         // true - Block User / false : netural User
-                        const blockYn = currentUser.block.some((item)=> item.blockUser === user.email);
+                        const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
                         if(!blockYn) { // true = Friend / False : non Friend
                             const friendYn = friendEmails.includes(user.email);
                             if(!friendYn) {

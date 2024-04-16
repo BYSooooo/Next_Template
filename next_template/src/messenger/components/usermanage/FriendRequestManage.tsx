@@ -19,13 +19,14 @@ export default function FriendRequestManage() {
     const getReqList = ()=> {
         if(requestList) {
             const reqArray : RequestFriend[] = requestList.filter((item : RequestFriend)=> 
-                item.from === currentUser.email && item.status !== "success"
+                (item.from === currentUser.email) && (item.status === "request")
             )
             return reqArray
         }
     }
 
     const getReqUserInfo = (reqs : RequestFriend[])=> {
+        console.log(reqs)
         if(reqs.length > 0 ) {
             reqs.map(((item)=> {
                 //Get UserInfo by Email in RequestFriend List 

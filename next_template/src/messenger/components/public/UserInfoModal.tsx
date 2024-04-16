@@ -1,15 +1,17 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { CheckIcon, DocumentMinusIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, DocumentMinusIcon, ExclamationTriangleIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
 import { useAppSelector } from '@/redux/hook';
 
 export default function UserInfoModal({info, openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
     const requestList = useAppSelector((state)=> state.messengerFriendReq);
-    const currentInfo = useAppSelector((state)=> state.messengerCurUserInfo)
+    const currentInfo = useAppSelector((state)=> state.messengerCurUserInfo);
+
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
+    const [isReject, setIsReject] = React.useState({rejected : false, from : "", to: ""})
 
     React.useEffect(()=> {
         requestCheck()
@@ -17,12 +19,12 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
 
     const requestCheck = () => {
         const currentEmail = currentInfo.email;
-        var result = { sort : "", FromTo : ""};
-        const currentCheck = requestList.find((item)=> {
+        const rejectList = requestList.filter((request)=> request.status === 'refusal')
+        const search = rejectList.find((item)=> 
             ((item.from === currentEmail) && (item.to === info.email)) ||
-            ((item.to === currentEmail) && (item.from === info.email) )
-        })
-        console.log(currentCheck)
+            ((item.to === currentEmail) && (item.from === info.email))
+        )
+        search && setIsReject({rejected : true, from : search.from, to: search.to})
         
     }
 
@@ -54,14 +56,27 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
     const setStatusIconByAction = ()=> {
         switch(openFrom) {
             case "Default" :
-                requestCheck()
-                return (
-                    <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
-                        <h4 className='px-2 text-xs text-white'>
-                            No Relation
-                        </h4>
-                    </div>
-                )
+                switch(isReject.rejected) {
+                    case true :
+                        const msg = isReject.to === currentInfo.email ? "You have denied Request" : "Request has Denied by this user" 
+                        return (
+                            <div className='flex px-2 w-fit rounded-full bg-orange-500 dark:bg-orange-700 text-white'>
+                                <ExclamationTriangleIcon className='w-3 h-3 self-center' />
+                                <h4 className='px-2 text-xs text-white'>
+                                    {msg}
+                                </h4>
+                            </div>
+                        )
+                    case false :
+                        return (
+                            <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
+                                <h4 className='px-2 text-xs text-white'>
+                                    No Relation
+                                </h4>
+                            </div>
+                        )
+
+                }
             case "Request" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
