@@ -6,13 +6,14 @@ import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerRedu
 import { blockUser,delAddFriendRequestInDoc,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 
-export default function UserExtraModal({openYn, selectedUser, action} : {openYn : Function, selectedUser : string, action: string}) {
+export default function UserExtraModal({openYn, selectedUser, action, extraInfo} : {openYn : Function, selectedUser : string, action: string, extraInfo? : any}) {
     const [headerText, setHeaderText] = React.useState("");
     const [bodyText, setBodyText] = React.useState<string[]>([]);
 
     React.useEffect(()=> {
         setHeaderByAction()
         setBodyByAction()
+        console.log(extraInfo)
     },[])
 
     const dispatch = useAppDispatch();
@@ -63,7 +64,7 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
                         "You won&apos;t be found in this user&apos;s Add Friends list until you unblock."
                     ];  
                     break;
-                case "sendRequest" : 
+                case "sendRequest" :
                     textArray = [
                         "You can send a request to add user as a friend.",
                         "If the user approves the request, will be added to friend list",
@@ -138,6 +139,9 @@ export default function UserExtraModal({openYn, selectedUser, action} : {openYn 
     }
 
     const sendRequestAction = async()=> {
+        if(extraInfo) {
+            extraInfo.rejected && await delAddFriendRequestInDoc(extraInfo.friendReq)
+        }
         await setRequestAddFriendInDoc(selectedUser).then((res)=> {
             if(res.result) {
                 dispatch(setSelectedTab(2))

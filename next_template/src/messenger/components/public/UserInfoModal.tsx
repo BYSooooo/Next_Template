@@ -11,7 +11,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
 
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
-    const [isReject, setIsReject] = React.useState({rejected : false, from : "", to: ""})
+    const [isReject, setIsReject] = React.useState({rejected : false, friendReq : null})
 
     React.useEffect(()=> {
         requestCheck()
@@ -24,7 +24,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             ((item.from === currentEmail) && (item.to === info.email)) ||
             ((item.to === currentEmail) && (item.from === info.email))
         )
-        search && setIsReject({rejected : true, from : search.from, to: search.to})
+        search && setIsReject({rejected : true, friendReq : search})
         
     }
 
@@ -58,7 +58,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             case "Default" :
                 switch(isReject.rejected) {
                     case true :
-                        const msg = isReject.to === currentInfo.email ? "You have denied Request" : "Request has Denied by this user" 
+                        const msg = isReject.friendReq.to === currentInfo.email ? "You have denied Request" : "Request has Denied by this user" 
                         return (
                             <div className='flex px-2 w-fit rounded-full bg-orange-500 dark:bg-orange-700 text-white'>
                                 <ExclamationTriangleIcon className='w-3 h-3 self-center' />
@@ -102,7 +102,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             setExtraModal(res.open)
             res.target === "all" && openYn(res.open)
         }
-        return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction}/>
+        return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction} extraInfo={isReject}/>
     }
 
     const sendRequestIcon = ()=> {
