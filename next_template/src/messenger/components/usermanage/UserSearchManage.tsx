@@ -44,9 +44,8 @@ export default function UserSearchManage() {
         getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {
                 const filter = response.value.filter((item)=> 
-                    ((item.from || item.to) === currentUser.email) && (item.status === ("success" || "request")) 
+                    ((item.from || item.to) === currentUser.email) && (item.status === "request") 
                 )
-                console.log(filter)
                 reqLists.push(...filter)
             }
         })
@@ -70,7 +69,10 @@ export default function UserSearchManage() {
                 }})
             .then((list : UserInfo[])=> {
                 const filtering : UserInfo[] = list.filter((user)=> 
-                    !reqLists.some((item)=>  (item.from === user.email) || (item.to === user.email))
+                    !reqLists.some((item:RequestFriend)=>  
+                        ((item.from === user.email) || (item.to === user.email)) 
+                        && (item.status !== "success")
+                    )
                 )
                 setUserList(filtering)
             })

@@ -206,7 +206,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                         })
                     }
                 </ul>
-                { setButtonByActtion()}
+                { setButtonByActtion() }
             </div>
         </div>
     )
