@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { CheckIcon, DocumentMinusIcon, ExclamationTriangleIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, DocumentMinusIcon, ExclamationTriangleIcon, LockOpenIcon, NoSymbolIcon, UserIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
 import { useAppSelector } from '@/redux/hook';
 
@@ -50,6 +50,12 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
                         {rejectRequestIcon()}
                     </div>
                 )
+            case "Block" :
+                return (
+                    <div className='flex mx-4 justify-center items-center gap-2'>
+                        {unBlockIcon()}
+                    </div>
+                )
         }
     }
 
@@ -86,11 +92,18 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
                     </div>
                 )
             case "Response" : 
-                
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
                         <h4 className='px-2 text-xs text-white'>
                             Waiting your approval
+                        </h4>
+                    </div>
+                )
+            case "Block" :
+                return (
+                    <div className='w-fit rounded-full bg-red-500 dark:bg-red-700'>
+                        <h4 className='px-2 text-xs text-white'>
+                            Block User
                         </h4>
                     </div>
                 )
@@ -165,6 +178,18 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
                 className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-red-500 dark:text-slate-600 dark:bg-red-600'
                 onClick={onClickReject} />
         )
+    }
+    const unBlockIcon = ()=> {
+        const onClickUnBlock = ()=> {
+            setSelectAction("unBlock")
+            setExtraModal(true);
+        }
+        return (
+            <LockOpenIcon
+                className='w-5 h-5 rounded-full p-1 hover:cursor-pointer text-white bg-green-500 dark:text-slate-600 dark:bg-green-600'
+                onClick={onClickUnBlock} />
+        )
+        
     }
 
 
