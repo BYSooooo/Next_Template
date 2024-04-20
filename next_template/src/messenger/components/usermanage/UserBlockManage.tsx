@@ -1,9 +1,10 @@
-import { useAppSelector } from '@/redux/hook';
 import React from 'react';
+
+import { useAppSelector } from '@/redux/hook';
 import { UserInfo } from '../../../../msg_typeDef';
 import { getUserInfo } from '../FirebaseController';
-import { ListItem } from '@mui/material';
 import ListElement from './ListElement';
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 export default function UserBlockManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
@@ -44,10 +45,20 @@ export default function UserBlockManage() {
                 </li>
             </ul>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
-                {
+                { blockList.length > 0 
+                ?
                     blockList.map((item)=> {
                         return <ListElement key={item.uid} selected={item} openFrom={"Block"} />
                     })
+                : 
+                    <div className='flex w-full h-full items-center justify-center'>
+                        <div className='flex-col align-middle'>
+                            <ExclamationCircleIcon className='w-15 h-15'/>
+                            <h4 className='font-bold'>
+                                No Data
+                            </h4>
+                        </div>
+                    </div>
                 }
             </ul>
         </div>

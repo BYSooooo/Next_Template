@@ -13,7 +13,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     React.useEffect(()=> {
         setHeaderByAction()
         setBodyByAction()
-        console.log(extraInfo)
+        console.log(action)
     },[])
 
     const dispatch = useAppDispatch();
@@ -30,6 +30,8 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 return responseRequestAction(true)
             case "rejectRequest" : 
                 return responseRequestAction(false)
+            case "unBlock" :    
+                return unBlockAction()
             default : break;
         }    
     }
@@ -51,6 +53,8 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
             case "rejectRequest" :
                 setHeaderText("Reject Request")
                 break;
+            case "unBlock" :
+                setHeaderText("Unblock User")
             default : break;
         }
     }
@@ -89,6 +93,12 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                         "Rejected requests are deleted and cannot be undone."
                     ]
                     break;
+                case "unBlock":
+                    textArray = [
+                        "Unblocks the selected user.",
+                        "Once the block is lifted, actions such as searching and friend requests become possible.",   
+                    ]
+                    break;
                 default : 
                     textArray = ["Invalid Access"]
                     break;
@@ -121,6 +131,11 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 return  <button onClick={onClickBtn}
                             className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
                             Reject Request
+                        </button>
+            case "unBlock" :
+                return  <button onClick={onClickBtn}
+                            className='w-full border-2 border-solid border-orange-500 justify-center rounded-full hover:bg-orange-500 hover:text-white transition duration-200'>
+                            Unblock User
                         </button>
             default : break;
         }
@@ -185,6 +200,9 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                     dispatch(setPopOverToggle({showYn : true, messageString : allowYn ? "Accept Failed" : "Reject Failed", type : "fail"}))
                 }
             })
+    }
+    const unBlockAction = () => {
+
     }
 
 
