@@ -566,3 +566,33 @@ export async function blockUser (selectedUser : string) {
         return false
     }
 }
+
+/**
+ * Block User 
+ * 
+ * 
+ */
+export async function blockUser2(selectUser : string) {
+    const currentEmail = firebaseAuth.currentUser.email;
+    const blockUUID = uuidv4()
+    try {
+        // Add document in Block List Collection
+        await setDoc(doc(firebaseStore, 'blockList', blockUUID), { 
+            uuid : blockUUID, 
+            from : currentEmail,
+            to : selectUser,
+            blockDate : new Date()
+        })
+        // Update UserInfo (From User)
+        await updateDoc(doc(firebaseStore,'userInfo',currentEmail), {
+            
+        })
+        await updateDoc(doc(firebaseStore, 'userInfo', selectUser), {
+            
+        })
+
+    } catch(error){
+        console.log(error)
+        return false
+    }
+}
