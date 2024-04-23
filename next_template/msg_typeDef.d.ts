@@ -16,7 +16,7 @@ interface UserInfo {
     photoURL : string,
     uid : string,
     friendList : Array<string>,
-    block : {blockUser: string, blockDate:any}[],
+    block : { type: string, uuid:string}[],
     lastLogin : string,
     introduction : string
 }
@@ -110,4 +110,19 @@ interface ChatRoomInfo {
     active : boolean,
     disableRequest? : string,
     members : string[]
+}
+
+/**
+ * Interface of Block Information
+ * 
+ * @property uuid : Unique id of Block Info
+ * @property from : Blocking User email
+ * @property to : Blocked User email
+ * @property blockDate : Block Date
+ */
+interface BlockInfo {
+    uuid : string,
+    from : string,
+    to: string,
+    blockDate : string
 }

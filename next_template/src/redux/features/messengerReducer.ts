@@ -46,7 +46,7 @@ export const currentUserInfoHook = createSlice({
         friendList : [],
         photoURL : "",
         uid : "",
-        block : [{blockUser : "", blockDate : null}],
+        block : [{type : "", uuid : ""}],
         lastLogin : "",
         introduction : ""
     },

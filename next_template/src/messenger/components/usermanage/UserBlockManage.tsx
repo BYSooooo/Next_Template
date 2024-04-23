@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAppSelector } from '@/redux/hook';
 import { UserInfo } from '../../../../msg_typeDef';
-import { getUserInfo } from '../FirebaseController';
+import { getBlockInfo, getUserInfo } from '../FirebaseController';
 import ListElement from './ListElement';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
@@ -17,13 +17,13 @@ export default function UserBlockManage() {
     },[])
 
     const getBlockLists = ()=> {
-        if(currentUser.block) {
-            currentUser.block.map(async(item)=> {
-                const {result, value} = await getUserInfo(item.blockUser);
-                result && setBlockList(prev => {
-                    return prev.some((item)=> item.uid === value.uid) ? prev : [...prev, value]});                
-            })
-        }
+        currentUser.block && currentUser.block.map(async (info)=> {
+            if(info.type === "from") {
+                const {result, value} = await getBlockInfo(info.uuid);
+                //result && 
+            }
+        })
+
     }
 
     return (

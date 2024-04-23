@@ -27,21 +27,10 @@ export default function MainLogined () {
         const docRef = doc(firebaseStore, 'userInfo',firebaseAuth.currentUser.email);
         onSnapshot(docRef,(snapShot)=> {
             const userInfo = snapShot.data() as UserInfo
+            console.log(userInfo)
             // Transform type last login property from TimeStamp to Date 
             const reNewDate: Date = snapShot.data().lastLogin.toDate()
             userInfo.lastLogin = reNewDate.toString()
-            // Transform type blockdate property from Timestamp to Date
-            const blockData = snapShot.data().block;
-            
-            if (blockData) {
-                userInfo.block.forEach((item)=> {
-                    const checkUser = blockData.find((user)=> user.blockUser === item.blockUser)
-                    if(item.blockUser === checkUser.blockUser) {
-                        item.blockDate = checkUser.blockDate.toDate().toString()
-                    }
-                })
-            }
-
             dispatch(setCurrentUserInfo(userInfo))
         })
     }
