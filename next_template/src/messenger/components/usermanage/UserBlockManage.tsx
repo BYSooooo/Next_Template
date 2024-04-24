@@ -8,7 +8,6 @@ import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 export default function UserBlockManage() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
-    
     const [blockList, setBlockList] = React.useState<UserInfo[]>([])
 
     React.useEffect(()=> {
@@ -20,10 +19,11 @@ export default function UserBlockManage() {
         currentUser.block && currentUser.block.map(async (info)=> {
             if(info.type === "from") {
                 const {result, value} = await getBlockInfo(info.uuid);
-                //result && 
+                result && setBlockList(prev=> { 
+                    return prev.some((item)=> item.email === value.email) ? prev : [...prev,value]
+                })
             }
         })
-
     }
 
     return (

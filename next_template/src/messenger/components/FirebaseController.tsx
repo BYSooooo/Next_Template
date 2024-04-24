@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseStore, firebaseStrg } from '../../../firebaseConf
 import { deleteObject, getBlob, getDownloadURL, listAll, ref, uploadString } from 'firebase/storage';
 import { setDoc, doc, getDoc, updateDoc, getDocs, collection, arrayUnion, deleteDoc, deleteField, writeBatch, FieldValue, arrayRemove} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { AttachedInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
+import { AttachedInfo, BlockInfo, ChatRoomInfo, FriendList, MessageInfo, RequestFriend, UserInfo } from '../../../msg_typeDef';
 import JSZip from 'jszip';
 import saveAs from 'file-saver';
 
@@ -600,9 +600,11 @@ export async function blockUser(selectUser : string) {
 
 export async function getBlockInfo(uuid : string) {
     const docRef = doc(firebaseStore,'blockList', uuid)
+    
     try {
-        const response = await getDoc(docRef)
-        return {result : true, value : response.data()}
+        const response = (await getDoc(docRef)).data() as BlockInfo;
+        const {result, value } = await getUserInfo(response.to)
+        return {result : result, value : value}
     } catch(error) {
         console.error(error)
         return { result : false, value : error}
