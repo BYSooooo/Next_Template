@@ -55,21 +55,29 @@ export default function UserSearchManage() {
             .then((response)=> {
                 if(response.result) {
                     const filterUser = []
+                    // block User List
+                    const blocks = currentUser.block.map(async(info)=> {
+                        const {result, value }= await getBlockInfo(info.uuid)
+                        if(info.type === "from" ) filterUser.push()
+                    })
+
+                    /*
                     response.value.map((user : UserInfo)=> {
                         // true - Block User / false : netural User
-                        // const blockYn = currentUser.block.map(async(info)=> {
-                        //     const { result, value }= await getBlockInfo(info.uuid)
-                            
-                        // })
-                        // const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
-                        // if(!blockYn) { // true = Friend / False : non Friend
-                        //     const friendYn = friendEmails.includes(user.email);
-                        //     if(!friendYn) {
-                        //         filterUser.push(user)
-                        //     }
-                        // }
+                        const blockYn = currentUser.block.map(async(info)=> {
+                            const { result, value }= await getBlockInfo(info.uuid)
+                            bo
+                        })
+                        //const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
+                        if(!blockYn) { // true = Friend / False : non Friend
+                            const friendYn = friendEmails.includes(user.email);
+                            if(!friendYn) {
+                                filterUser.push(user)
+                            }
+                        }
                     })
-                    return filterUser
+                    */
+                   return filterUser
                 }})
             .then((list : UserInfo[])=> {
                 const filtering : UserInfo[] = list.filter((user)=> 
