@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import { useAppSelector } from '@/redux/hook';
-import { blockUser, getAllUserInDoc, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
+import { blockUser, getAllUserInDoc, getBlockInfo, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
 import ListElement from './ListElement';
 
 
@@ -57,13 +57,17 @@ export default function UserSearchManage() {
                     const filterUser = []
                     response.value.map((user : UserInfo)=> {
                         // true - Block User / false : netural User
-                        const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
-                        if(!blockYn) { // true = Friend / False : non Friend
-                            const friendYn = friendEmails.includes(user.email);
-                            if(!friendYn) {
-                                filterUser.push(user)
-                            }
-                        }
+                        // const blockYn = currentUser.block.map(async(info)=> {
+                        //     const { result, value }= await getBlockInfo(info.uuid)
+                            
+                        // })
+                        // const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
+                        // if(!blockYn) { // true = Friend / False : non Friend
+                        //     const friendYn = friendEmails.includes(user.email);
+                        //     if(!friendYn) {
+                        //         filterUser.push(user)
+                        //     }
+                        // }
                     })
                     return filterUser
                 }})
