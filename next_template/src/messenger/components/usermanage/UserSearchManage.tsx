@@ -50,24 +50,30 @@ export default function UserSearchManage() {
             }
         })
 
+        const blockLists : UserInfo []= []
+        currentUser.block.map(async(info)=> {
+            try {
+                const { result, value } = await getBlockInfo(info.uuid);
+                if(result) {
+                    !blockLists.find((item)=> item.email === value.email) && blockLists.push(value)
+                }
+            } catch(error) {
+                console.error(error)
+            }
+            
+        })
+        
         // get All User List
         await getAllUserInDoc()
             .then((response)=> {
                 if(response.result) {
-                    const filterUser = []
-                    // block User List
-                    const blocks = currentUser.block.map(async(info)=> {
-                        const {result, value }= await getBlockInfo(info.uuid)
-                        if(info.type === "from" ) filterUser.push()
-                    })
+                    console.log(blockLists)
+                   const filterUser = response.value.filter((user: UserInfo) => 
+                        !blockLists.some((item)=>  item.email === user.email)
+                )
 
                     /*
-                    response.value.map((user : UserInfo)=> {
-                        // true - Block User / false : netural User
-                        const blockYn = currentUser.block.map(async(info)=> {
-                            const { result, value }= await getBlockInfo(info.uuid)
-                            bo
-                        })
+                   
                         //const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
                         if(!blockYn) { // true = Friend / False : non Friend
                             const friendYn = friendEmails.includes(user.email);

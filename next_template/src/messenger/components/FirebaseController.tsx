@@ -600,10 +600,10 @@ export async function blockUser(selectUser : string) {
 
 export async function getBlockInfo(uuid : string) {
     const docRef = doc(firebaseStore,'blockList', uuid)
-    
+    const currentUser = firebaseAuth.currentUser.email
     try {
         const response = (await getDoc(docRef)).data() as BlockInfo;
-        const {result, value } = await getUserInfo(response.to)
+        const {result, value } = await getUserInfo(response.from === currentUser ? response.to : response.from)
         return {result : result, value : value}
     } catch(error) {
         console.error(error)
