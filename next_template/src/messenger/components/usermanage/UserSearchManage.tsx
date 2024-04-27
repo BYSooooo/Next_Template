@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { RequestFriend, UserInfo } from '../../../../msg_typeDef';
 import { useAppSelector } from '@/redux/hook';
-import { blockUser, getAllUserInDoc, getBlockInfo, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
+import { getAllUserInDoc, getBlockInfo, getInfoInFriendListCol, getReuestAddFriendInDoc } from '../FirebaseController';
 import ListElement from './ListElement';
 
 
@@ -11,8 +11,10 @@ export default function UserSearchManage() {
     const [inputValue, setInputValue] = React.useState("");
     const [userList, setUserList] = React.useState<UserInfo[]>([]);
     const [filteringList, setFilteringList] = React.useState<UserInfo[]>([]);
+    const [blockList, setBlockList] = React.useState<UserInfo[]>([])
     
     React.useEffect(()=> {
+        getBlockUserList()
         checkFilters()
     } ,[currentUser]);
 
@@ -24,7 +26,18 @@ export default function UserSearchManage() {
     const filterUser = ()=> {
         const resultArray = userList.filter((item)=> item.email.includes(inputValue))
         setFilteringList(resultArray)
-    }    
+    }
+    
+    const getBlockUserList = ()=> {
+        currentUser.block.forEach(async(info)=> {
+            await getBlockInfo(info.uuid).then((response)=> {
+                if(response.result) {
+                    return !blockList.some((item)=> item.email === response.value.email) 
+                        && setBlockList(prev => {return [...prev,response.value]})
+                }
+            })
+        })
+    }
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
         setInputValue(e.target.value.trim())
@@ -49,54 +62,22 @@ export default function UserSearchManage() {
                 reqLists.push(...filter)
             }
         })
-
-        const blockLists : UserInfo []= []
-        currentUser.block.map(async(info)=> {
-            try {
-                const { result, value } = await getBlockInfo(info.uuid);
-                if(result) {
-                    !blockLists.find((item)=> item.email === value.email) && blockLists.push(value)
-                }
-            } catch(error) {
-                console.error(error)
-            }
-            
-        })
         
-        // get All User List
-        await getAllUserInDoc()
-            .then((response)=> {
-                if(response.result) {
-                    console.log(blockLists)
-                   const filterUser = response.value.filter((user: UserInfo) => 
-                        !blockLists.some((item)=>  item.email === user.email)
-                )
 
-                    /*
-                   
-                        //const blockYn = currentUser.block?.some((item)=> item.blockUser === user.email);
-                        if(!blockYn) { // true = Friend / False : non Friend
-                            const friendYn = friendEmails.includes(user.email);
-                            if(!friendYn) {
-                                filterUser.push(user)
-                            }
-                        }
-                    })
-                    */
-                   return filterUser
-                }})
-            .then((list : UserInfo[])=> {
-                const filtering : UserInfo[] = list.filter((user)=> 
+        // get All User List
+        await getAllUserInDoc().then((response)=> {
+            if(response.result) {
+                const filtering : UserInfo[] = response.value.filter((user)=> 
                     !reqLists.some((item:RequestFriend)=>  
                         ((item.from === user.email) || (item.to === user.email)) 
                         && (item.status !== "success")
                     )
                 )
                 setUserList(filtering)
-            })
+            }
+        })
     }
-        
-
+     
     return (
         <>
             <div className='flex justify-between'>
@@ -130,7 +111,8 @@ export default function UserSearchManage() {
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {   filteringList.map((result)=> {
-                        return <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
+                        return blockList.some((item)=> result.email !== item.email) && 
+                         <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
                     })
                 }
             </ul>
