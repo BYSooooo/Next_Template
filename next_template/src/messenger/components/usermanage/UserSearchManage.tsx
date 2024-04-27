@@ -73,7 +73,7 @@ export default function UserSearchManage() {
                         && (item.status !== "success")
                     )
                 )
-                setUserList(filtering)
+                setUserList(filtering.filter((item)=> !friendEmails.includes(item.email)))
             }
         })
     }
@@ -112,6 +112,7 @@ export default function UserSearchManage() {
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {   filteringList.map((result)=> {
                         return blockList.some((item)=> result.email !== item.email) && 
+
                          <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
                     })
                 }
