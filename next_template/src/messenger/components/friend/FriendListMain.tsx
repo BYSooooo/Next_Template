@@ -2,23 +2,31 @@ import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { UserInfo } from '../../../../msg_typeDef';
-import { getUserInfo } from '../FirebaseController';
+import { getInfoInFriendListCol, getUserInfo } from '../FirebaseController';
+import ListElement from '../usermanage/ListElement';
+import { setPageRendering } from '@/redux/features/messengerReducer';
 
 export default function FriendListMain() {
-    const currentuser = useAppSelector((state)=> state.messengerCurUserInfo);
+    const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     const [friendList, setFriendList] = React.useState<UserInfo[]>([])
     const dispatch = useAppDispatch()
-    
+
     React.useEffect(()=> {
+        setFriendList([])
         getFriendList()
-    })
+    },[currentUser])
 
     const getFriendList = ()=> {
-        if(currentuser.friendList) {
-            currentuser.friendList.map(async(email)=> {
-                const {result, value} = await getUserInfo(email)
-            }
-            )
+        if(currentUser.friendList) {
+            currentUser.friendList.map(async(email)=> {
+                const {result, value} = await getInfoInFriendListCol(email)
+                console.log(result,value)
+                // if(result) {
+                //     setFriendList(prev => {
+                //         return prev.some((item)=> item.email === value) ? prev : [...prev,value]
+                //     })
+                // }
+            })
         
         }
     }
@@ -30,8 +38,13 @@ export default function FriendListMain() {
                     Friends List
                 </h4>
             </div>
-            <ul className='overflow-y-scroll'>
+            <button onClick={()=> dispatch(setPageRendering({middle : "FriendListMain"}))}>
 
+            </button>
+            <ul className='overflow-y-scroll'>
+                {friendList.map((item)=> {
+                    return <ListElement key={item.uid} openFrom='friend' selected={item}/>
+                })}
             </ul>
         </div>
     )

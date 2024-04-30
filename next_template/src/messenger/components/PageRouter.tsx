@@ -1,7 +1,9 @@
 import React from 'react';
 
 import UserInfo from './userinfo/UserInfo';
-import FriendListMain from './friendlist/FriendListMain';
+
+//import FriendListMain from './friendlist/FriendListMain';
+import FriendListMain from './friend/FriendListMain';
 import UserInfoEdit from './info_edit/UserInfoEdit';
 import { useAppSelector } from '@/redux/hook';
 import { ChatRoom } from './chat/ChatRoom';
