@@ -19,13 +19,15 @@ export default function FriendListMain() {
     const getFriendList = ()=> {
         if(currentUser.friendList) {
             currentUser.friendList.map(async(email)=> {
-                const {result, value} = await getInfoInFriendListCol(email)
-                console.log(result,value)
-                // if(result) {
-                //     setFriendList(prev => {
-                //         return prev.some((item)=> item.email === value) ? prev : [...prev,value]
-                //     })
-                // }
+                const response = await getInfoInFriendListCol(email)
+                if(response.result) {
+                    const {result, value} = await getUserInfo(response.value)
+                    if(result) {
+                        setFriendList(prev => {
+                            return prev.some((item)=> item.email === value.email) ? prev : [...prev,value]
+                        })
+                    }
+                }
             })
         
         }
@@ -37,13 +39,15 @@ export default function FriendListMain() {
                 <h4 className='font-bold text-lg'>
                     Friends List
                 </h4>
+                <button
+                    className='rounded-md text-white text-xs bg-blue-500 py-1 px-2 hover:cursor-pointer hover:bg-blue-300'
+                    onClick={()=> dispatch(setPageRendering({middle : "UserManageMain"}))}>
+                    +ADD
+                </button>
             </div>
-            <button onClick={()=> dispatch(setPageRendering({middle : "FriendListMain"}))}>
-
-            </button>
             <ul className='overflow-y-scroll'>
                 {friendList.map((item)=> {
-                    return <ListElement key={item.uid} openFrom='friend' selected={item}/>
+                    return <ListElement key={item.uid} openFrom='Friend' selected={item}/>
                 })}
             </ul>
         </div>
