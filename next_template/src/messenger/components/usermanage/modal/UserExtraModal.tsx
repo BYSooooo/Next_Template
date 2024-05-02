@@ -32,6 +32,8 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 return responseRequestAction(false)
             case "unBlock" :    
                 return unBlockAction()
+            case "deleteFriend" :
+                return deleteFriend()
             default : break;
         }    
     }
@@ -55,6 +57,10 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 break;
             case "unBlock" :
                 setHeaderText("Unblock User")
+                break;
+            case "deleteFriend" :
+                setHeaderText("Delete Friend")
+                break;
             default : break;
         }
     }
@@ -99,6 +105,13 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                         "Once the block is lifted, actions such as searching and friend requests become possible.",   
                     ]
                     break;
+                case "deleteFriend" :
+                    textArray = [
+                        "You can remove this friend.",
+                        "When you delete a friend, you are removed from that user's friends list ",
+                        "The chat room is not available and will be availabie if you become friends again."
+                    ]
+                    break;
                 default : 
                     textArray = ["Invalid Access"]
                     break;
@@ -137,6 +150,11 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                             className='w-full border-2 border-solid border-orange-500 justify-center rounded-full hover:bg-orange-500 hover:text-white transition duration-200'>
                             Unblock User
                         </button>
+            case "deleteFriend" :
+                return <button onClick={onClickBtn}
+                            className='w-full border-2 border-solid border-red-500 justify-center rounded-full hover:bg-red-500 hover:text-white transition duration-200'>
+                            Delete Friend
+                </button>
             default : break;
         }
     }
@@ -203,6 +221,9 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     }
     const unBlockAction = () => {
 
+    }
+    const deleteFriend = async()=> {
+        //const result = await deleteFriend(selectedUser.)
     }
 
 

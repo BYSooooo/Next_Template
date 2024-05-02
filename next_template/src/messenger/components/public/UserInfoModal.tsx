@@ -207,7 +207,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
     }
     const FriendDeleteIcon =()=> {
         const onClickFriendDel = ()=> {
-            setSelectAction("friendDel")
+            setSelectAction("deleteFriend")
             setExtraModal(true);
         }
         return (
