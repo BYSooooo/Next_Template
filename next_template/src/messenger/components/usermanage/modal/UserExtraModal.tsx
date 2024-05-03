@@ -223,7 +223,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
 
     }
     const deleteFriend = async()=> {
-        //const result = await deleteFriend(selectedUser.)
+        const result = await deleteFriend
     }
 
 

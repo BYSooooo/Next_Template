@@ -60,6 +60,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
                 return (
                     <div className='flex mx-4 justify-center items-center gap-2'>
                         {FriendDeleteIcon()}
+                        {userBlockIcon()}
                     </div>
 
                 )
@@ -217,7 +218,6 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             />
         )
     }
-
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">
