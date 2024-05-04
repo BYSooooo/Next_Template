@@ -3,20 +3,21 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser,delAddFriendRequestInDoc,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser,delAddFriendRequestInDoc,deleteFriend,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
 import { firebaseAuth } from '../../../../../firebaseConfig';
+import { UserInfo } from '../../../../../msg_typeDef';
 
-export default function UserExtraModal({openYn, selectedUser, action, extraInfo} : {openYn : Function, selectedUser : string, action: string, extraInfo? : any}) {
+export default function UserExtraModal({openYn, selectedUser, action, extraInfo} : {openYn : Function, selectedUser : UserInfo, action: string, extraInfo? : any}) {
     const [headerText, setHeaderText] = React.useState("");
     const [bodyText, setBodyText] = React.useState<string[]>([]);
+    const [extra, setExtra] = React.useState<any>()
+    const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
         setHeaderByAction()
         setBodyByAction()
-        console.log(action)
+        extraInfo && setExtra(extraInfo)
     },[])
-
-    const dispatch = useAppDispatch();
 
     const onClickBtn = ()=> {
         switch(action) {
@@ -33,7 +34,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
             case "unBlock" :    
                 return unBlockAction()
             case "deleteFriend" :
-                return deleteFriend()
+                return deleteFriendAction()
             default : break;
         }    
     }
@@ -160,7 +161,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     }
 
     const userBlockAction = async()=> {
-        await blockUser(selectedUser).then((res)=> {
+        await blockUser(selectedUser.email).then((res)=> {
             if(res) {
                 openYn({open : false, target : "all"})
                 dispatch(setPopOverToggle({showYn : true, messageString : "Block Complete", type : "success"}))
@@ -175,7 +176,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
         if(extraInfo) {
             extraInfo.rejected && await delAddFriendRequestInDoc(extraInfo.friendReq)
         }
-        await setRequestAddFriendInDoc(selectedUser).then((res)=> {
+        await setRequestAddFriendInDoc(selectedUser.email).then((res)=> {
             if(res.result) {
                 dispatch(setSelectedTab(2))
                 dispatch(setPopOverToggle({showYn: true, messageString : "Send Request", type : "success"}))
@@ -190,7 +191,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
             .then((response)=> {
                  return response.result 
                     && response.value.find((reqDoc)=> 
-                        reqDoc.from === firebaseAuth.currentUser.email && reqDoc.to === selectedUser)})
+                        reqDoc.from === firebaseAuth.currentUser.email && reqDoc.to === selectedUser.email)})
             .then(async(response2) => {
                 const result = await delAddFriendRequestInDoc(response2)
                 if(result) {
@@ -206,7 +207,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
             .then((response)=> {
                 return response.result
                     && response.value.find((reqDoc)=> 
-                        reqDoc.to === firebaseAuth.currentUser.email && reqDoc.from === selectedUser
+                        reqDoc.to === firebaseAuth.currentUser.email && reqDoc.from === selectedUser.email
                     )
             })
             .then(async(response2)=> {
@@ -220,12 +221,20 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
             })
     }
     const unBlockAction = () => {
-
+        console.log("unBlockClicked")
     }
-    const deleteFriend = async()=> {
-        const result = await deleteFriend
+    const deleteFriendAction = async()=> {
+        if(extra && (extra.sort === "friendUUID")) {
+            const result = await deleteFriend(extra.info)
+            if(result) {
+                openYn({open: false, target: "all"});
+                dispatch(setPopOverToggle({showYn : true, messageString : "Delete Success", type : "success"}))
+            } else {
+                dispatch(setPopOverToggle({ showYn: true, messageString : "Delete Failed", type: 'fail'}))
+            }
+        }
     }
-
+ 
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">

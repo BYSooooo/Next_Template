@@ -1,20 +1,24 @@
 import React from 'react';
 
 import { UserInfo } from '../../../../msg_typeDef';
-import { CheckIcon, DocumentMinusIcon, ExclamationTriangleIcon, LockOpenIcon, NoSymbolIcon, UserIcon, UserMinusIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { ChatBubbleLeftRightIcon, CheckIcon, DocumentMinusIcon, ExclamationTriangleIcon, LockOpenIcon, NoSymbolIcon, UserIcon, UserMinusIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import UserExtraModal from '../usermanage/modal/UserExtraModal';
-import { useAppSelector } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setChatListUUID, setPageRendering } from '@/redux/features/messengerReducer';
+import { getChatInfoInFriendList } from '../FirebaseController';
 
-export default function UserInfoModal({info, openFrom, openYn} : {info : UserInfo, openFrom: string, openYn : Function}) {
+export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {info : UserInfo, openFrom: string, openYn : Function, extraInfo? : {sort : string, info: any}}) {
     const requestList = useAppSelector((state)=> state.messengerFriendReq);
     const currentInfo = useAppSelector((state)=> state.messengerCurUserInfo);
 
     const [extraModal, setExtraModal] = React.useState(false)
     const [selectAction, setSelectAction] = React.useState("")
     const [isReject, setIsReject] = React.useState({rejected : false, friendReq : null})
+    const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
         requestCheck()
+        console.log(extraInfo)
     },[])
 
     const requestCheck = () => {
@@ -25,7 +29,6 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             ((item.to === currentEmail) && (item.from === info.email))
         )
         search && setIsReject({rejected : true, friendReq : search})
-        
     }
 
     const checkStatus = ()=> {
@@ -59,6 +62,7 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
             case "Friend" : 
                 return (
                     <div className='flex mx-4 justify-center items-center gap-2'>
+                        {openChatRoomIcon()}
                         {FriendDeleteIcon()}
                         {userBlockIcon()}
                     </div>
@@ -127,11 +131,24 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
     }
     
     const showExtraModal = ()=> {
+        let extraProp:any = null;
         const modalClose = (res: {open : boolean, target: string})=> {
             setExtraModal(res.open)
             res.target === "all" && openYn(res.open)
         }
-        return <UserExtraModal openYn={modalClose} selectedUser={info.email} action={selectAction} extraInfo={isReject}/>
+        const setExtraInfo = ()=> {
+            switch(openFrom) {
+                case "Default" : 
+                    extraProp = isReject
+                    break;
+                case "Friend" :
+                    extraProp = extraInfo
+                    break;
+                default : break;
+            }
+            return extraProp
+        }
+        return <UserExtraModal openYn={modalClose} selectedUser={info} action={selectAction} extraInfo={()=>setExtraInfo()}/>
     }
 
     const sendRequestIcon = ()=> {
@@ -213,8 +230,23 @@ export default function UserInfoModal({info, openFrom, openYn} : {info : UserInf
         }
         return (
             <UserMinusIcon 
-                className='w-5 h-5 rounded-full p-1 hover:cursor-pointer text-white bg-red-500 dark:text-slate-600 dark:bg-red-600'
+                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-red-500 dark:text-white dark:bg-red-600'
                 onClick={onClickFriendDel}
+            />
+        )
+    }
+    const openChatRoomIcon = ()=> {
+        const onClickChatRoom = async()=> {
+            const { chatUUID }= await getChatInfoInFriendList(extraInfo.info)
+            dispatch(setChatListUUID(chatUUID))
+            dispatch(setPageRendering({middle : "ChatRoom"}))
+            openYn(false)
+
+        }
+        return (
+            <ChatBubbleLeftRightIcon 
+            className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-blue-500 dart:text-white dark:bg-blue-600' 
+                onClick={onClickChatRoom}
             />
         )
     }

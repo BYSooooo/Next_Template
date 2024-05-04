@@ -3,11 +3,14 @@ import { UserInfo } from '../../../../msg_typeDef';
 import { UserIcon } from '@heroicons/react/20/solid';
 import UserInfoModal from '../public/UserInfoModal';
 
-export default function ListElement({selected, openFrom, } : {selected : UserInfo, openFrom : string }) {
+export default function ListElement({selected, openFrom, extraInfo} : {selected : UserInfo, openFrom : string, extraInfo? : {sort : string, info: any}}) {
     const [modalOpenYn, setModalOpenYn] = React.useState(false);
     const [income, setIncome] = React.useState("");
+    const [extra, setExtra] = React.useState<{sort : string, info: any}>();
+
     React.useEffect(()=> {
         setIncome(openFrom)
+        if(extraInfo) setExtra({sort : extraInfo.sort, info : extraInfo.info})
     },[])
 
     const toggleModal =(openYn: boolean)=> {
@@ -17,7 +20,7 @@ export default function ListElement({selected, openFrom, } : {selected : UserInf
     return (
         <>
             <li onClick={()=>setModalOpenYn(true)}>
-                <div className='flex justify-between border-2 border-solid border-slate-500 rounded-lg my-2 p-2 hover:cursor-pointer hover:border-blue-500 transition duration-200 '>
+                <div className='flex w-full justify-between border-2 border-solid border-slate-500 rounded-lg my-2 p-2 hover:cursor-pointer hover:border-blue-500 transition duration-200 '>
                     <div className='flex items-center gap-2'>
                         {
                             selected.photoURL 
@@ -30,7 +33,7 @@ export default function ListElement({selected, openFrom, } : {selected : UserInf
                     </div>
                 </div>
             </li>
-            {modalOpenYn &&  <UserInfoModal info={selected} openFrom={income} openYn={toggleModal}/>}
+            {modalOpenYn &&  <UserInfoModal info={selected} openFrom={income} openYn={toggleModal} extraInfo={extra}/>}
         </>
     )
 }

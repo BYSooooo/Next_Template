@@ -29,14 +29,16 @@ export default function UserSearchManage() {
     }
     
     const getBlockUserList = ()=> {
-        currentUser.block.forEach(async(info)=> {
-            await getBlockInfo(info.uuid).then((response)=> {
-                if(response.result) {
-                    return !blockList.some((item)=> item.email === response.value.email) 
-                        && setBlockList(prev => {return [...prev,response.value]})
-                }
+        if(currentUser.block) {
+            currentUser.block.forEach(async(info)=> {
+                await getBlockInfo(info.uuid).then((response)=> {
+                    if(response.result) {
+                        return !blockList.some((item)=> item.email === response.value.email) 
+                            && setBlockList(prev => {return [...prev,response.value]})
+                    }
+                })
             })
-        })
+        }
     }
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>)=> {
