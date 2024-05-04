@@ -8,7 +8,7 @@ import { setPageRendering } from '@/redux/features/messengerReducer';
 
 export default function FriendListMain() {
     const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
-    const [friendList, setFriendList] = React.useState<UserInfo[]>([])
+    const [friendList, setFriendList] = React.useState<{uuid : string, info : UserInfo}[]>([])
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -18,13 +18,13 @@ export default function FriendListMain() {
 
     const getFriendList = ()=> {
         if(currentUser.friendList) {
-            currentUser.friendList.map(async(email)=> {
-                const response = await getInfoInFriendListCol(email)
+            currentUser.friendList.map(async(uuid)=> {
+                const response = await getInfoInFriendListCol(uuid)
                 if(response.result) {
                     const {result, value} = await getUserInfo(response.value)
                     if(result) {
                         setFriendList(prev => {
-                            return prev.some((item)=> item.email === value.email) ? prev : [...prev,value]
+                            return prev.some((item)=> item.info.email === value.email) ? prev : [...prev,{uuid :uuid , info : value}]
                         })
                     }
                 }
@@ -34,7 +34,7 @@ export default function FriendListMain() {
     }
 
     return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='w-64 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
             <div className='flex justify-between items-center'>
                 <h4 className='font-bold text-lg'>
                     Friends List
@@ -47,7 +47,7 @@ export default function FriendListMain() {
             </div>
             <ul className='overflow-y-scroll'>
                 {friendList.map((item)=> {
-                    return <ListElement key={item.uid} openFrom='Friend' selected={item}/>
+                    return <ListElement key={item.info.uid} openFrom='Friend' selected={item.info} extraInfo={{sort : "friendUUID", info: item.uuid}}/>
                 })}
             </ul>
         </div>

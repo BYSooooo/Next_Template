@@ -587,6 +587,7 @@ export async function blockUser(selectUser : string) {
         await updateDoc(doc(firebaseStore,'userInfo',currentEmail), {
             block : arrayUnion({ uuid : blockUUID, type : "from" })
         })
+        // Update UserInfo (To User)
         await updateDoc(doc(firebaseStore, 'userInfo', selectUser), {
             block : arrayUnion({ uuid : blockUUID, type : "to"})
         })
