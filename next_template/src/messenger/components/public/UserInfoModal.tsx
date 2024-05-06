@@ -219,7 +219,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
         }
         return (
             <LockOpenIcon
-                className='w-5 h-5 rounded-full p-1 hover:cursor-pointer text-white bg-green-500 dark:text-slate-600 dark:bg-green-600'
+                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-green-500 dark:text-white dark:bg-green-600'
                 onClick={onClickUnBlock} />
         )
     }
