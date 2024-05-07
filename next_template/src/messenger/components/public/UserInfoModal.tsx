@@ -18,7 +18,6 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
     React.useEffect(()=> {
         requestCheck()
-        console.log(extraInfo)
     },[])
 
     const requestCheck = () => {
@@ -131,24 +130,11 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
     }
     
     const showExtraModal = ()=> {
-        let extraProp:any = null;
         const modalClose = (res: {open : boolean, target: string})=> {
             setExtraModal(res.open)
             res.target === "all" && openYn(res.open)
         }
-        const setExtraInfo = ()=> {
-            switch(openFrom) {
-                case "Default" : 
-                    extraProp = isReject
-                    break;
-                case "Friend" :
-                    extraProp = extraInfo
-                    break;
-                default : break;
-            }
-            return extraProp
-        }
-        return <UserExtraModal openYn={modalClose} selectedUser={info} action={selectAction} extraInfo={()=>setExtraInfo()}/>
+        return <UserExtraModal openYn={modalClose} selectedUser={info} action={selectAction} extraInfo={openFrom === "Default" ? isReject : extraInfo}/>
     }
 
     const sendRequestIcon = ()=> {

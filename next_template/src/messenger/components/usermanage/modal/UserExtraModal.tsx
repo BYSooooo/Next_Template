@@ -3,7 +3,7 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser,delAddFriendRequestInDoc,deleteFriend,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser,delAddFriendRequestInDoc,deleteFriend,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc, unBlockUser } from '../../FirebaseController';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { UserInfo } from '../../../../../msg_typeDef';
 
@@ -17,6 +17,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
         setHeaderByAction()
         setBodyByAction()
         extraInfo && setExtra(extraInfo)
+        console.log(extraInfo)
     },[])
 
     const onClickBtn = ()=> {
@@ -220,8 +221,8 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 }
             })
     }
-    const unBlockAction = () => {
-        console.log("unBlockClicked")
+    const unBlockAction = async() => {
+        await unBlockUser(extraInfo)
     }
     const deleteFriendAction = async()=> {
         if(extra && (extra.sort === "friendUUID")) {

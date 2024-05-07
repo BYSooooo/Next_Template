@@ -598,7 +598,12 @@ export async function blockUser(selectUser : string) {
         return false
     }
 }
-
+/**
+ * Get user information that Selected BlockList
+ * 
+ * @param uuid blockList Document UUID
+ * @returns result : Boolean Type of Transaction Result / value : Selected Block User Info
+ */
 export async function getBlockInfo(uuid : string) {
     const docRef = doc(firebaseStore,'blockList', uuid)
     const currentUser = firebaseAuth.currentUser.email
@@ -610,4 +615,12 @@ export async function getBlockInfo(uuid : string) {
         console.error(error)
         return { result : false, value : error}
     }
+}
+
+export async function unBlockUser(blockInfo : {sort: string, info: BlockInfo}) {
+    const docRef = doc(firebaseStore,'blockList', blockInfo.sort)
+    const currentUser = firebaseAuth.currentUser;
+    //
+    
+
 }
