@@ -18,6 +18,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
     React.useEffect(()=> {
         requestCheck()
+        console.log(extraInfo)
     },[])
 
     const requestCheck = () => {

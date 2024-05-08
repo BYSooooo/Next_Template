@@ -221,9 +221,13 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 }
             })
     }
+    
     const unBlockAction = async() => {
-        await unBlockUser(extraInfo)
+        await unBlockUser(extraInfo).then((response)=>{
+            console.log(response)
+        })
     }
+
     const deleteFriendAction = async()=> {
         if(extra && (extra.sort === "friendUUID")) {
             const result = await deleteFriend(extra.info)

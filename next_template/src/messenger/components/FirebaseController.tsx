@@ -617,10 +617,32 @@ export async function getBlockInfo(uuid : string) {
     }
 }
 
-export async function unBlockUser(blockInfo : {sort: string, info: BlockInfo}) {
-    const docRef = doc(firebaseStore,'blockList', blockInfo.sort)
-    const currentUser = firebaseAuth.currentUser;
-    //
+export async function unBlockUser(blockInfo : {sort: string, info: {type: string, uuid: string}}) {
+    console.log(blockInfo)
     
+    const currentUser = firebaseAuth.currentUser;
+    try {
+        //const docRef = doc(firebaseStore,"blockList",blockInfo.info.)
+        
 
+
+        // Delete Block Info in Current User
+        const currentDocRef = doc(firebaseStore,"userInfo",currentUser.email)
+        await updateDoc(currentDocRef,{
+            block : arrayRemove({uuid :blockInfo.info.uuid })
+        })
+        // Delete Block Info in Another User
+        //const otherUserDocRef = doc(firebaseStore,"userInfo",blockInfo.info.to)
+        // await updateDoc(otherUserDocRef,{
+        //     block: arrayRemove({uuid : blockInfo.info.uuid})
+        // })
+        // Delete Block Info in BlockList Collection
+        const blockDocRef = doc(firebaseStore,"blockList",blockInfo.info.uuid)
+        await deleteDoc(blockDocRef)
+        return true;
+    } catch(error) {
+        console.error(error)
+        return false
+    }
+    
 }
