@@ -113,7 +113,7 @@ export default function UserSearchManage() {
             </div>
             <ul className='list-none list-inside h-52 overflow-y-scroll'>
                 {   filteringList.map((result)=> {
-                        return blockList.some((item)=> result.email !== item.email) && 
+                        return !blockList.some((item)=> result.email === item.email) && 
 
                          <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
                     })
