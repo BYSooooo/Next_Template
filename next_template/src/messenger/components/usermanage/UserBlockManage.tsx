@@ -13,7 +13,7 @@ export default function UserBlockManage() {
     React.useEffect(()=> {
         setBlockList([])
         getBlockLists()
-    },[])
+    },[currentUser])
 
     const getBlockLists = ()=> {
         currentUser.block && currentUser.block.map(async (info)=> {

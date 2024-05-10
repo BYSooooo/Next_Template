@@ -622,33 +622,17 @@ export async function unBlockUser(blockInfo : {sort: string, info: {type: string
         const docRef = doc(firebaseStore,"blockList",blockInfo.info.uuid)
         const response = (await getDoc(docRef)).data() as BlockInfo
         
-        const fromDocRef = doc(firebaseStore,"userInfo",response.from);
         const toDocRef = doc(firebaseStore,"userInfo",response.to)
+        const fromDocRef = doc(firebaseStore,"userInfo",response.from);
         
         await updateDoc(fromDocRef,{
-            block : arrayRemove()
+            block : arrayRemove({ type : "from", uuid : blockInfo.info.uuid})
+        })
+        await updateDoc(toDocRef, {
+            block : arrayRemove({ type : "to", uuid : blockInfo.info.uuid})  
         })
         
-        // await getDoc(docRef).then(async(response)=> {
-        //     const data = response.data() as BlockInfo
-        //     const fromUserRef = doc(firebaseStore,"userInfo",data.from)
-        //     const toUserRef = doc(firebaseStore,"userInfo", data.to)
-            
-        //     await updateDoc(fromUserRef, {
-        //         block : arrayRemove({uuid : blockInfo.info.uuid})
-        //     })
-        //     await updateDoc(toUserRef,{
-        //         block : arrayRemove({ uuid : blockInfo.info.uuid})
-        //     })
-        //     return true
-        // }).then(async(result: boolean)=> {
-        //     console.log(result)
-        //     if(result) {
-        //         // Delete Block Info in BlockList Collection
-        //         const blockDocRef = doc(firebaseStore,"blockList",blockInfo.info.uuid)
-        //         await deleteDoc(blockDocRef)
-        //     }
-        // })
+        await deleteDoc(docRef)
         return true;
     } catch(error) {
         console.error(error)

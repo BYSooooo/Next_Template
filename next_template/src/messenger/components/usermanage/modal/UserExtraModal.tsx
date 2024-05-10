@@ -224,7 +224,12 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     
     const unBlockAction = async() => {
         await unBlockUser(extraInfo).then((response)=>{
-            console.log(response)
+           if(response) {
+            openYn({ open : false, target : "all"});
+            dispatch(setPopOverToggle({ showYn : true, messageString : "Unblock Success", type :"success"}))
+           } else {
+            dispatch(setPopOverToggle({ showYn: true, messageString : "Unblock Failed", type : "fail"}))
+           }
         })
     }
 
