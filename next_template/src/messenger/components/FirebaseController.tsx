@@ -553,25 +553,6 @@ export async function deleteFriend(friendListUUID: string) {
  * @param selectedUser Email of the user current want to block
  * @returns Boolean of Success or Failed Block
  */
-// export async function blockUser (selectedUser : string) {
-//     const currentEmail = firebaseAuth.currentUser.email
-//     const docRef = doc(firebaseStore,'userInfo',currentEmail);
-//     try {
-//         setDoc(docRef,{
-//             block :  arrayUnion({blockUser : selectedUser, blockDate : new Date()})
-//         },{merge : true});
-//         return true;
-//     } catch(error) {
-//         console.log(error)
-//         return false
-//     }
-// }
-
-/**
- * Block User 
- * 
- * 
- */
 export async function blockUser(selectUser : string) {
     const currentEmail = firebaseAuth.currentUser.email;
     const blockUUID = uuidv4()
@@ -598,7 +579,12 @@ export async function blockUser(selectUser : string) {
         return false
     }
 }
-
+/**
+ * Get user information that Selected BlockList
+ * 
+ * @param uuid blockList Document UUID
+ * @returns result : Boolean Type of Transaction Result / value : Selected Block User Info
+ */
 export async function getBlockInfo(uuid : string) {
     const docRef = doc(firebaseStore,'blockList', uuid)
     const currentUser = firebaseAuth.currentUser.email
@@ -610,4 +596,33 @@ export async function getBlockInfo(uuid : string) {
         console.error(error)
         return { result : false, value : error}
     }
+}
+
+/**
+ * UnBlock User
+ * @param blockInfo 
+ * @returns 
+ */
+export async function unBlockUser(blockInfo : {sort: string, info: {type: string, uuid: string}}) {
+    try {
+        const docRef = doc(firebaseStore,"blockList",blockInfo.info.uuid)
+        const response = (await getDoc(docRef)).data() as BlockInfo
+        
+        const toDocRef = doc(firebaseStore,"userInfo",response.to)
+        const fromDocRef = doc(firebaseStore,"userInfo",response.from);
+        
+        await updateDoc(fromDocRef,{
+            block : arrayRemove({ type : "from", uuid : blockInfo.info.uuid})
+        })
+        await updateDoc(toDocRef, {
+            block : arrayRemove({ type : "to", uuid : blockInfo.info.uuid})  
+        })
+        
+        await deleteDoc(docRef)
+        return true;
+    } catch(error) {
+        console.error(error)
+        return false
+    }
+    
 }

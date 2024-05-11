@@ -42,7 +42,7 @@ export default function FriendListMain() {
                 <button
                     className='rounded-md text-white text-xs bg-blue-500 py-1 px-2 hover:cursor-pointer hover:bg-blue-300'
                     onClick={()=> dispatch(setPageRendering({middle : "UserManageMain"}))}>
-                    +ADD
+                    Manage
                 </button>
             </div>
             <ul className='overflow-y-scroll'>

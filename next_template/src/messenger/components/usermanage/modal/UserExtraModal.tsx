@@ -3,7 +3,7 @@ import React from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch } from '@/redux/hook';
 import { setPopOverToggle, setSelectedTab } from '@/redux/features/messengerReducer';
-import { blockUser,delAddFriendRequestInDoc,deleteFriend,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc } from '../../FirebaseController';
+import { blockUser,delAddFriendRequestInDoc,deleteFriend,getReuestAddFriendInDoc, setFriendRequestControl, setRequestAddFriendInDoc, unBlockUser } from '../../FirebaseController';
 import { firebaseAuth } from '../../../../../firebaseConfig';
 import { UserInfo } from '../../../../../msg_typeDef';
 
@@ -35,12 +35,15 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 return unBlockAction()
             case "deleteFriend" :
                 return deleteFriendAction()
+            case "friendBlock" : 
+                return friendBlock()
             default : break;
         }    
     }
 
     const setHeaderByAction = ()=> {
         switch(action) {
+            case "friendBlock" : 
             case "userBlock" : 
                 setHeaderText("Caution - Block")
                 break;
@@ -68,11 +71,12 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     const setBodyByAction = ()=> {
         var textArray : string[]
             switch(action) {
-                case "userBlock" : 
+                case "friendBlock" :
+                case "userBlock": 
                     textArray = [
-                        "You can block selected friends.",
-                        "Automatically removed from friends list when blocked.",
-                        "You won&apos;t be found in this user&apos;s Add Friends list until you unblock."
+                        "You can block selected user.",
+                        "if selected user has a friend Relationship, Automatically removed from friends list when blocked.",
+                        "You would not be found in this user's Add Friends list until you unblock."
                     ];  
                     break;
                 case "sendRequest" :
@@ -121,6 +125,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
     }
     const setButtonByActtion = ()=> {
         switch (action) {
+            case "friendBlock" : 
             case "userBlock" : 
                 return  <button onClick={onClickBtn}
                             className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
@@ -220,9 +225,18 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 }
             })
     }
-    const unBlockAction = () => {
-        console.log("unBlockClicked")
+    
+    const unBlockAction = async() => {
+        await unBlockUser(extraInfo).then((response)=>{
+           if(response) {
+            openYn({ open : false, target : "all"});
+            dispatch(setPopOverToggle({ showYn : true, messageString : "Unblock Success", type :"success"}))
+           } else {
+            dispatch(setPopOverToggle({ showYn: true, messageString : "Unblock Failed", type : "fail"}))
+           }
+        })
     }
+
     const deleteFriendAction = async()=> {
         if(extra && (extra.sort === "friendUUID")) {
             const result = await deleteFriend(extra.info)
@@ -231,6 +245,19 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                 dispatch(setPopOverToggle({showYn : true, messageString : "Delete Success", type : "success"}))
             } else {
                 dispatch(setPopOverToggle({ showYn: true, messageString : "Delete Failed", type: 'fail'}))
+            }
+        }
+    }
+
+    const friendBlock = async() => {
+        if(extra && (extra.sort === "friendUUID")) {
+            const friendResult = await deleteFriend(extra.info);
+            const blockResult = await blockUser(selectedUser.email);
+            if(friendResult && blockResult) {
+                openYn({open : false, target: "all"});
+                dispatch(setPopOverToggle({ showYn : true, messageString : "Block Success", type : "success"}));
+            } else {
+                dispatch(setPopOverToggle({ showYn: true, messageString : "Block Failed", type : "fail"}))
             }
         }
     }

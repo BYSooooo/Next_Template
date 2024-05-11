@@ -131,24 +131,11 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
     }
     
     const showExtraModal = ()=> {
-        let extraProp:any = null;
         const modalClose = (res: {open : boolean, target: string})=> {
             setExtraModal(res.open)
             res.target === "all" && openYn(res.open)
         }
-        const setExtraInfo = ()=> {
-            switch(openFrom) {
-                case "Default" : 
-                    extraProp = isReject
-                    break;
-                case "Friend" :
-                    extraProp = extraInfo
-                    break;
-                default : break;
-            }
-            return extraProp
-        }
-        return <UserExtraModal openYn={modalClose} selectedUser={info} action={selectAction} extraInfo={()=>setExtraInfo()}/>
+        return <UserExtraModal openYn={modalClose} selectedUser={info} action={selectAction} extraInfo={openFrom === "Default" ? isReject : extraInfo}/>
     }
 
     const sendRequestIcon = ()=> {
@@ -166,8 +153,12 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
     const userBlockIcon = ()=> {
         const onClickBlock = ()=> {
-            setSelectAction("userBlock");
             setExtraModal(true);
+            if(openFrom === "Friend") {
+                setSelectAction("friendBlock");
+            } else {                
+                setSelectAction("userBlock");
+            }
         }
         return (
             <NoSymbolIcon 
@@ -219,7 +210,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
         }
         return (
             <LockOpenIcon
-                className='w-5 h-5 rounded-full p-1 hover:cursor-pointer text-white bg-green-500 dark:text-slate-600 dark:bg-green-600'
+                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-green-500 dark:text-white dark:bg-green-600'
                 onClick={onClickUnBlock} />
         )
     }
