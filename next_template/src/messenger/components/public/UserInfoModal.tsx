@@ -153,8 +153,12 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
     const userBlockIcon = ()=> {
         const onClickBlock = ()=> {
-            setSelectAction("userBlock");
             setExtraModal(true);
+            if(openFrom === "Friend") {
+                setSelectAction("friendBlock");
+            } else {                
+                setSelectAction("userBlock");
+            }
         }
         return (
             <NoSymbolIcon 

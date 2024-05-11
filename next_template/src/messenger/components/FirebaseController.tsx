@@ -553,25 +553,6 @@ export async function deleteFriend(friendListUUID: string) {
  * @param selectedUser Email of the user current want to block
  * @returns Boolean of Success or Failed Block
  */
-// export async function blockUser (selectedUser : string) {
-//     const currentEmail = firebaseAuth.currentUser.email
-//     const docRef = doc(firebaseStore,'userInfo',currentEmail);
-//     try {
-//         setDoc(docRef,{
-//             block :  arrayUnion({blockUser : selectedUser, blockDate : new Date()})
-//         },{merge : true});
-//         return true;
-//     } catch(error) {
-//         console.log(error)
-//         return false
-//     }
-// }
-
-/**
- * Block User 
- * 
- * 
- */
 export async function blockUser(selectUser : string) {
     const currentEmail = firebaseAuth.currentUser.email;
     const blockUUID = uuidv4()
@@ -617,6 +598,11 @@ export async function getBlockInfo(uuid : string) {
     }
 }
 
+/**
+ * UnBlock User
+ * @param blockInfo 
+ * @returns 
+ */
 export async function unBlockUser(blockInfo : {sort: string, info: {type: string, uuid: string}}) {
     try {
         const docRef = doc(firebaseStore,"blockList",blockInfo.info.uuid)
