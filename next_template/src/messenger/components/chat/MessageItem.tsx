@@ -22,14 +22,14 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
                 {authorInfo.displayName}
             </h4>    
     }
-    const showCreateDate = ()=> {
-        const transDate = message.createDate.toDate().toLocaleTimeString().split(':');
-        const dateString = `${transDate[2].slice(-2)} ${transDate[0]}:${transDate[1]}`
-        return authorInfo &&
-        <h5 className='text-xs font-extralight'>
-            {dateString}
-        </h5>
-    }
+    // const showCreateDate = ()=> {
+    //     const transDate = message.createDate.toDate().toLocaleTimeString().split(':');
+    //     const dateString = `${transDate[2].slice(-2)} ${transDate[0]}:${transDate[1]}`
+    //     return authorInfo &&
+    //     <h5 className='text-xs font-extralight'>
+    //         {dateString}
+    //     </h5>
+    // }
 
     return (
         <div className='my-2'>
@@ -46,7 +46,7 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
                     {authorInfo && showDisplayName()}
                         
                     <div className='flex flex-row items-end gap-2'>
-                        {authorYn === true && showCreateDate()}
+                        {/* {authorYn === true && showCreateDate()} */}
                         <div className='w-fit rounded-lg border-none bg-slate-300 dark:bg-slate-700 px-2 py-1'>
                             {message.attachedYn === true && 
                                 <Link href={message.attachedValue} target='_blank'>
@@ -59,7 +59,7 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
                             </h4>
 
                         </div>
-                        {authorYn === false && showCreateDate()}
+                        {/* {authorYn === false && showCreateDate()} */}
 
                     </div>
                 </div>
