@@ -27,9 +27,9 @@ export default function ListElement({selected, openFrom, extraInfo} : {selected 
                             ? <img src={selected.photoURL} className='w-8 h-8 rounded-full border-none' />
                             : <UserIcon className='w-8 h-8 border-2 rounded-full border-slate-500 border-solid text-slate-500'/>
                         }
-                            <h4 className='text-base font-bold'>
+                            <h1 className='text-base font-bold'>
                                 {selected.email}
-                            </h4>   
+                            </h1>   
                     </div>
                 </div>
             </li>

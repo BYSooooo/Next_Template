@@ -14,13 +14,13 @@ export default function MainAuth() {
         setShowModal(pressYn)
     }
     return (
-        <div className="box-content border-solid border-2 border-blue-950 dark:border-blue-300 rounded-xl w-96 h-auto p-2.5">
-            <div className="flex p-3 items-start justify-between">
+        <div className="box-content p-2.5">
+            <div className="flex p-3 justify-center">
                 <h1 className="text-3xl text-center font-bold">
                     Sign In
                 </h1>
             </div>
-            <div className='flex pl-3'>
+            <div className='flex pl-3 text-center justify-center'>
                 <h6>
                     Please Select Service
                 </h6>
@@ -51,7 +51,7 @@ export default function MainAuth() {
                 </div>
                 <div className='p-3'>
                     <h6 className='text-sm'>
-                        If you would like to access a trial account, please click the button below 
+                        Access to Messenger with Test Account
                     </h6>
                     <div className='flex justify-center items-center mt-2'>
                         <button
@@ -62,7 +62,7 @@ export default function MainAuth() {
                     
                     </div>  
                 </div>
-                    { showModal ? <EmailAuthModal onClose={showYn} />: null}
+                { showModal ? <EmailAuthModal onClose={showYn} />: null}
             </div>
         </div>
     )
