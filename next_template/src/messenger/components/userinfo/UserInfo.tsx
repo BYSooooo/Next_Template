@@ -9,10 +9,10 @@ export default function UserInfo() {
     const dispatch = useAppDispatch()
 
     return (
-        <div className='w-fit p-2 m-2 rounded-lg shadow-xl dark:bg-gray-800'>
+        <div className='w-fit h-80 p-3 m-2 rounded-lg shadow-xl dark:bg-gray-800'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
                 {currentUser?.photoURL 
-                ? <img src={currentUser.photoURL} className='w-full h-full rounded-full'/> 
+                ? <img src={currentUser.photoURL} className='w-full h-full rounded-full shadow-xl '/> 
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
             <div className='absoulte justify-end'>
@@ -41,14 +41,9 @@ export default function UserInfo() {
                 <h1 className='text-md text-gray-500'>
                     Introduce
                 </h1>
-                <h1>
+                <h1 className='text-lg font-bold'>
                     {currentUser?.introduction}
                 </h1>
-                <div>
-                    <h1 className='text-md text-gray-500'>
-                        Follow List
-                    </h1>
-                </div>
             </div>
             
             
