@@ -60,10 +60,21 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
             !infoReducer[getStateIdx(propName)].editYn
         )
     }
+    const inputLayout = ()=> {
+        const defaultCSS = "block w-full bg-gray-100 rounded-sm pl-2 py-1 dark:bg-slate-900 dark:text-slate-500"
+        switch(inputEditYn(reduxName)) {
+
+            case true : 
+                return `${defaultCSS} text-gray-500`
+            case false :
+                return `${defaultCSS} text-black` 
+        }
+
+    }
 
     return (
         <div className='my-2 mx-1'>
-            <div className='flex items-center'>
+            <div className='flex border-0 items-center'>
                 <h5 className='text-md mr-2'>
                     {title}
                 </h5>
@@ -71,7 +82,7 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
             </div>
             <input
                 disabled={inputEditYn(reduxName)}
-                className='border-2 border-solid border-gray-500 rounded-md p-1 w-2/3 dark:bg-black'
+                className={inputLayout()}
                 onChange={(e)=>inputValueChange(reduxName,e)}
                 value={infoReducer[getStateIdx(reduxName)].value}/>
         </div>

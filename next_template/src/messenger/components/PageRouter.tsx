@@ -31,11 +31,11 @@ export default function PageRouter() {
                 { pageMapping(msgPageReudcer.left)}
             </div>
             <div>
-            { pageMapping(msgPageReudcer.middle)}
+                { pageMapping(msgPageReudcer.middle)}
 
             </div>
             <div>
-            { pageMapping(msgPageReudcer.right)}
+                { pageMapping(msgPageReudcer.right)}
 
             </div>
         </div>
