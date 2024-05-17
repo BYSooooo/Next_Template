@@ -61,13 +61,12 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
         )
     }
     const inputLayout = ()=> {
-        const defaultCSS = "block w-full bg-gray-100 rounded-sm pl-2 py-1 dark:bg-slate-900 dark:text-slate-500"
+        const defaultCSS = "block w-full border-b border-solid border-gray-300 dark:border-slate-500 bg-gray-100 rounded-sm pl-2 py-1 dark:bg-slate-900 dark:text-slate-500"
         switch(inputEditYn(reduxName)) {
-
             case true : 
-                return `${defaultCSS} text-gray-500`
+                return `${defaultCSS} text-gray-500 dark:text-slate-400`
             case false :
-                return `${defaultCSS} text-black` 
+                return `${defaultCSS} text-black dark:text-slate-100` 
         }
 
     }

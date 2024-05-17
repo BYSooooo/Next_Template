@@ -9,17 +9,13 @@ export default function UserInfo() {
     const dispatch = useAppDispatch()
 
     return (
-        <div className='w-fit h-80 p-3 m-2 rounded-lg shadow-xl dark:bg-gray-800'>
+        <div className='shadow-box'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
                 {currentUser?.photoURL 
                 ? <img src={currentUser.photoURL} className='w-full h-full rounded-full shadow-xl '/> 
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
-            <div className='absoulte justify-end'>
-                <button onClick={()=>dispatch(setPageRendering({title : "Edit", left : "UserInfoEdit", middle : "null", right : "null"}))}>
-                    Edit
-                </button>
-            </div>
+            
             <div>
                 <h1 className='text-md text-gray-500'>
                     Name
@@ -44,6 +40,15 @@ export default function UserInfo() {
                 <h1 className='text-lg font-bold'>
                     {currentUser?.introduction}
                 </h1>
+            </div>
+            <div className='absoulte justify-end'>
+                <button 
+                    className='btn-primary mx-0 my-2'
+                    onClick={()=>dispatch(setPageRendering({title : "Edit", left : "UserInfoEdit", middle : "null", right : "null"}))}>
+                    <h1 className='text-sm'>
+                        Edit
+                    </h1>
+                </button>
             </div>
             
             

@@ -108,7 +108,7 @@ export default function UserInfoEdit() {
 
     return (
         <div>
-            <div className='rounded-lg shadow-md dark:bg-gray-800 w-96 pr-2 p-2 my-2'>
+            <div className='shadow-box w-96 mb-2'>
                 <h1 className='font-bold text-lg'>
                     Basic Information
                 </h1>
@@ -126,8 +126,10 @@ export default function UserInfoEdit() {
                         <label htmlFor="tempPhoto">
                             <button 
                                 onClick={()=>document.getElementById("tempPhoto").click()}
-                                className='flex border-2 border-blue-400 rounded-lg border-solid px-2 hover:bg-blue-400 hover:text-white w-fit h-fit'>
-                                Edit
+                                className='btn-primary'>
+                                <h1 className='text-sm'>
+                                    Edit
+                                </h1>
                             </button>
                             <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>
                         </label>
@@ -144,22 +146,26 @@ export default function UserInfoEdit() {
                 <SubmitGroup title="Display Name" reduxName='displayName' />
                                 
             </div>
-            <div className='rounded-lg shadow-md dark:bg-gray-800 w-96 pr-2 p-2 my-2'>
+            <div className='shadow-box w-96 mb-2'>
                 <h4 className='font-bold'>
                     Extra Information
                 </h4>
                 <SubmitGroup title="Indroduction" reduxName='introduction' />
             </div>
-            <div className='flex justify-end'>
+            <div className='flex justify-end '>
                 <button     
                     onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", right : "FriendListMain"}))}
-                    className='rounded-lg border-2 border-red-500 mx-1 px-2  hover:bg-red-500 hover:text-white'>
-                    Return  
+                    className='btn-secondary'>
+                        <h1 className='text-sm'>
+                            Return  
+                        </h1>
                 </button>
                 <button 
                     onClick={onClickHandler}
-                    className='rounded-lg border-2 border-blue-500 mx-1 px-2 hover:bg-blue-500 hover:text-white'>
-                    Confirm
+                    className='btn-primary'>
+                        <h1 className='text-sm'>
+                            Confirm
+                        </h1>
                 </button>
             </div>
             { showLogout ? 
