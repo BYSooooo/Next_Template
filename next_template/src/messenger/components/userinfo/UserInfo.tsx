@@ -9,7 +9,7 @@ export default function UserInfo() {
     const dispatch = useAppDispatch()
 
     return (
-        <div className='shadow-box'>
+        <div className='shadow-box mx-2'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
                 {currentUser?.photoURL 
                 ? <img src={currentUser.photoURL} className='w-full h-full rounded-full shadow-xl '/> 

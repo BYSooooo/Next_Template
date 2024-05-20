@@ -29,4 +29,9 @@
       text-black rounded-lg px-2 py-1 font-bold border-2 border-gray-200 hover:bg-gray-100 mx-1
       dark:text-white dark:border-none dark:bg-gray-700 dark:hover:bg-gray-500    
   }
+
+  .manage-tab {
+    @apply
+      p-2 text-gray-400 hover:text-black hover:font-bold
+  }
 }

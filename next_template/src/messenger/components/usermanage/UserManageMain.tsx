@@ -55,29 +55,37 @@ export default function UserManageMain() {
     }
 
     return (
-        <div className='w-96 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
-            <div className='flex justify-between items-center border-b-2 '>
-                <div className='flex flex-nowrap -mb-px text-xs font-medium text-center items-center'>
-                    <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
+        <div className='w-fit shadow-box mx-2'>
+            <div className='flex justify-between items-center'>
+                <div className='flex flex-nowrap text-xs font-medium text-center items-center'>
+                    <button className='flex manage-tab'
                             onClick={()=>dispatch(setSelectedTab(1))}>
                         <MagnifyingGlassIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
-                        Search
+                        <h1>
+                            Search
+                        </h1>
                     </button>
-                    <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
+                    <button className='flex manage-tab'
                             onClick={()=>dispatch(setSelectedTab(2))}>
                         <ArrowUpIcon className='w-4 h-4  dark:text-white focus:text-blue-500 '/>
-                        Requests    
+                        <h1>
+                            Requests    
+                        </h1>
                     </button>
-                    <button className='flex p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
+                    <button className='flex manage-tab'
                         onClick={()=>dispatch(setSelectedTab(3))}>
                         <ArrowDownIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
-                        Response
+                        <h1>
+                            Response
+                        </h1>   
                     </button>
                     <button
-                        className='flex me-2 p-2 rounded-t-lg hover:bg-gray-200 focus:text-blue-500 focus:bg-gray-100 border-gray-100'
+                        className='flex manage-tab'
                         onClick={()=>dispatch(setSelectedTab(4))}>
                             <NoSymbolIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
-                        Block
+                        <h1>
+                            Block
+                        </h1>
                     </button>
                 </div>
                 <XMarkIcon 
