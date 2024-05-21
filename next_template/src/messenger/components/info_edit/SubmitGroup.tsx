@@ -68,7 +68,6 @@ export default function SubmitGroup({title, reduxName} : {title : string, reduxN
             case false :
                 return `${defaultCSS} text-black dark:text-slate-100` 
         }
-
     }
 
     return (

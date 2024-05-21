@@ -34,7 +34,7 @@ export default function FriendListMain() {
     }
 
     return (
-        <div className='w-64 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='p-2 m-2 w-64 shadow-box'>
             <div className='flex justify-between items-center'>
                 <h4 className='font-bold text-lg'>
                     Friends List

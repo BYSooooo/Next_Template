@@ -83,9 +83,9 @@ export default function UserSearchManage() {
     return (
         <>
             <div className='flex justify-between'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Search User
-                </h4>
+                </h1>
             </div>
             <ul className='text-sm list-disc list-inside'>
                 <li>
@@ -100,11 +100,11 @@ export default function UserSearchManage() {
             </ul>
             <div className='flex justify-center my-3'>
                 <label>
-                    <h4 className='font-bold'>
+                    <h1 className='font-bold'>
                         Email
-                    </h4>
+                    </h1>
                     <input 
-                        className='py-1 pl-2 w-80 rounded-md border-2 border-gray-500 dark:bg-black'
+                        className='input-style '
                         onChange={(e)=> onChangeInput(e)}
                         value={inputValue}
                         placeholder='Example@email.com'>

@@ -55,26 +55,26 @@ export default function UserManageMain() {
     }
 
     return (
-        <div className='w-fit shadow-box mx-2'>
+        <div className='w-96 shadow-box mx-2'>
             <div className='flex justify-between items-center'>
                 <div className='flex flex-nowrap text-xs font-medium text-center items-center'>
                     <button className='flex manage-tab'
                             onClick={()=>dispatch(setSelectedTab(1))}>
-                        <MagnifyingGlassIcon className='w-4 h-4  dark:text-white focus:text-blue-500'/>
+                        <MagnifyingGlassIcon className='w-4 h-4 pr-0.5 dark:text-gray-400 focus:text-blue-500 '/>
                         <h1>
                             Search
                         </h1>
                     </button>
                     <button className='flex manage-tab'
                             onClick={()=>dispatch(setSelectedTab(2))}>
-                        <ArrowUpIcon className='w-4 h-4  dark:text-white focus:text-blue-500 '/>
+                        <ArrowUpIcon className='w-4 h-4 pr-0.5 dark:text-gray-400 focus:text-blue-500'/>
                         <h1>
                             Requests    
                         </h1>
                     </button>
                     <button className='flex manage-tab'
                         onClick={()=>dispatch(setSelectedTab(3))}>
-                        <ArrowDownIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
+                        <ArrowDownIcon className='w-4 h-4 pr-0.5 dark:text-gray-400 focus:text-blue-500' />
                         <h1>
                             Response
                         </h1>   
@@ -82,7 +82,7 @@ export default function UserManageMain() {
                     <button
                         className='flex manage-tab'
                         onClick={()=>dispatch(setSelectedTab(4))}>
-                            <NoSymbolIcon className='w-4 h-4 dark:text-white focus:text-blue-500' />
+                            <NoSymbolIcon className='w-4 h-4 pr-0.5 dark:text-gray-400 focus:text-blue-500' />
                         <h1>
                             Block
                         </h1>
@@ -90,7 +90,7 @@ export default function UserManageMain() {
                 </div>
                 <XMarkIcon 
                     onClick={()=>dispatch(setPageRendering({middle : 'Null'}))}
-                    className='w-6 h-6 text-red-600 hover:cursor-pointer' />
+                    className='w-6 h-6 rounded-full text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white' />
             </div>
             <div className='p-2'>
                 {renderingList()}
