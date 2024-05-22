@@ -50,7 +50,7 @@ export default function FriendResponseManage(){
                     Receive Request List
                 </h4>
             </div>
-            <ul className='text-sm list-disc list-inside'>
+            <ul className='text-xs list-disc list-inside'>
                 <li>
                     You can see request list that you get from another user.
                 </li>

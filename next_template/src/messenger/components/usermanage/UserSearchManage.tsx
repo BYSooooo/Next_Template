@@ -87,7 +87,7 @@ export default function UserSearchManage() {
                     Search User
                 </h1>
             </div>
-            <ul className='text-sm list-disc list-inside'>
+            <ul className='text-xs list-disc list-inside'>
                 <li>
                     You can search for a user by entering email address. 
                 </li>
@@ -111,11 +111,10 @@ export default function UserSearchManage() {
                     </input>
                 </label>
             </div>
-            <ul className='list-none list-inside h-52 overflow-y-scroll'>
+            <ul role="list" className='h-60 list-inside overflow-y-scroll'>
                 {   filteringList.map((result)=> {
                         return !blockList.some((item)=> result.email === item.email) && 
-
-                         <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
+                            <ListElement key={result.uid} selected={result} openFrom={"Default"}/>
                     })
                 }
             </ul>

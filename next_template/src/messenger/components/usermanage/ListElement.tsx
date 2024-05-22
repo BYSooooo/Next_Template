@@ -19,21 +19,32 @@ export default function ListElement({selected, openFrom, extraInfo} : {selected 
 
     return (
         <>
-            <li onClick={()=>setModalOpenYn(true)}>
-                <div className='flex w-full justify-between border-2 border-solid border-slate-500 rounded-lg my-2 p-2 hover:cursor-pointer hover:border-blue-500 transition duration-200 '>
-                    <div className='flex items-center gap-2'>
-                        {
-                            selected.photoURL 
-                            ? <img src={selected.photoURL} className='w-8 h-8 rounded-full border-none' />
-                            : <UserIcon className='w-8 h-8 border-2 rounded-full border-slate-500 border-solid text-slate-500'/>
+            <li onClick={()=>setModalOpenYn(true)}
+                className='flex rounded-xl my-2 shadow-sm justify-between gap-x-6 py-2 px-3 bg-gray-50 dark:bg-gray-900'>
+                <div className='flex min-x-0 gap-x-3'>
+                    {selected.photoURL
+                        ? <img 
+                            className='flex-none mt-1 w-9 h-9 rounded-full'
+                            src={selected.photoURL} />
+                        : <UserIcon className='w-9 h-9 mt-1 rounded-full border-2 border-solid border-gray-500 text-gray-500' />
+                    }
+                    <div className='min-w-0 flex-auto'>
+                        {selected.displayName 
+                            ?   <h1 className='text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100'>
+                                    {selected.displayName}
+                                </h1>
+                            :   <h1 className='text-sm leading-6 text-gray-900 dark:text-gray-100 italic'>
+                                    No Display Name
+                                </h1>
                         }
-                            <h1 className='text-base font-bold'>
-                                {selected.email}
-                            </h1>   
+                        
+                        <h1 className='text-xs truncate leading-5 text-gray-500 dark:text-gray-300'>
+                            {selected.email}
+                        </h1>
                     </div>
                 </div>
             </li>
-            {modalOpenYn &&  <UserInfoModal info={selected} openFrom={income} openYn={toggleModal} extraInfo={extra}/>}
+            {modalOpenYn && <UserInfoModal info={selected} openFrom={income} openYn={toggleModal} extraInfo={extra}/>}
         </>
     )
 }
