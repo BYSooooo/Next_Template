@@ -80,17 +80,17 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
                         return (
                             <div className='flex px-2 w-fit rounded-full bg-orange-500 dark:bg-orange-700 text-white'>
                                 <ExclamationTriangleIcon className='w-3 h-3 self-center' />
-                                <h4 className='px-2 text-xs text-white'>
+                                <h1 className='px-2 text-xs text-white'>
                                     {msg}
-                                </h4>
+                                </h1>
                             </div>
                         )
                     case false :
                         return (
                             <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
-                                <h4 className='px-2 text-xs text-white'>
+                                <h1 className='px-2 py-0.5 text-xs text-white'>
                                     No Relation
-                                </h4>
+                                </h1>
                             </div>
                         )
 
@@ -98,7 +98,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             case "Request" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h4 className='px-2 py-0.5 text-xs text-white'>
                             Pending approval 
                         </h4>
                     </div>
@@ -246,9 +246,9 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-slate-800 rounded-md p-3 w-80'>
                 <div className='flex justify-between'>
-                    <h4 className='text-xl font-bold'>
+                    <h1 className='text-xl font-bold'>
                         Information
-                    </h4>
+                    </h1>
                     <XMarkIcon 
                         className='w-5 h-5 text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white rounded-full transition duration-200' 
                         onClick={()=>openYn(false)}/>
@@ -260,17 +260,23 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
                         :  <UserIcon className='w-32 h-32 border-2 border-solid rounded-full border-slate-500 text-slate-500'/>
                     }
                 </div>
-                <div className='text-center'>
-                    <h4 className='text-2xl font-semibold'>
-                        {info.displayName ??= 'No Name'}
-                    </h4>
-                    <h4 className='font-thin'> 
+                <div className='flex w-full justify-center mb-1'>
+                    {setStatusIconByAction()}
+                </div>
+                <div className='text-center '>
+                    {info.displayName 
+                        ?   <h1 className='text-xl font-semibold'>
+                                {info.displayName}
+                            </h1>
+                        :   <h1 className='text-xl italic'>
+                                No Display Name
+                            </h1>
+                    }
+                    <h4 className='text-sm font-thin'> 
                         {info.email}
                     </h4>
                 </div>
-                <div className='flex w-full justify-center'>
-                    {setStatusIconByAction()}
-                </div>
+                
                 <div className='mx-4 my-2 rounded-md bg-gray-300 text-center dark:bg-gray-700'>
                     <h4 className='font-light text-xs'>
                         {info.introduction ??= 'No Infroduce Phrase'}
