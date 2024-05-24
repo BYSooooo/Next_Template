@@ -106,14 +106,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             case "Response" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h4 className='px-2 py-0.5 text-xs text-white'>
                             Waiting your approval
                         </h4>
                     </div>
                 )
             case "Block" :
                 return (
-                    <div className='w-fit rounded-full bg-red-500 dark:bg-red-700'>
+                    <div className='w-fit py-0.5 rounded-full bg-red-500 dark:bg-red-700'>
                         <h4 className='px-2 text-xs text-white'>
                             Block User
                         </h4>
@@ -144,10 +144,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true)
         }
         return (
-            <UserPlusIcon 
-                className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer dark:bg-blue-600'
+            <button
                 onClick={onClickRequest}
-            />
+                className='flex btn-primary'>
+                <UserPlusIcon className='w-5 h-5 mr-1'/>
+                <h1 className='text-sm'>
+                    Request
+                </h1>
+            </button>
         )
     }
 
@@ -161,10 +165,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             }
         }
         return (
-            <NoSymbolIcon 
-                className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer dark:bg-red-600'
+            <button 
                 onClick={onClickBlock}
-            />
+                className='flex items-center btn-primary bg-red-500 hover:bg-red-300 dark:bg-red-700 hover:dark:bg-red-500'>
+                    <NoSymbolIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Block
+                    </h1>
+            </button>
         )
     }
 
@@ -174,9 +182,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <DocumentMinusIcon
-                className='w-7 h-7 bg-yellow-300 rounded-full p-1 hover:cursor-pointer dark:bg-yellow-600'
-                onClick={onClickCancel} />
+            <button
+                onClick={onClickCancel}
+                className='flex items-center btn-primary bg-orange-500 hover:bg-orange-300 dark:bg-orange-600 dark:hover:bg-orange-400'>
+                    <DocumentMinusIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Cancel
+                    </h1>
+            </button>
         )
     }
 

@@ -19,7 +19,8 @@
   }
 
   .btn-primary {
-    @apply 
+    @apply
+      transition duration-200  
       text-white rounded-lg px-2 py-1 font-bold bg-blue-500 hover:bg-blue-300 mx-1
       dark:bg-blue-600 dark:hover:bg-blue-400
   }
