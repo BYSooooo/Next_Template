@@ -167,7 +167,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
         return (
             <button 
                 onClick={onClickBlock}
-                className='flex items-center btn-primary bg-red-500 hover:bg-red-300 dark:bg-red-700 hover:dark:bg-red-500'>
+                className='flex items-center btn-primary bg-purple-500 hover:bg-purple-300 dark:bg-purple-700 hover:dark:bg-purple-500'>
                     <NoSymbolIcon className='w-4 h-4 mr-1' />
                     <h1 className='text-sm'>
                         Block
@@ -199,9 +199,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <CheckIcon 
-                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-green-500 dark:text-slate-600 dark:bg-green-600'
-                onClick={onClickAllow} />
+            <button
+                onClick={onClickAllow}
+                className='flex btn-primary bg-green-600 hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-500'>
+                    <CheckIcon className='w-5 h-5 mr-1' />
+                    <h1 className='text-sm'>
+                        Accept
+                    </h1>
+            </button>
         )
     }
 
@@ -211,9 +216,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <XMarkIcon
-                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-red-500 dark:text-slate-600 dark:bg-red-600'
-                onClick={onClickReject} />
+            <button
+                className='flex btn-primary bg-red-600 hover:bg-red-400 dark:bg-red-700 dark:hover:bg-red-500'
+                onClick={onClickReject}>
+                    <XMarkIcon className='w-5 h-5 mr-1' />
+                    <h1 className='text-sm'>
+                        Denied
+                    </h1>
+            </button>
         )
     }
     const unBlockIcon = ()=> {
@@ -222,9 +232,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <LockOpenIcon
-                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-green-500 dark:text-white dark:bg-green-600'
-                onClick={onClickUnBlock} />
+            <button
+                className='flex btn-primary items-center bg-sky-500 hover:bg-sky-300 dark:bg-sky-700 dark:hover:bg-sky-600'
+                onClick={onClickUnBlock}>
+                    <LockOpenIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Unblock
+                    </h1>
+            </button>
         )
     }
     const FriendDeleteIcon =()=> {
@@ -233,10 +248,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <UserMinusIcon 
-                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-red-500 dark:text-white dark:bg-red-600'
-                onClick={onClickFriendDel}
-            />
+            <button
+                className='flex btn-primary items-center bg-amber-500 hover:bg-amber-300 dark:bg-amber-700 dark:hover:bg-amber-500'
+                onClick={onClickFriendDel}>
+                    <UserMinusIcon className='w-4 h-4 mr-1'/>
+                    <h1 className='text-sm'>
+                        Delete
+                    </h1>
+            </button>
         )
     }
     const openChatRoomIcon = ()=> {
@@ -248,10 +267,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
         }
         return (
-            <ChatBubbleLeftRightIcon 
-            className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-blue-500 dart:text-white dark:bg-blue-600' 
-                onClick={onClickChatRoom}
-            />
+            <button 
+                className='flex btn-primary items-center bg-teal-500 hover:bg-teal-400 dark:bg-teal-700 dark:hover:bg-teal-500'
+                onClick={onClickChatRoom}>
+                    <ChatBubbleLeftRightIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Chat
+                    </h1>
+            </button>
         )
     }
 

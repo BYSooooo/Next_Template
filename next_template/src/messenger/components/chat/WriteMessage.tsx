@@ -92,7 +92,7 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
     
     
     return (
-        <div className='h-30 p-2 bg-slate-200 rounded-lg'>
+        <div className='p-2 rounded-lg bg-slate-300 dark:bg-slate-500 '>
             {attachedFile && 
                 <div className='flex flex-col justify-center'>
                     <h4 className='text-sm'>
@@ -107,13 +107,15 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
                 <input
                     onKeyDown={handleKeyDown}
                     onChange={onChangeHandler} 
-                    className='rounded-md border-2 border-slate-500 px-2' 
+                    className='input-style w-fit' 
                     placeholder='Enter a message...'
                     value={msgContext}/>
                 <button 
-                    className='px-2 rounded-md border-none bg-blue-400 text-white hover:bg-blue-600 transition duration-200'
+                    className='btn-primary'
                     onClick={onClick}>
-                    Send
+                        <h1 className='text-sm'>
+                            Send
+                        </h1>
                 </button>
                 <DocumentPlusIcon 
                     className='w-8 h-8 text-green-400 hover:text-green-600 transition duration-200 cursor-pointer'

@@ -127,40 +127,50 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
         switch (action) {
             case "friendBlock" : 
             case "userBlock" : 
-                return  <button onClick={onClickBtn}
-                            className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
-                            Block
+                return  <button onClick={onClickBtn} className='btn-primary bg-purple-500 hover:bg-purple-300 dark:bg-purple-700 dark:hover:bg-purple-500'>
+                            <h1 className='text-sm'>
+                                Block
+                            </h1>
                         </button>
             case "sendRequest" : 
-                return <button onClick={onClickBtn}
-                        className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
-                            Send Request
+                return <button onClick={onClickBtn} className='btn-primary'>
+                            <h1 className='text-sm'>
+                                Send Request
+                            </h1>
                         </button>
             case "cancelRequest" :
-                return <button onClick={onClickBtn}
-                        className='w-full border-2 border-solid border-yellow-500 justify-center rounded-full hover:bg-yellow-500 hover:text-white transition duration-200'>
-                            Cancel Request
+                return <button onClick={onClickBtn} className='btn-primary bg-orange-500 hover:bg-orange-300 dark:bg-orange-500 dark:hover:bg-orange-300 '>
+                            <h1 className='text-sm'>
+                                Cancel Request
+                            </h1>
                         </button>
             case "allowRequest" : 
-                return <button onClick={onClickBtn}
-                        className='w-full border-2 border-solid border-green-500 justify-center rounded-full hover:bg-green-500 hover:text-white transition duration-200'>
-                            Allow Request
+                return <button onClick={onClickBtn} className='btn-primary bg-green-600 hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-500'>
+                            <h1 className='text-sm'>
+                                Allow Request
+                            </h1>
                         </button>
             case "rejectRequest" : 
                 return  <button onClick={onClickBtn}
-                            className='w-full border-2 border-solid border-purple-500 justify-center rounded-full hover:bg-purple-500 hover:text-white transition duration-200'>
-                            Reject Request
+                            className='btn-primary bg-red-600 hover:bg-red-400 dark:bg-red-700 dark:hover:bg-red-500'>
+                                <h1 className='text-sm'>
+                                    Reject Request
+                                </h1>
                         </button>
             case "unBlock" :
                 return  <button onClick={onClickBtn}
-                            className='w-full border-2 border-solid border-orange-500 justify-center rounded-full hover:bg-orange-500 hover:text-white transition duration-200'>
-                            Unblock User
+                            className='btn-primary bg-sky-500 hover:bg-sky-300 dark:bg-sky-700 dark:hover:bg-sky-500'>
+                            <h1 className='text-sm'>
+                                Unblock User
+                            </h1>
                         </button>
             case "deleteFriend" :
                 return <button onClick={onClickBtn}
-                            className='w-full border-2 border-solid border-red-500 justify-center rounded-full hover:bg-red-500 hover:text-white transition duration-200'>
-                            Delete Friend
-                </button>
+                            className='btn-primary bg-amber-500 hover:bg-amber-300 dark:bg-amber-700 dark:hover:bg-amber-500'>
+                            <h1 className='text-sm'>
+                                Delete Friend
+                            </h1>
+                        </button>
             default : break;
         }
     }
@@ -270,9 +280,7 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                     <h4 className="font-bold">
                         {headerText}
                     </h4>
-                    <button onClick={()=>openYn({open : false, target: 'extraOnly'})}>
-                        <XMarkIcon className='w-6 h-6 text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white rounded-full transition duration-200' />
-                    </button>
+                    
                 </div>
                 <ul className='my-1 list-disc px-2 text-xs'>
                     { 
@@ -281,7 +289,17 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
                         })
                     }
                 </ul>
-                { setButtonByActtion() }
+                <div className='text-end mt-4'>
+                    { setButtonByActtion() }
+                    <button 
+                        onClick={()=>openYn({open : false, target : 'extraOnly'})}
+                        className='btn-secondary'>
+                            <h1 className='text-sm'>
+                                Cancel
+                            </h1>
+
+                    </button>
+                </div>
             </div>
         </div>
     )

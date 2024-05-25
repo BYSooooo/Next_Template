@@ -153,18 +153,18 @@ export default function UserInfoEdit() {
                 <SubmitGroup title="Indroduction" reduxName='introduction' />
             </div>
             <div className='flex justify-end '>
-                <button     
-                    onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", right : "FriendListMain"}))}
-                    className='btn-secondary'>
-                        <h1 className='text-sm'>
-                            Return  
-                        </h1>
-                </button>
                 <button 
                     onClick={onClickHandler}
                     className='btn-primary'>
                         <h1 className='text-sm'>
                             Confirm
+                        </h1>
+                </button>
+                <button     
+                    onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", right : "FriendListMain"}))}
+                    className='btn-secondary'>
+                        <h1 className='text-sm'>
+                            Return  
                         </h1>
                 </button>
             </div>
@@ -210,14 +210,14 @@ export default function UserInfoEdit() {
                         </div>
                         <div className="flex justify-end gap-1">
                             <button
-                                onClick={()=>setShowWarning(false)} 
-                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
-                                Cancel
-                            </button>
-                            <button
                                 onClick={()=>updateAuthInfo()}
                                 className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white font-bold px-2'>
                                 Confirm
+                            </button>
+                            <button
+                                onClick={()=>setShowWarning(false)} 
+                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
+                                Cancel
                             </button>
                         </div> 
                     </div>
