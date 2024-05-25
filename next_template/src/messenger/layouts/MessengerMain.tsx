@@ -36,7 +36,7 @@ export default function MainLogined () {
     }
     
     return (
-        <div className="container max-w-fit border-2 border-solid border-gray-600 rounded-md p-2">
+        <div>
             <HeaderMain />
             <PageRouter />
             {popOverReducer.showYn && <PopOver />}

@@ -80,17 +80,17 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
                         return (
                             <div className='flex px-2 w-fit rounded-full bg-orange-500 dark:bg-orange-700 text-white'>
                                 <ExclamationTriangleIcon className='w-3 h-3 self-center' />
-                                <h4 className='px-2 text-xs text-white'>
+                                <h1 className='px-2 text-xs text-white'>
                                     {msg}
-                                </h4>
+                                </h1>
                             </div>
                         )
                     case false :
                         return (
                             <div className='w-fit rounded-full bg-gray-500 dark:bg-slate-600'>
-                                <h4 className='px-2 text-xs text-white'>
+                                <h1 className='px-2 py-0.5 text-xs text-white'>
                                     No Relation
-                                </h4>
+                                </h1>
                             </div>
                         )
 
@@ -98,7 +98,7 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             case "Request" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h4 className='px-2 py-0.5 text-xs text-white'>
                             Pending approval 
                         </h4>
                     </div>
@@ -106,14 +106,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             case "Response" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h4 className='px-2 py-0.5 text-xs text-white'>
                             Waiting your approval
                         </h4>
                     </div>
                 )
             case "Block" :
                 return (
-                    <div className='w-fit rounded-full bg-red-500 dark:bg-red-700'>
+                    <div className='w-fit py-0.5 rounded-full bg-red-500 dark:bg-red-700'>
                         <h4 className='px-2 text-xs text-white'>
                             Block User
                         </h4>
@@ -144,10 +144,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true)
         }
         return (
-            <UserPlusIcon 
-                className='w-7 h-7 bg-blue-300 rounded-full p-1 hover:cursor-pointer dark:bg-blue-600'
+            <button
                 onClick={onClickRequest}
-            />
+                className='flex btn-primary'>
+                <UserPlusIcon className='w-5 h-5 mr-1'/>
+                <h1 className='text-sm'>
+                    Request
+                </h1>
+            </button>
         )
     }
 
@@ -161,10 +165,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             }
         }
         return (
-            <NoSymbolIcon 
-                className='w-7 h-7 bg-red-300 rounded-full p-1 hover:cursor-pointer dark:bg-red-600'
+            <button 
                 onClick={onClickBlock}
-            />
+                className='flex items-center btn-primary bg-purple-500 hover:bg-purple-300 dark:bg-purple-700 hover:dark:bg-purple-500'>
+                    <NoSymbolIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Block
+                    </h1>
+            </button>
         )
     }
 
@@ -174,9 +182,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <DocumentMinusIcon
-                className='w-7 h-7 bg-yellow-300 rounded-full p-1 hover:cursor-pointer dark:bg-yellow-600'
-                onClick={onClickCancel} />
+            <button
+                onClick={onClickCancel}
+                className='flex items-center btn-primary bg-orange-500 hover:bg-orange-300 dark:bg-orange-600 dark:hover:bg-orange-400'>
+                    <DocumentMinusIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Cancel
+                    </h1>
+            </button>
         )
     }
 
@@ -186,9 +199,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <CheckIcon 
-                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-green-500 dark:text-slate-600 dark:bg-green-600'
-                onClick={onClickAllow} />
+            <button
+                onClick={onClickAllow}
+                className='flex btn-primary bg-green-600 hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-500'>
+                    <CheckIcon className='w-5 h-5 mr-1' />
+                    <h1 className='text-sm'>
+                        Accept
+                    </h1>
+            </button>
         )
     }
 
@@ -198,9 +216,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <XMarkIcon
-                className='w-5 h-5 text-white rounded-full p-1 hover:cursor-pointer bg-red-500 dark:text-slate-600 dark:bg-red-600'
-                onClick={onClickReject} />
+            <button
+                className='flex btn-primary bg-red-600 hover:bg-red-400 dark:bg-red-700 dark:hover:bg-red-500'
+                onClick={onClickReject}>
+                    <XMarkIcon className='w-5 h-5 mr-1' />
+                    <h1 className='text-sm'>
+                        Denied
+                    </h1>
+            </button>
         )
     }
     const unBlockIcon = ()=> {
@@ -209,9 +232,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <LockOpenIcon
-                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-green-500 dark:text-white dark:bg-green-600'
-                onClick={onClickUnBlock} />
+            <button
+                className='flex btn-primary items-center bg-sky-500 hover:bg-sky-300 dark:bg-sky-700 dark:hover:bg-sky-600'
+                onClick={onClickUnBlock}>
+                    <LockOpenIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Unblock
+                    </h1>
+            </button>
         )
     }
     const FriendDeleteIcon =()=> {
@@ -220,10 +248,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             setExtraModal(true);
         }
         return (
-            <UserMinusIcon 
-                className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-red-500 dark:text-white dark:bg-red-600'
-                onClick={onClickFriendDel}
-            />
+            <button
+                className='flex btn-primary items-center bg-amber-500 hover:bg-amber-300 dark:bg-amber-700 dark:hover:bg-amber-500'
+                onClick={onClickFriendDel}>
+                    <UserMinusIcon className='w-4 h-4 mr-1'/>
+                    <h1 className='text-sm'>
+                        Delete
+                    </h1>
+            </button>
         )
     }
     const openChatRoomIcon = ()=> {
@@ -235,10 +267,14 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
 
         }
         return (
-            <ChatBubbleLeftRightIcon 
-            className='w-7 h-7 rounded-full p-1 hover:cursor-pointer text-black bg-blue-500 dart:text-white dark:bg-blue-600' 
-                onClick={onClickChatRoom}
-            />
+            <button 
+                className='flex btn-primary items-center bg-teal-500 hover:bg-teal-400 dark:bg-teal-700 dark:hover:bg-teal-500'
+                onClick={onClickChatRoom}>
+                    <ChatBubbleLeftRightIcon className='w-4 h-4 mr-1' />
+                    <h1 className='text-sm'>
+                        Chat
+                    </h1>
+            </button>
         )
     }
 
@@ -246,9 +282,9 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-slate-800 rounded-md p-3 w-80'>
                 <div className='flex justify-between'>
-                    <h4 className='text-xl font-bold'>
+                    <h1 className='text-xl font-bold'>
                         Information
-                    </h4>
+                    </h1>
                     <XMarkIcon 
                         className='w-5 h-5 text-red-500 hover:cursor-pointer hover:bg-red-500 hover:text-white rounded-full transition duration-200' 
                         onClick={()=>openYn(false)}/>
@@ -260,17 +296,23 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
                         :  <UserIcon className='w-32 h-32 border-2 border-solid rounded-full border-slate-500 text-slate-500'/>
                     }
                 </div>
-                <div className='text-center'>
-                    <h4 className='text-2xl font-semibold'>
-                        {info.displayName ??= 'No Name'}
-                    </h4>
-                    <h4 className='font-thin'> 
+                <div className='flex w-full justify-center mb-1'>
+                    {setStatusIconByAction()}
+                </div>
+                <div className='text-center '>
+                    {info.displayName 
+                        ?   <h1 className='text-xl font-semibold'>
+                                {info.displayName}
+                            </h1>
+                        :   <h1 className='text-xl italic'>
+                                No Display Name
+                            </h1>
+                    }
+                    <h4 className='text-sm font-thin'> 
                         {info.email}
                     </h4>
                 </div>
-                <div className='flex w-full justify-center'>
-                    {setStatusIconByAction()}
-                </div>
+                
                 <div className='mx-4 my-2 rounded-md bg-gray-300 text-center dark:bg-gray-700'>
                     <h4 className='font-light text-xs'>
                         {info.introduction ??= 'No Infroduce Phrase'}

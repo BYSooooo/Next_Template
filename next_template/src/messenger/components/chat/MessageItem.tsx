@@ -23,11 +23,11 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
             </h4>    
     }
     const showCreateDate = ()=> {
-        const transDate = message.createDate.toDate().toLocaleTimeString().split(':');
-        const dateString = `${transDate[2].slice(-2)} ${transDate[0]}:${transDate[1]}`
+        const transDate = message.createDate.toDate()
+        const hourString = transDate.getHours() > 12 ? `PM ${transDate.getHours()-12}` : `AM ${transDate.getHours()}`
         return authorInfo &&
-        <h5 className='text-xs font-extralight'>
-            {dateString}
+        <h5 className='text-xs'>
+            {`${hourString}:${transDate.getMinutes()}`}
         </h5>
     }
 

@@ -34,15 +34,17 @@ export default function FriendListMain() {
     }
 
     return (
-        <div className='w-64 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='p-2 mx-1 w-64 shadow-box'>
             <div className='flex justify-between items-center'>
                 <h4 className='font-bold text-lg'>
                     Friends List
                 </h4>
                 <button
-                    className='rounded-md text-white text-xs bg-blue-500 py-1 px-2 hover:cursor-pointer hover:bg-blue-300'
+                    className='btn-primary'
                     onClick={()=> dispatch(setPageRendering({middle : "UserManageMain"}))}>
-                    Manage
+                    <h1 className='text-sm'>
+                        Manage
+                    </h1>
                 </button>
             </div>
             <ul className='overflow-y-scroll'>

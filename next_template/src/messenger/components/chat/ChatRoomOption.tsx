@@ -217,7 +217,7 @@ export function ChatRoomOption() {
     }
 
     return (
-        <div className='w-80 border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='shadow-box p-2 m-2 w-80'>
             <div className='flex w-72 h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - Option

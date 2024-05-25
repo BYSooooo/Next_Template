@@ -4,12 +4,11 @@ import { firebaseAuth, firebaseStore } from '@/../../firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setPageRendering, setUserInfo } from '@/redux/features/messengerReducer';
 import { UserIcon } from '@heroicons/react/20/solid';
-import SubmitGroup from './SubmitGroup';
 import { getAuth, signOut, updateEmail, updateProfile } from 'firebase/auth';
 import { getDownloadURL } from 'firebase/storage';
 import { updatePhotoURL, uploadPhotoToStrg } from '../FirebaseController';
-import PopOver from '../public/PopOver';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
+import SubmitGroup from './SubmitGroup';
 
 export default function UserInfoEdit() {
     const [showLogout, setShowLogout] = React.useState(false);
@@ -40,7 +39,6 @@ export default function UserInfoEdit() {
 
     const onClickHandler = () => {
         const checkEditYn = infoReducer.findIndex((item)=> item.editYn === true)
-        console.log(checkEditYn)
         if(checkEditYn === -1) {
             setNoEditModal(true)
         } else {
@@ -110,14 +108,14 @@ export default function UserInfoEdit() {
 
     return (
         <div>
-            <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2 my-2'>
-                <h4 className='font-bold'>
+            <div className='shadow-box w-96 mb-2'>
+                <h1 className='font-bold text-lg'>
                     Basic Information
-                </h4>
+                </h1>
                 <div className='my-2 mx-1'>
-                    <h5 className='text-md'>
-                        Profile Photo
-                    </h5>
+                    <h1 className='text-md'>
+                        Photo
+                    </h1>
                     <div className='flex items-end'>
                         <div className='flex w-fit h-fit rounded-full border-2 border-gray-400 border-solid align-baseline'>
                             {infoReducer[getStateIdx("photoURL")].value 
@@ -128,8 +126,10 @@ export default function UserInfoEdit() {
                         <label htmlFor="tempPhoto">
                             <button 
                                 onClick={()=>document.getElementById("tempPhoto").click()}
-                                className='flex border-2 border-blue-400 rounded-full border-solid px-2 hover:bg-blue-400 w-fit h-fit'>
-                                Edit
+                                className='btn-primary'>
+                                <h1 className='text-sm'>
+                                    Edit
+                                </h1>
                             </button>
                             <input type='file' id='tempPhoto' accept='image/*' onChange={(e)=>onTempPhotoHandler(e)} style={{display : 'none'}}/>
                         </label>
@@ -146,22 +146,26 @@ export default function UserInfoEdit() {
                 <SubmitGroup title="Display Name" reduxName='displayName' />
                                 
             </div>
-            <div className='rounded-md border-2 border-gray-500 w-96 pr-2 p-2 my-2'>
+            <div className='shadow-box w-96 mb-2'>
                 <h4 className='font-bold'>
                     Extra Information
                 </h4>
                 <SubmitGroup title="Indroduction" reduxName='introduction' />
             </div>
-            <div className='flex justify-end'>
-                <button     
-                    onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", middle : "ChatRoom", right : "FriendListMain"}))}
-                    className='rounded-full border-2 border-red-500 mx-1 px-2 font-bold hover:bg-red-500 hover:text-white'>
-                    Return  
-                </button>
+            <div className='flex justify-end '>
                 <button 
                     onClick={onClickHandler}
-                    className='rounded-full border-2 border-blue-500 mx-1 px-2 font-bold hover:bg-blue-500 hover:text-white'>
-                    Confirm
+                    className='btn-primary'>
+                        <h1 className='text-sm'>
+                            Confirm
+                        </h1>
+                </button>
+                <button     
+                    onClick={()=>dispatch(setPageRendering({title : "Home", left : "UserInfo", right : "FriendListMain"}))}
+                    className='btn-secondary'>
+                        <h1 className='text-sm'>
+                            Return  
+                        </h1>
                 </button>
             </div>
             { showLogout ? 
@@ -206,14 +210,14 @@ export default function UserInfoEdit() {
                         </div>
                         <div className="flex justify-end gap-1">
                             <button
-                                onClick={()=>setShowWarning(false)} 
-                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
-                                Cancel
-                            </button>
-                            <button
                                 onClick={()=>updateAuthInfo()}
                                 className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white font-bold px-2'>
                                 Confirm
+                            </button>
+                            <button
+                                onClick={()=>setShowWarning(false)} 
+                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
+                                Cancel
                             </button>
                         </div> 
                     </div>

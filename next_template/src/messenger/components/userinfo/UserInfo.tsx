@@ -2,59 +2,53 @@ import React from 'react';
 
 import { CheckIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { UserInfo } from '../../../../msg_typeDef';
 import { setPageRendering } from '@/redux/features/messengerReducer';
 
 export default function UserInfo() {
-    const [userInfo, setUserInfo] = React.useState<UserInfo>();
-    const msgCurUser = useAppSelector((state)=> state.messengerCurUserInfo);
+    const currentUser = useAppSelector((state)=> state.messengerCurUserInfo);
     const dispatch = useAppDispatch()
 
-    React.useEffect(()=> {
-        setUserInfo(msgCurUser)
-    },[msgCurUser])
-
     return (
-        <div className='w-fit p-2 m-2'>
+        <div className='shadow-box mx-2'>
             <div className='flex rounded-full w-28 h-28  items-center justify-center'>
-                {userInfo?.photoURL 
-                ? <img src={userInfo.photoURL} className='w-full h-full rounded-full'/> 
+                {currentUser?.photoURL 
+                ? <img src={currentUser.photoURL} className='w-full h-full rounded-full shadow-xl '/> 
                 : <UserIcon className='w-auto h-auto text-gray-400 border-2 rounded-full border-solid border-gray-400'/> }
             </div>
-            <div className='absoulte justify-end'>
-                <button onClick={()=>dispatch(setPageRendering({title : "Edit", left : "UserInfoEdit", middle : "null", right : "null"}))}>
-                    Edit
-                </button>
-            </div>
+            
             <div>
-                <h3 className='text-md text-gray-500'>
+                <h1 className='text-md text-gray-500'>
                     Name
-                </h3>
-                <h6 className='text-lg font-bold'>
-                    {userInfo?.displayName ? userInfo.displayName : "No Name"}
-                </h6>
-                <h3 className='text-md text-gray-500'>
+                </h1>
+                <h1 className='text-lg font-bold'>
+                    {currentUser.displayName ? currentUser.displayName : "No Name"}
+                </h1>
+                <h1 className='text-md text-gray-500'>
                     E-Mail
-                </h3>
+                </h1>
                 <div className='flex'>
-                    <h6 className='text-lg font-bold'>
-                        {userInfo?.email} 
-                    </h6>
-                    {userInfo?.emailVerified 
+                    <h1 className='text-lg font-bold'>
+                        {currentUser?.email} 
+                    </h1>
+                    {currentUser?.emailVerified 
                     ? <CheckIcon className='w-6 h-6 text-green-500'/> 
                     : <CheckIcon className='w-6 h-6 text-red-500'/> }
                 </div>
-                <h3 className='text-md text-gray-500'>
+                <h1 className='text-md text-gray-500'>
                     Introduce
-                </h3>
-                <div className='rounded-md border-solid border-2 border-gray-500 w-full h-44'>
-
-                </div>
-                <div>
-                    <h6 className='text-md text-gray-500'>
-                        Follow List
-                    </h6>
-                </div>
+                </h1>
+                <h1 className='text-lg font-bold'>
+                    {currentUser?.introduction}
+                </h1>
+            </div>
+            <div className='absoulte justify-end'>
+                <button 
+                    className='btn-primary mx-0 my-2'
+                    onClick={()=>dispatch(setPageRendering({title : "Edit", left : "UserInfoEdit", middle : "null", right : "null"}))}>
+                    <h1 className='text-sm'>
+                        Edit
+                    </h1>
+                </button>
             </div>
             
             

@@ -33,7 +33,7 @@ export default function UserBlockManage() {
                     Block User
                 </h4>
             </div>
-            <ul className='text-sm list-disc list-inside'>
+            <ul className='text-xs list-disc list-inside'>
                 <li>
                     You can Manage block user 
                 </li>

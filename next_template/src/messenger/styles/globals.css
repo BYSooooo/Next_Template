@@ -4,11 +4,46 @@
 
 /* Fade Out Animation in PopOver.tsx */
 @keyframes fade-out {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-      visibility: hidden;
-    }
+  from {
+    opacity: 1;
   }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@layer components {
+  .shadow-box {
+    @apply w-fit h-fit p-3 rounded-lg shadow-md dark:bg-slate-800
+  }
+
+  .btn-primary {
+    @apply
+      transition duration-200  
+      text-white rounded-lg px-2 py-1 font-bold bg-blue-500 hover:bg-blue-300 mx-1
+      dark:bg-blue-600 dark:hover:bg-blue-400
+  }
+  
+  .btn-secondary {
+    @apply 
+      rounded-lg mx-1 px-2 py-1 font-bold border-2
+      text-black  border-gray-200 hover:bg-gray-100 
+      dark:text-white dark:border-none dark:bg-gray-700 dark:hover:bg-gray-500    
+  }
+
+  .manage-tab {
+    @apply
+      p-2 rounded-md 
+      text-gray-400 hover:text-black 
+      dark:hover:text-white dark:focus:text-white dark:focus:bg-blue-500
+      focus:text-blue-900 focus:bg-blue-300  focus:font-bold 
+  }
+
+  .input-style {
+    @apply
+      block w-80 border-b border-solid border-gray-300  bg-gray-100 rounded-sm pl-2 py-1 
+      dark:bg-slate-900 dark:text-slate-500 dark:border-slate-500
+  }
+
+}

@@ -27,9 +27,17 @@ export default function PageRouter() {
     
     return (
         <div className='flex grid-cols-3'>
-            { pageMapping(msgPageReudcer.left)}
-            { pageMapping(msgPageReudcer.middle)}
-            { pageMapping(msgPageReudcer.right)}
+            <div>
+                { pageMapping(msgPageReudcer.left)}
+            </div>
+            <div>
+                { pageMapping(msgPageReudcer.middle)}
+
+            </div>
+            <div>
+                { pageMapping(msgPageReudcer.right)}
+
+            </div>
         </div>
     )
 

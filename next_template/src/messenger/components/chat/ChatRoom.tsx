@@ -98,7 +98,7 @@ export function ChatRoom() {
 
     
     return (
-        <div className='w-fit border-2 border-solid border-gray-500 rounded-md p-2 m-2'>
+        <div className='w-fit shadow-box p-2 mx-2'>
             <div className='flex h-10 justify-between items-center p-2'>
                 <h4 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}

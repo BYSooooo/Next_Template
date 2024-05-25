@@ -53,7 +53,7 @@ export default function FriendRequestManage() {
                     Request User
                 </h4>
             </div>
-            <ul className='text-sm list-disc list-inside'>
+            <ul className='text-xs list-disc list-inside'>
                 <li>
                     You can search a user that you send Request for invite Friend.
                 </li>
