@@ -34,7 +34,7 @@ export default function PopOver() {
     return (
         <>
             <div 
-                className="absolute bottom-1 left-1/2 z-50 rounded-md border-solid border-2 border-black p-4 bg-white dark:border-slate-600 dark:bg-black w-fit "
+                className="absolute bottom-1 left-1/2 z-50 shadow-box border-black p-4 bg-gray-100 dark:border-slate-600 dark:bg-black w-fit "
                 style={{animationName : 'fade-out',
                         animationDuration : '3s',
                         animationFillMode : 'forwards' }}>
