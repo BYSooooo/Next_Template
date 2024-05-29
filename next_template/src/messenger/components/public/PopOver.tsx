@@ -40,9 +40,9 @@ export default function PopOver() {
                         animationFillMode : 'forwards' }}>
                     <div className='flex gap-2'>
                         {selectedType()}
-                        <h4 className='text-base font-bold text-black'>
+                        <h1 className='text-base font-bold text-black'>
                             {popReducer.messageString}
-                        </h4>
+                        </h1>
                     </div>
             </div>
         </>

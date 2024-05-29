@@ -72,18 +72,18 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
                                 attachedYn(false) }}
                         />
                     </div>
-                    <h4 className='text-sm flex-nowrap overflow-ellipsis'>
+                    <h1 className='text-sm flex-nowrap overflow-ellipsis'>
                         {attachedFile.name}
-                    </h4>
+                    </h1>
                 </div>
             )
         } else {
             return (
                 <div className='flex flex-col w-fit h-fit items-center'>
                     <DocumentIcon className='w-10 h-10'/>
-                    <h4 className='text-sm overflow-ellipsis'>
+                    <h1 className='text-sm overflow-ellipsis'>
                         {attachedFile.name}
-                    </h4>
+                    </h1>
                 </div>
             )
         }
@@ -95,9 +95,9 @@ export function WriteMessage({ chatUUID, attachedYn} : {chatUUID : string, attac
         <div className='p-2 rounded-lg bg-slate-300 dark:bg-slate-500 '>
             {attachedFile && 
                 <div className='flex flex-col justify-center'>
-                    <h4 className='text-sm'>
+                    <h1 className='text-sm'>
                         Attached File
-                    </h4>
+                    </h1>
                     <div className='overflow-x-scroll'>
                         {attachedFile.name.length > 0 && previewHandler()}
                     </div>

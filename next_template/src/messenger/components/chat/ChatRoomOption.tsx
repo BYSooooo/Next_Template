@@ -295,9 +295,9 @@ export function ChatRoomOption() {
                     </div>  
                 </div>
                 <div className='p-2 bg-slate-100 dark:bg-slate-900 rounded-md my-2'>
-                    <h4 className='font-bold text-sm mb-1'>
+                    <h1 className='font-bold text-sm mb-1'>
                         ChatRoom Freeze
-                    </h4>
+                    </h1>
                     {changeNotiText()}
                     <div className='text-end'>
                         <button 

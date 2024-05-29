@@ -36,9 +36,9 @@ export default function FriendListMain() {
     return (
         <div className='p-2 mx-1 w-64 shadow-box'>
             <div className='flex justify-between items-center'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Friends List
-                </h4>
+                </h1>
                 <button
                     className='btn-primary'
                     onClick={()=> dispatch(setPageRendering({middle : "UserManageMain"}))}>

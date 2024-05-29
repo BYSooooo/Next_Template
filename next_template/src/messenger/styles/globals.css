@@ -47,3 +47,23 @@
   }
 
 }
+/* Scroll Bar invisible*/
+@layer base {
+  /* Chrome, Safari, Opera */
+  ul::-webkit-scrollbar {
+    display : none;
+  }
+  /* IE, Edge, Firefox */
+  ul {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  div::-webkit-scrollbar {
+    display: none;
+  }
+  div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+}

@@ -147,9 +147,9 @@ export default function UserInfoEdit() {
                                 
             </div>
             <div className='shadow-box w-96 mb-2'>
-                <h4 className='font-bold'>
+                <h1 className='font-bold'>
                     Extra Information
-                </h4>
+                </h1>
                 <SubmitGroup title="Indroduction" reduxName='introduction' />
             </div>
             <div className='flex justify-end '>
@@ -172,9 +172,9 @@ export default function UserInfoEdit() {
                 <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
                     <div className="relative w-80 h-auto my-6 mx-auto max-w-3xl bg-white dark:bg-slate-800 rounded-md p-3">
                         <div>
-                            <h4 className='font-bold text-lg'>
+                            <h1 className='font-bold text-lg'>
                                 User Information Change
-                            </h4>
+                            </h1>
                         </div>
                         <div className="pl-1 items-start my-2">
                             <h6 className="text-base text-left">
@@ -196,9 +196,9 @@ export default function UserInfoEdit() {
                 <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/70">
                     <div className="relative w-80 h-auto my-6 mx-auto max-w-3xl bg-white dark:bg-slate-800 rounded-md p-3">
                         <div>
-                            <h4 className='font-bold text-lg'>
+                            <h1 className='font-bold text-lg'>
                                 Information Change
-                            </h4>
+                            </h1>
                         </div>
                         <div className="pl-1 items-start my-2">
                             <h6 className='text-sm text-left'>

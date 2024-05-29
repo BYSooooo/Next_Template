@@ -100,9 +100,9 @@ export function ChatRoom() {
     return (
         <div className='w-fit shadow-box p-2 mx-2'>
             <div className='flex h-10 justify-between items-center p-2'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Chat - {memberInfo?.displayName ? memberInfo.displayName : 'No Name'}
-                </h4>
+                </h1>
                 {chatRoomInfo?.active && <ChatRoomMenu />}
             </div>
             <div className={controlAttach()} ref={listRef}>

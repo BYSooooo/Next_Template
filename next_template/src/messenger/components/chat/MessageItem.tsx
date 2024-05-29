@@ -18,9 +18,9 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
     }
     const showDisplayName = () => {
         return authorYn !==true &&
-            <h4 className='pl-1 text-left text-xs text-slate-500'>
+            <h1 className='pl-1 text-left text-xs text-slate-500'>
                 {authorInfo.displayName}
-            </h4>    
+            </h1>    
     }
     const showCreateDate = ()=> {
         const transDate = message.createDate.toDate()
@@ -54,9 +54,9 @@ export function MessageItem({message, authorYn, authorInfo, dateChange} : {messa
                                         className='w-32 h-32 rounded-md m-2 hover:cursor-pointer hover:opacity-50'/>
                                 </Link>
                             }
-                            <h4>                
+                            <h1>                
                                     {message.message}
-                            </h4>
+                            </h1>
 
                         </div>
                         {authorYn === false && showCreateDate()}

@@ -42,18 +42,18 @@ export function ChatRoomMenu () {
                         <div>
                             <Menu.Item>
                                 {({active})=> (
-                                    <h4 className={classNames(active ? 'rounded-tl-md rounded-tr-md bg-gray-100 dark:bg-slate-400 text-gray-900 dark:text-white' : 'text-gray-700','block px-4 py-2 text-sm hover:cursor-pointer' )}
+                                    <h1 className={classNames(active ? 'rounded-tl-md rounded-tr-md bg-gray-100 dark:bg-slate-400 text-gray-900 dark:text-white' : 'text-gray-700 dark:text-white','block px-4 py-2 text-sm hover:cursor-pointer' )}
                                         onClick={()=>onClickHandler("Option")}>
                                         Option
-                                    </h4>
+                                    </h1>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({active})=> (
-                                    <h4 className={classNames(active ? 'rounded-br-md rounded-bl-md bg-gray-100 dark:bg-slate-400 text-red-700 dark:text-red-700' : 'text-red-500','block px-4 py-2 text-sm hover:cursor-pointer' )}
+                                    <h1 className={classNames(active ? 'rounded-br-md rounded-bl-md bg-gray-100 dark:bg-slate-400 text-red-700 dark:text-red-700' : 'text-red-500','block px-4 py-2 text-sm hover:cursor-pointer' )}
                                         onClick={()=>onClickHandler('Exit')}>
                                             Exit
-                                    </h4>
+                                    </h1>
                                 )}
                             </Menu.Item>
                         </div>
