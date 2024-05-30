@@ -12,8 +12,28 @@ You can use the TMDB API to search and view movie information. <br>
 You can search for and view movie information, and check related details <br>
 Dark mode support and limited responsiveness implementation (to be improved) <br>
 > Search - Search by title through filtering according to release year and adult content <br>
+
 > Popular - Based on the TMDB API, you can display a list of the current popular movies and view simple information <br>
+
 > Detail - You can view the details of the selected movies in the search and popular movie list. <br>
->> - Display the filmmaker or actor and select them to view the details <br>
->> - View videos and images related to the selected movie <br>
->> - If there is Collection information, display the list and go to the movie's details when selected.
+> - Display the filmmaker or actor and select them to view the details <br>
+> - View videos and images related to the selected movie <br>
+> - If there is Collection information, display the list and go to the movie's details when selected.
+
+- 0.2.0 <br>
+Develop and Deploy 'Messenger Page' <br>
+Messenger Web Application that communicate with other users through chat <br>
+> Login - Sign-in via Firebase Authentication Component <br>
+> - Membership Subscription Service: Gmail, Github, and other email accounts + Test Account <br>
+> - Member profile picture and additional information can be registered and modified. <br>
+> - When a user uses Gmail, Application use Google's default Profile <br>
+
+> Friend Management - User can register Other User to friends <br>
+> - Search - Searching, Send Friend Request and Request Cancel, Accept and Denying Request from Other user, Block User <br>
+> - Friend Management - Open ChatRoom, Delete or Block Friend in Friend List <br>
+
+> Chatting - User can chat with other users.
+> - Messaging - Send and Receive Message () <br>
+> - File Management - User can check the files uploaded to the chat room and download and delete them. <br>
+> - Export - Export Chat Message history (txt, csv) <br>
+> - Freeze - User can freeze a chat room to stop the conversation. <br>
