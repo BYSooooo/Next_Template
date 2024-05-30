@@ -47,7 +47,7 @@ export default function FriendListMain() {
                     </h1>
                 </button>
             </div>
-            <ul className='overflow-y-scroll'>
+            <ul className='overflow-y-scroll mt-2'>
                 {friendList.map((item)=> {
                     return <ListElement key={item.info.uid} openFrom='Friend' selected={item.info} extraInfo={{sort : "friendUUID", info: item.uuid}}/>
                 })}
