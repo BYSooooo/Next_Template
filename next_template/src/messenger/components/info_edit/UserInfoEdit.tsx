@@ -208,16 +208,20 @@ export default function UserInfoEdit() {
                                 * If your email address is incorrect, you may not be able to sign in to your current account.
                             </h6>
                         </div>
-                        <div className="flex justify-end gap-1">
+                        <div className="flex justify-end">
                             <button
                                 onClick={()=>updateAuthInfo()}
-                                className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white font-bold px-2'>
-                                Confirm
+                                className='btn-primary '>
+                                <h1 className='text-sm'>
+                                    Confirm
+                                </h1>
                             </button>
                             <button
                                 onClick={()=>setShowWarning(false)} 
-                                className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white font-bold px-2 '>
-                                Cancel
+                                className='btn-secondary'>
+                                <h1 className='text-sm'>
+                                    Cancel
+                                </h1>
                             </button>
                         </div> 
                     </div>
