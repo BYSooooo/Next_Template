@@ -46,9 +46,9 @@ export default function FriendResponseManage(){
     return (
         <div>
             <div className='flex justify-between'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Receive Request List
-                </h4>
+                </h1>
             </div>
             <ul className='text-xs list-disc list-inside'>
                 <li>
@@ -73,9 +73,9 @@ export default function FriendResponseManage(){
                         <div className='flex w-full h-full items-center justify-center'>
                             <div className='flex-col align-middle'>
                                 <ExclamationCircleIcon className='w-15 h-15'/>
-                                <h4 className='font-bold'>
+                                <h1 className='font-bold'>
                                     No Data
-                                </h4>
+                                </h1>
                             </div>
                         </div>
                 }

@@ -38,22 +38,22 @@ export function ChatRoomMenu () {
                 leave="transition ease-in duration-75"
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95">
-                    <Menu.Items className='absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                    <Menu.Items className='absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white dark:bg-slate-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                         <div>
                             <Menu.Item>
                                 {({active})=> (
-                                    <h4 className={classNames(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700','block px-4 py-2 text-sm hover:cursor-pointer' )}
+                                    <h1 className={classNames(active ? 'rounded-tl-md rounded-tr-md bg-gray-100 dark:bg-slate-400 text-gray-900 dark:text-white' : 'text-gray-700 dark:text-white','block px-4 py-2 text-sm hover:cursor-pointer' )}
                                         onClick={()=>onClickHandler("Option")}>
                                         Option
-                                    </h4>
+                                    </h1>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({active})=> (
-                                    <h4 className={classNames(active ? 'bg-gray-100 text-red-700' : 'text-red-600','block px-4 py-2 text-sm hover:cursor-pointer' )}
+                                    <h1 className={classNames(active ? 'rounded-br-md rounded-bl-md bg-gray-100 dark:bg-slate-400 text-red-700 dark:text-red-700' : 'text-red-500','block px-4 py-2 text-sm hover:cursor-pointer' )}
                                         onClick={()=>onClickHandler('Exit')}>
                                             Exit
-                                    </h4>
+                                    </h1>
                                 )}
                             </Menu.Item>
                         </div>

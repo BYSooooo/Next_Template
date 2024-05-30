@@ -277,9 +277,9 @@ export default function UserExtraModal({openYn, selectedUser, action, extraInfo}
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black/50">
             <div className='absolute self-center bg-white dark:bg-black rounded-md p-3 w-80'>
                 <div className='flex mb-2 border-b-slate-500 justify-between' >
-                    <h4 className="font-bold">
+                    <h1 className="font-bold">
                         {headerText}
-                    </h4>
+                    </h1>
                     
                 </div>
                 <ul className='my-1 list-disc px-2 text-xs'>

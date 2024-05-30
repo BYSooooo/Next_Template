@@ -36,9 +36,9 @@ export default function FriendListMain() {
     return (
         <div className='p-2 mx-1 w-64 shadow-box'>
             <div className='flex justify-between items-center'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Friends List
-                </h4>
+                </h1>
                 <button
                     className='btn-primary'
                     onClick={()=> dispatch(setPageRendering({middle : "UserManageMain"}))}>
@@ -47,7 +47,7 @@ export default function FriendListMain() {
                     </h1>
                 </button>
             </div>
-            <ul className='overflow-y-scroll'>
+            <ul className='overflow-y-scroll mt-2'>
                 {friendList.map((item)=> {
                     return <ListElement key={item.info.uid} openFrom='Friend' selected={item.info} extraInfo={{sort : "friendUUID", info: item.uuid}}/>
                 })}

@@ -98,33 +98,33 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
             case "Request" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 py-0.5 text-xs text-white'>
+                        <h1 className='px-2 py-0.5 text-xs text-white'>
                             Pending approval 
-                        </h4>
+                        </h1>
                     </div>
                 )
             case "Response" : 
                 return (
                     <div className='w-fit rounded-full bg-yellow-500 dark:bg-yellow-700'>
-                        <h4 className='px-2 py-0.5 text-xs text-white'>
+                        <h1 className='px-2 py-0.5 text-xs text-white'>
                             Waiting your approval
-                        </h4>
+                        </h1>
                     </div>
                 )
             case "Block" :
                 return (
                     <div className='w-fit py-0.5 rounded-full bg-red-500 dark:bg-red-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h1 className='px-2 text-xs text-white'>
                             Block User
-                        </h4>
+                        </h1>
                     </div>
                 )
             case "Friend" : 
                 return (
                     <div className='w-fit rounded-full bg-green-500 dark:bg-green-700'>
-                        <h4 className='px-2 text-xs text-white'>
+                        <h1 className='px-2 text-xs text-white'>
                             Friend Relation
-                        </h4>
+                        </h1>
                     </div>
                 )
         }
@@ -308,15 +308,15 @@ export default function UserInfoModal({info, openFrom, openYn, extraInfo} : {inf
                                 No Display Name
                             </h1>
                     }
-                    <h4 className='text-sm font-thin'> 
+                    <h1 className='text-sm font-thin'> 
                         {info.email}
-                    </h4>
+                    </h1>
                 </div>
                 
                 <div className='mx-4 my-2 rounded-md bg-gray-300 text-center dark:bg-gray-700'>
-                    <h4 className='font-light text-xs'>
+                    <h1 className='font-light text-xs'>
                         {info.introduction ??= 'No Infroduce Phrase'}
-                    </h4>
+                    </h1>
                 </div>
                 {checkStatus()}
             </div>

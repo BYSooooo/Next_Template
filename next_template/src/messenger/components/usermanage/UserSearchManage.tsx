@@ -59,7 +59,8 @@ export default function UserSearchManage() {
         getReuestAddFriendInDoc().then((response)=> {
             if(response.result) {
                 const filter = response.value.filter((item)=> 
-                    ((item.from || item.to) === currentUser.email) && (item.status === "request") 
+                    //((item.from || item.to) === currentUser.email) && (item.status === "request") 
+                    ((item.from === currentUser.email) || (item.to === currentUser.email)) && (item.status === "request")
                 )
                 reqLists.push(...filter)
             }

@@ -217,96 +217,112 @@ export function ChatRoomOption() {
     }
 
     return (
-        <div className='shadow-box p-2 m-2 w-80'>
+        <div className='shadow-box p-2 mx-2 w-fit'>
             <div className='flex w-72 h-10 justify-between items-center p-2'>
-                <h4 className='font-bold text-lg'>
+                <h1 className='font-bold text-lg'>
                     Chat - Option
-                </h4>
+                </h1>
                 {chatRoomInfo?.active && <ChatRoomMenu />}
             </div>
             <div className='overflow-y-scroll h-96'>
-            
-            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
-                <h4 className='font-bold text-sm'>
-                    Attached File
-                </h4>
-                <div className='grid grid-cols-3 gap-3 overflow-y-scroll px-2'> 
-                    {attached.map(item=> {
-                        return (
-                            <div key={item.UUID} 
-                                className='relative cursor-pointer hover:opacity-60'
-                                onClick={(e)=>onClickAttached(e,item)}>
-                                <div className='absolute right-2 top-1'>
-                                    {item.selectedYn 
-                                    ?   <CheckCircleIcon className='w-4 h-4 fill-green-600 stroke-white stroke-2'/> 
-                                    :   <span className='w-4 h-4 border-white inline-block border-2 border-solid rounded-full'/>}
+                <div className='p-2 bg-slate-100 dark:bg-slate-900 rounded-md my-2'>
+                    <h1 className='font-bold text-sm'>
+                        Attached File
+                    </h1>
+                    <div className='grid grid-cols-3 gap-3 overflow-y-scroll p-2'> 
+                        {attached.map(item=> {
+                            return (
+                                <div key={item.UUID} 
+                                    className='relative cursor-pointer hover:opacity-60'
+                                    onClick={(e)=>onClickAttached(e,item)}>
+                                    <div className='absolute right-2 top-1'>
+                                        {item.selectedYn 
+                                        ?   <CheckCircleIcon className='w-4 h-4 fill-green-600 stroke-white stroke-2'/> 
+                                        :   <span className='w-4 h-4 border-white inline-block border-2 border-solid rounded-full'/>}
+                                    </div>
+                                    <img src={item.attachedValue} className='rounded-md w-20 h-20'/>
                                 </div>
-                                <img src={item.attachedValue} className='rounded-md w-20 h-20'/>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
+                    <div className='text-end'>
+                        <button 
+                            disabled={!chatRoomInfo?.active}
+                            onClick={(e)=>onClickDelete(e)}
+                            className='btn-primary bg-red-500 hover:bg-red-300 dark:bg-red-700 dark:hover:bg-red-500'>
+                                <h1 className='text-sm'>
+                                    Delete
+                                </h1>
+                        </button>
+                        <button onClick={()=>onClickDownload()}
+                            className='btn-primary bg-blue-500 hover:bg-blue-300 dark:bg-blue-700 dark:hover:bg-blue-500'>
+                            <h1 className='text-sm'>
+                                Download
+                            </h1>
+                        </button>
+                        
+                    </div>
                 </div>
-                <div className='grid grid-cols-2 my-2 gap-2'>
-                    <button 
-                        disabled={!chatRoomInfo?.active}
-                        onClick={(e)=>onClickDelete(e)}
-                        className='rounded-full border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white disabled:border-gray-200 disabled:hover:bg-gray-200 disabled:hover:text-neutral-900 transition duration-200'>
-                        Delete
-                    </button>
-                    <button onClick={()=>onClickDownload()}
-                        className='rounded-full border-2 border-solid border-blue-500 hover:bg-blue-500 hover:text-white transition duration-200'>
-                        Download
-                    </button>
-                    
-                </div>
-            </div>
             
-            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
-                <h4 className='font-bold text-sm mb-1'>
-                    Messages Export
-                </h4>
-                <ul className='my-1 list-disc px-2'>
-                    <li className='text-xs'>
-                        You can export Messages.
-                    </li>
-                    <li className='text-xs'>
-                        Attachments are not saved.
-                    </li>
-                    
-                </ul>
-                <div className='grid grid-cols-2 gap-2'>
-                    <button className='w-full rounded-full border-2 border-solid border-gray-500 hover:bg-gray-500 hover:text-white transition duration-200'
+                <div className='p-2 bg-slate-100 dark:bg-slate-900 rounded-md my-2'>
+                    <h1 className='font-bold text-sm mb-1'>
+                        Messages Export
+                    </h1>
+                    <ul className='my-1 list-disc px-2'>
+                        <li className='text-xs'>
+                            You can export Messages.
+                        </li>
+                        <li className='text-xs'>
+                            Attachments are not saved.
+                        </li>
+                        
+                    </ul>
+                    <div className='text-end'>
+                        <button 
+                            className='btn-primary bg-gray-500 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-500'
                             onClick={(e)=>exportToText(e)}>
-                        Text
-                    </button>
-                    <button className='w-full rounded-full border-2 border-solid border-green-600 hover:bg-green-600 hover:text-white transition duration-200'
+                            <h1 className='text-sm'>
+                                Text
+                            </h1>        
+                        </button>
+                        <button 
+                            className='btn-primary bg-green-500 hover:bg-green-300 dark:bg-green-700 dark:hover:bg-green-500'
                             onClick={(e)=>exportToCsv(e)}>
-                        CSV
-                    </button>
-                </div>  
+                            <h1 className='text-sm'>
+                                CSV
+                            </h1>
+                        </button>
+                    </div>  
+                </div>
+                <div className='p-2 bg-slate-100 dark:bg-slate-900 rounded-md my-2'>
+                    <h1 className='font-bold text-sm mb-1'>
+                        ChatRoom Freeze
+                    </h1>
+                    {changeNotiText()}
+                    <div className='text-end'>
+                        <button 
+                            className='btn-primary bg-purple-500 hover:bg-purple-300 dark:bg-purple-700 dark:hover:bg-purple-500'
+                            onClick={(e)=>onClickDeleteChat(e)}>
+                            <h1 className='text-sm'>
+                            {chatRoomInfo?.active 
+                                ? 'Freeze' 
+                                : freezeReqYn === 'Request' 
+                                    ? 'Freeze Cancel'
+                                    : 'Delete' 
+                            }
+
+                            </h1>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className='p-2 border-2 border-solid border-slate-600 rounded-md my-1'>
-                <h4 className='font-bold text-sm mb-1'>
-                    ChatRoom Freeze
-                </h4>
-                {changeNotiText()}
-                <button 
-                    className='w-full border-2 border-solid rounded-full border-purple-500 hover:bg-purple-500 transition duration-200 hover:text-white'
-                    onClick={(e)=>onClickDeleteChat(e)}>
-                    {chatRoomInfo?.active 
-                        ? 'Freeze' 
-                        : freezeReqYn === 'Request' 
-                            ? 'Freeze Cancel'
-                            : 'Delete' 
-                    }
-                </button>
-            </div>
-            
-            </div>
-            <div className='mt-1'>
-                <button className='w-full border-2 border-solid border-slate-500 rounded-full hover:bg-slate-500 hover:text-white transition duration-200'
+            <div className='mt-1 text-end'>
+                <button className='btn-secondary'
                     onClick={()=>onClickHandler("ok")}>
-                    return
+                    <h1 className='text-sm'>
+                        Return
+
+                    </h1>
                 </button>
             </div>
             {openDelAttach && <BeforeDeleteAttach closeFn={setOpenDelAttach} clickFn={onClickDeleteInAttach} />}

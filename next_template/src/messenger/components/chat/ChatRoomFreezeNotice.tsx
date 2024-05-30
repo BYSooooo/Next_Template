@@ -20,11 +20,11 @@ export function ChatRoomFreezeNotice({chatUUID,viewYn} : {chatUUID : string, vie
     }
 
     return (
-        <div className='h-30 p-2 bg-slate-200 rounded-lg'>
+        <div className='h-30 p-2 bg-slate-200 dark:bg-slate-500 rounded-lg'>
             <div className='flex justify-between'>
-                <h4 className='text-sm font-bold'>
+                <h1 className='text-sm font-bold'>
                     This Chat Room is Frozen
-                </h4>
+                </h1>
                 <InformationCircleIcon className='w-5 h-5 text-current hover:cursor-pointer' onClick={onClickNotice}/>
             </div>
             {viewModal && 
@@ -41,12 +41,17 @@ export function ChatRoomFreezeNotice({chatUUID,viewYn} : {chatUUID : string, vie
                             If you want to resume the conversation, you must unfreeze it or reopen it after the other person&apos;s approval of deletion.
                         </li>
                     </ul>
-                </div> 
-                <button 
-                    onClick={()=>dispatch(setPageRendering({middle : "ChatRoomOption"}))}
-                    className='w-full border-2 border-solid border-blue-500 justify-center rounded-full hover:bg-blue-500 hover:text-white transition duration-200'>
-                    Option
-                </button>
+                </div>
+                <div className='text-end'>
+                    <button 
+                        onClick={()=>dispatch(setPageRendering({middle : "ChatRoomOption"}))}
+                        className='btn-primary bg-yellow-500 hover:bg-yellow-300 dark:bg-yellow-700 dark:hover:bg-yellow-500'>
+                        <h1 className='text-sm'>
+                            Option
+                        </h1>
+                    </button>
+
+                </div>     
             </div>
             }
         </div>
