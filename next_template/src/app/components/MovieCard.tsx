@@ -1,7 +1,3 @@
-"use client";
-
-import * as React from 'react';
-
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -19,11 +15,6 @@ import { SxProps, Theme } from '@mui/material';
  * 
  */
 export default function MovieCard({path} : {path: string}) {
-    const [url, setUrl] = React.useState("");
-    React.useEffect(()=> {
-        setUrl(path)
-    },[])
-
     const iconStyle : SxProps<Theme> = {
         width : 30, 
         height : 30,
@@ -31,8 +22,8 @@ export default function MovieCard({path} : {path: string}) {
     }
 
     return (
-        <Card sx={{maxWidth : 350, borderRadius : 1}}>
-            <CardActionArea href={`${url}`}>
+        <Card sx={{maxWidth : 350, borderRadius : 1, minHeight : 350}}>
+            <CardActionArea href={`${path}`}>
                 <CardContent>
                     <Stack direction='column' rowGap={0.5}>
                         <Typography gutterBottom={false} variant='h5' component="div" fontWeight='bold'>
@@ -44,7 +35,7 @@ export default function MovieCard({path} : {path: string}) {
                         <Divider />
                         <Stack direction='row' columnGap={3}>
                             <Typography variant='subtitle1' color='gray' >
-                                Core
+                                Stack
                             </Typography>
                             <Stack direction='column' rowGap={1}>
                                 <Stack direction='row' columnGap={1} alignItems='center'>
@@ -64,6 +55,14 @@ export default function MovieCard({path} : {path: string}) {
                                     </Typography>
                                 </Stack>
                                 <Stack direction='row' columnGap={1} alignItems='center'>
+                                    <Avatar 
+                                    sx={iconStyle} 
+                                    src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"/>
+                                    <Typography variant='body2'>
+                                        The Movie DB_API
+                                    </Typography>
+                                </Stack>
+                                <Stack direction='row' columnGap={1} alignItems='center'>
                                     <Avatar
                                         sx={{ width : 30, height : 30, boxShadow : 1, backgroundColor : 'purple'}}
                                         src="https://d33wubrfki0l68.cloudfront.net/97f337956b87f4589dbf68591f22f5f3dacf2736/55f2a/img/redux_white.svg"/>
@@ -71,37 +70,19 @@ export default function MovieCard({path} : {path: string}) {
                                         Redux-Toolkit
                                     </Typography>
                                 </Stack>
+                                <Stack direction='row' columnGap={1} alignItems='center'>
+                                    <Avatar
+                                        alt='TS' 
+                                        sx={iconStyle} 
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png"/>
+                                    <Typography variant='body2'>
+                                        TypeScript
+                                    </Typography>
+                                </Stack>
                             </Stack>
                         </Stack>
-                        <Divider />
-                        <Stack direction='row' columnGap={3}>
-                    <Typography variant='subtitle1' color='gray' >
-                        Other
-                    </Typography>
-                    <Stack direction='column' rowGap={1}>
-                        <Stack direction='row' columnGap={1} alignItems='center'>
-                            <Avatar 
-                                sx={iconStyle} 
-                                src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"/>
-                            <Typography variant='body2'>
-                                The Movie DB_API
-                            </Typography>
-                        </Stack>
-                        <Stack direction='row' columnGap={1} alignItems='center'>
-                            <Avatar
-                                alt='TS' 
-                                sx={iconStyle} 
-                                src="https://www.typescriptlang.org/"/>
-                            <Typography variant='body2'>
-                                Typescript
-                            </Typography>
-                        </Stack>
-                    </Stack>
-                </Stack>
-                    </Stack>
-                        
+                    </Stack>    
                 </CardContent>
-
             </CardActionArea>
         </Card>
     )

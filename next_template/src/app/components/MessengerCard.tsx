@@ -1,5 +1,3 @@
-"use client";
-
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -18,12 +16,6 @@ import React from 'react';
  * 
  */
 export default function MessengerCard({path} : {path : string}) {
-    const [url, setUrl] = React.useState('');
-    
-    React.useEffect(()=> {
-        setUrl(path)
-    },[])
-
     const iconStyle : SxProps<Theme> = {
         width : 30, 
         height : 30,
@@ -31,20 +23,20 @@ export default function MessengerCard({path} : {path : string}) {
     }
     
     return (
-        <Card sx={{maxWidth : 350, borderRadius : 1}}> 
-            <CardActionArea href={`${url}`}>
+        <Card sx={{maxWidth : 350, borderRadius : 1, minHeight : 350}}> 
+            <CardActionArea href={`${path}`}>
                 <CardContent>
                     <Stack direction='column' rowGap={0.5}>
                         <Typography gutterBottom={false} variant='h5' component="div" fontWeight='bold'>
                             Messenger
                         </Typography>
                         <Typography variant='body2' color='GrayText'>
-                            (In Development...) Write & Send Message to Other People
+                            Chat with Other User and Manage your list by adding, blocking, and deleting friends through user search.
                         </Typography>
                         <Divider />
                         <Stack direction='row' columnGap={3}>
                             <Typography variant='subtitle1' color='gray' >
-                                Core
+                                Stack
                             </Typography>
                             <Stack direction='column' rowGap={1}>
                                 <Stack direction='row' columnGap={1} alignItems='center'>
@@ -71,14 +63,26 @@ export default function MessengerCard({path} : {path : string}) {
                                     <Typography variant='body2'>
                                         Firebase
                                     </Typography>
-
+                                </Stack>
+                                <Stack direction='row' columnGap={1} alignItems='center'>
+                                    <Avatar
+                                        sx={{ width : 30, height : 30, boxShadow : 1, backgroundColor : 'purple'}}
+                                        src="https://d33wubrfki0l68.cloudfront.net/97f337956b87f4589dbf68591f22f5f3dacf2736/55f2a/img/redux_white.svg"/>
+                                    <Typography variant='body2'>
+                                        Redux-Toolkit
+                                    </Typography>
+                                </Stack>
+                                <Stack direction='row' columnGap={1} alignItems='center'>
+                                    <Avatar
+                                        alt='TS' 
+                                        sx={iconStyle} 
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png"/>
+                                    <Typography variant='body2'>
+                                        TypeScript
+                                    </Typography>
                                 </Stack>
                             </Stack>
                         </Stack>
-                        <Divider />
-                        <Typography variant='subtitle1' color='gray' >
-                            Other
-                        </Typography>
                     </Stack>
                 </CardContent>
             </CardActionArea>
