@@ -1,23 +1,24 @@
-import { PrismaClient } from "@prisma/client"
+"use client"
+import React from 'react';
 
-const prisma = new PrismaClient();
+import { onClickTest } from "@/shopping/prisma/test"
+
 
 export default function ShoppingPage() {
-
-    const onClickTest = async()=> {
-        await prisma.user.create({
-            data : {
-                name : "test",
-                email : "testUser@example.com"
-            }
-        })
-    }
+    React.useEffect(()=> {
+        
+    },[])
 
     return (
-        <div className="mt-20">
-            <button onClick={onClickTest}>
+        <div className="flex container m-20 mx-auto h-auto justify-center">
+            <div>
+                <button onClick={onClickTest}>
+                    <h1>
+                        Hello
+                    </h1>
+                </button>
 
-            </button>
+            </div>
         </div>
     )
 }

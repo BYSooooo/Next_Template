@@ -43,7 +43,7 @@ export default function MessengerLogin() {
     },[])
 
     return (
-        <div className="flex container m-20 mx-aut h-auto justify-center">
+        <div className="flex container m-20 mx-auto h-auto justify-center">
             <div className={theme}>
                 { isLogin ? <MessengerMain />: <MainAuth />}
             </div>
