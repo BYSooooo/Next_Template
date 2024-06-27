@@ -19,6 +19,19 @@ model UserInfo {
     
 }
 
+model ComCode {
+    key1 String @id
+    ket2 String @unique
+    value String
+}
+
+model Category {
+    id String @id @default(uuid())
+    category1 String
+    category2 String
+    category3 String
+}
+
 model Product {
     id      String  @id @default(cuid())
     name    String
@@ -26,3 +39,4 @@ model Product {
     cost    Int
     
 }
+
