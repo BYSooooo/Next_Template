@@ -9,14 +9,34 @@ datasource db {
 }
 
 // Update Database Table : npx prisma db push
-model UserInfo {
+model User {
     id          String  @id @default(cuid())
+    password    String
     name        String
     email       String  @unique
     address1    String
     address2    String
-    photo       String  //Blob
-    
+    photo       String  // Blob
+
+}
+
+model Seller {
+    id          String @id @default(cuid())
+    name        String
+    email       String @unique
+    password    String
+    product     Product[]
+    company     Company @relation(fields: [companyId], references: [id])
+    companyId   String
+}
+
+model Company {
+    id          String @id @default(cuid())
+    name        String
+    contract    String
+    address     String
+    seller      Seller[]
+
 }
 
 model ComCode {
@@ -25,18 +45,21 @@ model ComCode {
     value String
 }
 
-model Category {
-    id String @id @default(uuid())
-    category1 String
-    category2 String
-    category3 String
-}
 
 model Product {
     id      String  @id @default(cuid())
     name    String
     photo   String
     cost    Int
-    
+    promo   Int
+    category1 String
+    category2 String
+    category3 String
+    seller Seller @relation(fields: [sellerid], references: [id])
+    sellerid String
+
 }
+
+
+
 
