@@ -12,18 +12,19 @@ datasource db {
 model User {
     id          String @id @default(cuid())
     password    String
-    info        UserInfo @relation(fields: [id], references: [id])
+    info        UserInfo @relation(fields: [infoId], references: [id])
+    infoId      String @unique
 }
 
 model Seller {
     id          String @id @default(cuid())
-    
     password    String
     product     Product[]
     company     Company @relation(fields: [companyId], references: [id])
     companyId   String
-
-    info        UserInfo
+    info        UserInfo @relation(fields: [infoId], references: [id])
+    infoId      String @unique
+    
 }
 
 model Company {
@@ -36,9 +37,9 @@ model Company {
 }
 
 model ComCode {
-    key1 String @id
-    ket2 String @unique
-    value String
+    code    String @id 
+    value   String
+    useYn   Boolean
 }
 
 
@@ -47,26 +48,42 @@ model Product {
     name    String
     photo   String
     cost    Int
-    promo   Int
+    amount  Int
+    promo   Promotion[]    
     category1 String
     category2 String
     category3 String
     seller Seller @relation(fields: [sellerid], references: [id])
     sellerid String
+    
 
 }
 
 model UserInfo {
-
     id          String  @id @default(cuid())
+    seller      Seller?
+    user        User?
     name        String
     email       String  @unique
     address1    String
     addrees2    String
     photo       String // BLob
     lastLogin   DateTime
+    
+}
 
-
+model Promotion {
+    id          String @id @default(cuid())
+    name        String
+    type        String 
+    rate        Int?
+    cost        Int?
+    limitCost   Int?
+    product     Product? @relation(fields: [productId], references: [id])
+    productId   String?
+    startDate   DateTime
+    endDate     DateTime
+    amount      Int?
 }
 
 
