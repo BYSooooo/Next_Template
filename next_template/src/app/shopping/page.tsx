@@ -1,10 +1,10 @@
-import { Button } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 
 export default function ShoppingPage() {
     return  (
-        <Button>
-            HEllo
-        </Button>
+        <div className="mt-20">
+            <Button>Click Me</Button>
+        </div>
     )
             
     
