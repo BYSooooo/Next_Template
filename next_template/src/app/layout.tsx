@@ -6,7 +6,7 @@ import ThemeRegistry from '@/theme/ThemeRegistry';
 
 export const metadata = {
   title : "Next Template",
-  description : ''
+ 
 }
 
 

@@ -1,8 +1,14 @@
+import React from 'react';
+import { Input } from "@nextui-org/react";
+
 export default function ShoppingPage() {
     return  (
         <div className="container">
-            <h1>Hello1</h1>
-            Hello2
+            This is Body
+            <div>
+                
+            </div>
+
 
         </div>
     )
