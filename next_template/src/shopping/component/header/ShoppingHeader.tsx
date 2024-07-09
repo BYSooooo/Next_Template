@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Input, Link, Textarea } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 
 export default function ShoppingHeader() {
     return (
