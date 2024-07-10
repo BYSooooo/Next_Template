@@ -13,14 +13,9 @@ export default function RootLayout({
     children : React.ReactNode
 }) {
     return (
-        <html lang="en">
-            <body>
-                <Providers >
-                    <ShoppingHeader />
-                    {children}
-                </Providers>
-            </body>
-        </html>
-
+        <Providers >
+            <ShoppingHeader />
+            {children}
+        </Providers>
     )
 }
