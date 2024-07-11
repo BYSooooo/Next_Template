@@ -7,12 +7,6 @@ import {ThemeProvider as NextThemesProvider } from "next-themes";
 
 export function Providers({children} : {children : React.ReactNode}) {
     
-    React.useEffect(()=> {
-    
-    },[])
-
-    
-
     return (
         <NextUIProvider>
             <NextThemesProvider attribute='class'>

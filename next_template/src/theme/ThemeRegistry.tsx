@@ -3,35 +3,37 @@
 import * as React from 'react';
 
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, useMediaQuery } from '@mui/material';
-import theme from './theme';
-import { useTheme } from 'next-themes';
+import { createTheme, CssBaseline, useMediaQuery } from '@mui/material';
 
 export default function ThemeRegistry({children} : {children : React.ReactNode}) {
-    const [mode, setMode] = React.useState('');    
-    const [mount, setMount] = React.useState(false)
-    const { setTheme } = useTheme()
+    const [mode, setMode] = React.useState<'light'|'dark'>('light');    
+    const [mount, setMount] = React.useState(false);
     const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const initialMode = preferDarkMode ? 'dark' : 'light';
     
+    const theme = React.useMemo(
+        ()=> createTheme({
+            palette : {
+                mode,
+            }
+        }),[mode]
+    )
+
     React.useEffect(()=> {
         setMount(true)
-        setMode(initialMode) 
-        window.localStorage.setItem('mode', initialMode);
         window.addEventListener('stroage',()=> {
             const getMode = window.localStorage.getItem('mode')
+            console.log(getMode)
             setMode(getMode === 'dark' ? 'dark' : 'light')
-            setTheme(getMode === 'dark' ? 'dark' : 'light')
-        
         })
+        
+        setMode(preferDarkMode ? 'dark' : 'light') 
+        window.localStorage.setItem('mode', preferDarkMode ? 'dark' : 'light');
     },[])
 
-    if(!mount) {
-        return null
-    }
+    if(!mount) { return null } 
 
     return (
-        <ThemeProvider theme={theme(mode === 'dark' ? 'dark' : 'light')}>
+        <ThemeProvider theme={theme}>
             {children}
             <CssBaseline />
         </ThemeProvider>    
