@@ -1,27 +1,10 @@
 import { Inter } from "next/font/google";
 
-import { SxProps, Theme, createTheme } from "@mui/material/styles";
+import { SxProps, Theme } from "@mui/material/styles";
 
 const GoogleInterFont = Inter( {subsets: ['latin']});
 
-const theme = (selectedMode : 'light' | 'dark') => createTheme({
-    palette : {
-        mode : selectedMode
-    }
 
-    // components : {
-    //     MuiContainer : {
-    //         styleOverrides : {
-    //             root : {
-    //                 backgroundColor : 'snowWhite',
-                    
-    //             }           
-    //         }
-    //     }
-
-    // }
-    
-})
 /* Movie Detail Box Light Style in Top Part  */
 export const lightBoxStyle : SxProps<Theme> = (
     {
@@ -56,5 +39,3 @@ export const darkGridStyle : SxProps<Theme> = (
         p : 1
     }
 )
-
-export default theme;

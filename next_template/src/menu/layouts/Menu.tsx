@@ -28,7 +28,8 @@ const basicMenuItem : menuItem[] =
 const contentMenuItem : menuItem[] = 
 [
     { path: "/movie", text : "Movie" }, 
-    { path : "/messenger", text : "Messenger"}
+    { path : "/messenger", text : "Messenger"},
+    { path : "/shopping", text : "Shopping" }
 ]
 
 export default function Menu() {
