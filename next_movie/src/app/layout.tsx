@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '../theme/theme';
 import StoreProvider from '../redux/StoreProvider';
+import TopBar from '../menu/TopBar';
 
 
 export const metadata = {
@@ -14,12 +15,14 @@ export default function RootLayout({
     children: React.ReactNode
   }) {
 
+
     return (
       <html lang="en">
         <body>
             <AppRouterCacheProvider>
                 <StoreProvider>
                     <ThemeProvider theme={theme}>
+                      <TopBar />
                         {children}
                     <CssBaseline />
                     </ThemeProvider>
