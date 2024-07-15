@@ -1,8 +1,8 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from '../theme/theme';
+import { CssBaseline } from '@mui/material';
 import StoreProvider from '../redux/StoreProvider';
 import TopBar from '../menu/TopBar';
+import ModeProvider from './provider';
 
 
 export const metadata = {
@@ -21,11 +21,11 @@ export default function RootLayout({
         <body>
             <AppRouterCacheProvider>
                 <StoreProvider>
-                    <ThemeProvider theme={theme}>
+                    <ModeProvider>
                       <TopBar />
                         {children}
-                    <CssBaseline />
-                    </ThemeProvider>
+                      <CssBaseline />
+                    </ModeProvider>
                 </StoreProvider>
             </AppRouterCacheProvider>
         </body>

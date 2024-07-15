@@ -5,25 +5,27 @@ import { Switch, useMediaQuery } from "@mui/material";
 import { useAppDispatch } from '../redux/hooks';
 import { setTheme } from '../redux/features';
 
+
 export default function ModeSwitch() {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)', {noSsr : true});
     
-    const [mode, setMode] = React.useState<boolean>(true)
+    const [checked, setChecked] = React.useState(false)
     const dispatch = useAppDispatch();
     
     React.useEffect(()=> {
-        setMode(prefersDarkMode ? true : false)
-        dispatch(setTheme({theme : prefersDarkMode ? 'true' : 'false'}));
-        console.log(prefersDarkMode)
+        setChecked(prefersDarkMode)
+        dispatch(setTheme({theme : prefersDarkMode}))
+        console.log('useEffect Called')
     },[])
 
     const onchangeMode = (event : React.ChangeEvent<HTMLInputElement>)=> {
-        setMode(event.target.checked)
+        setChecked(event.target.checked)
+        dispatch(setTheme({theme : event.target.checked}))    
     }
     
     return (
         <Switch 
-            checked={mode} 
+            checked={checked}
             onChange={onchangeMode}
             inputProps={{ 'aria-label' : 'controlled'}}
         />

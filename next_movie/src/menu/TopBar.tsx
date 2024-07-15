@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GitHub } from '@mui/icons-material';
-import { AppBar, Box, Link, Stack, Switch, useMediaQuery } from '@mui/material';
+import { AppBar, Box, Link, Stack } from '@mui/material';
 import ModeSwitch from './ModeSwitch';
 
 
