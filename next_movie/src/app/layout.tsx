@@ -22,9 +22,9 @@ export default function RootLayout({
             <AppRouterCacheProvider>
                 <StoreProvider>
                     <ModeProvider>
+                      <CssBaseline />
                       <TopBar />
                         {children}
-                      <CssBaseline />
                     </ModeProvider>
                 </StoreProvider>
             </AppRouterCacheProvider>

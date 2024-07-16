@@ -15,7 +15,6 @@ export default function ModeSwitch() {
     React.useEffect(()=> {
         setChecked(prefersDarkMode)
         dispatch(setTheme({theme : prefersDarkMode}))
-        console.log('useEffect Called')
     },[])
 
     const onchangeMode = (event : React.ChangeEvent<HTMLInputElement>)=> {

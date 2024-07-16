@@ -1,17 +1,30 @@
 import React from 'react';
 
 import { GitHub } from '@mui/icons-material';
-import { AppBar, Box, Link, Stack } from '@mui/material';
+import { AppBar, Box, Link, Stack, Typography } from '@mui/material';
 import ModeSwitch from './ModeSwitch';
-
+import ModeIcon from './ModeIcon';
+import SearchBar from './SearchBar';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 export default function TopBar() {
     
-    
     return (
-        <AppBar position='fixed'>
-            <Box sx={{ px : 2, py : 1}}>
-                <Stack direction='row' alignItems='center' justifyContent='end'>
+        <AppBar position='static'>
+            <Grid container sx={{ px : 2, py : 1}}>
+                <Grid xs={3}>
+
+                </Grid>
+                <Grid xs={6} alignItems={'center'}>
+                    <SearchBar />
+                </Grid>
+                <Grid xs={3}>
+                <Stack
+                    spacing={0.5}
+                    direction='row' 
+                    alignItems='center' 
+                    justifyContent='end'>
+                    <ModeIcon />                    
                     <ModeSwitch />
                     <Link
                         target="_blank"
@@ -20,7 +33,9 @@ export default function TopBar() {
                         <GitHub sx={{ color : 'ghostwhite'}} fontSize='large' />
                     </Link>
                 </Stack>
-            </Box>
+                </Grid>
+                
+            </Grid>
         </AppBar>        
     )
 }
