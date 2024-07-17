@@ -1,19 +1,26 @@
-import { Box,TextField } from "@mui/material";
+"use client"
+
+import { TextField } from "@mui/material";
 
 export default function SearchBar() {
     
     return (
-        
-            <TextField 
-                sx={{
-                    ":focus" : {
-                        width : '100%'
+        <TextField
+            sx={{
+                '& .MuiInputBase-input' : {
+                    width : '13rem',
+                    transition : '0.5s ease-in-out',
+                    '&:focus' : {
+                        width : '20rem'
                     }
-                }}
-                margin="none"
-                hiddenLabel
-                variant="filled"
-                size="small"/>
-        
+                }
+            }}
+            placeholder="Search Movie..."
+            color="primary"
+            margin="none"
+            hiddenLabel
+            variant="filled"
+            size="small"
+        />
     )
 }
