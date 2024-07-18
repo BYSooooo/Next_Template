@@ -1,4 +1,5 @@
 import { Container, Typography } from "@mui/material";
+import PopularList from "../main/PopularList";
 
 export default function Page() {
     return (
@@ -10,6 +11,7 @@ export default function Page() {
                 variant="h2">
                 What is your Movie?
             </Typography>
+            <PopularList />
         </Container>
     )
 }

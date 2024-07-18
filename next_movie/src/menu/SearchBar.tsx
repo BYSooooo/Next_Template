@@ -15,6 +15,9 @@ export default function SearchBar() {
                     }
                 }
             }}
+            // onKeyDown={(event)=> {
+            //     (event.key === 'Enter' && setKeyDown(true))
+            // }}
             placeholder="Search Movie..."
             color="primary"
             margin="none"
