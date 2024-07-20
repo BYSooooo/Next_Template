@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { GitHub, Home, HomeMaxOutlined, HomeMiniOutlined, HomeOutlined } from '@mui/icons-material';
-import { AppBar, Box, Link, Stack, Typography } from '@mui/material';
+import { GitHub, Home } from '@mui/icons-material';
+import { AppBar, Link } from '@mui/material';
 import ModeSwitch from './ModeSwitch';
 import ModeIcon from './ModeIcon';
 import SearchBar from './SearchBar';

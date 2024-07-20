@@ -13,7 +13,6 @@ export const themeSlice = createSlice({
             state.theme = action.payload.theme
         }
     }
-
 })
 
 export const { setTheme } = themeSlice.actions;

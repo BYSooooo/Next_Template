@@ -4,7 +4,7 @@
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
 const nextConfig = {
-    async rewirtes() {
+    async rewrites() {
         return [
             {
                 source : "/api/movies/popular",
