@@ -19,8 +19,12 @@ export default function PopularList() {
         getPopular().then((result)=> setList(result))
     },[])
 
-    const onClick = (id: number)=> {
-        dispatch(controlDialog({openYn : true, name : "Overview"}))
+    const onClick = (popularInfo : moviePopular)=> {
+        dispatch(controlDialog({
+            openYn : true, 
+            name : "Overview",
+            extraInfo : popularInfo
+        }))
     }
     
     return (
@@ -50,7 +54,7 @@ export default function PopularList() {
                                         key={movie.id}
                                         >
                                         <img 
-                                            onClick={()=> onClick(movie.id)}
+                                            onClick={()=> onClick(movie)}
                                             aria-haspopup="true"
                                             alt={movie.original_title}
                                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 

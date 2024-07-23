@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { isSwitchStatement } from "typescript";
 
 export const themeSlice = createSlice({
     name : 'themeReducer',
@@ -19,12 +18,14 @@ export const dialogSlice = createSlice({
     name : 'dialogReducer',
     initialState : { 
         openYn : false,
-        name : ""
+        name : "",
+        extraInfo : {} as moviePopular
     },
     reducers : {
-        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string}> )=> {
-            state.openYn = action.payload.openYn;
+        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string, extraInfo?: moviePopular}> )=> {
+            state.openYn = action.payload.openYn
             state.name = action.payload.name
+            if(action.payload.extraInfo) state.extraInfo = action.payload.extraInfo
         }
     }
 })

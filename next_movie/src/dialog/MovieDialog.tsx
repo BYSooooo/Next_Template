@@ -19,7 +19,8 @@ export default function MovieDialog() {
     return (
         <Dialog 
             open={dialogControl.openYn}
-            sx={{ borderRadius : 10}}>
+            sx={{ 
+                borderRadius : '20rem' }}>
             {dialogSwitcher(dialogControl.name)}
             
         </Dialog>
