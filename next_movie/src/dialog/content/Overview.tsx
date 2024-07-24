@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Skeleton, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { controlDialog } from "../../redux/features";
 
@@ -16,14 +16,29 @@ export default function Overview() {
             </DialogTitle>
             <DialogContent>
                 <Box sx={{
-                    width : "20rem",
-                    overflow : "hidden",
-                    borderRadius : 4
-                }}>
-                    <img 
-                        alt={movieSlice.original_title}
-                        src={`https://image.tmdb.org/t/p/w500${movieSlice.poster_path}&fit=crop`}/>
+                    display : 'flex',
+                    borderRadius : 4 }}>
+                    { movieSlice.poster_path 
+                        ? <img 
+                            style={{
+                                borderRadius : 5,
+                                width : "7rem",
+                            }}
+                            alt={movieSlice.original_title}
+                            src={`https://image.tmdb.org/t/p/w500${movieSlice.poster_path}&fit=crop`}/>
+                        : <Skeleton />
+                    }
                     
+                    <Box sx={{
+                        mx : 3
+                    }}>
+                        <Typography sx={{ }}>
+                            {movieSlice.title}
+                        </Typography>
+                        <Typography>
+                            {movieSlice.release_date}
+                        </Typography>
+                    </Box>
                 </Box>
             </DialogContent>
             <DialogActions>
