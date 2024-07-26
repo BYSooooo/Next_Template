@@ -1,7 +1,8 @@
-import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, List, Skeleton, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { controlDialog } from "../../redux/features";
-import { CalendarMonth } from "@mui/icons-material";
+import { CalendarMonth, Star } from "@mui/icons-material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function Overview() {
     const dispatch = useAppDispatch()
@@ -25,14 +26,27 @@ export default function Overview() {
                             width : "8rem",
                         }}
                         alt={"Loading..."}
-                        src={`https://image.tmdb.org/t/p/w500${movieSlice.poster_path}&fit=crop`}/>                    
-                    <Box sx={{ mx : 3}} display={"inline-block"} width="20vw">
-                        <Typography variant="h6" fontWeight="bold" noWrap={true}>
-                            {movieSlice.title}
-                        </Typography>
-                        <Chip icon={<CalendarMonth />} label={movieSlice.release_date}/>
-
-                    </Box>
+                        src={`https://image.tmdb.org/t/p/w500${movieSlice.poster_path}&fit=crop`}/>
+                        <Stack 
+                            sx={{ mx : 3, width : "15rem", rowGap : 1}}
+                            direction={'column'}>
+                            <Typography variant="h6" fontWeight="bold" noWrap={true}>
+                                {movieSlice.title}
+                            </Typography>
+                            <Chip
+                                sx={{ width : 'fit-content'}}
+                                component={'span'} 
+                                icon={<CalendarMonth />} 
+                                label={movieSlice.release_date}
+                            />
+                            <Chip 
+                                sx={{ width : 'fit-content'}}
+                                component={'span'} 
+                                icon={<Star />} 
+                                label={`${movieSlice.vote_average} / 10`} 
+                            />
+                        </Stack>                    
+                        
                 </Box>
             </DialogContent>
             <DialogActions>
