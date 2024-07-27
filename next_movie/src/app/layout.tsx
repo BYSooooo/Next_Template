@@ -3,6 +3,7 @@ import { CssBaseline } from '@mui/material';
 import StoreProvider from '../redux/StoreProvider';
 import TopBar from '../menu/TopBar';
 import ModeProvider from './provider';
+import MovieDialog from '../dialog/MovieDialog';
 
 
 export const metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({
                       <CssBaseline />
                       <TopBar />
                         {children}
+                      <MovieDialog />
                     </ModeProvider>
                 </StoreProvider>
             </AppRouterCacheProvider>
