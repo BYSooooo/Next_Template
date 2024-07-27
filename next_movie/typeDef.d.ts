@@ -1,4 +1,4 @@
-type moviePopular = {
+type movieOverview = {
     adult           : boolean;
     backdrop_path   : string;
     genre_ids       : number[];
@@ -13,4 +13,9 @@ type moviePopular = {
     video           : boolean;
     vote_average    : number;
     voe_count       : number;   
+}
+
+type genre = {
+    id : number;
+    name : string;
 }

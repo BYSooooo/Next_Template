@@ -8,25 +8,45 @@ import {
     Typography 
 } from '@mui/material';
 import React from 'react';
-import { getPopular } from '../components/fetchData';
+import { getPopular, getTopRate } from '../components/fetchData';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
 
-export default function PopularList() {
-    const [list, setList] = React.useState<moviePopular[]>([]);
+export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcomming"}) {
+    const [list, setList] = React.useState<movieOverview[]>([]);
     const dispatch = useAppDispatch()
+
     React.useEffect(()=> {
-        getPopular().then((result)=> setList(result))
+        switch(sort) {
+            case "popular" : 
+                getPopular().then((result)=> setList(result) )
+                break;
+            case "topRate" : 
+                getTopRate().then((result)=> setList(result) )
+                break;
+            case "upcomming" : 
+                break;
+        }
     },[])
 
-    const onClick = (popularInfo : moviePopular)=> {
+    const onClick = (overviewInfo : movieOverview)=> {
         dispatch(controlDialog({
             openYn : true, 
             name : "Overview",
-            extraInfo : popularInfo
+            extraInfo : overviewInfo
         }))
     }
-    
+
+    const titleText = ()=> {
+        switch(sort) {
+            case "popular" :
+                return 'Popular List'
+            case "topRate" : 
+                return 'Top Rate List'
+            case "upcomming" :
+                return 'Upcoming List'
+        }        
+    }
     return (
         <Box textAlign={'start'} >
             <Typography 
@@ -34,7 +54,7 @@ export default function PopularList() {
                 fontWeight='bold' 
                 sx={{ textDecoration : 'underline'}}
                 display={'inline'}>
-                Popular List
+                {titleText()}
             </Typography>
             <Box 
                 width="100%"

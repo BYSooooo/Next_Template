@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { dialogSlice, themeSlice } from './features'
+import { dialogSlice, genreSlice, themeSlice } from './features'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       themeReducer : themeSlice.reducer,
-      dialogReducer : dialogSlice.reducer
+      dialogReducer : dialogSlice.reducer,
+      genreReducer : genreSlice.reducer
     
     }
   })
