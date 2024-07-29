@@ -28,3 +28,14 @@ export async function getGenre() {
         throw new Error('Failed to Fetch Getting Genre list')
     }
 }
+
+export async function getUpcoming() {
+    try {
+        const response = await (await fetch('/api/movies/upComing')).json()
+        console.log(response)
+        return response.results
+    }catch(err) {
+        console.error(err)
+        throw new Error('Failed to Fetch Getting Up-Coming List')
+    }
+}

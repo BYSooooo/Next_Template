@@ -8,7 +8,7 @@ import {
     Typography 
 } from '@mui/material';
 import React from 'react';
-import { getPopular, getTopRate } from '../components/fetchData';
+import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
 
@@ -25,6 +25,7 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
                 getTopRate().then((result)=> setList(result) )
                 break;
             case "upcomming" : 
+                getUpcoming().then((result)=> setList(result) )
                 break;
         }
     },[])
@@ -59,12 +60,13 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
             <Box 
                 width="100%"
                 overflow={'scroll'}>
-                <Box width={'300%'}>
-                    <ImageList cols={20} gap={10}>
+                <Box width={'230%'}>
+                    <ImageList cols={20}>
                         {list.length > 0 && list.map((movie)=> {
                             return (movie 
                                     ? <ImageListItem 
                                         sx={{
+                                            width : "8vw",
                                             borderRadius : 4,
                                             display : 'inline-block',
                                             overflow : 'hidden',
@@ -87,11 +89,6 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
                 </Box>
             </Box>
         </Box>
-        
-            
-            
-        
-
         
     )
 }
