@@ -11,7 +11,6 @@ import React from 'react';
 import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
-import TopRankView from './TopRankView';
 
 export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcomming"}) {
     const [list, setList] = React.useState<movieOverview[]>([]);
@@ -50,48 +49,45 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
         }        
     }
     return (
-        <>
-            <TopRankView detail={list[0]} sort={sort}/>
-            <Box textAlign={'start'} >
-                <Typography 
-                    variant='h6'
-                    fontWeight='bold' 
-                    sx={{ textDecoration : 'underline'}}
-                    display={'inline'}>
-                    {titleText()}
-                </Typography>
-                <Box 
-                    width="100%"
-                    overflow={'scroll'}>
-                    <Box width={'230%'}>
-                        <ImageList cols={20}>
-                            {list.length > 0 && list.map((movie)=> {
-                                return (movie 
-                                        ? <ImageListItem 
-                                            sx={{
-                                                width : "8vw",
-                                                borderRadius : 4,
-                                                display : 'inline-block',
-                                                overflow : 'hidden',
-                                                ":hover" : {
-                                                    cursor : 'pointer',
-                                                }}}
-                                            key={movie.id}
-                                            >
-                                            <img 
-                                                onClick={()=> onClick(movie)}
-                                                aria-haspopup="true"
-                                                alt={movie.original_title}
-                                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-                                            />
-                                        </ImageListItem>
-                                        : <Skeleton variant='rectangular'/>
-                                    ) 
-                            })}
-                        </ImageList>
-                    </Box>
+        <Box textAlign={'start'} >
+            <Typography 
+                variant='h6'
+                fontWeight='bold' 
+                sx={{ textDecoration : 'underline'}}
+                display={'inline'}>
+                {titleText()}
+            </Typography>
+            <Box 
+                width="100%"
+                overflow={'scroll'}>
+                <Box width={'230%'}>
+                    <ImageList cols={20}>
+                        {list.length > 0 && list.map((movie)=> {
+                            return (movie 
+                                    ? <ImageListItem 
+                                        sx={{
+                                            width : "8vw",
+                                            borderRadius : 4,
+                                            display : 'inline-block',
+                                            overflow : 'hidden',
+                                            ":hover" : {
+                                                cursor : 'pointer',
+                                            }}}
+                                        key={movie.id}
+                                        >
+                                        <img 
+                                            onClick={()=> onClick(movie)}
+                                            aria-haspopup="true"
+                                            alt={movie.original_title}
+                                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                                        />
+                                    </ImageListItem>
+                                    : <Skeleton variant='rectangular'/>
+                                ) 
+                        })}
+                    </ImageList>
                 </Box>
             </Box>
-        </>
+        </Box>
     )
 }

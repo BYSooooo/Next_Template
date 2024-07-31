@@ -1,5 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import OverviewList from "../main/OverviewList";
+import TopRankView from "../main/TopRankView";
 
 
 export default function Page() {
@@ -12,9 +13,10 @@ export default function Page() {
                 variant="h2">
                 What is your Movie?
             </Typography>
+            <TopRankView />
             <OverviewList sort={"popular"}/>
-            <OverviewList sort={"topRate"}/>
-            <OverviewList sort={"upcomming"} />
+            {/* <OverviewList sort={"topRate"}/>
+            <OverviewList sort={"upcomming"} /> */}
         </Container>
     )
 }
