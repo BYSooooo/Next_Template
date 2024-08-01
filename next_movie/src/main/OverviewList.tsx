@@ -60,15 +60,15 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
             <Box 
                 width="100%"
                 overflow={'scroll'}>
-                <Box width={'230%'}>
+                <Box width={'300%'}>
                     <ImageList cols={20}>
                         {list.length > 0 && list.map((movie)=> {
                             return (movie 
                                     ? <ImageListItem 
                                         sx={{
-                                            width : "8vw",
+                                            width : 130,
                                             borderRadius : 4,
-                                            display : 'inline-block',
+                                            display : 'inline-flex',
                                             overflow : 'hidden',
                                             ":hover" : {
                                                 cursor : 'pointer',
