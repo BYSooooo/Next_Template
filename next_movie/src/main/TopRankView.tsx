@@ -74,6 +74,7 @@ export default function TopRankView() {
                                 sx={{ py : 2, width : '100%'}}>
                                 <DetailBox title='Release Date' value={topMovie.release_date}/>
                                 <DetailBox title='Original Language' value={topMovie.original_language} />
+                                <DetailBox title='Genre' value={topMovie.genre /></DetailBox>
                             </Box>
                             <Box 
                                 sx={{ 
