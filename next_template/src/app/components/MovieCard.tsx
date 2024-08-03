@@ -25,7 +25,7 @@ export default function MovieCard({path} : {path: string}) {
         <Card sx={{maxWidth : 350, borderRadius : 1, minHeight : 350}}>
             <CardActionArea 
                 LinkComponent={'a'}
-                href={'https://next-movie-l452m4erm-bysooooos-projects.vercel.app'}>
+                href={'https://next-movie-azure-zeta.vercel.app/'}>
                 <CardContent>
                     <Stack direction='column' rowGap={0.5}>
                         <Typography gutterBottom={false} variant='h5' component="div" fontWeight='bold'>
