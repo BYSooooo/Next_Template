@@ -39,3 +39,13 @@ export async function getUpcoming() {
         throw new Error('Failed to Fetch Getting Up-Coming List')
     }
 }
+
+export async function getDetail(id : string) {
+    try {
+        const response = await(await fetch(`/api/movie/detail/${id}`)).json();
+        return response
+    } catch(error) {
+        console.log(error)
+        throw new Error(`Failed to Fetch Modie Detail for Movie : ${id}`)
+    }
+}

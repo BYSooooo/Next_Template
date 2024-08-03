@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
-import OverviewList from "../main/OverviewList";
 import TopRankView from "../main/TopRankView";
+import OverviewList from "../main/OverviewList";
 
 
 export default function Page() {
@@ -10,10 +10,11 @@ export default function Page() {
             sx={{ minWidth: 1024, height : '100vh', mt : '1rem', textAlign : 'center'}} >
             <Typography 
                 fontWeight='Bold' 
-                variant="h2">
+                variant="h2"
+                noWrap>
                 What is your Movie?
             </Typography>
-            <TopRankView />
+            <TopRankView sort={"popular"}/>
             <OverviewList sort={"popular"}/>
             {/* <OverviewList sort={"topRate"}/>
             <OverviewList sort={"upcomming"} /> */}

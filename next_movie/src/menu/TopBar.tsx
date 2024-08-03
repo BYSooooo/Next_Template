@@ -10,7 +10,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 export default function TopBar() {
     
     return (
-        <AppBar position='static' >
+        <AppBar position='sticky' >
             <Grid 
                 container 
                 sx={{ px : 2, py : 1, alignItems : 'center'}}>

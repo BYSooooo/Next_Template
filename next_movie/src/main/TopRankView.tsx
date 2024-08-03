@@ -1,22 +1,37 @@
 "use client"
 
 import React from 'react';
-import { Box, Divider, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Divider, Skeleton, Typography } from '@mui/material';
 import { useAppSelector } from '../redux/hooks';
 import { grey, yellow } from '@mui/material/colors';
 import { Star } from '@mui/icons-material';
-import { getPopular } from '../components/fetchData';
+import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
+import { useRouter } from 'next/navigation';
 
-export default function TopRankView() {
+export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upComming"}) {
     const themeYn = useAppSelector((state)=> state.themeReducer);
-    const [topMovie, setTopMovie] = React.useState<movieOverview>();
+    const genreSlice = useAppSelector((state)=> state.genreReducer);
+    const [selMovie, setSelMovie] = React.useState<movieOverview>();
+    const router = useRouter();
+    
     React.useEffect(()=> {
-        getPopular().then((result)=> setTopMovie(result[0]))
+        switch(sort) {
+            case "popular" : 
+                getPopular().then((result)=> setSelMovie(result[0]))
+                break;
+            case "topRate" :
+                getTopRate().then((result)=> setSelMovie(result[0])) 
+                break;
+            case "upComming" : 
+                getUpcoming().then((result)=> setSelMovie(result[0]))
+                break;
+        }
     },[])
 
     const DetailBox = ({title,value} : {title : string, value : string})=> {
         return (
-            <Box sx={{
+            <Box
+                sx={{
                 width : 'fit-content'
             }}>
                 <Typography 
@@ -32,6 +47,21 @@ export default function TopRankView() {
             </Box>   
         )
     };
+
+    const getGenre = (ids: number[])=> {
+        const getName = (id : number) => {
+            return genreSlice.find((item)=> item.id === id).name
+        }
+        const result = ids.map((item)=> {
+            return getName(item)
+        })
+        if(result.length > 4) {
+            result.length = 4;
+            return result.join(", ")+"...";
+        } else {
+            return result.join(", ")
+        }
+    }
 
     return (
         <Box 
@@ -49,7 +79,7 @@ export default function TopRankView() {
                 <Star sx={{color : yellow[600]}}/>
                 Most Popular
             </Typography>
-            {topMovie 
+            {selMovie 
                 ? 
                     <Box 
                         sx={{ 
@@ -62,32 +92,36 @@ export default function TopRankView() {
                                 borderRadius : 4,
                                 height : "35vh"
                             }} 
-                            alt={topMovie.original_title}
-                            src={`https://image.tmdb.org/t/p/w500${topMovie.poster_path}`} 
+                            alt={selMovie.original_title}
+                            src={`https://image.tmdb.org/t/p/w500${selMovie.poster_path}`} 
                         />
                         <Box sx={{ px : 2, display : 'inline-block'}}>
                             <Typography variant='h3' fontWeight='bold'>
-                                {topMovie.title}
+                                {selMovie.title}
                             </Typography>
                             <Box 
-                                flexDirection={'row'}
-                                sx={{ py : 2, width : '100%'}}>
-                                <DetailBox title='Release Date' value={topMovie.release_date}/>
-                                <DetailBox title='Original Language' value={topMovie.original_language} />
-                                <DetailBox title='Genre' value={topMovie.genre /></DetailBox>
+                                sx={{ 
+                                    display : 'flex',
+                                    py : 2, 
+                                    columnGap : 3,
+                                    width : '100%',
+                                    flexDirection : 'row'}}>
+                                <DetailBox title='Release Date' value={selMovie.release_date}/>
+                                <DetailBox title='Original Language' value={selMovie.original_language} />
+                                <DetailBox title='Genre' value={getGenre(selMovie.genre_ids)} />
                             </Box>
                             <Box 
                                 sx={{ 
                                     background : themeYn.theme ? grey[800] : grey[200],
                                     p : 1,
+                                    width : "80%",
                                     borderRadius : 3,
                                     display : 'inline-block'
-
                                 }}>
                                 <Typography 
                                     variant='subtitle2'
                                     noWrap={false}>
-                                    {topMovie.overview}
+                                    {selMovie.overview}
                                 </Typography>
                             </Box>
                         </Box>
@@ -95,8 +129,19 @@ export default function TopRankView() {
                 : <Skeleton 
                     animation="wave"
                     variant="rounded" 
-                    sx={{ height : "23vw" }}/> 
+                    sx={{ height : "35vh" }}/>
+                 
             }
+            <Box 
+                display={'flex'}
+                flexDirection={'row-reverse'}>
+                <Button
+                    onClick={()=>router.push(`/detail/${selMovie.id}`)}
+                    variant='contained'>
+                    More
+                </Button>
+
+            </Box>
             
             {/* <Typography variant='h5'>
                 {detail.title}
