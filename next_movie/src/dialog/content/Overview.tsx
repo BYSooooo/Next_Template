@@ -46,8 +46,7 @@ export default function Overview() {
                     <img 
                         style={{
                             borderRadius : 5,
-                            width : "8rem",
-                        }}
+                            width : "8rem" }}
                         alt={"Loading..."}
                         src={`https://image.tmdb.org/t/p/w500${movieSlice.poster_path}&fit=crop`}/>
                         <Stack 
@@ -76,7 +75,6 @@ export default function Overview() {
                             />
 
                         </Stack>                    
-                        
                 </Box>
             </DialogContent>
             <DialogActions>

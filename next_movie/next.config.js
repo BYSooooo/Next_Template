@@ -17,7 +17,16 @@ const nextConfig = {
             {
                 source : "/api/movies/topRate",
                 destination : `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`            
+            },
+            {
+                source : "/api/movies/upComing",
+                destination : `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`
+            },
+            {
+                source : "/api/movies/detail/:query",
+                destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}`
             }
+
         ]
     } 
 }
