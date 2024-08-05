@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upComming"}) {
     const themeYn = useAppSelector((state)=> state.themeReducer);
     const genreSlice = useAppSelector((state)=> state.genreReducer);
-    const [selMovie, setSelMovie] = React.useState<movieOverview>();
+    const [selMovie, setSelMovie] = React.useState<MovieOverview>();
     const router = useRouter();
     
     React.useEffect(()=> {

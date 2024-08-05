@@ -13,7 +13,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
 
 export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcomming"}) {
-    const [list, setList] = React.useState<movieOverview[]>([]);
+    const [list, setList] = React.useState<MovieOverview[]>([]);
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
@@ -30,7 +30,7 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
         }
     },[])
 
-    const onClick = (overviewInfo : movieOverview)=> {
+    const onClick = (overviewInfo : MovieOverview)=> {
         dispatch(controlDialog({
             openYn : true, 
             name : "Overview",

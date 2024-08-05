@@ -1,8 +1,15 @@
-import { Box, Container } from "@mui/material"
+"use client"
+
+import React from 'react';
+import { Box, Container, Typography } from "@mui/material"
 import { getDetail } from "../../../components/fetchData"
 
 export default function DetailPage({params} : {params : {id : string}}) {
-    const getDetailInfo = async()=> await getDetail(params.id).then((result)=> {return result})
+    const [detail, setDetail] = React.useState<MovieDetail>()
+    React.useEffect(()=> {
+        getDetail(params.id).then((result)=> setDetail(result))
+        console.log(detail)
+    },[])
     
     return (
         <Container 
@@ -10,16 +17,20 @@ export default function DetailPage({params} : {params : {id : string}}) {
             sx={{
                 minWidth : 1024,
                 height : '100vh',
-                mt : '1rem',
+                mt : '7rem',
                 textAlign : 'center'}}>
             <Box 
                 width="50%"
+                height="10rem"
                 sx={{
-                    color : 'red',
+                    background : 'red',
                     
                 }}
                 >
-
+                    <Typography>
+                        {detail && detail.imdb_id}
+                        {detail && detail.popularity}
+                    </Typography>
             </Box>
         </Container>
     )
