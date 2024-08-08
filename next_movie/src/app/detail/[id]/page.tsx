@@ -5,6 +5,7 @@ import { Box, Container, Skeleton, Typography } from "@mui/material"
 import { getDetail } from "../../../components/fetchData"
 import DetailPoster from '../../../detail/DetailPoster';
 import { useAppSelector } from '../../../redux/hooks';
+import DetailInfo from '../../../detail/DetailInfo';
 
 export default function DetailPage({params} : {params : {id : string}}) {
     const [detail, setDetail] = React.useState<MovieDetail>()
@@ -36,9 +37,15 @@ export default function DetailPage({params} : {params : {id : string}}) {
                         {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
                     </Typography>
                 </Box>
-                <DetailPoster 
-                    theme={themeYn.theme}
-                    path={detail && detail.poster_path}/>
+                <Box display="flex" flexDirection="row">
+                    <DetailPoster 
+                        theme={themeYn.theme}
+                        path={detail && detail.poster_path}/>
+                    <DetailInfo 
+                        theme={themeYn.theme}
+                        path={detail}/>
+
+                </Box>
         </Container>
     )
 }

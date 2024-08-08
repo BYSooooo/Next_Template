@@ -50,7 +50,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
 
     const getGenre = (ids: number[])=> {
         const getName = (id : number) => {
-            return genreSlice && genreSlice.find((item)=> item.id === id).name
+            return genreSlice.length > 0 && genreSlice.find((item)=> item.id === id).name
         }
         const result = ids.map((item)=> {
             return getName(item)
