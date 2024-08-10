@@ -7,8 +7,8 @@ import {
     DialogTitle, 
     Stack, 
     Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { controlDialog } from "../../redux/features";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { controlDialog } from "../../../redux/features";
 import { CalendarMonth, Star, Tag } from "@mui/icons-material";
 
 export default function Overview() {

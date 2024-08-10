@@ -1,17 +1,18 @@
 
+import React from 'react';
 import { EventAvailable, EventBusy, Schedule, Tag } from "@mui/icons-material";
-import { Box, Chip, Skeleton, Typography } from "@mui/material";
+import { Box, ClickAwayListener, Skeleton, Typography } from "@mui/material";
 import { brown, green, grey, indigo, red } from "@mui/material/colors";
-import { useAppSelector } from "../redux/hooks";
+import MoviePopper from "../common/popper/MoviePopper";
+
 
 export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDetail}) {
+    const [anchorEl, setAnchorEl]= React.useState<HTMLElement | null>(null)
     
     const innerBoxStyle = ()=> theme ? grey[800] : grey[300];
-    const getName = (id : number)=> {
-        const genreSlice = useAppSelector((state)=> state.genreReducer)
-        const result = genreSlice.find((item)=> item.id === id)
-        return result.name
-    }
+    
+    const genreBoxClick =(event : React.MouseEvent<HTMLElement>)=> setAnchorEl(event.currentTarget)
+    const genreBoxClickAway = ()=> setAnchorEl(null)
 
     return (
         <>
@@ -76,37 +77,30 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                 {path.runtime} Min
                             </Typography>
                         </Box>
-                        <Box 
-                            width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            sx={{ p : 1,}}>
-                            <Typography 
-                                variant="subtitle2" 
-                                textAlign='start'
-                                gutterBottom>
-                                Genre
-                            </Typography>
-                            <Tag 
-                                sx={{
-                                    color : theme ? indigo[300] : indigo[700],
-                                    fontSize : '50px'
-                            }}/>
-                            <Typography fontWeight='bold'>
-                                {path.genres.length} Genres
-                            </Typography>
-                            {/* {path.genres.map((item)=> {
-                                return (
-                                    <Chip
-                                        size="small" 
-                                        icon={ <Tag sx={{ fontSize : 'small'}} /> }
-                                        label={item.name}
-                                        component={'span'} 
-                                        sx={{ m : 1}}
-                                    />
-                                )
-                            })} */}
-                        </Box>
+                        <ClickAwayListener onClickAway={genreBoxClickAway}>
+                            <Box 
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                onClick={genreBoxClick}
+                                sx={{ p : 1,}}>
+                                <Typography 
+                                    variant="subtitle2" 
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Genre
+                                </Typography>
+                                <Tag 
+                                    sx={{
+                                        color : theme ? indigo[300] : indigo[700],
+                                        fontSize : '50px'
+                                }}/>
+                                <Typography fontWeight='bold'>
+                                    {path.genres.length} Genres
+                                </Typography>
+                            </Box>
+                        </ClickAwayListener>
+                        <MoviePopper anchorEl={anchorEl} name="Genres" extra={path.genres} />
                         <Box width="20%" 
                             bgcolor={innerBoxStyle}
                             borderRadius={4}

@@ -2,7 +2,7 @@
 
 import { Dialog } from '@mui/material'
 import React from 'react'
-import { useAppSelector } from '../redux/hooks'
+import { useAppSelector } from '../../redux/hooks';
 import Overview from './content/Overview';
 
 export default function MovieDialog() {

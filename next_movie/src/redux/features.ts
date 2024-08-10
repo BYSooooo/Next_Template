@@ -19,10 +19,10 @@ export const dialogSlice = createSlice({
     initialState : { 
         openYn : false,
         name : "",
-        extraInfo : {} as MovieOverview
+        extraInfo : {} as any
     },
     reducers : {
-        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string, extraInfo?: MovieOverview}> )=> {
+        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string, extraInfo?: any}> )=> {
             state.openYn = action.payload.openYn
             state.name = action.payload.name
             if(action.payload.extraInfo) state.extraInfo = action.payload.extraInfo
