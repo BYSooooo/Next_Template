@@ -7,7 +7,7 @@ export default function Page() {
     return (
         <Container 
             fixed 
-            sx={{ minWidth: 1024, height : '100vh', mt : '1rem', textAlign : 'center'}} >
+            sx={{ minWidth: 1024, height : '100vh', mt : '7rem', textAlign : 'center'}} >
             <Typography 
                 fontWeight='Bold' 
                 variant="h2"

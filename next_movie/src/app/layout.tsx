@@ -3,7 +3,8 @@ import { CssBaseline } from '@mui/material';
 import StoreProvider from '../redux/StoreProvider';
 import TopBar from '../menu/TopBar';
 import ModeProvider from './provider';
-import MovieDialog from '../dialog/MovieDialog';
+import MovieDialog from '../common/dialog/MovieDialog';
+
 
 
 export const metadata = {

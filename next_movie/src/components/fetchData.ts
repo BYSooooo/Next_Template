@@ -42,7 +42,8 @@ export async function getUpcoming() {
 
 export async function getDetail(id : string) {
     try {
-        const response = await(await fetch(`/api/movie/detail/${id}`)).json();
+        const response = await(await fetch(`/api/movies/detail/${id}`)).json();
+        console.log(response)
         return response
     } catch(error) {
         console.log(error)

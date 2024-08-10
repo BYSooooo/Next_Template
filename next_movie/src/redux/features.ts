@@ -19,10 +19,10 @@ export const dialogSlice = createSlice({
     initialState : { 
         openYn : false,
         name : "",
-        extraInfo : {} as movieOverview
+        extraInfo : {} as any
     },
     reducers : {
-        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string, extraInfo?: movieOverview}> )=> {
+        controlDialog : (state, action : PayloadAction<{openYn : boolean, name : string, extraInfo?: any}> )=> {
             state.openYn = action.payload.openYn
             state.name = action.payload.name
             if(action.payload.extraInfo) state.extraInfo = action.payload.extraInfo
@@ -32,9 +32,9 @@ export const dialogSlice = createSlice({
 
 export const genreSlice = createSlice({
     name : 'genreReducer',
-    initialState : []  as genre[],
+    initialState : []  as Genre[],
     reducers : {
-        initGenreList : (state, action : PayloadAction<genre[]>)=> {
+        initGenreList : (state, action : PayloadAction<Genre[]>)=> {
             state.push(...action.payload)
         }
     }
