@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Divider, Popper, Typography } from "@mui/material";
 import GenreList from "./content/GenreList";
 import { useAppSelector } from '../../redux/hooks';
+import LanguageList from './content/LanguageList';
 
 export default function MoviePopper({anchorEl, name, extra} : {anchorEl : HTMLElement|null, name : string, extra?: any}) {
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
@@ -10,8 +11,10 @@ export default function MoviePopper({anchorEl, name, extra} : {anchorEl : HTMLEl
         switch(name) {
             case "Genres" : 
                 return <GenreList genreList={extra}/>
-            default : 
-                break;
+            case "Languages":
+                return <LanguageList langList={extra}/> 
+            default : break;
+                
         } 
     }
 

@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { EventAvailable, EventBusy, Schedule, Tag } from "@mui/icons-material";
+import { EventAvailable, EventBusy, Language, Schedule, Tag } from "@mui/icons-material";
 import { Box, ClickAwayListener, Skeleton, Typography } from "@mui/material";
-import { brown, green, grey, indigo, red } from "@mui/material/colors";
+import { brown, green, grey, indigo, lightBlue, red } from "@mui/material/colors";
 import MoviePopper from "../common/popper/MoviePopper";
 
 
@@ -11,8 +11,13 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
     
     const innerBoxStyle = ()=> theme ? grey[800] : grey[300];
     
-    const genreBoxClick =(event : React.MouseEvent<HTMLElement>)=> setAnchorEl(event.currentTarget)
-    const genreBoxClickAway = ()=> setAnchorEl(null)
+    const boxClick =(event : React.MouseEvent<HTMLElement>)=> {
+        console.log(event.currentTarget)    
+        setAnchorEl(event.currentTarget)
+    }
+    const boxClickAway = ()=> setAnchorEl(null)
+
+
 
     return (
         <>
@@ -77,12 +82,12 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                 {path.runtime} Min
                             </Typography>
                         </Box>
-                        <ClickAwayListener onClickAway={genreBoxClickAway}>
+                        <ClickAwayListener onClickAway={boxClickAway}>
                             <Box 
                                 width="20%" 
                                 bgcolor={innerBoxStyle}
                                 borderRadius={4}
-                                onClick={genreBoxClick}
+                                onClick={boxClick}
                                 sx={{ p : 1,}}>
                                 <Typography 
                                     variant="subtitle2" 
@@ -101,12 +106,31 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                             </Box>
                         </ClickAwayListener>
                         <MoviePopper anchorEl={anchorEl} name="Genres" extra={path.genres} />
-                        <Box width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            sx={{ p : 1}}>
-
-                        </Box>
+                        <ClickAwayListener onClickAway={boxClickAway}>
+                            <Box 
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                onClick={boxClick}
+                                sx={{ p : 1}}>
+                                <Typography
+                                    variant="subtitle2"
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Spoken Language
+                                </Typography>
+                                <Language 
+                                    sx={{
+                                        color : theme ? lightBlue[300] : lightBlue[700],
+                                        fontSize : '50px'
+                                    }} 
+                                />
+                                <Typography fontWeight='bold'>
+                                    {path.spoken_languages.length} Languages
+                                </Typography>
+                            </Box>
+                        </ClickAwayListener>
+                        <MoviePopper anchorEl={anchorEl} name="Languages" extra={path.spoken_languages}/>
                     </Box>
                 </Box>
             ) : (
