@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { EventAvailable, EventBusy, Language, Schedule, Tag } from "@mui/icons-material";
+import { AttachMoney, EventAvailable, EventBusy, Language, Paid, Schedule, Tag } from "@mui/icons-material";
 import { Box, ClickAwayListener, Skeleton, Typography } from "@mui/material";
-import { brown, green, grey, indigo, lightBlue, red } from "@mui/material/colors";
+import { brown, deepOrange, green, grey, indigo, lightBlue, lightGreen, red } from "@mui/material/colors";
 import MoviePopper from "../common/popper/MoviePopper";
 
 
@@ -26,8 +26,7 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                     px={2}
                     width="100%" 
                     bgcolor={theme ? grey[900]: grey[100] }
-                    borderRadius={4}
-                    >
+                    borderRadius={4}>
                     <Box flexDirection='column'>
                         <Box 
                             sx={{ p : 1 }}
@@ -140,19 +139,61 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                         flexDirection='row'
                         justifyContent='space-between'>
                         <Box 
-                            width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            onClick={langBoxClick}
-                            sx={{ p : 1}}>
+                             width="20%" 
+                             bgcolor={innerBoxStyle}
+                             borderRadius={4}
+                             sx={{ p : 1}}>
                             <Typography
                                 variant="subtitle2"
                                 textAlign='start'
                                 gutterBottom>
                                 Budget
                             </Typography>
+                            <Paid
+                                sx={{
+                                    color : theme ? deepOrange[300] : deepOrange[700],
+                                    fontSize : '50px'
+                                }}
+                            />
+                            <Typography fontWeight='bold'>
+                                {path.budget}
+                            </Typography>
                         </Box>
+                        <Box
+                            width="20%" 
+                            bgcolor={innerBoxStyle}
+                            borderRadius={4}
+                            sx={{ p : 1}}>
+                            <Typography
+                                variant="subtitle2"
+                                textAlign='start'
+                                gutterBottom>
+                                Revenue
+                            </Typography>
+                            <AttachMoney 
+                                sx={{
+                                    color : theme ? lightGreen[300] : lightGreen[700],
+                                    fontSize : '50px'
+                                }}
+                            />
+                            <Typography fontWeight='bold'>
+                                {Number(path.revenue)}
+                            </Typography>
+                        </Box>
+                        <Box
+                            width="20%" 
+                            bgcolor={innerBoxStyle}
+                            borderRadius={4}
+                            sx={{ p : 1}}>
 
+                        </Box>
+                        <Box
+                            width="20%" 
+                            bgcolor={innerBoxStyle}
+                            borderRadius={4}
+                            sx={{ p : 1}}>
+
+                        </Box>
                     </Box>
                 </Box>
             ) : (
