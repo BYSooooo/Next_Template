@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { AttachMoney, EventAvailable, EventBusy, Language, Paid, Schedule, Tag } from "@mui/icons-material";
+import { AttachMoney, EventAvailable, EventBusy, Explicit, Language, Paid, Schedule, Tag } from "@mui/icons-material";
 import { Box, ClickAwayListener, Skeleton, Typography } from "@mui/material";
 import { brown, deepOrange, green, grey, indigo, lightBlue, lightGreen, red } from "@mui/material/colors";
 import MoviePopper from "../common/popper/MoviePopper";
@@ -136,6 +136,7 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                         sx={{ p : 1 }}
                         height="50%"
                         display='flex' 
+                        
                         flexDirection='row'
                         justifyContent='space-between'>
                         <Box 
@@ -156,7 +157,7 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                 }}
                             />
                             <Typography fontWeight='bold'>
-                                {path.budget}
+                                {path.budget.toLocaleString()}
                             </Typography>
                         </Box>
                         <Box
@@ -177,7 +178,7 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                 }}
                             />
                             <Typography fontWeight='bold'>
-                                {Number(path.revenue)}
+                                {path.revenue.toLocaleString()}
                             </Typography>
                         </Box>
                         <Box
@@ -185,7 +186,18 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                             bgcolor={innerBoxStyle}
                             borderRadius={4}
                             sx={{ p : 1}}>
-
+                            <Typography>
+                                Adult
+                            </Typography>
+                            <Explicit 
+                                sx={{ 
+                                    color : theme ? red[300] : red[700],
+                                    fontSize : '50px'
+                                }}
+                            />
+                            <Typography fontWeight='bold'>
+                                {path.adult ? 'Adult' : 'Not Adult'}
+                            </Typography>
                         </Box>
                         <Box
                             width="20%" 
