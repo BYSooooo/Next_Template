@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { AttachMoney, EventAvailable, EventBusy, Explicit, Language, Paid, Schedule, Tag } from "@mui/icons-material";
+import { AttachMoney, EventAvailable, EventBusy, Explicit, Language, Paid, Schedule, Star, Tag } from "@mui/icons-material";
 import { Box, ClickAwayListener, Skeleton, Typography } from "@mui/material";
-import { brown, deepOrange, green, grey, indigo, lightBlue, lightGreen, red } from "@mui/material/colors";
+import { brown, deepOrange, green, grey, indigo, lightBlue, lightGreen, red, yellow } from "@mui/material/colors";
 import MoviePopper from "../common/popper/MoviePopper";
 
 
@@ -23,7 +23,8 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
             {path ? (
                 <Box 
                     ml={2}
-                    px={2}
+                    py={2}
+                    px={4}
                     width="100%" 
                     bgcolor={theme ? grey[900]: grey[100] }
                     borderRadius={4}>
@@ -131,80 +132,97 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                             </ClickAwayListener>
                             <MoviePopper anchorEl={anchorElSe} name="Languages" extra={path.spoken_languages}/>
                         </Box>
-                    </Box>
-                    <Box
-                        sx={{ p : 1 }}
-                        height="50%"
-                        display='flex' 
-                        
-                        flexDirection='row'
-                        justifyContent='space-between'>
-                        <Box 
-                             width="20%" 
-                             bgcolor={innerBoxStyle}
-                             borderRadius={4}
-                             sx={{ p : 1}}>
-                            <Typography
-                                variant="subtitle2"
-                                textAlign='start'
-                                gutterBottom>
-                                Budget
-                            </Typography>
-                            <Paid
-                                sx={{
-                                    color : theme ? deepOrange[300] : deepOrange[700],
-                                    fontSize : '50px'
-                                }}
-                            />
-                            <Typography fontWeight='bold'>
-                                {path.budget.toLocaleString()}
-                            </Typography>
-                        </Box>
                         <Box
-                            width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            sx={{ p : 1}}>
-                            <Typography
-                                variant="subtitle2"
-                                textAlign='start'
-                                gutterBottom>
-                                Revenue
-                            </Typography>
-                            <AttachMoney 
-                                sx={{
-                                    color : theme ? lightGreen[300] : lightGreen[700],
-                                    fontSize : '50px'
-                                }}
-                            />
-                            <Typography fontWeight='bold'>
-                                {path.revenue.toLocaleString()}
-                            </Typography>
-                        </Box>
-                        <Box
-                            width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            sx={{ p : 1}}>
-                            <Typography>
-                                Adult
-                            </Typography>
-                            <Explicit 
-                                sx={{ 
-                                    color : theme ? red[300] : red[700],
-                                    fontSize : '50px'
-                                }}
-                            />
-                            <Typography fontWeight='bold'>
-                                {path.adult ? 'Adult' : 'Not Adult'}
-                            </Typography>
-                        </Box>
-                        <Box
-                            width="20%" 
-                            bgcolor={innerBoxStyle}
-                            borderRadius={4}
-                            sx={{ p : 1}}>
-
+                            sx={{ p : 1 }}
+                            height="50%"
+                            display='flex' 
+                            
+                            flexDirection='row'
+                            justifyContent='space-between'>
+                            <Box 
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                sx={{ p : 1}}>
+                                <Typography
+                                    variant="subtitle2"
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Budget
+                                </Typography>
+                                <Paid
+                                    sx={{
+                                        color : theme ? deepOrange[300] : deepOrange[700],
+                                        fontSize : '50px'
+                                    }}
+                                />
+                                <Typography fontWeight='bold'>
+                                    {path.budget.toLocaleString()}
+                                </Typography>
+                            </Box>
+                            <Box
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                sx={{ p : 1}}>
+                                <Typography
+                                    variant="subtitle2"
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Revenue
+                                </Typography>
+                                <AttachMoney 
+                                    sx={{
+                                        color : theme ? lightGreen[300] : lightGreen[700],
+                                        fontSize : '50px'
+                                    }}
+                                />
+                                <Typography fontWeight='bold'>
+                                    {path.revenue.toLocaleString()}
+                                </Typography>
+                            </Box>
+                            <Box
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                sx={{ p : 1}}>
+                                <Typography
+                                    variant="subtitle2"
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Adult
+                                </Typography>
+                                <Explicit 
+                                    sx={{ 
+                                        color : theme ? red[300] : red[700],
+                                        fontSize : '50px'
+                                    }}
+                                />
+                                <Typography fontWeight='bold'>
+                                    {path.adult ? 'Adult' : 'Not Adult'}
+                                </Typography>
+                            </Box>
+                            <Box
+                                width="20%" 
+                                bgcolor={innerBoxStyle}
+                                borderRadius={4}
+                                sx={{ p : 1}}>
+                                <Typography
+                                    variant="subtitle2"
+                                    textAlign='start'
+                                    gutterBottom>
+                                    Vote
+                                </Typography>
+                                <Star 
+                                    sx={{
+                                        color : theme ? yellow[300] : yellow[700],
+                                        fontSize : '50px'
+                                    }}
+                                />
+                                <Typography fontWeight='bold'>
+                                    {`${path.vote_average} / 10`}
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
