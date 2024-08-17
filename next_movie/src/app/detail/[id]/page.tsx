@@ -6,6 +6,9 @@ import { getDetail } from "../../../components/fetchData"
 import DetailPoster from '../../../detail/DetailPoster';
 import { useAppSelector } from '../../../redux/hooks';
 import DetailInfo from '../../../detail/DetailInfo';
+import DetailOverview from '../../../detail/DetailOverview';
+import DetailCredit from '../../../detail/DetailCredit';
+import DetailMedia from '../../../detail/DetailMedia';
 
 export default function DetailPage({params} : {params : {id : string}}) {
     const [detail, setDetail] = React.useState<MovieDetail>()
@@ -37,15 +40,21 @@ export default function DetailPage({params} : {params : {id : string}}) {
                         {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
                     </Typography>
                 </Box>
-                <Box display="flex" flexDirection="row">
+                <Box 
+                    display="flex" 
+                    flexDirection="row"
+                    sx={{ mb : 2 }}>
                     <DetailPoster 
                         theme={themeYn.theme}
                         path={detail && detail.poster_path}/>
                     <DetailInfo 
                         theme={themeYn.theme}
                         path={detail}/>
-
                 </Box>
+                <DetailOverview theme={themeYn.theme} path={detail && detail.overview}/>
+                <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Cast"/>
+                {/* <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Crew" /> */}
+                <DetailMedia theme={themeYn.theme} path={detail && detail} />
         </Container>
     )
 }
