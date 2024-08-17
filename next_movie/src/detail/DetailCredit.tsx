@@ -1,15 +1,15 @@
 import { Person } from "@mui/icons-material";
-import { alpha, Box, ImageList, ImageListItem, Skeleton, Stack, Typography } from "@mui/material";
+import { alpha, Box, ImageList, ImageListItem, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-export default function DetailCredit({theme, path} : {theme : boolean, path? : {cast : Cast[], crew : Crew[]}}) {
+export default function DetailCredit({theme, path,sort} : {theme : boolean, path? : {cast : Cast[], crew : Crew[]}, sort: "Cast" | "Crew"}) {
+    const selectedSort = path ? ((sort === "Cast") ? path?.cast : path?.crew) : []
     
     return (
         <Box
             textAlign='start' 
             sx={{
-                my : 1,
-                py : 1,
+                mt : 1,
                 px : 2
             }}>
             <Typography
@@ -18,16 +18,16 @@ export default function DetailCredit({theme, path} : {theme : boolean, path? : {
                 sx={{ 
                     textDecoration : 'underline'}}
                 display={'inline'}>
-                {`Cast (${path ? path.cast.length : 0})`}
+                {`${sort} (${path ? selectedSort.length : 0})`}
             </Typography>
             <Box width="100%" overflow="scroll">
                 <Box>
                     <ImageList
                         gap={10} 
-                        cols={path && path.cast.length}>
-                        {path?.cast.length > 0 && 
-                            path.cast.map((cast : Cast)=> {
-                                return ( cast && (
+                        cols={path && selectedSort.length}>
+                        {selectedSort.length > 0 && 
+                            selectedSort.map((info : any )=> {
+                                return ( info && (
                                         <ImageListItem 
                                             sx={{
                                                 width : 130,
@@ -38,22 +38,16 @@ export default function DetailCredit({theme, path} : {theme : boolean, path? : {
                                                     cursor : 'pointer'
                                                 }
                                             }}
-                                            key={cast.cast_id}>
-                                            {cast.profile_path ? (
-                                                <img src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`} />
+                                            key={sort === "Cast" ? info.cast_id : info.credit_id}>
+                                            {info.profile_path ? (
+                                                <img src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
                                             ) : (
                                                 <Box
                                                     textAlign="center"
                                                     justifyContent="center"
                                                     height="100%"
-                                                    bgcolor={theme ? grey[800] : grey[200]}
-                                                    >
-                                                    <Person 
-                                                        sx={{
-                                                            mt : '40%', 
-                                                            fontSize : '70px'
-                                                        }}
-                                                    />
+                                                    bgcolor={theme ? grey[800] : grey[200]}>
+                                                    <Person sx={{ mt : '40%', fontSize : '70px'}} />
                                                 </Box>
                                             )}
                                             
@@ -67,17 +61,16 @@ export default function DetailCredit({theme, path} : {theme : boolean, path? : {
                                                     
                                                 }}>
                                                 <Typography variant="subtitle2" noWrap >
-                                                    {cast.name}
+                                                    {info.name}
                                                 </Typography>
                                                 <Typography 
                                                     variant="subtitle2" noWrap>
-                                                    {cast.character}
+                                                    {sort === "Cast" ? info.character : info.known_for_department}
                                                 </Typography>
                                             
                                             </Box>
                                         </ImageListItem>
-                                )
-                                    
+                                )   
                                 )
                             })
                         }

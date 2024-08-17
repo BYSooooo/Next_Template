@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import DetailInfo from '../../../detail/DetailInfo';
 import DetailOverview from '../../../detail/DetailOverview';
 import DetailCredit from '../../../detail/DetailCredit';
+import DetailMedia from '../../../detail/DetailMedia';
 
 export default function DetailPage({params} : {params : {id : string}}) {
     const [detail, setDetail] = React.useState<MovieDetail>()
@@ -51,7 +52,9 @@ export default function DetailPage({params} : {params : {id : string}}) {
                         path={detail}/>
                 </Box>
                 <DetailOverview theme={themeYn.theme} path={detail && detail.overview}/>
-                <DetailCredit theme={themeYn.theme} path={detail && detail.credits}/>
+                <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Cast"/>
+                {/* <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Crew" /> */}
+                <DetailMedia theme={themeYn.theme} path={detail && detail} />
         </Container>
     )
 }
