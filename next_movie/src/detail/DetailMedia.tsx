@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, colors, Tab, Tabs, Typography } from "@mui/material";
-import DetailMediaList from './DetailMediaList';
+import DetailVideoList from './DetaiVideoList';
 
 
 const TabPanel = (props : {children? : React.ReactNode, index : number, value : number} )=> {
@@ -51,7 +51,7 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
                 <Box>
                     <TabPanel value={index} index={0}>
                         <Box display="flex" flexDirection="row">
-                            <DetailMediaList theme={theme} path={path} sort="Video" />
+                            <DetailVideoList theme={theme} path={path}/>
                         </Box>
                     </TabPanel>
                     <TabPanel value={index} index={1}>
