@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, colors, Tab, Tabs, Typography } from "@mui/material";
 import DetailVideoList from './DetaiVideoList';
+import DetailImageList from './DetailImageList';
 
 
 const TabPanel = (props : {children? : React.ReactNode, index : number, value : number} )=> {
@@ -44,8 +45,8 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
                         Media
                     </Typography>
                     <Tabs value={index} onChange={handleChange}>
-                        <Tab style={tabStyle} label="Video" value={0}/>
-                        <Tab style={tabStyle} label="Poster" value={1}/>
+                        <Tab style={tabStyle} label="Videos" value={0}/>
+                        <Tab style={tabStyle} label="Images" value={1}/>
                     </Tabs>
                 </Box>
                 <Box>
@@ -55,9 +56,9 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
                         </Box>
                     </TabPanel>
                     <TabPanel value={index} index={1}>
-                        <Typography>
-                            Hello2
-                        </Typography>
+                        <Box display="flex" flexDirection="row">
+                            <DetailImageList theme={theme} path={path} />
+                        </Box>
                     </TabPanel>
                 </Box>    
             </Box>
