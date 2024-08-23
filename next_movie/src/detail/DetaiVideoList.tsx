@@ -16,7 +16,7 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
                                 <CardMedia>
                                 <ReactPlayer
                                     width="auto"
-                                    height="13rem"
+                                    height="14.2rem"
                                     url={`https://www.youtube.com/watch?v=${item.key}`}
                                     controls={true}
                                 />
@@ -34,7 +34,6 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
                 alignItems='center'
                 justifyContent='center'
                 width="10%"
-                
                 sx={{ ":hover" : {
                     bgcolor : theme ? grey[700] : grey[300] },
                     my : 1
@@ -47,15 +46,4 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
             </Box>  
         </Box>
     )
-
-        
-        // <Box>
-        //     {path &&
-        //     <ReactPlayer 
-        //         height='30vh' 
-        //         width='auto' 
-        //         url={`https://www.youtube.com/watch?v=${path.videos.results[idx[0]]?.key}`} />}
-        // </Box>
-    
-
 }

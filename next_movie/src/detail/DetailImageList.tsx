@@ -15,9 +15,12 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                                 <ImageListItem
                                     sx={{
                                         width : 130,
+                                        
                                         borderRadius : 4,
                                         overflow : 'hidden',
                                         display : 'inline-flex',
+                                        my : 1,
+                                        mr : 1,
                                         ":hover" : {
                                             cursor : 'pointer'
                                         }
@@ -41,7 +44,6 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                 alignItems='center'
                 justifyContent='center'
                 width="10%"
-                
                 sx={{ ":hover" : {
                     bgcolor : theme ? grey[700] : grey[300] },
                     my : 1

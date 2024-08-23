@@ -15,8 +15,6 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
             <Typography
                 variant='h6'
                 fontWeight='bold' 
-                sx={{ 
-                    textDecoration : 'underline'}}
                 display={'inline'}>
                 {`${sort} (${path ? selectedSort.length : 0})`}
             </Typography>
