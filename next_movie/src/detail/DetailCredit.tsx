@@ -65,7 +65,6 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                     variant="subtitle2" noWrap>
                                                     {sort === "Cast" ? info.character : info.known_for_department}
                                                 </Typography>
-                                            
                                             </Box>
                                         </ImageListItem>
                                 )   

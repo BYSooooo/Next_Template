@@ -46,7 +46,8 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                 width="10%"
                 sx={{ ":hover" : {
                     bgcolor : theme ? grey[700] : grey[300] },
-                    my : 1
+                    my : 1,
+                    mr : 2
                 }}
                 >
                 <Add />
