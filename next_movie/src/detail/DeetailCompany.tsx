@@ -13,11 +13,28 @@ export default function DetailCompany({theme,path} : {theme : boolean, path : Mo
                     <Box
                         mt={1}
                         display="flex"
+                        flexDirection={"column"}
                         borderRadius={4}
                         width = "100%"
                         height = "15rem"
-                        bgcolor={theme ? grey[800] : grey[200]}
-                        >
+                        bgcolor={theme ? grey[800] : grey[200]}>
+                        {path.production_companies.map((item,idx)=> {
+                            return ( idx < 3 &&
+                                <Box
+                                    borderRadius={4}
+                                    bgcolor={ theme ? grey[700] : grey[300]}
+                                    display={"flex"}
+                                    width="100%"
+                                    height="20%"
+                                    sx={{ m : 1  }}>
+                                    <img
+                                        src={`https://image.tmdb.org/t/p/w500${item.logo_path}`}
+                                    />
+
+                                    
+                                </Box>
+                            )
+                        })}
                         
                     </Box>
                 </Box>
