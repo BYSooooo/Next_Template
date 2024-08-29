@@ -35,7 +35,7 @@ export default function DetailCompany({theme, path} : {theme: boolean, path : Mo
                                 key={item.id}
                                 textOverflow={"-moz-initial"}>
                                 <Avatar 
-                                    sx={{ backgroundColor : "white", mb : 1}}
+                                    sx={{ backgroundColor : theme ? "white" : "none2", mb : 1}}
                                     src={`https://image.tmdb.org/t/p/w500${item.logo_path}`}>
                                 </Avatar>
                                 <Typography variant="subtitle2">

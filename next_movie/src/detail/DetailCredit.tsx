@@ -5,6 +5,10 @@ import { grey } from "@mui/material/colors";
 export default function DetailCredit({theme, path,sort} : {theme : boolean, path? : {cast : Cast[], crew : Crew[]}, sort: "Cast" | "Crew"}) {
     const selectedSort = path ? ((sort === "Cast") ? path?.cast : path?.crew) : []
     
+    const onClickImageListItem = (id : number)=> {
+        console.log(id)
+    }
+
     return (
         <Box
             textAlign='start' 
@@ -33,12 +37,14 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                 display : 'inline-flex',
                                                 overflow : 'hidden',
                                                 ":hover" : {
-                                                    cursor : 'pointer'
+                                                    cursor : 'pointer',
                                                 }
                                             }}
                                             key={sort === "Cast" ? info.cast_id : info.credit_id}>
                                             {info.profile_path ? (
-                                                <img src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
+                                                <img
+                                                    onClick={()=>onClickImageListItem(sort === "Cast" ? info.cast_id : info.credit_id)} 
+                                                    src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
                                             ) : (
                                                 <Box
                                                     textAlign="center"
