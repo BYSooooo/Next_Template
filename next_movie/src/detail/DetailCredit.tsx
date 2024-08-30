@@ -1,12 +1,15 @@
 import { Person } from "@mui/icons-material";
 import { alpha, Box, ImageList, ImageListItem, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useAppDispatch } from "../redux/hooks";
+import { controlDialog } from "../redux/features";
 
 export default function DetailCredit({theme, path,sort} : {theme : boolean, path? : {cast : Cast[], crew : Crew[]}, sort: "Cast" | "Crew"}) {
     const selectedSort = path ? ((sort === "Cast") ? path?.cast : path?.crew) : []
-    
+    const dispatch = useAppDispatch()
+
     const onClickImageListItem = (id : number)=> {
-        console.log(id)
+        dispatch(controlDialog({openYn : true, name : "Cast", extraInfo : {sort : sort, id : id}}))
     }
 
     return (
@@ -40,10 +43,10 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                     cursor : 'pointer',
                                                 }
                                             }}
-                                            key={sort === "Cast" ? info.cast_id : info.credit_id}>
+                                            key={info.id}>
                                             {info.profile_path ? (
                                                 <img
-                                                    onClick={()=>onClickImageListItem(sort === "Cast" ? info.cast_id : info.credit_id)} 
+                                                    onClick={()=>onClickImageListItem(info.id)} 
                                                     src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
                                             ) : (
                                                 <Box

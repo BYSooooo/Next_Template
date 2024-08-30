@@ -44,28 +44,31 @@ export default function DetailCompany({theme, path} : {theme: boolean, path : Mo
                             </Box>
                         )
                     })}
-                    <Box
-                        borderRadius={4}
-                        bgcolor={ theme ? grey[700] : grey[300]}
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        flexDirection={"column"}
-                        width="20%"
-                        height="60%"
-                        sx={{ 
-                            m : 1, 
-                            ':hover' : { 
-                                cursor : "pointer",
-                                bgcolor : theme ? grey[600] : grey[400]
-                                }
-                            }}
-                        >
-                        <Add/>
-                        <Typography fontWeight={"bold"}>
-                            More
-                        </Typography>
-                    </Box>
+                    {path?.production_companies.length < 4 && 
+                        <Box
+                            borderRadius={4}
+                            bgcolor={ theme ? grey[700] : grey[300]}
+                            display={"flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            flexDirection={"column"}
+                            width="20%"
+                            height="60%"
+                            sx={{ 
+                                m : 1, 
+                                ':hover' : { 
+                                    cursor : "pointer",
+                                    bgcolor : theme ? grey[600] : grey[400]
+                                    }
+                                }}
+                            >
+                            <Add/>
+                            <Typography fontWeight={"bold"}>
+                                More
+                            </Typography>
+                        </Box>
+                    
+                    }
                     
                 </Box>
             </Box>
