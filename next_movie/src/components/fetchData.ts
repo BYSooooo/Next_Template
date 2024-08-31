@@ -50,3 +50,14 @@ export async function getDetail(id : string) {
         throw new Error(`Failed to Fetch Modie Detail for Movie : ${id}`)
     }
 }
+
+export async function getPerson(id : number) {
+    try {
+        const response = await (await fetch(`/api/movies/person/${id}`)).json()
+        console.log(response)
+        return response
+    }catch(error) {
+        console.log(error)
+        throw new Error(`Failed to Fetch Person for Person ID : ${id}`)
+    }
+}

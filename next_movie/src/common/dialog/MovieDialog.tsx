@@ -9,11 +9,23 @@ import { controlDialog } from '../../redux/features';
 import { useRouter } from 'next/navigation';
 
 export default function MovieDialog() {
-    const showMoreButton = false
+    const [showMoreButton, setShowMoreButton ]= React.useState(false)
     const dialogControl = useAppSelector((state)=> state.dialogReducer);
     const movieSlice = useAppSelector((state)=> state.dialogReducer.extraInfo);
     const router = useRouter()
     const dispatch = useAppDispatch()
+
+    React.useEffect(()=> {
+        switch(dialogControl.name) {
+            case "Overview" :
+                setShowMoreButton(true)
+                break;
+            case "Cast" :
+                setShowMoreButton(false)
+                break;
+            default : break;
+        }
+    },[])
 
     const dialogSwitcher = (name: string)=> {
         switch(name) {

@@ -9,7 +9,7 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
     const dispatch = useAppDispatch()
 
     const onClickImageListItem = (id : number)=> {
-        dispatch(controlDialog({openYn : true, name : "Cast", extraInfo : {sort : sort, id : id}}))
+        dispatch(controlDialog({openYn : true, name : sort, extraInfo : id}))
     }
 
     return (
