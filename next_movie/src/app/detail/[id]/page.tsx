@@ -9,6 +9,9 @@ import DetailInfo from '../../../detail/DetailInfo';
 import DetailOverview from '../../../detail/DetailOverview';
 import DetailCredit from '../../../detail/DetailCredit';
 import DetailMedia from '../../../detail/DetailMedia';
+import DetailCollection from '../../../detail/DetailCollection';
+import DetailCompany from '../../../detail/DetailCompany';
+
 
 export default function DetailPage({params} : {params : {id : string}}) {
     const [detail, setDetail] = React.useState<MovieDetail>()
@@ -53,8 +56,11 @@ export default function DetailPage({params} : {params : {id : string}}) {
                 </Box>
                 <DetailOverview theme={themeYn.theme} path={detail && detail.overview}/>
                 <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Cast"/>
-                {/* <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Crew" /> */}
                 <DetailMedia theme={themeYn.theme} path={detail && detail} />
+                <Box display='flex' flexDirection='row' justifyContent={'space-between'} sx={{ px : 2, mb : 10}}>
+                    <DetailCompany theme={themeYn.theme} path={detail && detail} />
+                    <DetailCollection theme={themeYn.theme} path={detail && detail} />
+                </Box>
         </Container>
     )
 }

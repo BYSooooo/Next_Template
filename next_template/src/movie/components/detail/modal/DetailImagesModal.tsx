@@ -87,7 +87,6 @@ export default function DetailImagesModal() {
                                         </CardMedia>
                                     </CardActionArea>
                                 </Card>
-
                             </Box>
                         )
                         })  

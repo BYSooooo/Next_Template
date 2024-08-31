@@ -1,24 +1,18 @@
 import { 
-    Box, 
-    Button, 
+    Box,  
     Chip, 
-    DialogActions, 
     DialogContent, 
     DialogTitle, 
     Stack, 
     Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { controlDialog } from "../../../redux/features";
 import { CalendarMonth, Star, Tag } from "@mui/icons-material";
 
 export default function Overview() {
     const movieSlice = useAppSelector((state)=> state.dialogReducer.extraInfo);
     const genreSlice = useAppSelector((state)=> state.genreReducer);
-    const dispatch = useAppDispatch()
     
-    const onClickClose =()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))
-    };
+    const dispatch = useAppDispatch()
     
     const genreName = (ids: number[])=> {
         const result = [];
@@ -77,10 +71,6 @@ export default function Overview() {
                         </Stack>                    
                 </Box>
             </DialogContent>
-            <DialogActions>
-                <Button >More</Button>
-                <Button onClick={()=>onClickClose()}>Close</Button>
-            </DialogActions>
         </>
     )
 }

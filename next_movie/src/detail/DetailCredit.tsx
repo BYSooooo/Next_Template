@@ -1,10 +1,17 @@
 import { Person } from "@mui/icons-material";
 import { alpha, Box, ImageList, ImageListItem, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useAppDispatch } from "../redux/hooks";
+import { controlDialog } from "../redux/features";
 
 export default function DetailCredit({theme, path,sort} : {theme : boolean, path? : {cast : Cast[], crew : Crew[]}, sort: "Cast" | "Crew"}) {
     const selectedSort = path ? ((sort === "Cast") ? path?.cast : path?.crew) : []
-    
+    const dispatch = useAppDispatch()
+
+    const onClickImageListItem = (id : number)=> {
+        dispatch(controlDialog({openYn : true, name : sort, extraInfo : id}))
+    }
+
     return (
         <Box
             textAlign='start' 
@@ -15,8 +22,6 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
             <Typography
                 variant='h6'
                 fontWeight='bold' 
-                sx={{ 
-                    textDecoration : 'underline'}}
                 display={'inline'}>
                 {`${sort} (${path ? selectedSort.length : 0})`}
             </Typography>
@@ -35,12 +40,14 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                 display : 'inline-flex',
                                                 overflow : 'hidden',
                                                 ":hover" : {
-                                                    cursor : 'pointer'
+                                                    cursor : 'pointer',
                                                 }
                                             }}
-                                            key={sort === "Cast" ? info.cast_id : info.credit_id}>
+                                            key={info.id}>
                                             {info.profile_path ? (
-                                                <img src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
+                                                <img
+                                                    onClick={()=>onClickImageListItem(info.id)} 
+                                                    src={`https://image.tmdb.org/t/p/w185${info.profile_path}`} />
                                             ) : (
                                                 <Box
                                                     textAlign="center"
@@ -67,7 +74,6 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                     variant="subtitle2" noWrap>
                                                     {sort === "Cast" ? info.character : info.known_for_department}
                                                 </Typography>
-                                            
                                             </Box>
                                         </ImageListItem>
                                 )   
