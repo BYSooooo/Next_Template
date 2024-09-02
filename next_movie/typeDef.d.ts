@@ -126,8 +126,8 @@ type PersonInfo = {
     biography : string,
     birthday : string,
     combined_credits : {
-        cast : MovieDetail[],
-        crew : MovieDetail[]
+        cast? : MovieDetail[],
+        crew? : MovieDetail[]
     },
     deathday : string | null,
     gender : number,

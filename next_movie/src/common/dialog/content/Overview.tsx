@@ -1,18 +1,24 @@
+"use client"
+
 import { 
     Box,  
+    Button,  
     Chip, 
+    DialogActions, 
     DialogContent, 
     DialogTitle, 
     Stack, 
     Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { CalendarMonth, Star, Tag } from "@mui/icons-material";
+import { controlDialog } from "../../../redux/features";
+import { useRouter } from "next/navigation";
 
 export default function Overview() {
     const movieSlice = useAppSelector((state)=> state.dialogReducer.extraInfo);
     const genreSlice = useAppSelector((state)=> state.genreReducer);
-    
     const dispatch = useAppDispatch()
+    const router = useRouter();
     
     const genreName = (ids: number[])=> {
         const result = [];
@@ -26,6 +32,15 @@ export default function Overview() {
         } else {
             return result.join(", ")
         }
+    }
+
+    const onClickClose =()=> {
+        dispatch(controlDialog({ openYn : false, name : ""}))
+    };
+
+    const onClickMore =()=> {
+        dispatch(controlDialog({ openYn : false, name : ""}))
+        router.push(`/detail/${movieSlice.id}`)
     }
     
     return (
@@ -71,6 +86,10 @@ export default function Overview() {
                         </Stack>                    
                 </Box>
             </DialogContent>
+            <DialogActions>
+                <Button onClick={()=> onClickMore()}>More</Button>
+                <Button onClick={()=> onClickClose()}>Close</Button>
+            </DialogActions>
         </>
     )
 }
