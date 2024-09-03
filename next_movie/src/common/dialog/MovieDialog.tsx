@@ -7,13 +7,14 @@ import CastInfo from './content/CastInfo';
 
 export default function MovieDialog() {
     const dialogControl = useAppSelector((state)=> state.dialogReducer);
+    const theme = useAppSelector((state)=> state.themeReducer).theme
 
     const dialogSwitcher = (name: string)=> {
         switch(name) {
             case "Overview" : 
                 return <Overview />
             case "Cast" : 
-                return <CastInfo />
+                return <CastInfo theme={theme}/>
             default :
             break;
         }

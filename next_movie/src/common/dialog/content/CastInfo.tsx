@@ -3,11 +3,12 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { getPerson } from '../../../components/fetchData';
-import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, Skeleton, Typography } from '@mui/material';
 import { controlDialog } from '../../../redux/features';
 import { CalendarMonth, Groups3, Public } from '@mui/icons-material';
+import { grey } from '@mui/material/colors';
 
-export default function CastInfo() {
+export default function CastInfo({theme} : {theme : boolean}) {
     const [person, setPerson] = React.useState<PersonInfo>()
     const staffId = useAppSelector((state)=> state.dialogReducer.extraInfo)
     const dispatch = useAppDispatch();
@@ -63,22 +64,34 @@ export default function CastInfo() {
                             <Typography variant='subtitle1' fontWeight='bold'>
                                 Biography
                             </Typography>
+                            <Box
+                                borderRadius={3}
+                                width="100%"
+                                height="6rem"
+                                overflow={"scroll"}
+                                bgcolor={theme ? grey[700] : grey[300]}
+                                p={2}>
+                                {person.biography.length > 0 ? person.biography : 'No Data'}
+                            </Box>
                             <Box>
 
                             </Box>
                         </>
 
                     ):(
-                        <Box display="flex" flexDirection="row" >
-                            <Skeleton variant='rounded' width="10rem" height="15rem"/>
-                            <Box display="flex" flexDirection="column" minWidth="15rem" rowGap={1}
-                                sx={{ mx : 2}}>
-                                <Skeleton variant='text' width="100%" height="3rem" />
-                                <Skeleton variant='rounded' width="70%" height="1rem" />
-                                <Skeleton variant='rounded' width="70%" height="1rem" />
-                                <Skeleton variant='rounded' width="70%" height="1rem" />
+                        <>
+                            <Box display="flex" flexDirection="row" >
+                                <Skeleton variant='rounded' width="10rem" height="15rem"/>
+                                <Box display="flex" flexDirection="column" minWidth="15rem" rowGap={1}
+                                    sx={{ mx : 2}}>
+                                    <Skeleton variant='text' width="100%" height="3rem" />
+                                    <Skeleton variant='rounded' width="70%" height="1rem" />
+                                    <Skeleton variant='rounded' width="70%" height="1rem" />
+                                    <Skeleton variant='rounded' width="70%" height="1rem" />
+                                </Box>    
                             </Box>
-                        </Box>
+                            <Skeleton variant='rounded' width="100%" height="6rem" sx={{ mt : 2}}/>
+                        </>
                     )}
                         
 
