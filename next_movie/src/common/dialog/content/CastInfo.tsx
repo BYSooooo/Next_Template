@@ -3,13 +3,14 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { getPerson } from '../../../components/fetchData';
-import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { controlDialog } from '../../../redux/features';
 import { CalendarMonth, Groups3, Public } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 
 export default function CastInfo({theme} : {theme : boolean}) {
     const [person, setPerson] = React.useState<PersonInfo>()
+    const [index, setIndex] = React.useState(0);
     const staffId = useAppSelector((state)=> state.dialogReducer.extraInfo)
     const dispatch = useAppDispatch();
     React.useEffect(()=> {
@@ -20,6 +21,48 @@ export default function CastInfo({theme} : {theme : boolean}) {
     const onClickClose =()=> {
         dispatch(controlDialog({ openYn : false, name : ""}))
     };
+
+    const TabPanel =(props : {children? : React.ReactNode, index: number, value : number})=> {
+        const { children, value, index, ...other} = props;
+        return (
+            <div
+                role="tabpanel"
+                hidden={value !== index}
+                id={`simple-panel-${index}`}
+                aria-labelledby={`simple-tab-${index}`}
+                {...other}>
+                { value === index && <Box>{children}</Box>}
+            </div>
+        )
+    }
+
+    const handleChange = (event : React.SyntheticEvent, newValue : number)=> {
+        setIndex(newValue)
+    }
+
+    const tabStyle: React.CSSProperties = {
+        borderRadius : 5,
+        fontSize : '0.8rem',
+        width : '50%'        
+    }
+
+    const castList = ()=> {
+        return (
+            <Box width="100%" display="flex" flexDirection="row">
+                <Box>
+                    <ImageList cols={person.combined_credits.cast.length}>
+                        {person.combined_credits.cast.map((item)=> {
+                            return (
+                                <ImageListItem>
+                                    
+                                </ImageListItem>
+                            )
+                        })}
+                    </ImageList>
+                </Box>
+            </Box>
+        )
+    }
 
     return (
         <>  
@@ -73,8 +116,22 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                 p={2}>
                                 {person.biography.length > 0 ? person.biography : 'No Data'}
                             </Box>
+                            <Tabs value={index} onChange={handleChange}>
+                                <Tab style={tabStyle} label="Cast (Recent 10)" value={0} />
+                                <Tab style={tabStyle} label="Crew (Recent 10)" value={1} />
+                            </Tabs>
                             <Box>
+                                <TabPanel value={index} index={0}>
+                                    <Box display="flex" flexDirection="row">
 
+                                    </Box>  
+                                </TabPanel>
+                                <TabPanel value={index} index={1}>
+                                    <Box display="flex" flexDirection="row">
+
+                                    </Box>
+                                </TabPanel>
+                                
                             </Box>
                         </>
 
