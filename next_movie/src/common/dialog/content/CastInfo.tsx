@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { getPerson } from '../../../components/fetchData';
 import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { controlDialog } from '../../../redux/features';
-import { CalendarMonth, Groups3, Public } from '@mui/icons-material';
+import { CalendarMonth, Groups3, Movie, Public } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 
 export default function CastInfo({theme} : {theme : boolean}) {
@@ -49,12 +49,42 @@ export default function CastInfo({theme} : {theme : boolean}) {
     const castList = ()=> {
         return (
             <Box width="100%" display="flex" flexDirection="row">
-                <Box>
-                    <ImageList cols={person.combined_credits.cast.length}>
-                        {person.combined_credits.cast.map((item)=> {
+                <Box width="100%" overflow="scroll" display="flex">
+                    <ImageList cols={10} >
+                        {person.combined_credits.cast.map((item,idx)=> {
                             return (
-                                <ImageListItem>
-                                    
+                                idx < 10 && 
+                                <ImageListItem
+                                    sx={{
+                                        width : 60,
+                                        borderRadius : 4,
+                                        overflow : 'hidden',
+                                        display : 'inline-flex',
+                                        mx : 0.5,
+                                        ":hover" : {
+                                            cursor : 'pointer'
+                                        }
+                                    }}>
+                                    {item.poster_path 
+                                    ? (
+                                        <img
+                                            aria-haspopup="true"
+                                            src={`https://image.tmdb.org/t/p/w780${item.poster_path}`} 
+                                        />
+
+                                    ):(
+                                        <Box 
+                                            height="100%"
+                                            display="flex" 
+                                            flexDirection='column'
+                                            justifyContent="center" 
+                                            alignItems='center'>
+                                            <Movie />
+                                            <Typography variant='caption'>
+                                                {item.title}
+                                            </Typography>
+                                        </Box>
+                                    )}
                                 </ImageListItem>
                             )
                         })}
@@ -75,7 +105,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                         <>
                             <Box display="flex" flexDirection="row" mb={1}>
                                 <img 
-                                    style={{ borderRadius : 5, width : "10rem"}}
+                                    style={{ borderRadius : 5, width : "8rem"}}
                                     src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
                                 />
                                 <Box display="flex" flexDirection="column" rowGap={1}
@@ -123,7 +153,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                             <Box>
                                 <TabPanel value={index} index={0}>
                                     <Box display="flex" flexDirection="row">
-
+                                        {castList()}
                                     </Box>  
                                 </TabPanel>
                                 <TabPanel value={index} index={1}>
