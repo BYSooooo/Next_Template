@@ -7,20 +7,33 @@ import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList
 import { controlDialog } from '../../../redux/features';
 import { CalendarMonth, Groups3, Movie, Public } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
+import { useRouter } from 'next/navigation';
 
 export default function CastInfo({theme} : {theme : boolean}) {
     const [person, setPerson] = React.useState<PersonInfo>()
     const [index, setIndex] = React.useState(0);
+    const [selection, setSelection] = React.useState<MovieDetail[]>([])
     const staffId = useAppSelector((state)=> state.dialogReducer.extraInfo)
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
     React.useEffect(()=> {
-        getPerson(staffId).then((result)=> setPerson(result))
+        getPerson(staffId)
+            .then((result)=> {
+                setPerson(result)
+                setSelection(result.combined_credits.cast)
+            })
     },[])
     
 
     const onClickClose =()=> {
         dispatch(controlDialog({ openYn : false, name : ""}))
     };
+
+    const onClickMovie = (id : number)=> {
+        dispatch(controlDialog({ openYn : false, name : ""}))
+        router.push(`/detail/${id}`)   
+    }
 
     const TabPanel =(props : {children? : React.ReactNode, index: number, value : number})=> {
         const { children, value, index, ...other} = props;
@@ -38,6 +51,8 @@ export default function CastInfo({theme} : {theme : boolean}) {
 
     const handleChange = (event : React.SyntheticEvent, newValue : number)=> {
         setIndex(newValue)
+        newValue === 0 && setSelection(person.combined_credits.cast);
+        newValue === 1 && setSelection(person.combined_credits.crew);
     }
 
     const tabStyle: React.CSSProperties = {
@@ -51,7 +66,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
             <Box width="100%" display="flex" flexDirection="row">
                 <Box width="100%" overflow="scroll" display="flex">
                     <ImageList cols={10} >
-                        {person.combined_credits.cast.map((item,idx)=> {
+                        {selection.map((item,idx)=> {
                             return (
                                 idx < 10 && 
                                 <ImageListItem
@@ -68,7 +83,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                     {item.poster_path 
                                     ? (
                                         <img
-                                            aria-haspopup="true"
+                                            onClick={()=>onClickMovie(item.id)}
                                             src={`https://image.tmdb.org/t/p/w780${item.poster_path}`} 
                                         />
 
@@ -80,7 +95,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                             justifyContent="center" 
                                             alignItems='center'>
                                             <Movie />
-                                            <Typography variant='caption'>
+                                            <Typography variant='caption' noWrap overflow={'inherit'}>
                                                 {item.title}
                                             </Typography>
                                         </Box>
@@ -158,7 +173,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                 </TabPanel>
                                 <TabPanel value={index} index={1}>
                                     <Box display="flex" flexDirection="row">
-
+                                        {castList()}
                                     </Box>
                                 </TabPanel>
                                 

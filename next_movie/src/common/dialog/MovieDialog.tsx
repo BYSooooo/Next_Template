@@ -14,9 +14,9 @@ export default function MovieDialog() {
             case "Overview" : 
                 return <Overview />
             case "Cast" : 
-                return <CastInfo theme={theme}/>
+                return <CastInfo theme={theme} />
             default :
-            break;
+                break;
         }
     }
     return (
