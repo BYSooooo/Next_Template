@@ -4,6 +4,7 @@ import { Dialog } from '@mui/material'
 import { useAppSelector } from '../../redux/hooks';
 import Overview from './content/Overview';
 import CastInfo from './content/CastInfo';
+import MediaInfo from './content/MediaInfo';
 
 export default function MovieDialog() {
     const dialogControl = useAppSelector((state)=> state.dialogReducer);
@@ -15,6 +16,8 @@ export default function MovieDialog() {
                 return <Overview />
             case "Cast" : 
                 return <CastInfo theme={theme} />
+            case "Media" : 
+                return <MediaInfo theme={theme} />
             default :
                 break;
         }
