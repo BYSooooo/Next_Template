@@ -54,10 +54,11 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                             <Tab style={tabStyle} label="Image" value={1} />
                         </Tabs>
                         <TabPanel value={index} index={0}>
-                            <Box width="100%" display="flex" flexDirection="row">
+                            <Box 
+                                width="auto" display="flex" flexDirection="row" >
                                 {selList ?(
                                     <ReactPlayer 
-                                        width="auto" height="50vh"
+                                        width="70%" height="50vh"
                                         url={`https://www.youtube.com/watch?v=${selList.videoPath}`}
                                     />
                                 ):(
@@ -66,21 +67,21 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                     </Box>    
                                 ) }
                                 
-                                <List sx={{ width : "10rem", height : "50vh", overflowY : "scroll"}}>
+                                <List sx={{ width : "30%", height : "50vh", overflowY : "scroll", textOverflow : 'ellipsis', textWrap : 'hidden', overflowX : 'hidden'}}>
                                     {dialogReducer.videos.results.map((video :VideoInfo, idx: number)=> {
                                         return (
                                             <ListItemButton 
                                                 key={video.id} 
                                                 selected={selList ? selList.idx === idx : false}
                                                 onClick={()=> setSelList({idx : idx, videoPath : video.key})} 
-                                                sx={{ borderRadius : 4}}>
+                                                sx={{ borderRadius : 4 , textOverflow : 'ellipsis'}}>
                                                 <ListItemIcon>
                                                     <SmartDisplay />
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary={video.name} 
-                                                    secondary={video.type} 
-                                                    sx={{ textOverflow : 'clip', textWrap : "nowrap"}}/>
+                                                    secondary={video.type}
+                                                    sx={{ textWrap : 'nowrap', textOverflow : 'ellipsis'}} />
                                             </ListItemButton>
                                         )
                                     })}
