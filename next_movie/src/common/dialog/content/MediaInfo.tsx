@@ -4,8 +4,9 @@ import { Box, Button, DialogActions, DialogContent, DialogTitle, List, ListItemB
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { controlDialog } from "../../../redux/features";
 import React from "react";
-import { SmartDisplay } from "@mui/icons-material";
+import { NotStarted, SmartDisplay } from "@mui/icons-material";
 import ReactPlayer from "react-player";
+import { grey } from "@mui/material/colors";
 
 export default function MediaInfo({theme} : {theme: boolean }) {
     const [index, setIndex] = React.useState(0)
@@ -48,26 +49,39 @@ export default function MediaInfo({theme} : {theme: boolean }) {
             </DialogTitle>
             <DialogContent>
                 <Box display="flex" flexDirection="row">
-                    <Box flexDirection="column">
+                    <Box flexDirection="column" width="100%">
                         <Tabs value={index} onChange={handleChange}>
                             <Tab style={tabStyle} label="Video" value={0} />
                             <Tab style={tabStyle} label="Image" value={1} />
                         </Tabs>
                         <TabPanel value={index} index={0}>
-                            <Box 
-                                width="auto" display="flex" flexDirection="row" >
-                                {selList ?(
-                                    <ReactPlayer 
-                                        width="70%" height="50vh"
-                                        url={`https://www.youtube.com/watch?v=${selList.videoPath}`}
-                                    />
-                                ):(
-                                    <Box width="20rem" height="50vh">
-                                        Select List
-                                    </Box>    
-                                ) }
-                                
-                                <List sx={{ width : "30%", height : "50vh", overflowY : "scroll", textOverflow : 'ellipsis', textWrap : 'hidden', overflowX : 'hidden'}}>
+                            <Box width="auto" display="flex" flexDirection="row">
+                                <Box 
+                                    display="flex"
+                                    flexDirection="column"
+                                    minWidth="70%" 
+                                    height="50vh" 
+                                    bgcolor={theme ? grey[800] : grey[200]}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    overflow="hidden"
+                                    borderRadius={4}>
+                                    {selList 
+                                    ?(
+                                        <ReactPlayer 
+                                            width="100%" height="50vh"
+                                            url={`https://www.youtube.com/watch?v=${selList.videoPath}`}
+                                        />
+                                    ):(
+                                        <>
+                                            <NotStarted sx={{ fontSize : 100}}/>
+                                            <Typography>
+                                                Select List
+                                            </Typography>    
+                                        </>
+                                    )}
+                                </Box>
+                                <List sx={{ width : "30%", height : "50vh", overflowY : "scroll", textOverflow : 'ellipsis', textWrap : 'hidden', overflowX : 'hidden', ml : "1rem"}}>
                                     {dialogReducer.videos.results.map((video :VideoInfo, idx: number)=> {
                                         return (
                                             <ListItemButton 
@@ -89,7 +103,19 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                             </Box>
                         </TabPanel>
                         <TabPanel value={index} index={1}>
-                            panel2
+                            <Box width="auto" display="flex" flexDirection="row">
+                                <Box 
+                                    display="flex"
+                                    flexDirection="column"
+                                    minWidth="70%" 
+                                    height="50vh" 
+                                    bgcolor={theme ? grey[800] : grey[200]}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    overflow="hidden"
+                                    borderRadius={4}>
+                                </Box>
+                            </Box>
                         </TabPanel>
 
                         
