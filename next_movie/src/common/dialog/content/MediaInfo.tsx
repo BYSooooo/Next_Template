@@ -4,13 +4,14 @@ import { Box, Button, DialogActions, DialogContent, DialogTitle, List, ListItemB
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { controlDialog } from "../../../redux/features";
 import React from "react";
-import { NotStarted, SmartDisplay } from "@mui/icons-material";
+import { Image, ImageNotSupported, NotStarted, SmartDisplay } from "@mui/icons-material";
 import ReactPlayer from "react-player";
 import { grey } from "@mui/material/colors";
 
 export default function MediaInfo({theme} : {theme: boolean }) {
     const [index, setIndex] = React.useState(0)
-    const [selList, setSelList] = React.useState<{idx : number, videoPath : string}>()
+    const [selVideo, setSelVideo] = React.useState<{idx : number, path : string}>()
+    const [selImage, setSelImage] = React.useState<{idx : number, path : string}>()
     const dialogReducer = useAppSelector((state)=> state.dialogReducer).extraInfo;
     const dispatch = useAppDispatch();
     
@@ -34,6 +35,8 @@ export default function MediaInfo({theme} : {theme: boolean }) {
 
     const handleChange = (event : React.SyntheticEvent, newValue : number)=> {
         setIndex(newValue)
+        if(newValue === 1) setSelVideo(null)
+        if(newValue === 0) setSelImage(null)
     }
 
     const tabStyle: React.CSSProperties = {
@@ -66,11 +69,11 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                     justifyContent="center"
                                     overflow="hidden"
                                     borderRadius={4}>
-                                    {selList 
+                                    {selVideo 
                                     ?(
                                         <ReactPlayer 
                                             width="100%" height="50vh"
-                                            url={`https://www.youtube.com/watch?v=${selList.videoPath}`}
+                                            url={`https://www.youtube.com/watch?v=${selVideo.path}`}
                                         />
                                     ):(
                                         <>
@@ -86,8 +89,8 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                         return (
                                             <ListItemButton 
                                                 key={video.id} 
-                                                selected={selList ? selList.idx === idx : false}
-                                                onClick={()=> setSelList({idx : idx, videoPath : video.key})} 
+                                                selected={selVideo ? selVideo.idx === idx : false}
+                                                onClick={()=> setSelVideo({idx : idx, path : video.key})} 
                                                 sx={{ borderRadius : 4 , textOverflow : 'ellipsis'}}>
                                                 <ListItemIcon>
                                                     <SmartDisplay />
@@ -112,9 +115,47 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                     bgcolor={theme ? grey[800] : grey[200]}
                                     alignItems="center"
                                     justifyContent="center"
-                                    overflow="hidden"
+                                    overflow="clip"
                                     borderRadius={4}>
+                                    {selImage ? (
+                                        <Box>
+                                            <img
+                                                height="100%"
+                                                src={`https://image.tmdb.org/t/p/w780${selImage.path}`}>
+                                            
+                                            </img>
+                                        </Box>
+                                    ) : (
+                                        <>
+                                            <ImageNotSupported sx={{ fontSize : 100}}/>
+                                            <Typography>
+                                                Select List
+                                            </Typography>    
+                                        </>
+                                    )}
                                 </Box>
+                                <List 
+                                    sx={{ 
+                                        width : "30%", 
+                                        height : "50vh", 
+                                        overflowY : "scroll", 
+                                        overflowX : 'hidden', 
+                                        textOverflow : 'ellipsis', 
+                                        textWrap : 'hidden', 
+                                        ml : "1rem"}}>
+                                    {dialogReducer.images.posters.map((item : ImageInfo, idx: number)=> {
+                                        return (
+                                            <ListItemButton
+                                                key={item.file_path}
+                                                selected={selImage ? selImage.idx === idx : false}
+                                                onClick={()=> setSelImage({idx : idx, path : item.file_path})}>
+                                                <ListItemIcon>
+                                                    <Image />
+                                                </ListItemIcon>
+                                            </ListItemButton>
+                                        )
+                                    })}
+                                </List>
                             </Box>
                         </TabPanel>
 
