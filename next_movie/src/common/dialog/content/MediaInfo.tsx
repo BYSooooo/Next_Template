@@ -12,6 +12,7 @@ export default function MediaInfo({theme} : {theme: boolean }) {
     const [index, setIndex] = React.useState(0)
     const [selVideo, setSelVideo] = React.useState<{idx : number, path : string}>()
     const [selImage, setSelImage] = React.useState<{idx : number, path : string}>()
+    
     const dialogReducer = useAppSelector((state)=> state.dialogReducer).extraInfo;
     const dispatch = useAppDispatch();
     
@@ -37,6 +38,10 @@ export default function MediaInfo({theme} : {theme: boolean }) {
         setIndex(newValue)
         if(newValue === 1) setSelVideo(null)
         if(newValue === 0) setSelImage(null)
+    }
+
+    const onClickItemImage = (idx : number, path : string)=> {
+        setSelImage({idx : idx, path : path})
     }
 
     const tabStyle: React.CSSProperties = {
@@ -115,15 +120,21 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                     bgcolor={theme ? grey[800] : grey[200]}
                                     alignItems="center"
                                     justifyContent="center"
-                                    overflow="clip"
-                                    borderRadius={4}>
+                                    borderRadius={4}
+                                    position="relative"
+                                    overflow="hidden">
                                     {selImage ? (
-                                        <Box>
-                                            <img
-                                                height="100%"
-                                                src={`https://image.tmdb.org/t/p/w780${selImage.path}`}>
-                                            
-                                            </img>
+                                        <Box
+                                            component="img"
+                                            src={`https://image.tmdb.org/t/p/w780${selImage.path}`}
+                                            borderRadius={4}
+                                            sx={{
+                                                maxWidth: "100%",
+                                                maxHeight: "100%",
+                                                objectFit: "contain", 
+                                                width: "auto", 
+                                                height: "auto", 
+                                              }}>
                                         </Box>
                                     ) : (
                                         <>
@@ -148,10 +159,17 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                             <ListItemButton
                                                 key={item.file_path}
                                                 selected={selImage ? selImage.idx === idx : false}
-                                                onClick={()=> setSelImage({idx : idx, path : item.file_path})}>
+                                                onClick={()=> onClickItemImage(idx,item.file_path)}
+                                                sx={{
+                                                    borderRadius : 4
+                                                }}>
                                                 <ListItemIcon>
                                                     <Image />
                                                 </ListItemIcon>
+                                                <ListItemText
+                                                    primary={`Image_${idx}`}
+                                                
+                                                />
                                             </ListItemButton>
                                         )
                                     })}
