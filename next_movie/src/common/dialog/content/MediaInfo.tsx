@@ -115,6 +115,7 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                 <Box 
                                     display="flex"
                                     flexDirection="column"
+                                    minWidth="70%"
                                     maxWidth="70%" 
                                     height="50vh" 
                                     bgcolor={theme ? grey[800] : grey[200]}
