@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, DialogActions, DialogContent, DialogTitle, List, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs, Typography } from "@mui/material"
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, List, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs, Typography } from "@mui/material"
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { controlDialog } from "../../../redux/features";
 import React from "react";
@@ -47,7 +47,7 @@ export default function MediaInfo({theme} : {theme: boolean }) {
     const tabStyle: React.CSSProperties = {
         borderRadius : 5,
         fontSize : '0.8rem',
-        width : '50%'
+        
     }
 
     return (
@@ -115,7 +115,7 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                 <Box 
                                     display="flex"
                                     flexDirection="column"
-                                    minWidth="70%" 
+                                    maxWidth="70%" 
                                     height="50vh" 
                                     bgcolor={theme ? grey[800] : grey[200]}
                                     alignItems="center"
@@ -125,16 +125,26 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                                     overflow="hidden">
                                     {selImage ? (
                                         <Box
-                                            component="img"
-                                            src={`https://image.tmdb.org/t/p/w780${selImage.path}`}
-                                            borderRadius={4}
-                                            sx={{
-                                                maxWidth: "100%",
-                                                maxHeight: "100%",
-                                                objectFit: "contain", 
-                                                width: "auto", 
-                                                height: "auto", 
-                                              }}>
+                                            maxWidth="100%"
+                                            maxHeight="100%"
+                                            textAlign="center">
+                                            <Link
+                                                href={`https://image.tmdb.org/t/p/original${selImage.path}`} 
+                                                target='_blank' 
+                                                rel='noreferrer'>
+                                                <Box
+                                                    component="img"
+                                                    src={`https://image.tmdb.org/t/p/w780${selImage.path}`}
+                                                    borderRadius={4}
+                                                    sx={{
+                                                        maxWidth: "100%",
+                                                        maxHeight: "100%",
+                                                        objectFit: "contain", 
+                                                        width: "auto", 
+                                                        height: "auto", 
+                                                    }}>
+                                                </Box>
+                                            </Link>
                                         </Box>
                                     ) : (
                                         <>
