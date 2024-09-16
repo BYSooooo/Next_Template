@@ -194,7 +194,7 @@ export default function MediaInfo({theme} : {theme: boolean }) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={()=> onClickClose()}>
-                    close
+                    Close
                 </Button>
             </DialogActions>
         </>

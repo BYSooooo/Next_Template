@@ -140,3 +140,12 @@ type PersonInfo = {
     popularity : number,
     profile_path : string
 }
+
+type CollectionInfo = {
+    backdrop_path : string,
+    id : number,
+    name : string,
+    overview : string,
+    parts : MovieDetail[],
+    poster_path : string
+}

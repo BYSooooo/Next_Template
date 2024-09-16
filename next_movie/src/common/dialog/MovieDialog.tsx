@@ -6,6 +6,7 @@ import Overview from './content/Overview';
 import CastInfo from './content/CastInfo';
 import MediaInfo from './content/MediaInfo';
 import React from 'react';
+import CollectionInfo from './content/CollectionInfo';
 
 export default function MovieDialog() {
     const [fullWidthYn, setFullWidthYn] = React.useState(false)
@@ -31,6 +32,8 @@ export default function MovieDialog() {
                 return <CastInfo theme={theme} />
             case "Media" : 
                 return <MediaInfo theme={theme} />
+            case "Collection" : 
+                return <CollectionInfo theme={theme}/>
             default :
                 break;
         }

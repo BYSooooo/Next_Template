@@ -1,9 +1,19 @@
-import { Add, SentimentDissatisfied } from "@mui/icons-material";
+import { SentimentDissatisfied } from "@mui/icons-material";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { getCollection } from "../components/fetchData";
+import { useAppDispatch } from "../redux/hooks";
+import { controlDialog } from "../redux/features";
 
 export default function DetailCollection({theme,path} : {theme : boolean, path : MovieDetail}) {
-    
+    const dispatch = useAppDispatch();
+    const onClickCollection =()=> {
+        getCollection(path.belongs_to_collection.id).then((result)=> {
+            dispatch(controlDialog({openYn : true, name : "Collection", extraInfo : result}))
+        })
+    }
+
+
     return (
         <Box width="45%" flexDirection='column' >
             <Box display='flex' flexDirection='column' alignItems='start'>
@@ -46,7 +56,8 @@ export default function DetailCollection({theme,path} : {theme : boolean, path :
                                     <Typography variant="h5" noWrap fontWeight="Bold">
                                         {path.belongs_to_collection.name}
                                     </Typography>
-                                    <Button 
+                                    <Button
+                                        onClick={onClickCollection} 
                                         sx={{ 
                                             borderRadius : 2, 
                                             bgcolor : theme ? grey[800] : grey[300],
