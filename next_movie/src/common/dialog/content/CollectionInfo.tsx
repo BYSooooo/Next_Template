@@ -1,6 +1,7 @@
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { controlDialog } from "../../../redux/features";
+import { grey } from "@mui/material/colors";
 
 export default function CollectionInfo({theme} : {theme : boolean}) {
     const dispatch = useAppDispatch();
@@ -28,12 +29,26 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                             <Typography variant="h6" fontWeight="bold" noWrap>
                                 {dialogReducer.name}
                             </Typography>
-
-
+                            <Typography 
+                                variant='subtitle2'
+                                sx={{ color : theme ? grey[500]: grey [700] }}>
+                                Preview
+                            </Typography>
+                            <Box
+                                borderRadius={4}
+                                bgcolor={theme ? grey[800] : grey[200]}
+                                sx={{ p : 2 }}>
+                                <Typography >
+                                    {dialogReducer.overview}
+                                </Typography>
+                            </Box>
                         </Box>
-
-                        
                     </Box>
+                </Box>
+                <Box flexDirection="column">
+                    <Typography variant='subtitle1' fontWeight='bold'> 
+                        Movie List
+                    </Typography>
                 </Box>
             </DialogContent>
             <DialogActions>
