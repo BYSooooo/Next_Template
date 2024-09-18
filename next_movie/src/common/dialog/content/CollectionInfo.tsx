@@ -49,6 +49,13 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                     <Typography variant='subtitle1' fontWeight='bold'> 
                         Movie List
                     </Typography>
+                    {dialogReducer.parts.map((item : MovieOverview)=> {
+                        return (
+                            <Box>
+                                {item.original_title}
+                            </Box>
+                        )
+                    })}
                 </Box>
             </DialogContent>
             <DialogActions>
