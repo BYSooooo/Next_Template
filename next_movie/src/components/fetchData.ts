@@ -61,3 +61,14 @@ export async function getPerson(id : number) {
         throw new Error(`Failed to Fetch Person for Person ID : ${id}`)
     }
 }
+
+export async function getCollection(id : number) {
+    try {
+        const response = await (await fetch(`/api/movies/collection/${id}`)).json()
+        console.log(response);
+        return response
+    }catch(error) {
+        console.log(error);
+        throw new Error(`Failed to Fetch Collection for Col ID : ${id}`)
+    }
+}

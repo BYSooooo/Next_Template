@@ -10,7 +10,7 @@ const TabPanel = (props : {children? : React.ReactNode, index : number, value : 
         <div 
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-palen-${index}`}
+            id={`simple-panel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}>
             {value === index && <Box>{children}</Box>}
