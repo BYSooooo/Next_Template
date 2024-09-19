@@ -1,12 +1,13 @@
 "use client"
 
+import React from 'react';
 import { Dialog, DialogProps } from '@mui/material'
 import { useAppSelector } from '../../redux/hooks';
 import Overview from './content/Overview';
 import CastInfo from './content/CastInfo';
 import MediaInfo from './content/MediaInfo';
-import React from 'react';
 import CollectionInfo from './content/CollectionInfo';
+import CompanyInfo from './content/CompanyInfo';
 
 export default function MovieDialog() {
     const [fullWidthYn, setFullWidthYn] = React.useState(false)
@@ -34,6 +35,8 @@ export default function MovieDialog() {
                 return <MediaInfo theme={theme} />
             case "Collection" : 
                 return <CollectionInfo theme={theme}/>
+            case "Company" : 
+                return <CompanyInfo theme={theme}/>
             default :
                 break;
         }
