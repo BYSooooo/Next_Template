@@ -5,6 +5,10 @@ import { grey } from "@mui/material/colors";
 export default function DetailImageList({theme,path} : {theme: boolean, path : MovieDetail}) {
     const initImageArr = path.images.posters.filter((item,idx)=> idx < 20);
     
+    const onClickImage = ()=> {
+        
+    }
+
     return (
         <Box width="100%" display="flex" flexDirection="row">
             <Box width="90%" overflow="scroll" display="flex" flexDirection="row">
@@ -27,6 +31,7 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                                     }}
                                     key={img.file_path}>
                                     <img 
+                                        onClick={()=>onClickImage()}
                                         aria-haspopup="true"
                                         src={`https://image.tmdb.org/t/p/w780${img.file_path}`}
                                     />
