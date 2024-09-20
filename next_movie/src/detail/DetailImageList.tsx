@@ -1,14 +1,10 @@
 import { Add } from "@mui/icons-material";
-import { Box, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, ImageList, ImageListItem, Link, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
 export default function DetailImageList({theme,path} : {theme: boolean, path : MovieDetail}) {
     const initImageArr = path.images.posters.filter((item,idx)=> idx < 20);
     
-    const onClickImage = ()=> {
-        
-    }
-
     return (
         <Box width="100%" display="flex" flexDirection="row">
             <Box width="90%" overflow="scroll" display="flex" flexDirection="row">
@@ -16,26 +12,29 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                     {initImageArr.length > 0 && initImageArr.map((img)=> {
                         return (
                             img && (
-                                <ImageListItem
-                                    sx={{
-                                        width : 130,
-                                        
-                                        borderRadius : 4,
-                                        overflow : 'hidden',
-                                        display : 'inline-flex',
-                                        my : 1,
-                                        mr : 1,
-                                        ":hover" : {
-                                            cursor : 'pointer'
-                                        }
-                                    }}
-                                    key={img.file_path}>
-                                    <img 
-                                        onClick={()=>onClickImage()}
-                                        aria-haspopup="true"
-                                        src={`https://image.tmdb.org/t/p/w780${img.file_path}`}
-                                    />
-                                </ImageListItem>
+                                <Link 
+                                    href={`https://image.tmdb.org/t/p/original${img.file_path}`}
+                                    target='_blank'
+                                    rel='noreferrer'>
+                                    <ImageListItem
+                                        sx={{
+                                            width : 130,
+                                            borderRadius : 4,
+                                            overflow : 'hidden',
+                                            display : 'inline-flex',
+                                            my : 1,
+                                            mr : 1,
+                                            ":hover" : {
+                                                cursor : 'pointer'
+                                            }
+                                        }}
+                                        key={img.file_path}>
+                                        <img 
+                                            aria-haspopup="true"
+                                            src={`https://image.tmdb.org/t/p/w780${img.file_path}`}
+                                        />
+                                    </ImageListItem>
+                                </Link>
                             )
                         )
                     })}
