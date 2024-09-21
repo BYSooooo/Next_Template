@@ -1,11 +1,12 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { useRouter } from 'next/navigation';
-import { DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { getCompany } from '../../../components/fetchData';
 
 export default function CompanyInfo({theme} : {theme : boolean}) {
-    const dispatch = useAppDispatch();
     const dialogReducer = useAppSelector((state)=> state.dialogReducer.extraInfo)
+    const dispatch = useAppDispatch();
     const router = useRouter();
 
     return (
@@ -13,6 +14,14 @@ export default function CompanyInfo({theme} : {theme : boolean}) {
             <DialogTitle>
                 Company
             </DialogTitle>
+            <DialogContent>
+
+            </DialogContent>
+            <DialogActions>
+                <Button>
+                    Close
+                </Button>
+            </DialogActions>
         </>
     )
 }
