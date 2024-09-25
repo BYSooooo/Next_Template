@@ -17,10 +17,7 @@ export default function DetailOverview({theme, path} : {theme : boolean, path : 
             <Typography 
                 textAlign='start'
                 variant='h6'
-                fontWeight='bold' 
-                sx={{ 
-                    textDecoration : 'underline'}}
-                >
+                fontWeight='bold' >
                 Overview
             </Typography>
             <Box 
