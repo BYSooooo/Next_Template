@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { Box, Container, Skeleton, Typography } from "@mui/material"
+import { Box, Container, Link, Skeleton, Typography } from "@mui/material"
 import { getDetail } from "../../../components/fetchData"
 import DetailPoster from '../../../detail/DetailPoster';
 import { useAppSelector } from '../../../redux/hooks';
@@ -11,6 +11,8 @@ import DetailCredit from '../../../detail/DetailCredit';
 import DetailMedia from '../../../detail/DetailMedia';
 import DetailCollection from '../../../detail/DetailCollection';
 import DetailCompany from '../../../detail/DetailCompany';
+import { Home } from '@mui/icons-material';
+import { grey } from '@mui/material/colors';
 
 
 export default function DetailPage({params} : {params : {id : string}}) {
@@ -30,18 +32,54 @@ export default function DetailPage({params} : {params : {id : string}}) {
                 mt : '7rem',
                 textAlign : 'center'}}>
                 <Box 
-                    textAlign={'start'}
-                    width={"100%"}>
-                    <Typography
-                        fontWeight='bold' 
-                        variant='h2'>
-                        {detail ? detail.title : <Skeleton variant='text' width={'50%'}/>}
-                    </Typography>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontStyle : 'italic' }}>
-                        {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
-                    </Typography>
+                    display="flex" 
+                    flexDirection="row"
+                    alignItems="center">
+                    <Box 
+                        textAlign={'start'}
+                        width={"85%"}>
+                        <Typography
+                            fontWeight='bold' 
+                            variant='h2'>
+                            {detail ? detail.title : <Skeleton variant='text' width={'50%'}/>}
+                        </Typography>
+                        <Typography
+                            variant='h6'
+                            sx={{ fontStyle : 'italic' }}>
+                            {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
+                        </Typography>
+                    </Box>
+                    <Link
+                        href={detail && detail.homepage}
+                        target='_blank'
+                        rel='noreferrer'>
+                        <Box 
+                            display="flex"
+                            flexDirection="column"
+                            borderRadius={4}
+                            bgcolor={themeYn.theme ? grey[800] : grey[200]}
+                            alignItems="center"
+                            justifyContent="center"
+                            width="4rem"
+                            height="4rem"
+                            sx={{
+                                ":hover" : {
+                                    bgcolor : themeYn.theme ? grey[700] : grey[300] },
+                                my : 1,
+                                cursor : 'pointer'
+                            }}>
+                            <Home
+                                sx={{   width : "2rem", 
+                                        height : "2rem",
+                                        color : themeYn.theme ? 'white' : 'black'
+                                        }}/>
+                            <Typography 
+                                sx={{ fontSize : '10px', color : themeYn.theme ? 'white' : 'black'}}>
+                                HomePage
+                            </Typography>
+                        </Box>
+                    </Link>
+                    
                 </Box>
                 <Box 
                     display="flex" 

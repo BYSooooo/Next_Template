@@ -79,7 +79,8 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                         ":hover" : {
                                             cursor : 'pointer'
                                         }
-                                    }}>
+                                    }}
+                                    key={item.id}>
                                     {item.poster_path 
                                     ? (
                                         <img
