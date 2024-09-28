@@ -11,8 +11,7 @@ import DetailCredit from '../../../detail/DetailCredit';
 import DetailMedia from '../../../detail/DetailMedia';
 import DetailCollection from '../../../detail/DetailCollection';
 import DetailCompany from '../../../detail/DetailCompany';
-import { Home } from '@mui/icons-material';
-import { grey } from '@mui/material/colors';
+import DetailExternalLink from '../../../detail/DetailExternalLink';
 
 
 export default function DetailPage({params} : {params : {id : string}}) {
@@ -49,72 +48,7 @@ export default function DetailPage({params} : {params : {id : string}}) {
                             {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
                         </Typography>
                     </Box>
-                    {detail?.homepage ? (
-                        <Link
-                            href={detail && detail.homepage }
-                            target='_blank'
-                            rel='noreferrer'>
-                            <Box 
-                                display="flex"
-                                flexDirection="column"
-                                borderRadius={4}
-                                bgcolor={themeYn.theme ? grey[800] : grey[200]}
-                                alignItems="center"
-                                justifyContent="center"
-                                width="4rem"
-                                height="4rem"                      sx={{
-                                    ":hover" : {
-                                        bgcolor : themeYn.theme ? grey[700] : grey[300] },
-                                    my : 1,
-                                    cursor : 'pointer'
-                                }}>
-                                <Home
-                                    sx={{   width : "2rem", 
-                                            height : "2rem",
-                                            color : themeYn.theme ? 'white' : 'black'
-                                            }}/>
-                                <Typography 
-                                    sx={{ fontSize : '10px', color : themeYn.theme ? 'white' : 'black'}}>
-                                    HomePage
-                                </Typography>
-                            </Box>
-                        </Link>
-                    ) : (
-                        <Box 
-                            display="flex"
-                            flexDirection="column"
-                            borderRadius={4}
-                            bgcolor={themeYn.theme ? grey[800] : grey[200]}
-                            alignItems="center"
-                            justifyContent="center"
-                            width="4rem"
-                            height="4rem">
-                                <Typography flexWrap={'wrap'} fontSize='13px' color={themeYn.theme ? 'white' : 'black'} >
-                                    No 
-                                    Hompage
-                                </Typography>
-                        </Box>        
-                    )}
-                    {/* {   detail?.imdb_id ? (
-                        <Link href={``}
-                            target='_blank'
-                            rel='noreferrer'>
-                            <Box>        
-                                vdisplay="flex"
-                                flexDirection="column"
-                                borderRadius={4}
-                                bgcolor={themeYn.theme ? grey[800] : grey[200]}
-                                alignItems="center"
-                                justifyContent="center"
-                                width="4rem"
-                                height="4rem"    
-                            <Box>
-                        <Link>
-
-                        ) : (
-                            <></>
-                        )
-                    } */}
+                    <DetailExternalLink theme={themeYn.theme} detail={detail && detail} />
                 </Box>
                 <Box 
                     display="flex" 
