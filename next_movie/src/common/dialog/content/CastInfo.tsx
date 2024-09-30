@@ -3,9 +3,9 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { getPerson } from '../../../components/fetchData';
-import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Skeleton, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Link, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { controlDialog } from '../../../redux/features';
-import { CalendarMonth, Groups3, Movie, Public } from '@mui/icons-material';
+import { CalendarMonth, Groups3, Home, InsertLink, Movie, Public } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/navigation';
 
@@ -119,16 +119,36 @@ export default function CastInfo({theme} : {theme : boolean}) {
                     {person 
                     ?(
                         <>
-                            <Box display="flex" flexDirection="row" mb={1}>
+                            <Box display="flex" flexDirection="row" mb={1} width="100%">
                                 <img 
                                     style={{ borderRadius : 5, width : "8rem"}}
                                     src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
                                 />
                                 <Box display="flex" flexDirection="column" rowGap={1}
                                     sx={{ mx : 2}}>
-                                    <Typography variant='h5' fontWeight="bold">
-                                        {person.name}
-                                    </Typography>
+                                    <Box display="flex" flexDirection='row' textAlign='center'>
+                                        <Typography variant='h5' fontWeight="bold" mr={1}>
+                                            {person.name}
+                                        </Typography>
+                                        {person.homepage && 
+                                            <Link 
+                                                href={person.homepage}
+                                                target='_blank'
+                                                rel='noreferrer'>
+                                                <Home 
+                                                    sx={{ mr : 1, color : theme ? 'white' : 'black'}}/>
+                                            </Link>
+                                        }
+                                        {person.imdb_id && 
+                                            <Link 
+                                                href={`https://www.imdb.com/name/${person.imdb_id}`}
+                                                target='_blank'
+                                                rel='noreferrer'>
+                                                <InsertLink sx={{ color : theme ? 'white' : 'black'}}/>
+                                            </Link>
+                                        }
+                                        
+                                    </Box>
                                     <Chip 
                                         component="span"
                                         sx={{ width : 'fit-content', borderRadius : 3}}
