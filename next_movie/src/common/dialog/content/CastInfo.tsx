@@ -89,17 +89,26 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                         />
 
                                     ):(
-                                        <Box 
-                                            height="100%"
-                                            display="flex" 
-                                            flexDirection='column'
-                                            justifyContent="center" 
-                                            alignItems='center'>
-                                            <Movie />
-                                            <Typography variant='caption' noWrap overflow={'inherit'}>
-                                                {item.title}
-                                            </Typography>
-                                        </Box>
+                                    
+                                    <Box 
+                                        height="100%"
+                                        display="flex" 
+                                        flexDirection='column'
+                                        justifyContent="center" 
+                                        alignItems='center'
+                                        sx={{
+                                            ':hover' : {
+                                                cursor : 'pointer',
+                                                bgcolor : theme ? grey[700] : grey[300]
+                                            },
+                                            bgcolor : theme ? grey[800] : grey[200] 
+                                        }}
+                                        onClick={()=>onClickMovie(item.id)}>
+                                        <Movie />
+                                        <Typography variant='caption' overflow={'inherit'}>
+                                            {item.title}
+                                        </Typography>
+                                    </Box>
                                     )}
                                 </ImageListItem>
                             )
@@ -200,7 +209,6 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                 
                             </Box>
                         </>
-
                     ):(
                         <>
                             <Box display="flex" flexDirection="row" >

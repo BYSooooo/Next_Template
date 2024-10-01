@@ -1,8 +1,8 @@
-import { Add } from "@mui/icons-material";
-import { Box, Card, CardMedia, Typography } from "@mui/material";
+import { Add, VideocamOff } from "@mui/icons-material";
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import ReactPlayer from "react-player";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 
 export default function DetailVideoList({theme,path}: {theme: boolean, path : MovieDetail }) {
@@ -12,26 +12,47 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
     const onClickMoreVideo =()=> {
         dispatch(controlDialog({openYn : true, name : "Media", extraInfo : path}))
     }
-
+    
     return(
         <Box width="100%" display="flex" flexDirection="row">
             <Box width="90%" overflow="scroll" display='flex' flexDirection='row'>
-                {idxArray.map((item)=> {
-                    return (
-                        <Card key={item.id} sx={{ my : 1, mr : 1, borderRadius : 4 }}>
-                            {item &&
-                                <CardMedia>
-                                <ReactPlayer
-                                    width="auto"
-                                    height="14.2rem"
-                                    url={`https://www.youtube.com/watch?v=${item.key}`}
-                                    controls={true}
-                                />
-                                </CardMedia>
-                            }
-                        </Card>
-                    )
-                })}
+                {idxArray.length > 0 ? (
+                    idxArray.map((item)=> {
+                        return (
+                            <Card key={item.id}
+                                sx={{ my : 1, mr : 1, borderRadius : 4 }}>
+                                {item &&
+                                    <CardMedia>
+                                    <ReactPlayer
+                                        width="auto"
+                                        height="14.2rem"
+                                        url={`https://www.youtube.com/watch?v=${item.key}`}
+                                        controls={true}
+                                    />
+                                    </CardMedia>
+                                }
+                            </Card>
+                        )
+                    })
+                ):(
+                    <Card
+                        sx={{
+                            width : '20rem',
+                            height : '14.2rem',
+                            textAlign : 'center',
+                            justifyContent : 'conter',
+                            my : 1, mr :1, borderRadius : 4}}>
+                        <CardContent>
+                            <VideocamOff 
+                                sx={{ width : "8rem", height : "8rem"}}/>
+                            <Typography>
+                                No Video
+                            </Typography>
+                        
+                        </CardContent>       
+                    </Card>  
+                )}
+                
             </Box> 
             <Box
                 display='flex'
