@@ -1,5 +1,5 @@
-import { Add } from "@mui/icons-material";
-import { Box, ImageList, ImageListItem, Link, Typography } from "@mui/material";
+import { Add, ImageNotSupported } from "@mui/icons-material";
+import { Box, Card, ImageList, ImageListItem, Link, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
@@ -47,26 +47,27 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                             )
                         })
                     ):(
-                        <ImageListItem
-                            sx={{
-                                width : 130,
-                                height : '100%',
-                                borderRadius : 4,
-                                overflow : 'hidden',
-                                display : 'inline-flex',
-                                my : 1,
-                                mr : 1}}>
-                            <Box 
-                                sx={{
-                                    width : 780
-                                }}>
-                                <Typography>
-                                    No Image
-                                </Typography>
-
-                            </Box>
+                        <ImageListItem 
+                            sx={{width : '20rem',
+                                height : '14.2rem',
+                                textAlign : 'center',
+                                alignItems : 'center',
+                                justifyContent : 'center',
+                                my : 1, mr :1, borderRadius : 4}}>
+                                <Box
+                                    display='flex'
+                                    flexDirection='column' 
+                                    alignItems='center' justifyContent='center' height="100%">
+                                    <ImageNotSupported
+                                        sx={{ width : "6rem", height : "6rem"}}/>
+                                    <Typography>
+                                        No Video
+                                    </Typography>
+                                </Box>
 
                         </ImageListItem>
+                            
+                        
                     )}
                 </ImageList>
             </Box>

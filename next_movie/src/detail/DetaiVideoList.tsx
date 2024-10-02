@@ -40,16 +40,20 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
                             width : '20rem',
                             height : '14.2rem',
                             textAlign : 'center',
-                            justifyContent : 'conter',
+                            alignItems : 'center',
+                            justifyContent : 'center',
                             my : 1, mr :1, borderRadius : 4}}>
-                        <CardContent>
-                            <VideocamOff 
-                                sx={{ width : "8rem", height : "8rem"}}/>
-                            <Typography>
-                                No Video
-                            </Typography>
+                            <Box
+                                display='flex'
+                                flexDirection='column' 
+                                alignItems='center' justifyContent='center' height="100%">
+                                <VideocamOff 
+                                    sx={{ width : "6rem", height : "6rem"}}/>
+                                <Typography>
+                                    No Video
+                                </Typography>
+                            </Box>
                         
-                        </CardContent>       
                     </Card>  
                 )}
                 
