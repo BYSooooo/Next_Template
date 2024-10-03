@@ -29,7 +29,7 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                 <Box>
                     <ImageList
                         gap={10} 
-                        cols={path && selectedSort.length}>
+                        cols={path && ( selectedSort.length > 10 ?  selectedSort.length : 10)}>
                         {selectedSort.length > 0 && 
                             selectedSort.map((info : any )=> {
                                 return ( info && (

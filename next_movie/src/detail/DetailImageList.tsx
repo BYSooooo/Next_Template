@@ -47,51 +47,54 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                             )
                         })
                     ):(
-                        <ImageListItem 
-                            sx={{width : '20rem',
-                                height : '14.2rem',
-                                textAlign : 'center',
-                                alignItems : 'center',
-                                justifyContent : 'center',
-                                my : 1, mr :1, borderRadius : 4}}>
-                                <Box
-                                    display='flex'
-                                    flexDirection='column' 
-                                    alignItems='center' justifyContent='center' height="100%">
+                        <ImageListItem>
+                            <Card
+                                sx={{
+                                    width : '20rem',
+                                    height : '14.2rem',
+                                    textAlign : 'center',
+                                    alignItems : 'center',
+                                    justifyContent : 'center',
+                                    my : 1, mr :1, borderRadius : 4}}>
+                                    <Box
+                                        display='flex'
+                                        width='130'
+                                        flexDirection='column' 
+                                        alignItems='center' justifyContent='center' height="100%">
                                     <ImageNotSupported
                                         sx={{ width : "6rem", height : "6rem"}}/>
                                     <Typography>
-                                        No Video
+                                        No Image
                                     </Typography>
                                 </Box>
-
+                            </Card>
                         </ImageListItem>
-                            
-                        
                     )}
                 </ImageList>
             </Box>
-            <Box
-                display='flex'
-                flexDirection='column'
-                borderRadius={4}
-                bgcolor={theme ? grey[800] : grey[200]} 
-                alignItems='center'
-                justifyContent='center'
-                width="10%"
-                sx={{ ":hover" : {
-                    cursor : 'pointer',
-                    bgcolor : theme ? grey[700] : grey[300] },
-                    my : 1,
-                    mr : 2
-                }}
-                onClick={()=>onClickMoreImage()}
-                >
-                <Add />
-                <Typography variant="h6" fontWeight='bold'>
-                    More
-                </Typography>
-            </Box>  
+            {initImageArr.length > 0 &&
+                <Box
+                    display='flex'
+                    flexDirection='column'
+                    borderRadius={4}
+                    bgcolor={theme ? grey[800] : grey[200]} 
+                    alignItems='center'
+                    justifyContent='center'
+                    width="10%"
+                    sx={{ ":hover" : {
+                        cursor : 'pointer',
+                        bgcolor : theme ? grey[700] : grey[300] },
+                        my : 1,
+                        mr : 2
+                    }}
+                    onClick={()=>onClickMoreImage()}
+                    >
+                    <Add />
+                    <Typography variant="h6" fontWeight='bold'>
+                        More
+                    </Typography>
+                </Box> 
+            }
         </Box>
     )
 }
