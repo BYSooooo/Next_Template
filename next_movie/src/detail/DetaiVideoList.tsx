@@ -15,7 +15,7 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
     
     return(
         <Box width="100%" display="flex" flexDirection="row">
-            <Box width="90%" overflow="scroll" display='flex' flexDirection='row' mt={2} mb={2}>
+            <Box overflow="scroll" display='flex' flexDirection='row'>
                 {idxArray.length > 0 ? (
                     idxArray.map((item)=> {
                         return (
@@ -53,11 +53,10 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
                                     No Video
                                 </Typography>
                             </Box>
-                        
                     </Card>  
                 )}
             </Box>
-            {idxArray.length > 0 &&
+            {/* {idxArray.length > 0 &&
                 <Box
                     display='flex'
                     flexDirection='column'
@@ -79,7 +78,7 @@ export default function DetailVideoList({theme,path}: {theme: boolean, path : Mo
                         More
                     </Typography>
                 </Box>  
-            } 
+            }  */}
         </Box>
     )
 }

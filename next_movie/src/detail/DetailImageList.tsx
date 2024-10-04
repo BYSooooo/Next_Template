@@ -72,8 +72,8 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                     )}
                 </ImageList>
             </Box>
-            {initImageArr.length > 0 &&
-                <Box
+        
+                {/* <Box
                     display='flex'
                     flexDirection='column'
                     borderRadius={4}
@@ -93,8 +93,8 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                     <Typography variant="h6" fontWeight='bold'>
                         More
                     </Typography>
-                </Box> 
-            }
+                </Box>  */}
+            
         </Box>
     )
 }
