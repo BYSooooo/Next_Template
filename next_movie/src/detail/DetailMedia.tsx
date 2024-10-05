@@ -3,6 +3,8 @@ import { Box, colors, Tab, Tabs, Typography } from "@mui/material";
 import DetailVideoList from './DetaiVideoList';
 import DetailImageList from './DetailImageList';
 import { grey } from '@mui/material/colors';
+import { useAppDispatch } from '../redux/hooks';
+import { controlDialog } from '../redux/features';
 
 
 const TabPanel = (props : {children? : React.ReactNode, index : number, value : number} )=> {
@@ -21,8 +23,13 @@ const TabPanel = (props : {children? : React.ReactNode, index : number, value : 
 
 export default function DetailMedia({theme, path} : {theme : boolean, path : MovieDetail}) {
     const [index, setIndex] = React.useState(0)
+    const dispatch = useAppDispatch();
     const handleChange = (event : React.SyntheticEvent, newValue : number)=> {
         setIndex(newValue)
+    }
+
+    const onClickMediaMore = ()=> {
+        dispatch(controlDialog({ openYn : true, name : "Media", extraInfo : path}))
     }
 
     const tabStyle : React.CSSProperties = {
@@ -66,13 +73,18 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
             </Box>
             <Box 
                 display="flex" 
-                width="10%">
-                <Box display='flex'
+                width="10%"
+                alignItems='end'>
+                <Box 
+                    display='flex'
                     flexDirection='column'
                     borderRadius={4}
                     bgcolor={theme ? grey[800] : grey[200]} 
                     alignItems='center'
                     justifyContent='center'
+                    height="70%"
+                    width="70%"
+                    onClick={onClickMediaMore}
                     sx={{ ":hover" : {
                         bgcolor : theme ? grey[700] : grey[300] },
                         my : 1,

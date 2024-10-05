@@ -71,30 +71,7 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
                         </ImageListItem>
                     )}
                 </ImageList>
-            </Box>
-        
-                {/* <Box
-                    display='flex'
-                    flexDirection='column'
-                    borderRadius={4}
-                    bgcolor={theme ? grey[800] : grey[200]} 
-                    alignItems='center'
-                    justifyContent='center'
-                    width="10%"
-                    sx={{ ":hover" : {
-                        cursor : 'pointer',
-                        bgcolor : theme ? grey[700] : grey[300] },
-                        my : 1,
-                        mr : 2
-                    }}
-                    onClick={()=>onClickMoreImage()}
-                    >
-                    <Add />
-                    <Typography variant="h6" fontWeight='bold'>
-                        More
-                    </Typography>
-                </Box>  */}
-            
+            </Box>        
         </Box>
     )
 }
