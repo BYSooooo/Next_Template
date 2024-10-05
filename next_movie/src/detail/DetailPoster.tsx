@@ -17,7 +17,11 @@ export default function DetailPoster({theme, path} : {theme : boolean, path : st
                     
                     src={`https://image.tmdb.org/t/p/w500${path}&fit=crop`}/>
             ) : (
-                <Skeleton variant="rectangular" width="13rem" height={"20rem"}/>
+                <Skeleton 
+                    variant="rectangular" 
+                    width="13rem" 
+                    height={"20rem"}
+                />
             )} 
         
         </Box>

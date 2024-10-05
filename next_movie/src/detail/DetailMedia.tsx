@@ -2,6 +2,9 @@ import React from 'react';
 import { Box, colors, Tab, Tabs, Typography } from "@mui/material";
 import DetailVideoList from './DetaiVideoList';
 import DetailImageList from './DetailImageList';
+import { grey } from '@mui/material/colors';
+import { useAppDispatch } from '../redux/hooks';
+import { controlDialog } from '../redux/features';
 
 
 const TabPanel = (props : {children? : React.ReactNode, index : number, value : number} )=> {
@@ -20,8 +23,13 @@ const TabPanel = (props : {children? : React.ReactNode, index : number, value : 
 
 export default function DetailMedia({theme, path} : {theme : boolean, path : MovieDetail}) {
     const [index, setIndex] = React.useState(0)
+    const dispatch = useAppDispatch();
     const handleChange = (event : React.SyntheticEvent, newValue : number)=> {
         setIndex(newValue)
+    }
+
+    const onClickMediaMore = ()=> {
+        dispatch(controlDialog({ openYn : true, name : "Media", extraInfo : path}))
     }
 
     const tabStyle : React.CSSProperties = {
@@ -32,12 +40,13 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
     }
     return (
         <Box 
-            display='row'
+            display='flex'
             textAlign='start' 
+            flexDirection='row'
             sx={{
                 px : 2
             }}>
-            <Box display='flex' flexDirection='column'>
+            <Box display='flex' flexDirection='column' width="90%">
                 <Box display="flex" flexDirection='column' alignItems='start'>
                     <Typography 
                         variant="h6" 
@@ -61,6 +70,30 @@ export default function DetailMedia({theme, path} : {theme : boolean, path : Mov
                         </Box>
                     </TabPanel>
                 </Box>    
+            </Box>
+            <Box 
+                display="flex" 
+                width="10%"
+                alignItems='end'>
+                <Box 
+                    display='flex'
+                    flexDirection='column'
+                    borderRadius={4}
+                    bgcolor={theme ? grey[800] : grey[200]} 
+                    alignItems='center'
+                    justifyContent='center'
+                    height="70%"
+                    width="70%"
+                    onClick={onClickMediaMore}
+                    sx={{ ":hover" : {
+                        bgcolor : theme ? grey[700] : grey[300] },
+                        my : 1,
+                        cursor : 'pointer'
+                    }}>
+                    <Typography>
+                        More
+                    </Typography>
+                </Box>
             </Box>
 
         </Box>

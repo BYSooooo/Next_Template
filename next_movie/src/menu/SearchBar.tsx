@@ -1,6 +1,7 @@
 "use client"
 
-import { TextField } from "@mui/material";
+import { Search } from "@mui/icons-material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 
 export default function SearchBar() {
     
@@ -23,7 +24,12 @@ export default function SearchBar() {
             margin="none"
             hiddenLabel
             variant="filled"
-            size="small"
-        />
+            size="small">
+            <InputAdornment position="end">
+                <IconButton edge='end'>
+                    <Search />
+                </IconButton>
+            </InputAdornment>
+        </TextField>
     )
 }

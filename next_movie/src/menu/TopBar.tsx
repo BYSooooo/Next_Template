@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { GitHub, Home } from '@mui/icons-material';
+
+import { GitHub } from '@mui/icons-material';
 import { AppBar, Link } from '@mui/material';
 import ModeSwitch from './ModeSwitch';
+import HomeIcon from './HomeIcon';
 import ModeIcon from './ModeIcon';
 import SearchBar from './SearchBar';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
@@ -21,7 +23,7 @@ export default function TopBar() {
                         justifyContent : 'start',
                         alignItems : 'center'
                     }}>
-                    <Home />
+                    <HomeIcon />
                 </Grid>
                 <Grid 
                     container

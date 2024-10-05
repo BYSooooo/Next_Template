@@ -101,10 +101,14 @@ type ImageInfo = {
 }
 
 type CompanyInfo = {
-    id              : number;
-    logo_path       : string;
-    name            : string;
-    origin_country  : string;
+    description : string,
+    headquarters : string,
+    homepage : string,
+    id : number,
+    logo_path : string,
+    name : string,
+    origin_country : string,
+    parent_company : string | null
 }
 
 type VideoInfo = {
@@ -148,4 +152,15 @@ type CollectionInfo = {
     overview : string,
     parts : MovieDetail[],
     poster_path : string
+}
+
+type CompanyDetail = {
+    description : string,
+    headquarters : string,
+    homepage : string,
+    id : number,
+    logo_path : string,
+    name : string,
+    origin_country : string,
+    parent_company : string | null
 }
