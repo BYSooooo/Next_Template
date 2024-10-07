@@ -1,12 +1,23 @@
 "use client"
 
+import React, { ChangeEvent } from 'react';
 import { Search } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { IconButton, Input, InputAdornment, TextField } from "@mui/material";
+
 
 export default function SearchBar() {
-    
+    const [inputValue, setInputValue] = React.useState("");
+
+    const onClickSearch = ()=> {
+
+    }
+
+    const onChangeSearchInput = (event : ChangeEvent<HTMLInputElement>)=> {
+        setInputValue(event.target.value)
+    }
+
     return (
-        <TextField
+        <Input
             sx={{
                 '& .MuiInputBase-input' : {
                     width : '13rem',
@@ -16,20 +27,21 @@ export default function SearchBar() {
                     }
                 }
             }}
-            // onKeyDown={(event)=> {
-            //     (event.key === 'Enter' && setKeyDown(true))
-            // }}
-            placeholder="Search Movie..."
+            onChange={onChangeSearchInput}
+            value={inputValue}
+            placeholder="Search"
             color="primary"
-            margin="none"
-            hiddenLabel
-            variant="filled"
-            size="small">
-            <InputAdornment position="end">
-                <IconButton edge='end'>
+            size="small"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton 
+                    size="small"
+                    edge="start"
+                    onClick={onClickSearch}>
                     <Search />
                 </IconButton>
-            </InputAdornment>
-        </TextField>
+              </InputAdornment>  
+            }>
+        </Input>
     )
 }
