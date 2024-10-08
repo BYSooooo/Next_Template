@@ -83,3 +83,14 @@ export async function getCompany(id: number) {
         throw new Error(`Failed to Fetch Company ID : ${id}`)
     }
 }
+
+export async function getSearchResult(keyword: string){
+    try {
+        const response = await (await fetch(`/api/movies/search/${keyword}`)).json()
+        console.log(response)
+        return response
+    } catch(error) {
+        console.log(error)
+        throw new Error(`Failed to Fetch Search Movie : ${keyword}`)
+    }
+};

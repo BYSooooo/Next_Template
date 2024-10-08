@@ -3,13 +3,14 @@
 import React, { ChangeEvent } from 'react';
 import { Search } from "@mui/icons-material";
 import { IconButton, Input, InputAdornment, TextField } from "@mui/material";
+import { useRouter } from 'next/navigation';
 
 
 export default function SearchBar() {
     const [inputValue, setInputValue] = React.useState("");
-
+    const router = useRouter();
     const onClickSearch = ()=> {
-
+        router.push(`/search/${inputValue.trim()}`)
     }
 
     const onChangeSearchInput = (event : ChangeEvent<HTMLInputElement>)=> {
