@@ -5,9 +5,10 @@ import { Container, Typography } from "@mui/material";
 import { getSearchResult } from "../../../components/fetchData";
 
 export default  function SearchPage({params} : { params : {keyword : string}}) {
+    const [resultList, setResultList] = React.useState()
     
     React.useEffect(()=> {
-        getSearchResult(params.keyword)
+        getSearchResult(`&query=${params.keyword}`)
             .then((result)=> {
                 console.log(result)
             })
