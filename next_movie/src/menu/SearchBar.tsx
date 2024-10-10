@@ -2,26 +2,30 @@
 
 import React, { ChangeEvent } from 'react';
 import { Search } from "@mui/icons-material";
-import { ClickAwayListener, IconButton, Input, InputAdornment, TextField } from "@mui/material";
+import { IconButton, Input, InputAdornment, TextField } from "@mui/material";
 import { useRouter } from 'next/navigation';
-import MoviePopper from '../common/popper/MoviePopper';
-
 
 export default function SearchBar() {
     const [inputValue, setInputValue] = React.useState("");
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement|null>(null)
+    const [inputStatus, setInputStatus] = React.useState(false)
     const router = useRouter();
-    const clickAwayHandler = ()=> setAnchorEl(null)
+    
+    React.useEffect(()=> {
+        setInputStatus(false);
+    },[])
 
     const onClickSearch = (event : React.MouseEvent<HTMLElement>)=> {
-        inputValue.trim().length > 0
-        ? router.push(`/search/${inputValue.trim()}`)
-        : setAnchorEl(event.currentTarget)
-        
+        if(inputValue.trim().length > 0) {
+            router.push(`/search/${inputValue.trim()}`)
+            setInputStatus(false)
+        } else {
+            setInputStatus(true)
+        }
     }
 
     const onChangeSearchInput = (event : ChangeEvent<HTMLInputElement>)=> {
         setInputValue(event.target.value)
+        setInputStatus(false)
     }
 
     return (
@@ -40,6 +44,7 @@ export default function SearchBar() {
             placeholder="Search"
             color="primary"
             size="small"
+            error={inputStatus}
             endAdornment={
               <InputAdornment position="end">
                     <IconButton 
