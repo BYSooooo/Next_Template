@@ -164,3 +164,10 @@ type CompanyDetail = {
     origin_country : string,
     parent_company : string | null
 }
+
+type SearchResult = {
+    page: number,
+    results : MovieOverview[],
+    total_pages : number,
+    total_results : number
+}

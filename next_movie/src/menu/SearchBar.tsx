@@ -11,6 +11,7 @@ export default function SearchBar() {
     const router = useRouter();
     
     React.useEffect(()=> {
+        setInputStatus(false);
     },[])
 
     const onClickSearch = (event : React.MouseEvent<HTMLElement>)=> {
@@ -45,14 +46,14 @@ export default function SearchBar() {
             size="small"
             error={inputStatus}
             endAdornment={
-              <InputAdornment position="end">
+                <InputAdornment position="end">
                     <IconButton 
                         size="small"
                         edge="start"
                         onClick={(e)=>onClickSearch(e)}>
                         <Search />
                     </IconButton>
-              </InputAdornment>  
+                </InputAdornment>  
             }>
         </Input>
     )
