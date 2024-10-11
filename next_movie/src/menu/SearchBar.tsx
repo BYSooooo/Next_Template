@@ -11,7 +11,6 @@ export default function SearchBar() {
     const router = useRouter();
     
     React.useEffect(()=> {
-        setInputStatus(false);
     },[])
 
     const onClickSearch = (event : React.MouseEvent<HTMLElement>)=> {
