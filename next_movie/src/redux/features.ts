@@ -55,14 +55,27 @@ export const searchSlice = createSlice({
     }
 })
 
+export const searchKeywordSlice = createSlice({
+    name : 'keywordReducer',
+    initialState : "",
+    reducers : {
+        // Set Keyword
+        setSearchKeyword : (state, action : PayloadAction<string>) => {
+            state = action.payload
+        }
+    }
+})
+
 export const { setTheme } = themeSlice.actions;
 export const { controlDialog } = dialogSlice.actions;
 export const { initGenreList } = genreSlice.actions;
-export const { setSearchResult, addSearchResult } = searchSlice.actions;
+export const { setSearchResult } = searchSlice.actions;
+export const { setSearchKeyword } = searchKeywordSlice.actions;
 
 export default [
     themeSlice.reducer,
     dialogSlice.reducer,
     genreSlice.reducer,
-    searchSlice.reducer
+    searchSlice.reducer,
+    searchKeywordSlice.reducer
 ]

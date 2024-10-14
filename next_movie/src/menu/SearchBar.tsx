@@ -16,7 +16,7 @@ export default function SearchBar() {
 
     const onClickSearch = (event : React.MouseEvent<HTMLElement>)=> {
         if(inputValue.trim().length > 0) {
-            router.push(`/search/${inputValue.trim()}`)
+            router.push(`/search/${inputValue.trim()}/1`)
             setInputStatus(false)
         } else {
             setInputStatus(true)
