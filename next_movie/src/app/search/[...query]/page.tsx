@@ -1,14 +1,16 @@
 "use client"
 
 import React from 'react';
-import { Box, Container, List, ListItem, Typography } from "@mui/material";
+import { Box, Button, Container, List, ListItem, Typography } from "@mui/material";
 import { getSearchResult } from "../../../components/fetchData";
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
+import { grey } from '@mui/material/colors';
+import SearchItem from '../../../search/SearchItem';
 
 export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
-    const theme = useAppSelector((state)=> state.themeReducer).theme;
+    const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
@@ -26,24 +28,35 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                 mt : '5rem',
                 alignItems: 'center'}}>
                 <Box textAlign='start'>
-                    <Typography variant='h5' fontWeight='bold'>
+                    <Typography variant='h4' fontWeight='bold'>
                         Keyword : {params.query[0]}
                     </Typography>
                     <Box display="flex" flexDirection="row">
-                        <Box>
-                            <Typography>
-                                All Result : {searchReducer[0]?.total_results}
-                            </Typography>
+                        <Box
+                            width="20%" 
+                            height="20rem"
+                            sx={{
+                                borderRadius : 4,
+                                bgcolor : themeYn ? grey[700] : grey[300],
+                                p : 2
+                            }}>
+                            <Button>
+                                
+                                    Movie : {searchReducer[0]?.total_results}
+                                
+
+                            </Button>
                         </Box>
-                        <List>
-                            {searchReducer[0]?.results.map((item : MovieOverview)=> {
-                                return (
-                                    <ListItem>
-                                        {item.id}
-                                    </ListItem>   
-                                )
-                            })}
-                        </List>
+                        <Box width="80%">
+                            <List>
+                                {searchReducer[0]?.results.map((item : MovieOverview)=> {
+                                    return (
+                                        <SearchItem key={item.id} inform={item} theme={themeYn} />
+                                    )
+                                })}
+                            </List>
+
+                        </Box>
                     </Box>
                     {searchReducer[0]?.results.length}
                 </Box>
