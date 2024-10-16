@@ -14,7 +14,7 @@ export default function SearchBar() {
         setInputStatus(false);
     },[])
 
-    const onClickSearch = (event : React.MouseEvent<HTMLElement>)=> {
+    const onClickSearch = ()=> {
         if(inputValue.trim().length > 0) {
             router.push(`/search/${inputValue.trim()}/1`)
             setInputStatus(false)
@@ -27,6 +27,8 @@ export default function SearchBar() {
         setInputValue(event.target.value)
         setInputStatus(false)
     }
+
+    
 
     return (
         <Input
@@ -41,6 +43,9 @@ export default function SearchBar() {
             }}
             onChange={onChangeSearchInput}
             value={inputValue}
+            onKeyDown={(event)=> {
+                event.key === 'Enter' && onClickSearch()
+            }}
             placeholder="Search"
             color="primary"
             size="small"
@@ -50,7 +55,7 @@ export default function SearchBar() {
                     <IconButton 
                         size="small"
                         edge="start"
-                        onClick={(e)=>onClickSearch(e)}>
+                        onClick={onClickSearch}>
                         <Search />
                     </IconButton>
                 </InputAdornment>  

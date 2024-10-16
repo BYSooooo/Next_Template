@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
 import { grey } from '@mui/material/colors';
 import SearchItem from '../../../search/SearchItem';
+import ResultOverview from '../../../search/ResultOverview';
 
 export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
@@ -29,24 +30,10 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                 alignItems: 'center'}}>
                 <Box textAlign='start'>
                     <Typography variant='h4' fontWeight='bold'>
-                        Keyword : {params.query[0]}
+                        Keyword : {decodeURIComponent(params.query[0])}
                     </Typography>
                     <Box display="flex" flexDirection="row">
-                        <Box
-                            width="20%" 
-                            height="20rem"
-                            sx={{
-                                borderRadius : 4,
-                                bgcolor : themeYn ? grey[700] : grey[300],
-                                p : 2
-                            }}>
-                            <Button>
-                                
-                                    Movie : {searchReducer[0]?.total_results}
-                                
-
-                            </Button>
-                        </Box>
+                        <ResultOverview theme={themeYn} />
                         <Box width="80%">
                             <List>
                                 {searchReducer[0]?.results.map((item : MovieOverview)=> {
