@@ -86,9 +86,10 @@ export async function getCompany(id: number) {
 
 export async function getSearchResult(keyword: string){
     try {
-        const response = await (await fetch(`/api/movies/search/${keyword}`)).json()
-        console.log(response)
-        return response
+        const movieResponse = await (await fetch(`/api/movies/search/${keyword}`)).json()
+        const collectionResponse = await (await fetch(`/api/collection/search/${keyword}`)).json();
+        const companyResponse = await ( await fetch(`/api/person/search/${keyword}`)).json()
+        return { movie : movieResponse, collection : collectionResponse}
     } catch(error) {
         console.log(error)
         throw new Error(`Failed to Fetch Search Movie : ${keyword}`)

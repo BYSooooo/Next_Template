@@ -13,10 +13,12 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
+
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
-            .then((result : SearchResult[])=> {
-                dispatch(setSearchResult(result))
+            .then((result : {movie : MovieOverview, collection :CollectionInfo})=> {
+                console.log(result)
+                // dispatch(setSearchResult(result))
             })
     },[])
 

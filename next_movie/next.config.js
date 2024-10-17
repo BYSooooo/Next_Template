@@ -41,6 +41,10 @@ const nextConfig = {
             {
                 source : "/api/movies/search/:query",
                 destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}:query`
+            },
+            {
+                source : "/api/collection/search/:query",
+                destination : `https://api.themoviedb.org/3/search/collection?api_key=${API_KEY}:query`
             }
 
         ]
