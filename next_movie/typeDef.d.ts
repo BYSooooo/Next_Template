@@ -165,9 +165,14 @@ type CompanyDetail = {
     parent_company : string | null
 }
 
-type SearchResult = {
-    page: number,
-    results : MovieOverview[],
-    total_pages : number,
-    total_results : number
+type PersonOverview = {
+    adult : boolean,
+    gender : number,
+    id : number,
+    known_for : Array,
+    known_for_department : string,
+    name : string,
+    original_name : string,
+    popularity : number,
+    profile_path : string
 }

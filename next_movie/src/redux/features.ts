@@ -42,15 +42,18 @@ export const genreSlice = createSlice({
 
 export const searchSlice = createSlice({
     name : 'searchReducer',
-    initialState : [],
+    initialState : {
+        movie : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        person : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        company : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        collection : { page : 0, results : []  ,total_pages : 0, total_results : 0 }
+    },
     reducers : {
-        // Search First Time
-        setSearchResult:(state, action: PayloadAction<SearchResult[]>)=> {
-            state.splice(0, state.length, action.payload);   
-        },
-        // Add Search Result to state when add new Search
-        addSearchResult : (state, action : PayloadAction<SearchResult[]>)=> {
-            state.push(action.payload)
+        setSearchResult : (state, action : PayloadAction<any>) => {
+            state.movie = action.payload.movie
+            state.person = action.payload.person
+            state.company = action.payload.company
+            state.collection = action.payload.collection
         }
     }
 })

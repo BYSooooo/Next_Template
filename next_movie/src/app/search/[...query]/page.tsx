@@ -16,9 +16,12 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
 
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
-            .then((result : {movie : MovieOverview, collection :CollectionInfo, company : CompanyInfo})=> {
-                console.log(result)
-                // dispatch(setSearchResult(result))
+            .then((result : {
+                movie : MovieOverview, 
+                collection : CollectionInfo, 
+                company : CompanyInfo, 
+                person : PersonOverview })=> {
+                dispatch(setSearchResult(result))
             })
     },[])
 
