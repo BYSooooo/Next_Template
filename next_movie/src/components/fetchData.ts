@@ -1,3 +1,5 @@
+import CastInfo from "../common/dialog/content/CastInfo";
+
 export async function getPopular() {
     try {
         const response = await (await fetch('/api/movies/popular')).json();
@@ -83,3 +85,21 @@ export async function getCompany(id: number) {
         throw new Error(`Failed to Fetch Company ID : ${id}`)
     }
 }
+
+export async function getSearchResult(keyword: string){
+    try {
+        const movieResponse = await (await fetch(`/api/movies/search/movie/${keyword}`)).json()
+        const collectionResponse = await (await fetch(`/api/movies/search/collection/${keyword}`)).json();
+        const companyResponse = await ( await fetch(`/api/movies/search/company/${keyword}`)).json()
+        const personResponse = await (await fetch(`/api/movies/search/person/${keyword}`)).json()
+        return { 
+            movie : movieResponse, 
+            collection : collectionResponse, 
+            company : companyResponse,
+            person : personResponse
+        }
+    } catch(error) {
+        console.log(error)
+        throw new Error(`Failed to Fetch Search Movie : ${keyword}`)
+    }
+};

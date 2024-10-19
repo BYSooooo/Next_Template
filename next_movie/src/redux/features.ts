@@ -40,12 +40,45 @@ export const genreSlice = createSlice({
     }
 })
 
+export const searchSlice = createSlice({
+    name : 'searchReducer',
+    initialState : {
+        movie : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        person : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        company : { page : 0, results : []  ,total_pages : 0, total_results : 0 },
+        collection : { page : 0, results : []  ,total_pages : 0, total_results : 0 }
+    },
+    reducers : {
+        setSearchResult : (state, action : PayloadAction<any>) => {
+            state.movie = action.payload.movie
+            state.person = action.payload.person
+            state.company = action.payload.company
+            state.collection = action.payload.collection
+        }
+    }
+})
+
+export const searchKeywordSlice = createSlice({
+    name : 'keywordReducer',
+    initialState : "",
+    reducers : {
+        // Set Keyword
+        setSearchKeyword : (state, action : PayloadAction<string>) => {
+            state = action.payload
+        }
+    }
+})
+
 export const { setTheme } = themeSlice.actions;
 export const { controlDialog } = dialogSlice.actions;
 export const { initGenreList } = genreSlice.actions;
+export const { setSearchResult } = searchSlice.actions;
+export const { setSearchKeyword } = searchKeywordSlice.actions;
 
 export default [
     themeSlice.reducer,
     dialogSlice.reducer,
-    genreSlice.reducer
+    genreSlice.reducer,
+    searchSlice.reducer,
+    searchKeywordSlice.reducer
 ]
