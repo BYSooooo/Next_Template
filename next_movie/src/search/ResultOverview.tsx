@@ -4,12 +4,16 @@ import { Box, Chip, List, ListItem, ListItemButton, ListItemText } from "@mui/ma
 import { grey } from "@mui/material/colors";
 import { useAppSelector } from "../redux/hooks";
 
-export default function ResultOverview({theme} : {theme : boolean}) {
+export default function ResultOverview({theme, selectedSort} : {theme : boolean, selectedSort : Function}) {
     const searchReducer = useAppSelector((state)=> state.searchReducer);
-    const [selected, setSelected] = React.useState(0);
-    const handleListItemClick = (index : number)=> {
-        setSelected(index)
+    const [selected, setSelected] = React.useState("movie");
+    const handleListItemClick = (selList : string)=> {
+        setSelected(selList)
     }
+
+    React.useEffect(()=> {
+        selectedSort(selected)
+    },[selected])
 
     return (
         <Box
@@ -21,38 +25,50 @@ export default function ResultOverview({theme} : {theme : boolean}) {
                 p : 2
             }}> 
             <List>
-                <ListItem disablePadding>
+                <ListItem
+                    sx={{ my : 1}} 
+                    disablePadding>
                     <ListItemButton
-                        selected={selected === 0} 
-                        onClick={()=> handleListItemClick(0)}
+                        disabled={searchReducer.movie.total_results === 0 ? true : false}
+                        selected={selected === "movie"} 
+                        onClick={()=> handleListItemClick("movie")}
                         sx={{ borderRadius : 4}}>
                         <ListItemText primary="Movie"/>
                         <Chip label={searchReducer.movie.total_results} size="small"/>
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem 
+                    sx={{ my : 1}}
+                    disablePadding>
                     <ListItemButton
-                        selected={selected === 1} 
+                        disabled={searchReducer.person.total_results === 0 ? true : false}
+                        selected={selected === "person"} 
                         sx={{ borderRadius : 4}}
-                        onClick={()=>handleListItemClick(1)}>
+                        onClick={()=>handleListItemClick("person")}>
                         <ListItemText primary="Person" />
                         <Chip label={searchReducer.person.total_results} size="small"/>
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem
+                    sx={{ my : 1}} 
+                    disablePadding>
                     <ListItemButton
-                        selected={selected === 2} 
+                        disabled={searchReducer.collection.total_results === 0 ? true : false}
+                        selected={selected === "collection"} 
                         sx={{ borderRadius : 4}}
-                        onClick={()=> handleListItemClick(2)}>
+                        onClick={()=> handleListItemClick("collection")}>
                         <ListItemText primary="Collection" />
                         <Chip label={searchReducer.collection.total_results} size="small" />
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem
+                    sx={{ my : 1}} 
+                    disablePadding>
                     <ListItemButton
-                        selected={selected === 3} 
+                        disabled={searchReducer.company.total_results === 0 ? true : false}
+                        selected={selected === "company"} 
                         sx={{ borderRadius : 4}}
-                        onClick={()=> handleListItemClick(3)}>
+                        onClick={()=> handleListItemClick("company")}>
                         <ListItemText primary="Company" />
                         <Chip label={searchReducer.company.total_results} size="small"/>
                     </ListItemButton>

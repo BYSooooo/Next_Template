@@ -1,11 +1,10 @@
 "use client"
 
 import React from 'react';
-import { Box, Button, Container, List, ListItem, Typography } from "@mui/material";
+import { Box, Container, List, Typography } from "@mui/material";
 import { getSearchResult } from "../../../components/fetchData";
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
-import { grey } from '@mui/material/colors';
 import SearchItem from '../../../search/SearchItem';
 import ResultOverview from '../../../search/ResultOverview';
 
@@ -13,6 +12,7 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
+    const [selection, setSelection] = React.useState<any>()
 
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
@@ -24,6 +24,10 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                 dispatch(setSearchResult(result))
             })
     },[])
+
+    const onChangeSort = (selection : string)=> {
+        setSelection(searchReducer[selection])
+    }
 
 
     return (
@@ -38,13 +42,14 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                         Keyword : {decodeURIComponent(params.query[0])}
                     </Typography>
                     <Box display="flex" flexDirection="row">
-                        <ResultOverview theme={themeYn} />
+                        <ResultOverview theme={themeYn} selectedSort={onChangeSort}/>
                         <Box width="80%">
                             <List>
-                                {searchReducer[0]?.results.map((item : MovieOverview)=> {
-                                    return (
-                                        <SearchItem key={item.id} inform={item} theme={themeYn} />
-                                    )
+                                {selection?.results.map((item)=> {
+                                    <Typography>
+                                        {item.id}
+
+                                    </Typography>
                                 })}
                             </List>
 
