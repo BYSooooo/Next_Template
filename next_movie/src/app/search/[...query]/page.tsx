@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { Box, Container, List, Typography } from "@mui/material";
+import { Box, Container, List, ListItem, Typography } from "@mui/material";
 import { getSearchResult } from "../../../components/fetchData";
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
@@ -13,6 +13,7 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
     const [selection, setSelection] = React.useState<any>()
+    const [sort, setSort] = React.useState("")
 
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
@@ -25,8 +26,9 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
             })
     },[])
 
-    const onChangeSort = (selection : string)=> {
-        setSelection(searchReducer[selection])
+    const onChangeSort = (selectedSort : string)=> {
+        setSelection(searchReducer[selectedSort])
+        setSort(selectedSort)
     }
 
 
@@ -45,11 +47,10 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                         <ResultOverview theme={themeYn} selectedSort={onChangeSort}/>
                         <Box width="80%">
                             <List>
-                                {selection?.results.map((item)=> {
-                                    <Typography>
-                                        {item.id}
-
-                                    </Typography>
+                                {selection?.results.map((item:any)=> {
+                                    return (
+                                        <SearchItem key={item.id} theme={themeYn} sort={sort} item={item}/>
+                                    )
                                 })}
                             </List>
 
