@@ -12,8 +12,7 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
-    const [selection, setSelection] = React.useState<any>()
-    const [sort, setSort] = React.useState("")
+    const [selected, setSelected] = React.useState("movie");
 
     React.useEffect(()=> {
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
@@ -26,10 +25,7 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
             })
     },[])
 
-    const onChangeSort = (selectedSort : string)=> {
-        setSelection(searchReducer[selectedSort])
-        setSort(selectedSort)
-    }
+    const onChangeSort = (selectedSort : string)=> setSelected(selectedSort);
 
 
     return (
@@ -47,9 +43,9 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                         <ResultOverview theme={themeYn} selectedSort={onChangeSort}/>
                         <Box width="80%">
                             <List>
-                                {selection?.results.map((item:any)=> {
+                                {searchReducer[selected]?.results.map((item:any)=> {
                                     return (
-                                        <SearchItem key={item.id} theme={themeYn} sort={sort} item={item}/>
+                                        <SearchItem key={item.id} theme={themeYn} sort={selected} item={item}/>
                                     )
                                 })}
                             </List>

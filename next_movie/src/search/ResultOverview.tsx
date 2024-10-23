@@ -19,6 +19,7 @@ export default function ResultOverview({theme, selectedSort} : {theme : boolean,
         <Box
             width="20%" 
             height="20rem"
+            mt="2rem"
             sx={{
                 borderRadius : 4,
                 bgcolor : theme ? grey[700] : grey[300],
