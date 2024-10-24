@@ -22,7 +22,7 @@ export default function ResultOverview({theme, selectedSort} : {theme : boolean,
             mt="2rem"
             sx={{
                 borderRadius : 4,
-                bgcolor : theme ? grey[700] : grey[300],
+                bgcolor : theme ? grey[900] : grey[100],
                 p : 2
             }}> 
             <List>
