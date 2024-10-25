@@ -47,32 +47,32 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
         }
     }
 
-    const chipHandler =()=> {
-        switch (sort) {
-            case 'movie' : 
-                return (
-                    <Chip 
+    // const chipHandler =()=> {
+    //     switch (sort) {
+    //         case 'movie' : 
+    //             return (
+    //                 <Chip 
                         
-                        size='small'
-                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
-                        component={'span'}
-                        icon={<CalendarMonth />}
-                        label={itemContent?.chips}
-                    />
-                )
-            case 'person' : 
-                return (
-                    <Chip 
-                        size='small'
-                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
-                        component={'span'}
-                        icon={<AssignmentInd />}
-                        label={itemContent?.chips}
-                    />
-                )
-            default : break;
-        }
-    }
+    //                     size='small'
+    //                     sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+    //                     component={'span'}
+    //                     icon={<CalendarMonth />}
+    //                     label={itemContent?.chips}
+    //                 />
+    //             )
+    //         case 'person' : 
+    //             return (
+    //                 <Chip 
+    //                     size='small'
+    //                     sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+    //                     component={'span'}
+    //                     icon={<AssignmentInd />}
+    //                     label={itemContent?.chips}
+    //                 />
+    //             )
+    //         default : break;
+    //     }
+    // }
 
     return (
         <ListItem>
@@ -113,7 +113,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                     <Typography variant="h6" fontWeight="Bold">
                         {itemContent?.title}
                     </Typography>
-                    {chipHandler()}
+                    {/* {chipHandler()} */}
                     <Box
                         width={"80%"} 
                         height={"60%"}
