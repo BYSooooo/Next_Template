@@ -140,12 +140,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                     variant='contained'>
                     More
                 </Button>
-
             </Box>
-            
-            {/* <Typography variant='h5'>
-                {detail.title}
-            </Typography> */}
         </Box>    
     )
 }

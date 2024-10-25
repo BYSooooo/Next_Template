@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, ListItem, Skeleton, Typography } from "@mui/material";
+import { Box, Chip, ListItem, Skeleton, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { Photo } from '@mui/icons-material';
+import { AssignmentInd, Business, CalendarMonth, Photo } from '@mui/icons-material';
 
 export default function SearchItem({theme, sort, item} : {theme : boolean, sort : string, item : any}) {
-    const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : any[]}>()
+    const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : string}>()
 
     React.useEffect(()=> {
         posterHandler()
@@ -17,10 +17,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                     poster : item.poster_path, 
                     title : item.title, 
                     overview : item.overview,
-                    chips : [{
-                        genres_ids : item.genres_ids as string[], 
-                        release_date : item.release_date as string,
-                    }]
+                    chips : item.release_date 
                 })
                 break;
             case "person" : 
@@ -28,10 +25,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                     poster : item.profile_path, 
                     title : item.name, 
                     overview : "",
-                    chips : [{
-                        known_for_department : item.known_for_department as string,
-                        gender : item.gender as string,
-                    }]
+                    chips : item.known_for_department
                 })
                 break;
             case "collection" : 
@@ -46,17 +40,39 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                     poster : item.logo_path, 
                     title : item.name, 
                     overview : item.description,
-                    chips : [{
-                        original_country : item.original_country as string|null,
-                        headquarters : item.headquarters as string
-                    }]
+                    chips : item.headquarters 
                 })
                 break;
             default : break;
         }
     }
 
-    
+    const chipHandler =()=> {
+        switch (sort) {
+            case 'movie' : 
+                return (
+                    <Chip 
+                        
+                        size='small'
+                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+                        component={'span'}
+                        icon={<CalendarMonth />}
+                        label={itemContent?.chips}
+                    />
+                )
+            case 'person' : 
+                return (
+                    <Chip 
+                        size='small'
+                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+                        component={'span'}
+                        icon={<AssignmentInd />}
+                        label={itemContent?.chips}
+                    />
+                )
+            default : break;
+        }
+    }
 
     return (
         <ListItem>
@@ -97,9 +113,21 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                     <Typography variant="h6" fontWeight="Bold">
                         {itemContent?.title}
                     </Typography>
-                    <Box>
-                        {}
+                    {chipHandler()}
+                    <Box
+                        width={"80%"} 
+                        height={"60%"}
+                        borderRadius={3}
+                        p={1}
+                        bgcolor={theme ? grey[800]: grey[200] }>
+                        <Typography 
+                            noWrap
+                            textOverflow={"ellipsis"}
+                            variant={"subtitle2"}>
+                            {itemContent?.overview}
+                        </Typography>
                     </Box>
+                    
                 </Box>
                 
             </Box>
