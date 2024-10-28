@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Chip, ListItem, Skeleton, Typography } from "@mui/material";
+import { Box, Chip, ListItem, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { AssignmentInd, Business, CalendarMonth, Photo } from '@mui/icons-material';
+import { AssignmentInd, CalendarMonth, Photo } from '@mui/icons-material';
 
 export default function SearchItem({theme, sort, item} : {theme : boolean, sort : string, item : any}) {
     const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : string}>()
@@ -47,35 +47,46 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
         }
     }
 
-    // const chipHandler =()=> {
-    //     switch (sort) {
-    //         case 'movie' : 
-    //             return (
-    //                 <Chip 
+    const chipHandler =()=> {
+        switch (sort) {
+            case 'movie' : 
+                return (
+                    <Chip 
                         
-    //                     size='small'
-    //                     sx={{ width : 'fit-content', px : 0.5, mb : 2}}
-    //                     component={'span'}
-    //                     icon={<CalendarMonth />}
-    //                     label={itemContent?.chips}
-    //                 />
-    //             )
-    //         case 'person' : 
-    //             return (
-    //                 <Chip 
-    //                     size='small'
-    //                     sx={{ width : 'fit-content', px : 0.5, mb : 2}}
-    //                     component={'span'}
-    //                     icon={<AssignmentInd />}
-    //                     label={itemContent?.chips}
-    //                 />
-    //             )
-    //         default : break;
-    //     }
-    // }
+                        size='small'
+                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+                        component={'span'}
+                        icon={<CalendarMonth />}
+                        label={itemContent?.chips}
+                    />
+                )
+            case 'person' : 
+                return (
+                    <Chip 
+                        size='small'
+                        sx={{ width : 'fit-content', px : 0.5, mb : 2}}
+                        component={'span'}
+                        icon={<AssignmentInd />}
+                        label={itemContent?.chips}
+                    />
+                )
+            default : break;
+        }
+    }
+
+    const onClickItem = ()=> {
+        alert("Clicked")
+    }
 
     return (
-        <ListItem>
+        <ListItem 
+            sx={{
+                ":hover" : {
+                    cursor : 'pointer',
+                    opacity : '70%'
+                }
+            }}
+            onClick={onClickItem}>
             <Box
                 bgcolor={theme ? grey[900] : grey[100]}
                 borderRadius={4}
@@ -109,27 +120,35 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                 <Box 
                     display={"flex"} 
                     flexDirection={"column"}
-                    width="80%">
+                    width="100%">
                     <Typography variant="h6" fontWeight="Bold">
                         {itemContent?.title}
                     </Typography>
-                    {/* {chipHandler()} */}
+                    {chipHandler()}
                     <Box
-                        width={"80%"} 
-                        height={"60%"}
+                        width="100%"
+                        height="50%"
                         borderRadius={3}
                         p={1}
                         bgcolor={theme ? grey[800]: grey[200] }>
                         <Typography 
-                            noWrap
-                            textOverflow={"ellipsis"}
-                            variant={"subtitle2"}>
-                            {itemContent?.overview}
+                            sx={{
+                                overflow : 'hidden',
+                                textOverflow : 'ellipsis',
+                                display : '-webkit-box',
+                                WebkitLineClamp : '2',
+                                WebkitBoxOrient : 'vertical'
+                            }}>
+                            {itemContent && (
+                                itemContent?.overview?.length ? (
+                                    itemContent?.overview
+                                ) : (
+                                    "* No Overview"
+                                )
+                            )}
                         </Typography>
-                    </Box>
-                    
+                    </Box>    
                 </Box>
-                
             </Box>
         </ListItem>
     )
