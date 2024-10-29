@@ -2,10 +2,14 @@ import React from 'react';
 import { Box, Chip, ListItem, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { AssignmentInd, CalendarMonth, Photo } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '../redux/hooks';
+import { controlDialog } from '../redux/features';
 
 export default function SearchItem({theme, sort, item} : {theme : boolean, sort : string, item : any}) {
     const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : string}>()
-
+    const dispatch = useAppDispatch();
+    const router = useRouter();
     React.useEffect(()=> {
         posterHandler()
     },[])
@@ -75,7 +79,21 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
     }
 
     const onClickItem = ()=> {
-        alert("Clicked")
+        switch(sort) {
+            case "movie" : 
+                router.push(`/detail/${item.id}`)
+                break;
+            case "person" : 
+                dispatch(controlDialog({ openYn : true, name : "Cast", extraInfo : item.id}))
+                break;
+            case "collection" : 
+                dispatch(controlDialog({ openYn : true, name : "Collection", extraInfo : item.id}))
+                break;
+            case "company" :
+                dispatch(controlDialog({ openYn : true, name : "Company", extraInfo : item.id}))
+                break;
+            default : break;
+        }   
     }
 
     return (
