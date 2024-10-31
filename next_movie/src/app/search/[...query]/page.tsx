@@ -27,16 +27,16 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
 
     const onChangeSort = (selectedSort : string)=> setSelected(selectedSort);
 
-    const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
-        getSearchResult(`&query=${params.query[0]}&page=${value}`)
-            .then((result : {
-                movie : MovieOverview, 
-                collection : CollectionInfo, 
-                company : CompanyInfo, 
-                person : PersonOverview })=> {
-                dispatch(setSearchResult(result))
-            })
-    }
+    // const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
+    //     getSearchResult(`&query=${params.query[0]}&page=${value}`)
+    //         .then((result : {
+    //             movie : MovieOverview, 
+    //             collection : CollectionInfo, 
+    //             company : CompanyInfo, 
+    //             person : PersonOverview })=> {
+    //             dispatch(setSearchResult(result))
+    //         })
+    // }
     return (
         <Container fixed
             sx={{
@@ -65,11 +65,11 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                                 justifyContent="center"
                                 display="flex"
                                 mb={2}>
-                                <Pagination 
+                                {/* <Pagination 
                                     count={searchReducer[selected]?.total_pages} 
                                     size="large" 
                                     onChange={onChangePagination}
-                                />
+                                /> */}
                             </Box>
                         </Box>
                     </Box>
