@@ -25,11 +25,6 @@ export default function CastInfo({theme} : {theme : boolean}) {
             })
     },[])
     
-
-    const onClickClose =()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))
-    };
-
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}))
         router.push(`/detail/${id}`)   
@@ -227,11 +222,6 @@ export default function CastInfo({theme} : {theme : boolean}) {
                         
 
             </DialogContent>
-            <DialogActions>
-                <Button onClick={()=>onClickClose()}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }

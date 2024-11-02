@@ -10,10 +10,6 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
     const dialogReducer = useAppSelector((state)=> state.dialogReducer.extraInfo)
     const router = useRouter();
 
-    const onClickClose = ()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))    
-    }
-
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}));
         router.push(`/detail/${id}`)
@@ -98,11 +94,6 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                     </ImageList>
                 </Box>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={()=> onClickClose()}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }
