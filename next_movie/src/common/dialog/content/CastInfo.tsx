@@ -219,8 +219,6 @@ export default function CastInfo({theme} : {theme : boolean}) {
                             <Skeleton variant='rounded' width="100%" height="6rem" sx={{ mt : 2}}/>
                         </>
                     )}
-                        
-
             </DialogContent>
         </>
     )
