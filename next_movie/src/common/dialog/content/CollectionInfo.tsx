@@ -40,8 +40,11 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                                 Preview
                             </Typography>
                             <Box
-                                borderRadius={4}
-                                bgcolor={theme ? grey[800] : grey[200]}
+                                borderRadius={3}
+                                width="100%"
+                                height="12rem"
+                                overflow="scroll"
+                                bgcolor={theme ? grey[700] : grey[300]}
                                 sx={{ p : 2 }}>
                                 <Typography >
                                     {dialogReducer.overview}
