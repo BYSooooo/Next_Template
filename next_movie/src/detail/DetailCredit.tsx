@@ -41,6 +41,7 @@ export default function DetailCredit({theme, path,sort} : {theme : boolean, path
                                                 overflow : 'hidden',
                                                 ":hover" : {
                                                     cursor : 'pointer',
+                                                    opacity : "0.8"
                                                 }
                                             }}
                                             key={info.id}>

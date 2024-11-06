@@ -67,11 +67,12 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                 <ImageListItem
                                     sx={{
                                         width : 60,
-                                        borderRadius : 4,
+                                        borderRadius : 2,
                                         overflow : 'hidden',
                                         display : 'inline-flex',
                                         mx : 0.5,
                                         ":hover" : {
+                                            opacity : "0.8",
                                             cursor : 'pointer'
                                         }
                                     }}
