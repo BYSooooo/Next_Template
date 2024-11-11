@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useTheme } from 'next-themes';
 
 export default function Toggle() {
     const [enabled, setEnabled] = React.useState(false)
+    const { theme, setTheme } = useTheme();
 
     return (
         <div className="relative flex flex-col items-center justify-center overflow-hidden">
