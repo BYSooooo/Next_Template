@@ -1,10 +1,8 @@
-
 import Toggle from '../component/Toggle';
 import HomeButton from '../component/HomeButton';
 export default function Header() {    
     return (
-        <header 
-            className='
+        <header className='
                 flex 
                 bg-blue-600 dark:bg-gray-700 
                 h-12
