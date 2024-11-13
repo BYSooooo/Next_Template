@@ -114,13 +114,18 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                                 sx={{ 
                                     background : themeYn.theme ? grey[800] : grey[200],
                                     p : 1,
-                                    width : "80%",
+                                    width : "100%",
                                     borderRadius : 3,
                                     display : 'inline-block'
                                 }}>
                                 <Typography 
                                     variant='subtitle2'
-                                    noWrap={false}>
+                                    sx={{
+                                        overflow : 'hidden',
+                                        textOverflow : 'ellipsis',
+                                        display : '-webkit-box',
+                                        WebkitLineClamp : '4',
+                                        WebkitBoxOrient : 'vertical'}}>
                                     {selMovie.overview}
                                 </Typography>
                             </Box>
@@ -140,12 +145,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                     variant='contained'>
                     More
                 </Button>
-
             </Box>
-            
-            {/* <Typography variant='h5'>
-                {detail.title}
-            </Typography> */}
         </Box>    
     )
 }

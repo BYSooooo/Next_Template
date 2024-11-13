@@ -25,11 +25,6 @@ export default function CastInfo({theme} : {theme : boolean}) {
             })
     },[])
     
-
-    const onClickClose =()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))
-    };
-
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}))
         router.push(`/detail/${id}`)   
@@ -72,11 +67,12 @@ export default function CastInfo({theme} : {theme : boolean}) {
                                 <ImageListItem
                                     sx={{
                                         width : 60,
-                                        borderRadius : 4,
+                                        borderRadius : 2,
                                         overflow : 'hidden',
                                         display : 'inline-flex',
                                         mx : 0.5,
                                         ":hover" : {
+                                            opacity : "0.8",
                                             cursor : 'pointer'
                                         }
                                     }}
@@ -224,14 +220,7 @@ export default function CastInfo({theme} : {theme : boolean}) {
                             <Skeleton variant='rounded' width="100%" height="6rem" sx={{ mt : 2}}/>
                         </>
                     )}
-                        
-
             </DialogContent>
-            <DialogActions>
-                <Button onClick={()=>onClickClose()}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }

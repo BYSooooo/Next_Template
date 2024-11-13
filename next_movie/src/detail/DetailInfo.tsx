@@ -88,7 +88,13 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                     bgcolor={innerBoxStyle}
                                     borderRadius={4}
                                     onClick={genreBoxClick}
-                                    sx={{ p : 1,}}>
+                                    sx={{ 
+                                        p : 1,
+                                        ":hover" : {
+                                            cursor : "pointer",
+                                            opacity : "0.8"
+                                        }
+                                    }}>
                                     <Typography 
                                         variant="subtitle2" 
                                         textAlign='start'
@@ -112,7 +118,13 @@ export default function DetailInfo({theme,path}:{theme: boolean, path : MovieDet
                                     bgcolor={innerBoxStyle}
                                     borderRadius={4}
                                     onClick={langBoxClick}
-                                    sx={{ p : 1}}>
+                                    sx={{ 
+                                        p : 1,
+                                        ":hover" : {
+                                            cursor : "pointer",
+                                            opacity : "0.8"
+                                        }
+                                    }}>
                                     <Typography
                                         variant="subtitle2"
                                         textAlign='start'

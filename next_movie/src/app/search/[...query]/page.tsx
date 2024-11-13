@@ -1,11 +1,10 @@
 "use client"
 
 import React from 'react';
-import { Box, Button, Container, List, ListItem, Typography } from "@mui/material";
+import { Box, Container, List, ListItem, Pagination, Typography } from "@mui/material";
 import { getSearchResult } from "../../../components/fetchData";
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
-import { grey } from '@mui/material/colors';
 import SearchItem from '../../../search/SearchItem';
 import ResultOverview from '../../../search/ResultOverview';
 
@@ -13,8 +12,11 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
     const dispatch = useAppDispatch();
     const themeYn = useAppSelector((state)=> state.themeReducer).theme;
     const searchReducer  = useAppSelector((state)=> state.searchReducer);
+    const [selected, setSelected] = React.useState("movie");
+    const [page, setPage] = React.useState(1)
 
     React.useEffect(()=> {
+        setPage(1)
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
             .then((result : {
                 movie : MovieOverview, 
@@ -23,9 +25,24 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                 person : PersonOverview })=> {
                 dispatch(setSearchResult(result))
             })
-    },[])
+    },[selected])
 
+    const onChangeSort = (selectedSort : string)=> {
+        setSelected(selectedSort);
 
+    }
+
+    const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
+        setPage(value)
+        getSearchResult(`&query=${params.query[0]}&page=${value}`)
+            .then((result : {
+                movie : MovieOverview, 
+                collection : CollectionInfo, 
+                company : CompanyInfo, 
+                person : PersonOverview })=> {
+                dispatch(setSearchResult(result))
+            })
+    }
     return (
         <Container fixed
             sx={{
@@ -38,19 +55,32 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
                         Keyword : {decodeURIComponent(params.query[0])}
                     </Typography>
                     <Box display="flex" flexDirection="row">
-                        <ResultOverview theme={themeYn} />
+                        <ResultOverview theme={themeYn} selectedSort={onChangeSort}/>
                         <Box width="80%">
-                            <List>
-                                {searchReducer[0]?.results.map((item : MovieOverview)=> {
-                                    return (
-                                        <SearchItem key={item.id} inform={item} theme={themeYn} />
-                                    )
-                                })}
-                            </List>
-
+                            <Box width="100%">
+                                <List>
+                                    {searchReducer[selected]?.results.map((item:any)=> {
+                                        return (
+                                            <SearchItem key={item.id} theme={themeYn} sort={selected} item={item}/>
+                                        )
+                                    })}
+                                </List>
+                            </Box>
+                            <Box 
+                                width="100%" 
+                                justifyContent="center"
+                                display="flex"
+                                mb={2}>
+                                <Pagination 
+                                    page={page}
+                                    count={searchReducer[selected]?.total_pages} 
+                                    size="large" 
+                                    onChange={onChangePagination}
+                                />
+                            </Box>
                         </Box>
                     </Box>
-                    {searchReducer[0]?.results.length}
+
                 </Box>
         </Container>
     )

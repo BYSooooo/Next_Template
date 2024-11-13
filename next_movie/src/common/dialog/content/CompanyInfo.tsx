@@ -13,10 +13,6 @@ export default function CompanyInfo({theme} : {theme : boolean}) {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const onClickClose = ()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}));
-    }
-
     return (
         <>
             <DialogTitle>
@@ -117,11 +113,6 @@ export default function CompanyInfo({theme} : {theme : boolean}) {
                     </Box>
                 </Box>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClickClose}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }

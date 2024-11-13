@@ -14,7 +14,7 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
 
     return (
         <Box width="100%" display="flex" flexDirection="row">
-            <Box width="90%" overflow="scroll" display="flex" flexDirection="row">
+            <Box width="100%" overflow="scroll" display="flex" flexDirection="row">
                 <ImageList cols={20}>
                     {initImageArr.length > 0 ? (
                         initImageArr.map((img)=> {

@@ -15,10 +15,6 @@ export default function MediaInfo({theme} : {theme: boolean }) {
     
     const dialogReducer = useAppSelector((state)=> state.dialogReducer).extraInfo;
     const dispatch = useAppDispatch();
-    
-    const onClickClose = ()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))
-    }
 
     const TabPanel =(props : {children? : React.ReactNode, index : number, value : number})=> {
         const { children, value, index, ...other} = props;
@@ -192,11 +188,6 @@ export default function MediaInfo({theme} : {theme: boolean }) {
                     </Box>
                 </Box>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={()=> onClickClose()}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }

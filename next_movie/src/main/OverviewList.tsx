@@ -72,6 +72,7 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
                                             overflow : 'hidden',
                                             ":hover" : {
                                                 cursor : 'pointer',
+                                                opacity : "0.8"
                                             }}}
                                         key={movie.id}
                                         >

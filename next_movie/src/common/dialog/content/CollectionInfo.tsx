@@ -10,10 +10,6 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
     const dialogReducer = useAppSelector((state)=> state.dialogReducer.extraInfo)
     const router = useRouter();
 
-    const onClickClose = ()=> {
-        dispatch(controlDialog({ openYn : false, name : ""}))    
-    }
-
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}));
         router.push(`/detail/${id}`)
@@ -44,8 +40,11 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                                 Preview
                             </Typography>
                             <Box
-                                borderRadius={4}
-                                bgcolor={theme ? grey[800] : grey[200]}
+                                borderRadius={3}
+                                width="100%"
+                                height="12rem"
+                                overflow="scroll"
+                                bgcolor={theme ? grey[700] : grey[300]}
                                 sx={{ p : 2 }}>
                                 <Typography >
                                     {dialogReducer.overview}
@@ -98,11 +97,6 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                     </ImageList>
                 </Box>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={()=> onClickClose()}>
-                    Close
-                </Button>
-            </DialogActions>
         </>
     )
 }
