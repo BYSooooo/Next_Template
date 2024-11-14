@@ -12,7 +12,7 @@ const config: Config = {
   theme: {
     extend: {},
   },
-  darkMode : [ 'selector' ],
+  darkMode : [ 'class' ],
   plugins: [],
 }
 export default config
