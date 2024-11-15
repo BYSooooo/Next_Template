@@ -1,16 +1,17 @@
+import AuthList from "../main/AuthList";
+
 export default function Page() {
     return (
-
-      <div className="container mx-auto text-center">
+      <div className="container flex flex-col mx-auto w-max
+        text-center justify-center 
+        pt-10">
         <h1 className="text-3xl font-bold">
-          Welcome to Messenger
+          Sign In
         </h1>
         <h5>
-          Please Select for Login
+          Please Select Service
         </h5>
-        <div className="border-2 dark:border-gray-300 border-gray-700 rounded-xl">
-
-        </div>
+        <AuthList />
       </div>
     )
   }
