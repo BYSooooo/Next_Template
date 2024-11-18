@@ -1,4 +1,6 @@
-import { firebaseAuth } from '../../firebase-config'
+"use client"
+
+import AuthController from '../component/AuthController'
 
 export default function AuthList() {
 
@@ -6,7 +8,9 @@ export default function AuthList() {
         <div className="rounded-2xl border-2 w-96 mt-10 p-8
           dark:border-gray-300 
           border-gray-700">
-            <button className="rounded-full py-2 px-10 m-2
+            <button 
+                onClick={()=>AuthController("Google",null)}
+                className="rounded-full py-2 px-10 m-2
                 hover:cursor-pointer
                 border-2
                 border-blue-500
