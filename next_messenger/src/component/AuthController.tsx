@@ -7,6 +7,9 @@ export default async function AuthController(service : "Google" | "Github" | "Em
         switch(service) {
             case "Google" : 
                 await signInWithPopup(auth, new GoogleAuthProvider)
+                    .catch((error)=> {
+                        console.log(error)
+                    })
                 break;
             case "Github" :
                 await signInWithPopup(auth, new GithubAuthProvider)
