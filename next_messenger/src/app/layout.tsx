@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from "next"
 import Header from "../main/Header"
 import { ThemeProvider } from 'next-themes'
-import MessageToast from '../component/MessageToast'
+import StoreProvider from './StoreProvider'
 
 export const metadata: Metadata = {
   title : "Next Messenger | Next Template"
@@ -12,14 +12,15 @@ export default function RootLayout({children} : {children: React.ReactNode}) {
     return (
       <html lang="en" suppressHydrationWarning>
         <body>
-          <ThemeProvider 
-            attribute="class"
-            defaultTheme='system'
-            enableSystem>
-            <Header />
-            {children}
-            <MessageToast type="confirm"/>
-          </ThemeProvider>
+          <StoreProvider>
+            <ThemeProvider 
+              attribute="class"
+              defaultTheme='system'
+              enableSystem>
+              <Header />
+              {children}
+            </ThemeProvider>
+          </StoreProvider>
         </body>
       </html>
     )

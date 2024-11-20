@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 
-export default function MessageToast({type}:{type : "info" | "confirm" | "error"}) {
+export default function MessageToast({type, popYn}:{type : "info" | "confirm" | "error", popYn : boolean}) {
     
     const bgColorSwitcher = {
         info    : 'bg-blue-100 border-blue-500 text-blue-900',
@@ -12,9 +12,10 @@ export default function MessageToast({type}:{type : "info" | "confirm" | "error"
     return (
         <div 
             className={
-                `px-3 py-2 shadow-md z-50 mx-5
+                `absolute w-full px-3 py-2 shadow-md z-10
                 border-t-4
                 rounded-xl
+                transition duration-300
                 ${bgColorSwitcher[type]}
                 `}
             role="alert">
