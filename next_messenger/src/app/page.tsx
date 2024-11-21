@@ -13,7 +13,7 @@ export default function Page() {
           </h5>
           <AuthList />
         </div>
-        <MessageToast type="error" popYn={false}/>
+        <MessageToast/>
       </div>
     )
   }

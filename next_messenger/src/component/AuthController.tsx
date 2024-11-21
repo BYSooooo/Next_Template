@@ -1,7 +1,11 @@
 import { GithubAuthProvider, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../firebase-config";
+import { useAppDispatch } from "../redux/hooks";
+import { openMessageToast } from "../redux/features";
 
 export default async function AuthController(service : "Google" | "Github" | "Email" | "Test", email : string) {
+    const dispatch = useAppDispatch();
+
     const auth = firebaseAuth;
     try {
         switch(service) {
@@ -32,6 +36,7 @@ export default async function AuthController(service : "Google" | "Github" | "Em
                         console.log(result)
                     })
                     .catch((error)=> {
+                        dispatch(openMessageToast({type : "error", openYn : true, title : "Error Occured", content : error}))
                         console.log(error)
                     })
                 default : break;       

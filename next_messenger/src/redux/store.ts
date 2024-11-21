@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { toastSlice } from "./features";
 
 export const makeStore = ()=> {
     return configureStore({
         reducer : {
-
+            toastStore : toastSlice.reducer
         }
     })
 }
