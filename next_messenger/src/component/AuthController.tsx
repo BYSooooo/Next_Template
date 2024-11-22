@@ -1,45 +1,48 @@
 import { GithubAuthProvider, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../firebase-config";
-import { useAppDispatch } from "../redux/hooks";
-import { openMessageToast } from "../redux/features";
 
 export default async function AuthController(service : "Google" | "Github" | "Email" | "Test", email : string) {
-    const dispatch = useAppDispatch();
-
     const auth = firebaseAuth;
+
     try {
         switch(service) {
             case "Google" : 
-                await signInWithPopup(auth, new GoogleAuthProvider)
-                    .catch((error)=> {
-                        console.log(error)
+                await signInWithPopup(auth, new GoogleAuthProvider())
+                    .then((credential)=> {
+                        return { result : true, content : credential};
+                    }).catch((error)=> {
+                        return { result : false, content : error}
                     })
-                break;
             case "Github" :
-                await signInWithPopup(auth, new GithubAuthProvider)
+                signInWithPopup(auth, new GithubAuthProvider())
+                    .then((credential)=> {
+                        return { result : true, content : credential};
+                    })
+                    .catch((error)=> {
+                        return { result : false, content : error}
+                    })
             case "Email" : 
                 const setting = {
                     url : 'https://next-messenger-nine.vercel.app/',
                     handleCodeInApp : true
                 }
                 return sendSignInLinkToEmail(firebaseAuth, email, setting)
-                    .then(()=> {
-                        console.log(email)
+                    .then((credential)=> {
+                        return { result : true, content : credential};
                     })
                     .catch((error)=> {
-                        console.log(error)
+                        return { result : false, content : error};
                     });
                 
             case "Test" :
                 return signInWithEmailAndPassword(firebaseAuth, "test_user01@testemail.com", "Asdf!234")
-                    .then((result)=> {
-                        console.log(result)
+                    .then((credential)=> {
+                        return { result : true, content : credential};
                     })
                     .catch((error)=> {
-                        dispatch(openMessageToast({type : "error", openYn : true, title : "Error Occured", content : error}))
-                        console.log(error)
+                        return { result : false, content : error};
                     })
-                default : break;       
+              
         }
     } catch(error) {
         console.log(error)

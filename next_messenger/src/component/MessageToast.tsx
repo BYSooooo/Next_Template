@@ -1,16 +1,10 @@
 "use client";
 
-import React from 'react';
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 
 export default function MessageToast() {
-    const { type, openYn, title, content } = useAppSelector((state)=> state.toastStore)
-    const dispatch = useAppDispatch();
-
-    React.useEffect(()=> {
-
-    },[openYn])
+const { type, openYn, title, content } = useAppSelector((state)=> state.toastStore)
 
     const bgColorSwitcher = {
         info    : 'bg-blue-100 border-blue-500 text-blue-900',
@@ -19,17 +13,17 @@ export default function MessageToast() {
     }
 
     const transControl = {
-        toastOpen : "ease-out opacity-100 translate-y-0",
-        toastClose : "ease-in opacity-0 -translate-y-full"
+        toastOpen : "ease-out opacity-100 -translate-y-full",
+        toastClose : "ease-in opacity-0 translate-y-0"
     }
 
     return (
         <div 
             className={
-                `absolute w-full px-3 py-2 shadow-md z-10
+                `absolute w-full px-3 py-2 shadow-md z-10 
                 border-t-4
                 rounded-xl
-                transition duration-200
+                transition duration-300
                 ${bgColorSwitcher[type]}
                 ${transControl[openYn === true ? "toastOpen" : "toastClose"]}
                 `}
