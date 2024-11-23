@@ -16,16 +16,16 @@ export const toastSlice = createSlice({
         content : ""
     },
     reducers : {
-        openMessageToast : (state, action:PayloadAction<toastType>)=> {
+        controlMessageToast : (state, action:PayloadAction<toastType>)=> {
             state.type = action.payload.type,
             state.openYn = action.payload.openYn,
             state.title = action.payload.title,
             state.content = action.payload.content
-        }   
+        }
     }
 })
 
-export const { openMessageToast } = toastSlice.actions
+export const { controlMessageToast } = toastSlice.actions
 
 export default [
     toastSlice.reducer

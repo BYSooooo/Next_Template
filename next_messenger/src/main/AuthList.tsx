@@ -1,19 +1,22 @@
 "use client"
 
 import AuthController from '../component/AuthController'
-import { openMessageToast } from '../redux/features';
+import { controlMessageToast } from '../redux/features';
 import { useAppDispatch } from '../redux/hooks'
+import { useRouter } from 'next/navigation';
 
 export default function AuthList() {
     const dispatch = useAppDispatch();
+    const router = useRouter()
 
     const authHandler = (serviceType : "Google" | "Github" | "Email" | "Test", email : string )=> {
         AuthController(serviceType, "")
             .then((result)=> {
                 if(result.result) {
-
+                    console.log(result.result)
+                      router.push("/main")
                 }else {
-                    dispatch(openMessageToast({ type : 'error', title : "Login Canceled by User", content : result.content.message, openYn : true}))
+                    dispatch(controlMessageToast({ type : 'error', title : "Login Canceled by User", content : result.content.message, openYn : true}))
                 }         
             })
     }
@@ -57,7 +60,9 @@ export default function AuthList() {
             <h6 className="text-sm">
                 Access to Messenger using Test Account
             </h6>
-            <button className="rounded-full py-2 px-10 m-2
+            <button
+                onClick={()=>authHandler('Test', "")} 
+                className="rounded-full py-2 px-10 m-2
                 hover:cursor-pointer
                 border-2
                 border-purple-600

@@ -1,10 +1,30 @@
 "use client";
 
+import React from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { controlMessageToast } from "../redux/features";
 
 export default function MessageToast() {
-const { type, openYn, title, content } = useAppSelector((state)=> state.toastStore)
+    const { type, openYn, title, content } = useAppSelector((state)=> state.toastStore)
+    const toastRef = React.useRef<HTMLDivElement>(null);
+    const dispatch = useAppDispatch()
+    
+    React.useEffect(()=> {
+        const handleClick = (event : MouseEvent)=> {
+            console.log(event)
+            if(toastRef.current && !toastRef.current.contains(event.target as Node)) {
+                dispatch(controlMessageToast({ type : 'info', title : "", content : "", openYn : false}))
+            }
+        }
+        document.addEventListener("click", handleClick, true);
+
+        return ()=> {
+            document.removeEventListener("click", handleClick, true);
+        }
+        
+    },[toastRef,openYn])
+
 
     const bgColorSwitcher = {
         info    : 'bg-blue-100 border-blue-500 text-blue-900',
@@ -13,19 +33,17 @@ const { type, openYn, title, content } = useAppSelector((state)=> state.toastSto
     }
 
     const transControl = {
-        toastOpen : "ease-out opacity-100 -translate-y-full",
-        toastClose : "ease-in opacity-0 translate-y-0"
+        toastStart : "ease-in opacity-100 -translate-y-full",
+        toastEnd : "ease-out opacity-0 translate-y-0"
     }
 
     return (
         <div 
+            ref={toastRef}
             className={
-                `absolute w-full px-3 py-2 shadow-md z-10 
-                border-t-4
-                rounded-xl
-                transition duration-300
+                `absolute w-full px-3 py-2 shadow-md z-10 border-t-4 rounded-xl transition duration-300
                 ${bgColorSwitcher[type]}
-                ${transControl[openYn === true ? "toastOpen" : "toastClose"]}
+                ${transControl[openYn === true ? "toastStart" : "toastEnd"]}
                 `}
             role="alert">
             <div className="flex">
