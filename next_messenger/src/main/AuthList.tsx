@@ -1,20 +1,23 @@
 "use client"
 
+import { firebaseAuth } from '../../firebase-config';
 import AuthController from '../component/AuthController'
+import { initUserInfo } from '../component/FirebaseController';
 import { controlMessageToast } from '../redux/features';
 import { useAppDispatch } from '../redux/hooks'
 import { useRouter } from 'next/navigation';
 
 export default function AuthList() {
     const dispatch = useAppDispatch();
-    const router = useRouter()
+    const router = useRouter();
+    const userAuth = firebaseAuth;
 
     const authHandler = (serviceType : "Google" | "Github" | "Email" | "Test", email : string )=> {
         AuthController(serviceType, "")
             .then((result)=> {
                 if(result.result) {
-                    console.log(result.result)
-                      router.push("/main")
+                    initUserInfo()
+                    router.push("/main")
                 }else {
                     dispatch(controlMessageToast({ type : 'error', title : "Login Canceled by User", content : result.content.message, openYn : true}))
                 }         

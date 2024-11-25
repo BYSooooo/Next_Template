@@ -5,10 +5,13 @@ const userAuth = firebaseAuth;
 
 export async function initUserInfo() {
     if(userAuth.currentUser) {
-        const docRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.email);
+        const docRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
         try {
-            setDoc(docRef, {
-                ...userAuth.currentUser
+            await setDoc(docRef, {
+                email : userAuth.currentUser.email,
+                emailVerified : userAuth.currentUser.emailVerified,
+                displayName : userAuth.currentUser.displayName,
+                photoURL : userAuth.currentUser.photoURL
             }, { merge : true })
             return { result : true, content : ""};
         } catch(error) {
