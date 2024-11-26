@@ -24,9 +24,26 @@ export const toastSlice = createSlice({
         }
     }
 })
+export const dialogSlice = createSlice({
+    name : 'dialogSlice',
+    initialState : {
+        openYn : false,
+        contentName : ""
+
+    },
+    reducers : {
+        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName : string}>)=> {
+            state.openYn = action.payload.openYn,
+            state.contentName = action.payload.contentName
+        }
+    }
+})
 
 export const { controlMessageToast } = toastSlice.actions
+export const { controlDialog } = dialogSlice.actions
 
 export default [
-    toastSlice.reducer
+    toastSlice.reducer,
+    dialogSlice.reducer
+
 ]

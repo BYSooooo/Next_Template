@@ -1,3 +1,4 @@
+import Dialog from "../component/Dialog";
 import MessageToast from "../component/MessageToast";
 import AuthList from "../main/AuthList";
 
@@ -13,6 +14,7 @@ export default function Page() {
           </h5>
           <AuthList />
         </div>
+        <Dialog />
         <MessageToast/>
       </div>
     )

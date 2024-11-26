@@ -1,8 +1,7 @@
 "use client"
 
-import { firebaseAuth } from '../../firebase-config';
-import AuthController from '../component/AuthController'
-import { initUserInfo } from '../component/FirebaseController';
+import AuthController from '../controller/AuthController'
+import { initUserInfo } from '../controller/FirebaseController';
 import { controlMessageToast } from '../redux/features';
 import { useAppDispatch } from '../redux/hooks'
 import { useRouter } from 'next/navigation';
@@ -10,7 +9,6 @@ import { useRouter } from 'next/navigation';
 export default function AuthList() {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const userAuth = firebaseAuth;
 
     const authHandler = (serviceType : "Google" | "Github" | "Email" | "Test", email : string )=> {
         AuthController(serviceType, "")
