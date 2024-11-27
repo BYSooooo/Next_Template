@@ -12,7 +12,6 @@ export default function MessageToast() {
     
     React.useEffect(()=> {
         const handleClick = (event : MouseEvent)=> {
-            console.log(event)
             if(toastRef.current && !toastRef.current.contains(event.target as Node)) {
                 dispatch(controlMessageToast({ type : 'info', title : "", content : "", openYn : false}))
             }
