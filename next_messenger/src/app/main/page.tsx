@@ -11,6 +11,7 @@ export default function Page() {
     },[])
 
     const onClickTest = ()=> {
+        console.log("clicked")
         dispatch(controlDialog({ openYn : true, contentName : ""}))
     }
 
