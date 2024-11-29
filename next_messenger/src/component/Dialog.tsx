@@ -7,7 +7,7 @@ export default function Dialog() {
     const { openYn, contentName } = useAppSelector((state)=> state.dialogStore);
     const dispatch = useAppDispatch();
     React.useEffect(()=> {
-        
+        console.log("Called")
     },[openYn])
 
     const dialogBgControl = {
@@ -16,7 +16,7 @@ export default function Dialog() {
 
     }
     return (
-        <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? 'open' : 'close']}`}>
+        <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div className='bg-white rounded-lg shadow-lg p-6 max-w-screen-sm w-full'>
                 <div className="flex justify-between items-center mb-4">
                     <p>

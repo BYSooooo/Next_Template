@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { useAppDispatch } from '../../redux/hooks';
-import { controlDialog, dialogSlice } from '../../redux/features';
+import { controlDialog } from '../../redux/features';
 
 export default function Page() {
     const dispatch = useAppDispatch();
