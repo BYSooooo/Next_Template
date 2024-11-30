@@ -5,15 +5,15 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 export default function Dialog() {
     const { openYn, contentName } = useAppSelector((state)=> state.dialogStore);
-    const dispatch = useAppDispatch();
+    
     React.useEffect(()=> {
+        console.log(openYn)
         console.log("Called")
     },[openYn])
 
     const dialogBgControl = {
         open : 'opacity-100',
         close : 'opacity-0 pointer-events-none'
-
     }
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>

@@ -17,7 +17,9 @@ export default function Page() {
 
     return (
         <div className="container flex flex-col mx-auto w-max h-svh text-center justify-center">
-            <button onClick={onClickTest}>
+            <button
+                className='bg-white text-black' 
+                onClick={onClickTest}>
                 Test
             </button>
         </div>
