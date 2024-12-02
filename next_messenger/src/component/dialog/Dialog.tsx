@@ -1,14 +1,13 @@
 "use client";
 
 import React from 'react';
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 
 export default function Dialog() {
     const { openYn, contentName } = useAppSelector((state)=> state.dialogStore);
     
     React.useEffect(()=> {
-        console.log(openYn)
-        console.log("Called")
+        console.log("Dialog Called")
     },[openYn])
 
     const dialogBgControl = {
@@ -19,7 +18,7 @@ export default function Dialog() {
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div className='bg-white rounded-lg shadow-lg p-6 max-w-screen-sm w-full'>
                 <div className="flex justify-between items-center mb-4">
-                    <p>
+                    <p className='text-black'>
                         Hello
                     </p>
                 </div>
