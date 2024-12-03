@@ -8,6 +8,7 @@ export default function Dialog() {
     
     React.useEffect(()=> {
         console.log("Dialog Called")
+        console.log(contentName)
     },[openYn])
 
     const dialogBgControl = {
