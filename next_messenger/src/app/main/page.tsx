@@ -6,7 +6,6 @@ import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast } from '../../redux/features';
 
 export default function Page() {
-
     const dispatch = useAppDispatch()
     
     React.useEffect(()=> {
@@ -18,7 +17,7 @@ export default function Page() {
         const { result, value } = await getCurrentUser()
         if(result) {
             const displayNameYn = value.displayName ? true : false
-            !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName"}))            
+            !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo"}))            
             
         } else {
             dispatch(controlMessageToast({ 

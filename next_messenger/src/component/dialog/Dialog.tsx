@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { useAppSelector } from "../../redux/hooks";
+import NoDisplayName from './NoDisplayName';
 
 export default function Dialog() {
-    const { openYn, contentName } = useAppSelector((state)=> state.dialogStore);
+    const { openYn, contentName, size } = useAppSelector((state)=> state.dialogStore);
     
     React.useEffect(()=> {
         console.log("Dialog Called")
@@ -15,13 +16,27 @@ export default function Dialog() {
         open : 'opacity-100',
         close : 'opacity-0 pointer-events-none'
     }
+
+    const dialogSizeControl = {
+        oneTwo : 'w-1/2',
+        twoThree : 'w-2/3'
+        
+    }
+
+    const switchContent = ()=> {
+        switch(contentName) {
+            case "noDisplayName" :
+                return <NoDisplayName />
+            default :
+            break;
+        }
+    }
+
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
-            <div className='bg-white rounded-lg shadow-lg p-6 max-w-screen-sm w-full'>
+            <div className={`dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg p-6 max-w-screen-sm min-w-96 ${dialogSizeControl[size]}`}>
                 <div className="flex justify-between items-center mb-4">
-                    <p className='text-black'>
-                        Hello
-                    </p>
+                    {switchContent()}
                 </div>
             </div>
         </div>
