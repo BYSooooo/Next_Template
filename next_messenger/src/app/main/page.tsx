@@ -17,7 +17,7 @@ export default function Page() {
         const { result, value } = await getCurrentUser()
         if(result) {
             const displayNameYn = value.displayName ? true : false
-            !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo"}))            
+            !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))            
             
         } else {
             dispatch(controlMessageToast({ 

@@ -3,9 +3,10 @@
 import React from 'react';
 import { useAppSelector } from "../../redux/hooks";
 import NoDisplayName from './NoDisplayName';
+import { InformationCircleIcon } from '@heroicons/react/24/solid';
 
 export default function Dialog() {
-    const { openYn, contentName, size } = useAppSelector((state)=> state.dialogStore);
+    const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
     
     React.useEffect(()=> {
         console.log("Dialog Called")
@@ -31,12 +32,23 @@ export default function Dialog() {
             break;
         }
     }
+    
 
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div className={`dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg p-6 max-w-screen-sm min-w-96 ${dialogSizeControl[size]}`}>
                 <div className="flex justify-between items-center mb-4">
-                    {switchContent()}
+                    <div className="container flex flex-col">
+                        {/* Dialog Title*/}
+                        <div className="flex items-center mb-2">
+                            <InformationCircleIcon className="w-7 h-7 dark:text-blue-300 text-blue-700 mr-2" />
+                            <h4 className="text-xl text-black dark:text-white">
+                                {title} 
+                            </h4>
+                        </div>
+                        {/* Dialog Content*/}
+                        {switchContent()}
+                    </div>
                 </div>
             </div>
         </div>
