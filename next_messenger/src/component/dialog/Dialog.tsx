@@ -36,10 +36,10 @@ export default function Dialog() {
 
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
-            <div className={`dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg p-6 max-w-screen-sm min-w-96 ${dialogSizeControl[size]}`}>
-                <div className="flex justify-between items-center mb-4">
+            <div className={`dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg p-6 max-w-96 min-w-96 ${dialogSizeControl[size]}`}>
+                <div className="flex flex-col justify-between items-center mb-4">
+                    {/* Dialog Title*/}
                     <div className="container flex flex-col">
-                        {/* Dialog Title*/}
                         <div className="flex items-center mb-2">
                             <InformationCircleIcon className="w-7 h-7 dark:text-blue-300 text-blue-700 mr-2" />
                             <h4 className="text-xl text-black dark:text-white">
@@ -49,7 +49,9 @@ export default function Dialog() {
                         {/* Dialog Content*/}
                         {switchContent()}
                     </div>
+                    
                 </div>
+
             </div>
         </div>
     )
