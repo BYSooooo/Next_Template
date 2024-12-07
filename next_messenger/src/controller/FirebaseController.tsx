@@ -34,3 +34,20 @@ export async function getCurrentUser() {
         }
     }
 }
+
+export async function updateUserInfo(content? : [{key : string, value : any}]) {
+    const uid = userAuth.currentUser.uid
+    const docRef = doc(firebaseStore, 'userInfo', uid);
+    const aDatas = content.map((item)=> {
+        return { [item.key] : item.value }       
+    })
+    try {
+        await setDoc(docRef, aDatas.flat(2), 
+            { merge : true}
+        )
+        return { result : true, content : ""};
+    } catch(error) {
+        return { result : false, value : error};
+    }
+
+}

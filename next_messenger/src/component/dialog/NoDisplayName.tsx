@@ -4,13 +4,25 @@ import React from 'react';
 
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { firebaseAuth } from '../../../firebase-config';
+import { useAppDispatch } from '../../redux/hooks';
+import { controlMessageToast } from '../../redux/features';
+import { updateUserInfo } from '../../controller/FirebaseController';
 
 export default function NoDisplayName() {
     const [display, setDisplay] = React.useState("");
+    const dispatch = useAppDispatch();
+
     const userAuth = firebaseAuth;
     
     const onClickSubmit = ()=> {
-        
+        if(display.length === 0) {
+            dispatch(controlMessageToast({ type : "error", openYn : true, title : 'Error', content : 'Please Input Display Name'}))
+        } else {
+            updateUserInfo([{ key : "displayName", value : display}])
+                .then((result)=> {
+                    console.log(result)
+                })
+        }
     }
 
     return (
