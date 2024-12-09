@@ -5,7 +5,7 @@ import React from 'react';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { firebaseAuth } from '../../../firebase-config';
 import { useAppDispatch } from '../../redux/hooks';
-import { controlMessageToast } from '../../redux/features';
+import { controlDialog, controlMessageToast } from '../../redux/features';
 import { updateUserInfo } from '../../controller/FirebaseController';
 
 export default function NoDisplayName() {
@@ -20,7 +20,9 @@ export default function NoDisplayName() {
         } else {
             updateUserInfo([{ key : "displayName", value : display}])
                 .then((result)=> {
-                    console.log(result)
+                    if(result) {
+                        dispatch(controlDialog({ openYn : false, contentName : "", size : "", title : ""}))
+                    }
                 })
         }
     }

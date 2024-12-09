@@ -15,6 +15,7 @@ export default function Page() {
 
     const getCurUserInfo = async()=> {
         const { result, value } = await getCurrentUser()
+        console.log(value)
         if(result) {
             const displayNameYn = value.displayName ? true : false
             !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))            

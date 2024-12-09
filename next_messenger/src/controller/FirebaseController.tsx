@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 
 const userAuth = firebaseAuth;
@@ -40,11 +40,12 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const docRef = doc(firebaseStore, 'userInfo', uid);
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
-    })
+    },)
+    debugger;
     try {
-        await setDoc(docRef, aDatas.flat(2), 
-            { merge : true}
-        )
+        await setDoc(docRef, Object.assign({},...aDatas), {
+            merge : true
+        })
         return { result : true, content : ""};
     } catch(error) {
         return { result : false, value : error};
