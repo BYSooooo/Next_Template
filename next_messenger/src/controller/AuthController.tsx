@@ -7,20 +7,21 @@ export default async function AuthController(service : "Google" | "Github" | "Em
     try {
         switch(service) {
             case "Google" : 
-                await signInWithPopup(auth, new GoogleAuthProvider())
+                return signInWithPopup(auth, new GoogleAuthProvider())
                     .then((credential)=> {
                         return { result : true, content : credential};
                     }).catch((error)=> {
                         return { result : false, content : error}
                     })
             case "Github" :
-                signInWithPopup(auth, new GithubAuthProvider())
+                return signInWithPopup(auth, new GithubAuthProvider())
                     .then((credential)=> {
                         return { result : true, content : credential};
                     })
                     .catch((error)=> {
                         return { result : false, content : error}
                     })
+            
             case "Email" : 
                 const setting = {
                     url : 'https://next-messenger-nine.vercel.app/',
@@ -33,7 +34,7 @@ export default async function AuthController(service : "Google" | "Github" | "Em
                     .catch((error)=> {
                         return { result : false, content : error};
                     });
-                
+              
             case "Test" :
                 return signInWithEmailAndPassword(firebaseAuth, "test_user01@testemail.com", "Asdf!234")
                     .then((credential)=> {

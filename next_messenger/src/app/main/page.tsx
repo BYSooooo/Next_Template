@@ -17,6 +17,7 @@ export default function Page() {
         const { result, value } = await getCurrentUser()
         console.log(value)
         if(result) {
+            console.log(value.displayName)
             const displayNameYn = value.displayName ? true : false
             !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))            
             
@@ -31,8 +32,13 @@ export default function Page() {
     }
 
     return (
-        <div className="container flex flex-col mx-auto w-max h-svh text-center justify-center">
-            This is Main
+        <div className="flex flex-row mx-auto w-max h-svh text-center justify-center">
+            <div className='min-w-96 bg-cyan-200'>
+                Hello
+            </div>
+            <div className='70vw bg-yellow-400' >
+                Hello2
+            </div> 
         </div>
     )
 }

@@ -7,13 +7,20 @@ export async function initUserInfo() {
     if(userAuth.currentUser) {
         const docRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
         try {
-            await setDoc(docRef, {
-                email : userAuth.currentUser.email,
-                emailVerified : userAuth.currentUser.emailVerified,
-                displayName : userAuth.currentUser.displayName,
-                photoURL : userAuth.currentUser.photoURL
-            }, { merge : true })
-            return { result : true, content : ""};
+            const currentDoc = await getDoc(docRef)
+            // Check Y/N current User's Info in  firestore base 'userInfo' Collection
+            if(currentDoc.data()) {
+                return { result : true, content : currentDoc.data()}
+            } else {
+                await setDoc(docRef, {
+                    email : userAuth.currentUser.email,
+                    emailVerified : userAuth.currentUser.emailVerified,
+                    displayName : userAuth.currentUser.displayName,
+                    photoURL : userAuth.currentUser.photoURL
+                }, { merge : true })
+                return { result : true, content : ""};
+            }
+
         } catch(error) {
             return { result : false, content : error}
         }
