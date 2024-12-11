@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from "next"
-import Header from "../main/Header"
+import Header from "../public/Header"
 import { ThemeProvider } from 'next-themes'
 import StoreProvider from './StoreProvider'
 import Dialog from '../component/dialog/Dialog'
