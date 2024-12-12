@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast } from '../../redux/features';
 import FriendList from '../../main/FriendList';
+import MainPage from '../../main/MainPage';
 
 export default function Page() {
     const dispatch = useAppDispatch()
@@ -38,7 +39,7 @@ export default function Page() {
                 <FriendList />
             </div>
             <div className='max-w-[70vw] w-[100vw] bg-yellow-400' >
-                Hello2
+                <MainPage />
             </div> 
         </div>
     )
