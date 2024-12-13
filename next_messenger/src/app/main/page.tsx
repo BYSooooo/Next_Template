@@ -35,12 +35,8 @@ export default function Page() {
 
     return (
         <div className="flex flex-row mx-auto w-max h-dvh text-center justify-center">
-            <div className='max-w-[15rem] w-[30vw] bg-cyan-200'>
-                <FriendList />
-            </div>
-            <div className='max-w-[70vw] w-[100vw] bg-yellow-400' >
-                <MainPage />
-            </div> 
+            <FriendList />
+             <MainPage />
         </div>
     )
 }
