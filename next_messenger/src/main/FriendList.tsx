@@ -5,6 +5,6 @@ export default function FriendList() {
             <p className="text-red-500">
                 This is Friend List
             </p>
-        <div/>
+        </div>
     )
 }

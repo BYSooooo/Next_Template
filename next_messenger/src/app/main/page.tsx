@@ -36,7 +36,7 @@ export default function Page() {
     return (
         <div className="flex flex-row mx-auto w-max h-dvh text-center justify-center">
             <FriendList />
-             <MainPage />
-        </div>
+            <MainPage />
+        </div> 
     )
 }
