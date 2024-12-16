@@ -6,31 +6,38 @@ import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
+import { firebaseAuth } from '../../../firebase-config';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
     const dispatch = useAppDispatch()
-    
+    const fireAuth = firebaseAuth;
+    const router = useRouter();
     React.useEffect(()=> {
-        getCurUserInfo()
         
+        if(fireAuth.currentUser) {
+            getCurUserInfo()
+        } else {
+            dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
+            router.push("/")
+        }
     },[])
 
-    const getCurUserInfo = async()=> {
-        const { result, value } = await getCurrentUser()
-        console.log(value)
-        if(result) {
-            console.log(value.displayName)
-            const displayNameYn = value.displayName ? true : false
-            !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))            
-            
-        } else {
-            dispatch(controlMessageToast({ 
-                openYn : true, 
-                title : "Error Occured", 
-                type : "error", 
-                content : "Authorization Error. Please Login try again."
-            }))
-        }
+    const getCurUserInfo = ()=> {
+        getCurrentUser().then((response) => {
+            if(response.result) {
+                console.log(response.value.displayName)
+                const displayNameYn = response.value.displayName ? true : false
+                !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
+            } else {
+                dispatch(controlMessageToast({ 
+                    openYn : true, 
+                    title : "Error Occured", 
+                    type : "error", 
+                    content : "Authorization Error. Please Login try again."
+                }))
+            }
+        })
     }
 
     return (

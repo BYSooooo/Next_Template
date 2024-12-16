@@ -28,6 +28,7 @@ export async function initUserInfo() {
 }
 
 export async function getCurrentUser() {
+    console.log(userAuth.currentUser)
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
         const docRef = doc(firebaseStore, 'userInfo', uuid);

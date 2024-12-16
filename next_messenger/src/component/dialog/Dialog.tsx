@@ -8,9 +8,8 @@ import { InformationCircleIcon } from '@heroicons/react/24/solid';
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
     
-    React.useEffect(()=> {
-        console.log("Dialog Called")
-        console.log(contentName)
+    React.useEffect(()=> { 
+        
     },[openYn])
 
     const dialogBgControl = {
