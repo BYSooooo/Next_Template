@@ -2,7 +2,7 @@ import AuthList from "../public/AuthList";
 
 export default function Page() {
     return (
-        <div className="relative flex flex-col items-center text-center ">
+        <div className="relative flex flex-col items-center text-center min-h-svh ">
           <div className="static mt-20">
             <h1 className="text-3xl font-bold">
               Sign In
