@@ -4,7 +4,7 @@ import HomeButton from '../component/HomeButton';
 export default function Header() {    
     return (
         <header className='
-            flex static w-full
+            flex fixed w-full
             bg-blue-600 dark:bg-gray-700 
             h-12
             px-7

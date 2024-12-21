@@ -40,7 +40,7 @@ export default function MessageToast() {
         <div 
             ref={toastRef}
             className={
-                `fixed bottom-0 w-full px-3 py-2 shadow-md border-t-4 rounded-xl transition duration-300
+                `flex fixed w-full px-3 py-2 z-20 shadow-md border-t-4 rounded-xl transition duration-300
                 ${bgColorSwitcher[type]}
                 ${transControl[openYn === true ? "toastStart" : "toastEnd"]}
                 `}
