@@ -20,6 +20,9 @@ export default function FriendList() {
                         hover:cursor-pointer"
                 />
             </div>
+            <div>
+                This is Friend List
+            </div>
         </div>
     )
 }
