@@ -8,6 +8,7 @@ import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
 import { firebaseAuth } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
+import SideMenu from '../../main/SideMenu';
 
 export default function Page() {
     const dispatch = useAppDispatch()
@@ -42,6 +43,7 @@ export default function Page() {
 
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
+            <SideMenu />
             <FriendList />
             <MainPage />
         </div> 
