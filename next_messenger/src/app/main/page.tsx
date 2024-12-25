@@ -8,14 +8,15 @@ import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
 import { firebaseAuth } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
-import SideMenu from '../../main/SideMenu';
+import SideNavigation from '../../main/SideNaigation';
 
 export default function Page() {
+    const [ naviIndex, selNaviIndex ] = React.useState(0)
     const dispatch = useAppDispatch()
     const fireAuth = firebaseAuth;
     const router = useRouter();
     React.useEffect(()=> {
-        
+        selNaviIndex(0)
         if(fireAuth.currentUser) {
             getCurUserInfo()
         } else {
@@ -26,6 +27,7 @@ export default function Page() {
 
     const getCurUserInfo = ()=> {
         getCurrentUser().then((response) => {
+            console.log(response.result)
             if(response.result) {
                 console.log(response.value.displayName)
                 const displayNameYn = response.value.displayName ? true : false
@@ -43,9 +45,11 @@ export default function Page() {
 
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
-            <SideMenu />
-            <FriendList />
-            <MainPage />
+            <SideNavigation />
+            <div className='flex flex-row max-w-[90vw]'>
+                <FriendList />
+                <MainPage />
+            </div>
         </div> 
     )
 }
