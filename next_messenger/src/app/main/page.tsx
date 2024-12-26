@@ -42,13 +42,16 @@ export default function Page() {
             }
         })
     }
+    const switchMain =()=> {
+        
+    }
 
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
             <SideNavigation />
             <div className='flex flex-row max-w-[90vw]'>
-                <FriendList />
-                <MainPage />
+                {/* {switchMain()} */}
+                
             </div>
         </div> 
     )
