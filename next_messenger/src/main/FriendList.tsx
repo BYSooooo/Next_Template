@@ -7,7 +7,9 @@ export default function FriendList() {
     }
 
     return (
-        <div className='max-w-[15rem] relative w-[30vw] dark:bg-slate-800 bg-slate-200 shadow-sm mx-1 rounded-md overflow-hidden flex flex-col'>
+        <div className='default-box
+            flex flex-col
+            max-w-[15rem] relative w-[30vw] mx-1 '>
             <div className="flex flex-row static min-w-full h-[10%] items-center px-3 justify-between">
                 <p className="text-lg font-bold ">
                     Friend List

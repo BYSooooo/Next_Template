@@ -1,22 +1,23 @@
 "use client"
 
 import React from 'react';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
-import { controlDialog, controlMessageToast } from '../../redux/features';
+import { controlDialog, controlMessageToast, controlPageLayout } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
 import { firebaseAuth } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
+import WelcomePage from '../../main/WelcomePage';
 
 export default function Page() {
-    const [ naviIndex, selNaviIndex ] = React.useState(0)
+    const pageReducer = useAppSelector((state)=> state.pageStore);
     const dispatch = useAppDispatch()
     const fireAuth = firebaseAuth;
     const router = useRouter();
+
     React.useEffect(()=> {
-        selNaviIndex(0)
         if(fireAuth.currentUser) {
             getCurUserInfo()
         } else {
@@ -31,7 +32,9 @@ export default function Page() {
             if(response.result) {
                 console.log(response.value.displayName)
                 const displayNameYn = response.value.displayName ? true : false
-                !displayNameYn && dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
+                !displayNameYn 
+                    ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
+                    : dispatch(controlPageLayout({middle : 'WelcomePage', right : ''}))
             } else {
                 dispatch(controlMessageToast({ 
                     openYn : true, 
@@ -42,16 +45,28 @@ export default function Page() {
             }
         })
     }
-    const switchMain =()=> {
-        
-    }
 
+    const pageRouter = (componentName : string) => {
+        switch(componentName) {
+            case 'WelcomePage' : return <WelcomePage />
+            case 'FriendList' : return <FriendList />
+            case 'MainPage' : return <MainPage />
+            default : break;
+        }
+    }
+    
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
-            <SideNavigation />
+            <div className='flex'>
+                <SideNavigation />
+            </div>
             <div className='flex flex-row max-w-[90vw]'>
-                {/* {switchMain()} */}
-                
+                <div className='flex'>
+                    {pageRouter(pageReducer.middle)}
+                </div>
+                <div className='flex'>
+                    {pageRouter(pageReducer.right)}
+                </div>
             </div>
         </div> 
     )

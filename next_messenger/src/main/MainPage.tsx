@@ -2,7 +2,8 @@ import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 export default function MainPage() {
     return (
-        <div className='flex flex-col max-w-[60vw] ml-1 w-[100vw] dark:bg-slate-800 bg-slate-200 rounded-md overflow-hidden' >
+        <div className='default-box
+            flex flex-col max-w-[60vw] ml-1 w-[100vw]' >
             <div className="flex flex-row p-4 justify-between">
                 <span className="flex flex-row items-center">
                     <UserCircleIcon className="w-16 h-16"/>

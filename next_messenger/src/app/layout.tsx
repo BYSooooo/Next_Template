@@ -16,8 +16,8 @@ export default function RootLayout({children} : {children: React.ReactNode}) {
         <body>
           <StoreProvider>
             <ThemeProvider 
-              attribute="class"
-              defaultTheme="system"
+              attribute='class'
+              defaultTheme='system'
               enableSystem>
               <Header />
               {children}

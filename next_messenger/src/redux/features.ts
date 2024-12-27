@@ -42,11 +42,26 @@ export const dialogSlice = createSlice({
     }
 })
 
+export const pageSlice = createSlice({
+    name : 'pageSlice',
+    initialState : {
+        middle : '',
+        right : '',
+    },
+    reducers : {
+        controlPageLayout : (state, action: PayloadAction<{middle? :string, right? : string}>)=> {
+            if(action.payload.middle) state.middle = action.payload.middle;
+            if(action.payload.right) state.right = action.payload.right;
+        }
+    }
+})
+
 export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
+export const { controlPageLayout } = pageSlice.actions
 
 export default [
     toastSlice.reducer,
-    dialogSlice.reducer
-
+    dialogSlice.reducer,
+    pageSlice.reducer
 ]
