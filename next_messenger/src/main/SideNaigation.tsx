@@ -1,4 +1,4 @@
-import { ChatBubbleBottomCenterIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon } from "@heroicons/react/24/outline";
 
 export default function SideNavigation() {
 
@@ -14,7 +14,9 @@ export default function SideNavigation() {
             </button>
             <button className={`${hoverStyle}`}>
                 <ChatBubbleBottomCenterIcon className="w-7 h-7" />
-
+            </button>
+            <button className={`${hoverStyle}`}>
+                <Cog6ToothIcon className="w-7 h-7"/>           
             </button>
         </div>
     )

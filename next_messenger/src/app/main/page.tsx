@@ -3,13 +3,14 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
-import { controlDialog, controlMessageToast, controlPageLayout } from '../../redux/features';
+import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
-import { firebaseAuth } from '../../../firebase-config';
+import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 export default function Page() {
     const pageReducer = useAppSelector((state)=> state.pageStore);
@@ -27,14 +28,20 @@ export default function Page() {
     },[])
 
     const getCurUserInfo = ()=> {
+        const docRef = doc(firebaseStore,'userInfo',fireAuth.currentUser.uid);
+        onSnapshot(docRef,(response)=> {
+            console.log("Refresh UserInfo")
+            const userInfoData = response.data() as UserInfo;
+            userInfoData && dispatch(setUserInfo(userInfoData));
+        })
+
         getCurrentUser().then((response) => {
             console.log(response.result)
             if(response.result) {
-                console.log(response.value.displayName)
                 const displayNameYn = response.value.displayName ? true : false
                 !displayNameYn 
                     ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
-                    : dispatch(controlPageLayout({middle : 'WelcomePage', right : ''}))
+                    : dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
             } else {
                 dispatch(controlMessageToast({ 
                     openYn : true, 
@@ -48,6 +55,7 @@ export default function Page() {
 
     const pageRouter = (componentName : string) => {
         switch(componentName) {
+            case 'SideNavigation' : return <SideNavigation />
             case 'WelcomePage' : return <WelcomePage />
             case 'FriendList' : return <FriendList />
             case 'MainPage' : return <MainPage />
@@ -57,8 +65,8 @@ export default function Page() {
     
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
-            <div className='flex'>
-                <SideNavigation />
+            <div className='flex max-w-[10vw]'>
+                {pageRouter(pageReducer.left)}
             </div>
             <div className='flex flex-row max-w-[90vw]'>
                 <div className='flex'>

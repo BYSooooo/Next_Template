@@ -9,4 +9,15 @@
         rounded-md overflow-hidden
         shadow-sm
     }
+    .default-button {
+        @apply
+        flex
+        bg-slate-400 dark:bg-slate-600
+        hover:bg-slate-300
+        hover:dark:bg-slate-500
+        transition
+        duration-200
+        rounded-md
+        items-center
+    }
 }
