@@ -50,10 +50,10 @@ export const pageSlice = createSlice({
         right : '',
     },
     reducers : {
-        controlPageLayout : (state, action: PayloadAction<{left? : string, middle? :string, right? : string}>)=> {
-            if(action.payload.left) state.left = action.payload.left;
-            if(action.payload.middle) state.middle = action.payload.middle;
-            if(action.payload.right) state.right = action.payload.right;
+        controlPageLayout : (state, action: PayloadAction<{left : string, middle :string, right : string}>)=> {
+            state.left = action.payload.left;
+            state.middle = action.payload.middle;
+            state.right = action.payload.right;
         }
     }
 })

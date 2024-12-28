@@ -55,6 +55,7 @@ export default function Page() {
 
     const pageRouter = (componentName : string) => {
         switch(componentName) {
+            case '' : return null
             case 'SideNavigation' : return <SideNavigation />
             case 'WelcomePage' : return <WelcomePage />
             case 'FriendList' : return <FriendList />
