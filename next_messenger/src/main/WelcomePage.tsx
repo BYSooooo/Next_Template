@@ -23,18 +23,24 @@ export default function WelcomePage() {
                 Welcome
             </p>
             <div className="flex flex-row h-full">
-                <div className="flex flex-col justify-center items-center w-[40vw] ">
+                <div className="flex flex-col justify-center items-center w-[40vw]">
                     {userInfoSlice.photoUrl
                         ? <p> Hello</p>
                         : <UserCircleIcon className="w-28 h-28"/>}
-                    <p>
+                    <p className="text-base dark:text-slate-400 text-slate-600">
+                        Display Name
+                    </p>
+                    <p className="text-xl">
                         {userInfoSlice.displayName}
                     </p>
                 </div>
                 <div className="flex flex-col w-[50vw] items-center gap-2">
-                    <p>
-                        Please Choose Action
-                    </p>
+                    <div className="text-start w-[70%]">
+                        <p className="text-base font-bold">
+                            Please Choose Action
+                        </p>
+
+                    </div>
                     <button 
                         className="default-button px-3 h-10 w-[70%]"
                         onClick={()=>handleClick('chatting')}>

@@ -45,12 +45,14 @@ export const dialogSlice = createSlice({
 export const pageSlice = createSlice({
     name : 'pageSlice',
     initialState : {
+        sideNavIndex : 0,
         left : '',
         middle : '',
         right : '',
     },
     reducers : {
-        controlPageLayout : (state, action: PayloadAction<{left : string, middle :string, right : string}>)=> {
+        controlPageLayout : (state, action: PayloadAction<{sideNavIndex? : number, left : string, middle :string, right : string}>)=> {
+            if(action.payload.sideNavIndex) state.sideNavIndex = action.payload.sideNavIndex
             state.left = action.payload.left;
             state.middle = action.payload.middle;
             state.right = action.payload.right;
