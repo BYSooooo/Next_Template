@@ -4,6 +4,7 @@ import React from 'react';
 import { useAppSelector } from "../../redux/hooks";
 import NoDisplayName from './NoDisplayName';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import SearchFriend from './SearchFriend';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -19,14 +20,15 @@ export default function Dialog() {
 
     const dialogSizeControl = {
         oneTwo : 'w-1/2',
-        twoThree : 'w-2/3'
-        
+        twoThree : 'w-2/3'   
     }
 
     const switchContent = ()=> {
         switch(contentName) {
             case "noDisplayName" :
                 return <NoDisplayName />
+            case 'searchFriend' :
+                return <SearchFriend />
             default :
             break;
         }

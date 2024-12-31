@@ -1,9 +1,13 @@
+"use client"
+
 import { UserPlusIcon } from "@heroicons/react/24/solid";
+import { useAppDispatch } from "../redux/hooks";
+import { controlDialog } from "../redux/features";
 
 export default function FriendList() {
-
+    const dispatch = useAppDispatch()
     const onClickAddFriend =()=> {
-        alert("Clicked")
+        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'twoThree', title : 'Search'}))
     }
 
     return (
