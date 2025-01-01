@@ -20,4 +20,12 @@
         rounded-md
         items-center
     }
+
+    .default-radio {
+        @apply
+        w-5 h-5 
+        dark:bg-slate-800
+        shadow border-2 border-gray-500
+        rounded-full
+    }
 }

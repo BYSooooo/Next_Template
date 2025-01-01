@@ -20,7 +20,8 @@ export default function Dialog() {
 
     const dialogSizeControl = {
         oneTwo : 'w-1/2',
-        twoThree : 'w-2/3'   
+        twoThree : 'w-2/3',
+        threeFour : 'w-3/4'   
     }
 
     const switchContent = ()=> {

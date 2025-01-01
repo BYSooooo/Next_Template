@@ -7,7 +7,7 @@ import { controlDialog } from "../redux/features";
 export default function FriendList() {
     const dispatch = useAppDispatch()
     const onClickAddFriend =()=> {
-        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'twoThree', title : 'Search'}))
+        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'threeFour', title : 'Search'}))
     }
 
     return (
