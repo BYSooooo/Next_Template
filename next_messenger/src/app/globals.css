@@ -28,4 +28,19 @@
         shadow border-2 border-gray-500
         rounded-full
     }
+
+    .default-input {
+        @apply
+        px-2 py-1
+        bg-slate-100 dark:bg-slate-500
+        focus:outline
+        focus:outline-2
+        focus:-outline-offset-2 
+        focus:dark:outline-white
+        focus:outline-slate-500
+        rounded-md
+        
+
+        
+    }
 }

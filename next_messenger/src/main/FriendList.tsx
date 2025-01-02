@@ -28,8 +28,8 @@ export default function FriendList() {
             </div>
             <div className="mb-4">
                 <input 
-                    
-                    className="dark:bg-slate-500 rounded-md px-2 py-1 w-5/6 hover:dark:bg-slate-300"
+                    className="default-input
+                    w-5/6 "
                     placeholder="Search..."/>
             </div>
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>

@@ -13,9 +13,9 @@ export default function SearchFriend() {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="flex flex-row">
+            <div className="flex flex-row divide-solid divide-x gap-2">
                 {/*  Left Side : Search, List */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                     {/* Radio Button Group*/}
                     <div className="flex flex-row gap-3">
                         <div className="flex flex-row text-center w-fit">
@@ -27,8 +27,9 @@ export default function SearchFriend() {
                             <p className="text-sm">DisplayName</p>
                         </div>
                     </div>
+                    <input>
+                    </input>
                 </div>
-                <div className="w-1 bg-white "/>
                 {/* Right Side : Selected Friend Inform */}
                 <div className="flex flex-col">
                     This is Info Part
