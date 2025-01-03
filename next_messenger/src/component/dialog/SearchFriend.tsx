@@ -1,15 +1,17 @@
 "use client";
 
+import React from 'react';
 import { controlDialog } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 
 export default function SearchFriend() {
     const dispatch = useAppDispatch()
+    const [checked, setChecked] = React.useState(0)
 
     const onClickClose = ()=> {
         dispatch(controlDialog({ openYn : false, contentName : "", size : "",title : "",}))
     }
-        
+    
 
     return (
         <div className="flex flex-col items-center">
@@ -19,15 +21,26 @@ export default function SearchFriend() {
                     {/* Radio Button Group*/}
                     <div className="flex flex-row gap-3">
                         <div className="flex flex-row text-center w-fit">
-                            <input className="default-radio mr-2" type="radio"/>
-                            <p className="text-sm">Email</p>
+                            <input 
+                                checked={checked === 0}
+                                onChange={()=>setChecked(0)}
+                                className="default-radio mr-2" 
+                                type="radio"
+                            />
+                            <label className="text-sm">Email</label>
                         </div>
                         <div className="flex flex-row text-center w-fit">
-                            <input className="default-radio mr-2" type="radio"/>
-                            <p className="text-sm">DisplayName</p>
+                            <input
+                                checked={checked === 1}
+                                onChange={()=> setChecked(1)} 
+                                className="default-radio mr-2" 
+                                type="radio"/>
+                            <label className="text-sm">DisplayName</label>
                         </div>
                     </div>
-                    <input>
+                    <input
+                        placeholder="Search..." 
+                        className="default-input">
                     </input>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
@@ -40,8 +53,10 @@ export default function SearchFriend() {
             <div className="">
 
             </div>
-            <div>
-                <button onClick={onClickClose}>
+            <div className="flex flex-row justify-end">
+                <button 
+                    className="default-button"
+                    onClick={onClickClose}>
                     Close
                 </button>
             </div>

@@ -24,9 +24,13 @@
     .default-radio {
         @apply
         w-5 h-5 
+        cursor-pointer
         dark:bg-slate-800
         shadow border-2 border-gray-500
         rounded-full
+        transition
+        duration-200
+        
     }
 
     .default-input {
