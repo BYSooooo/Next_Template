@@ -1,5 +1,6 @@
-import {    doc, 
+import {    collection, doc, 
             getDoc, 
+            getDocs, 
             onSnapshot, 
             setDoc 
         } from "firebase/firestore";
@@ -63,4 +64,22 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
         return { result : false, value : error};
     }
 
+}
+
+export async function getUserListForSearch(keyword : string, sort : string) {
+    const colRef = collection(firebaseStore,"userInfo");
+    try {
+        let aResults = []
+        if(keyword.length > 0) {
+            await getDocs(colRef).then((response)=> {
+                response.forEach((doc)=> {
+                    const data = doc.data() as UserInfo;
+                    data[sort].includes(keyword) && aResults.push(data)
+                })
+            });
+        }
+        return { result : true, value : aResults }
+    } catch(error) {
+        return { result : false, value : error }
+    }
 }

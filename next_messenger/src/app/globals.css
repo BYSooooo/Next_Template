@@ -21,6 +21,19 @@
         items-center
     }
 
+    .confirm-button {
+        @apply
+        flex
+        bg-blue-400 dark:bg-blue-600
+        hover:bg-blue-300
+        hover:dark:bg-blue-500
+        transition
+        duration-200
+        rounded-md
+        items-center
+
+    }
+
     .default-radio {
         @apply
         w-5 h-5 
