@@ -5,12 +5,14 @@ import React from 'react';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { firebaseAuth } from '../../../firebase-config';
 import { useAppDispatch } from '../../redux/hooks';
-import { controlMessageToast } from '../../redux/features';
+import { controlDialog, controlMessageToast } from '../../redux/features';
 import { updateUserInfo } from '../../controller/FirebaseController';
+import { useRouter } from 'next/navigation';
 
 export default function NoDisplayName() {
     const [display, setDisplay] = React.useState("");
     const dispatch = useAppDispatch();
+    const router = useRouter()
 
     const userAuth = firebaseAuth;
     
@@ -20,7 +22,10 @@ export default function NoDisplayName() {
         } else {
             updateUserInfo([{ key : "displayName", value : display}])
                 .then((result)=> {
-                    console.log(result)
+                    if(result) {
+                        dispatch(controlDialog({ openYn : false, contentName : "", size : "", title : ""}))
+                        router.push("/main")
+                    }
                 })
         }
     }
@@ -53,7 +58,7 @@ export default function NoDisplayName() {
             </div>
             <button
                 onClick={onClickSubmit} 
-                className='bg-blue-400 dark:bg-blue-600 w-3/4 h-10 rounded-md transition duration-200 hover:bg-blue-500 hover:dark:bg-blue-500 '>
+                className='confirm-button w-3/4 h-10'>
                 <p className='text-sm'>
                     Submit
                 </p>

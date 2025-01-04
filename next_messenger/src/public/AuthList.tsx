@@ -14,7 +14,8 @@ export default function AuthList() {
         AuthController(serviceType, "")
             .then((result)=> {
                 if(result.result) {
-                    initUserInfo()
+                    console.log(result.content)
+                    !result.content.displayName && initUserInfo()
                     router.push("/main")
                 }else {
                     dispatch(controlMessageToast({ type : 'error', title : "Login Canceled by User", content : result.content.message, openYn : true}))

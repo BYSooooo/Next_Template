@@ -1,15 +1,17 @@
-import AuthList from "../main/AuthList";
+import AuthList from "../public/AuthList";
 
 export default function Page() {
     return (
-        <div className="container flex flex-col mx-auto w-max h-svh text-center justify-center" >
-          <h1 className="text-3xl font-bold">
-            Sign In
-          </h1>
-          <h5>
-            Please Select Service
-          </h5>
-          <AuthList />
+        <div className="flex flex-col justify-center items-center h-svh">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold">
+              Sign In
+            </h1>
+            <h5>
+              Please Select Service
+            </h5>
+            <AuthList />
+          </div>
         </div>
     )
   }

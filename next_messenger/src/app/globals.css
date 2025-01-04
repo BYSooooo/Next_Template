@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .default-box {
+        @apply 
+        bg-slate-200 dark:bg-slate-800
+        rounded-md overflow-hidden
+        shadow-sm
+    }
+    .default-button {
+        @apply
+        flex
+        bg-slate-400 dark:bg-slate-600
+        hover:bg-slate-300
+        hover:dark:bg-slate-500
+        transition
+        duration-200
+        rounded-md
+        items-center
+    }
+
+    .confirm-button {
+        @apply
+        flex
+        bg-blue-400 dark:bg-blue-600
+        hover:bg-blue-300
+        hover:dark:bg-blue-500
+        transition
+        duration-200
+        rounded-md
+        items-center
+
+    }
+
+    .default-radio {
+        @apply
+        w-5 h-5 
+        cursor-pointer
+        dark:bg-slate-800
+        shadow border-2 border-gray-500
+        rounded-full
+        transition
+        duration-200
+        
+    }
+
+    .default-input {
+        @apply
+        px-2 py-1
+        bg-slate-100 dark:bg-slate-500
+        focus:outline
+        focus:outline-2
+        focus:-outline-offset-2 
+        focus:dark:outline-white
+        focus:outline-slate-500
+        rounded-md
+        
+
+        
+    }
+}

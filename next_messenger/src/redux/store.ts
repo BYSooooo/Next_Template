@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { dialogSlice, toastSlice } from "./features";
+import { dialogSlice, pageSlice, toastSlice, userInfoSlice } from "./features";
 
 export const makeStore = ()=> {
     return configureStore({
         reducer : {
             toastStore : toastSlice.reducer,
-            dialogStore : dialogSlice.reducer
+            dialogStore : dialogSlice.reducer,
+            pageStore : pageSlice.reducer,
+            userStore : userInfoSlice.reducer           
         }
     })
 }

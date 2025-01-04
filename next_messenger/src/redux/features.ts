@@ -42,11 +42,49 @@ export const dialogSlice = createSlice({
     }
 })
 
+export const pageSlice = createSlice({
+    name : 'pageSlice',
+    initialState : {
+        sideNavIndex : 0,
+        left : '',
+        middle : '',
+        right : '',
+    },
+    reducers : {
+        controlPageLayout : (state, action: PayloadAction<{sideNavIndex? : number, left : string, middle :string, right : string}>)=> {
+            if(action.payload.sideNavIndex) state.sideNavIndex = action.payload.sideNavIndex
+            state.left = action.payload.left;
+            state.middle = action.payload.middle;
+            state.right = action.payload.right;
+        }
+    }
+})
+
+export const userInfoSlice = createSlice({
+    name : 'userInfoSlice',
+    initialState: {
+        email: '',
+        displayName : '',
+        photoUrl : ''
+    } ,
+    reducers : {
+        setUserInfo: (state, action: PayloadAction<UserInfo>)=> {
+            state.email = action.payload.email;
+            state.displayName = action.payload.displayName;
+            state.photoUrl = action.payload.photoUrl;
+        }
+    }
+
+})
+
 export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
+export const { controlPageLayout } = pageSlice.actions
+export const { setUserInfo } = userInfoSlice.actions
 
 export default [
     toastSlice.reducer,
-    dialogSlice.reducer
-
+    dialogSlice.reducer,
+    pageSlice.reducer,
+    userInfoSlice.reducer
 ]
