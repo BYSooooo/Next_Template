@@ -5,6 +5,8 @@ import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getUserListForSearch } from '../../controller/FirebaseController';
+import { NoSymbolIcon } from '@heroicons/react/24/solid';
+import UserListItem from '../UserListItem';
 
 export default function SearchFriend() {
     const dispatch = useAppDispatch()
@@ -27,6 +29,29 @@ export default function SearchFriend() {
             setUserList(value)
         } else {
             dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Search Error', content : value}))
+        }
+    }
+
+    const showSearchList = (userList : UserInfo[])=> {
+        if(userList.length > 0) {
+            return (
+                <ul 
+                    role="list" 
+                    className='flex flex-col gap-2'>
+                    {userList.map((user)=> {
+                        return <UserListItem user={user}/>
+                    })}
+                </ul>   
+            )
+        } else {
+            return (
+                <>
+                    <NoSymbolIcon className='w-5 h-5'/>
+                    <p>
+                        No Result
+                    </p>
+                </>
+            )
         }
     }
     
@@ -69,24 +94,9 @@ export default function SearchFriend() {
                             <MagnifyingGlassIcon className='w-5 h-5 font-bold'/>
                         </button>
                     </div>
-                    <ul role="list">
-                        {userList.length > 0
-                            ? 
-                                userList.map((user)=> {
-                                    return (
-                                        <li key={user.uuid}>
-                                            {user.email}
-                                        </li>
-                                    )
-                                })
-                            : 
-                                <li>
-                                    <text>
-                                        No Result
-                                    </text>
-                                </li>
-                        }
-                    </ul>
+                    <div className='flex flex-col text-center'>
+                        {showSearchList(userList)}
+                    </div>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
                 <div className="flex flex-col">

@@ -56,8 +56,16 @@
         focus:dark:outline-white
         focus:outline-slate-500
         rounded-md
-        
+    }
 
+    .listItem-user {
+        @apply
+        flex flex-row
+        p-2
+        cursor-pointer
+        hover:dark:bg-green-600
+        dark:bg-green-700
+        rounded-md
         
     }
 }
