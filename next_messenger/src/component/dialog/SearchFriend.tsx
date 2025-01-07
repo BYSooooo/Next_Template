@@ -45,11 +45,27 @@ export default function SearchFriend() {
             )
         } else {
             return (
-                <>
-                    <NoSymbolIcon className='w-5 h-5'/>
-                    <p>
+                <div className='flex flex-col items-center h-full justify-center'>
+                    <NoSymbolIcon className='w-10 h-10 text-red-400'/>
+                    <p className='text-lg text-red-200'>
                         No Result
                     </p>
+                </div>
+            )
+        }
+    }
+
+    const selectUserInfo =(user : UserInfo)=> {
+        if(user) {
+            return (
+                <p>
+                    {user.email}
+                </p>
+            )
+        } else {
+            return (
+                <>
+                    No Select
                 </>
             )
         }
@@ -81,6 +97,7 @@ export default function SearchFriend() {
                             <label className="text-sm">DisplayName</label>
                         </div>
                     </div>
+                    {/* Input and Search*/}
                     <div className='flex flex-row'>
                         <input
                             onChange={(e)=>setKeyword(e.target.value)}
@@ -94,13 +111,13 @@ export default function SearchFriend() {
                             <MagnifyingGlassIcon className='w-5 h-5 font-bold'/>
                         </button>
                     </div>
-                    <div className='flex flex-col text-center'>
+                    <div className='flex flex-col text-center min-h-[20vh] overflow-scroll'>
                         {showSearchList(userList)}
                     </div>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
-                <div className="flex flex-col">
-                    This is Info Part
+                <div className="flex flex-col px-2">
+                    {selectUserInfo(selUser)}
                 </div>
             </div>
             

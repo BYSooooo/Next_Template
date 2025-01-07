@@ -35,7 +35,6 @@ export default function Dialog() {
         }
     }
     
-
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div className={`dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg p-6 max-w-96 min-w-96 ${dialogSizeControl[size]}`}>
