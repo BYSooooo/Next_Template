@@ -61,10 +61,15 @@
     .listItem-user {
         @apply
         flex flex-row
+        items-center
         p-2
         cursor-pointer
-        hover:dark:bg-green-600
-        dark:bg-green-700
+        border-2
+        hover:bg-blue-500
+        border-blue-500
+        bg-none
+        duration-200
+        transition
         rounded-md
         
     }

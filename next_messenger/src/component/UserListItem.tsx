@@ -2,10 +2,9 @@
 
 import { UserIcon } from "@heroicons/react/24/solid"
 
-
-export default function UserListItem({user} : {user : UserInfo}) {
+export default function UserListItem({user, selected} : {user : UserInfo, selected:Function}) {
     const onClickItem = ()=> {
-        alert("Hello")
+        selected(user)
     }
 
     return (
@@ -14,10 +13,17 @@ export default function UserListItem({user} : {user : UserInfo}) {
             key={user.email}
             className="listItem-user">
             {user.photoUrl 
-                ? <img src={user.photoUrl} />
-                : <UserIcon className="w-5 h-5" />
+                ? <img src={user.photoUrl} className="mr-2"/>
+                : <UserIcon className="w-10 h-10 mr-2" />
             }
-            {user.email}
+            <div className="flex flex-col text-start truncate">
+                <p className="font-bold">
+                    {user.displayName}
+                </p>
+                <p className="text-sm font-light opacity-70 truncate">
+                    {user.email}
+                </p>
+            </div>
         </li>   
     )
 }

@@ -39,15 +39,15 @@ export default function SearchFriend() {
                     role="list" 
                     className='flex flex-col gap-2'>
                     {userList.map((user)=> {
-                        return <UserListItem user={user}/>
+                        return <UserListItem key={user.email} user={user} selected={setSelUser}/>
                     })}
                 </ul>   
             )
         } else {
             return (
                 <div className='flex flex-col items-center h-full justify-center'>
-                    <NoSymbolIcon className='w-10 h-10 text-red-400'/>
-                    <p className='text-lg text-red-200'>
+                    <NoSymbolIcon className='w-10 h-10 dark:text-red-400 text-red-600'/>
+                    <p className='text-lg dark:text-red-200 text-red-800'>
                         No Result
                     </p>
                 </div>
