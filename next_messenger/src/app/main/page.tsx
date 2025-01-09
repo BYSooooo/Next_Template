@@ -40,7 +40,7 @@ export default function Page() {
             if(response.result) {
                 const displayNameYn = response.value.displayName ? true : false
                 !displayNameYn 
-                    ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
+                    ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "1/2", title: "Confirm"}))
                     : dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
             } else {
                 dispatch(controlMessageToast({ 
