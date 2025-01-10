@@ -74,9 +74,9 @@ export default function SearchFriend() {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="flex flex-row divide-solid divide-x gap-2">
+            <div className="flex flex-row divide-solid divide-x">
                 {/*  Left Side : Search, List */}
-                <div className="flex flex-col gap-2 w-1/2 items-center">
+                <div className="flex flex-col gap-2 items-center min-w-[20rem] bg-red-300">
                     {/* Radio Button Group*/}
                     <div className="flex flex-row gap-3">
                         <div className="flex flex-row text-center w-fit">
@@ -116,7 +116,7 @@ export default function SearchFriend() {
                     </div>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
-                <div className="flex flex-col px-2 w-1/2">
+                <div className="flex flex-col px-2 min-w-[20rem] bg-green-300">
                     {selectUserInfo(selUser)}
                 </div>
             </div>
