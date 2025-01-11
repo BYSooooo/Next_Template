@@ -5,7 +5,7 @@ import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getUserListForSearch } from '../../controller/FirebaseController';
-import { NoSymbolIcon } from '@heroicons/react/24/solid';
+import { NoSymbolIcon, QuestionMarkCircleIcon, UserCircleIcon} from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 
 export default function SearchFriend() {
@@ -58,15 +58,21 @@ export default function SearchFriend() {
     const selectUserInfo =(user : UserInfo)=> {
         if(user) {
             return (
-                <p>
-                    {user.email}
-                </p>
+                <div className='flex flex-col h-full items-center justify-center'>
+                    {user.photoUrl
+                        ?<img src={user.photoUrl} />
+                        :<UserCircleIcon className='w-20 h-20'/>
+                    }
+                </div>
             )
         } else {
             return (
-                <>
-                    No Select
-                </>
+                <div className='flex flex-col h-full items-center justify-center'>
+                    <QuestionMarkCircleIcon className='w-14 h-14 dark:text-red-500' />       
+                    <p className='dark:text-red-500'>
+                        No Select
+                    </p>
+                </div>
             )
         }
     }
@@ -76,7 +82,7 @@ export default function SearchFriend() {
         <div className="flex flex-col items-center">
             <div className="flex flex-row divide-solid divide-x">
                 {/*  Left Side : Search, List */}
-                <div className="flex flex-col gap-2 items-center min-w-[20rem] bg-red-300">
+                <div className="flex flex-col gap-2 items-center min-w-[20rem]">
                     {/* Radio Button Group*/}
                     <div className="flex flex-row gap-3">
                         <div className="flex flex-row text-center w-fit">
@@ -116,7 +122,7 @@ export default function SearchFriend() {
                     </div>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
-                <div className="flex flex-col px-2 min-w-[20rem] bg-green-300">
+                <div className="flex flex-col px-2 min-w-[20rem]">
                     {selectUserInfo(selUser)}
                 </div>
             </div>

@@ -31,7 +31,7 @@ export default function Dialog() {
     
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
-            <div className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} min-w-[40rem] jusify-center`}>
+            <div className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} min-w-[40rem] jusify-center py-3 px-2`}>
                 <div className="flex flex-col justify-between items-center mb-4">
                     {/* Dialog Title*/}
                     <div className="container flex flex-col">
