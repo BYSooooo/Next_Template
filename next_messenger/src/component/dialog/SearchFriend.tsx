@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getUserListForSearch } from '../../controller/FirebaseController';
 import { NoSymbolIcon, QuestionMarkCircleIcon, UserCircleIcon} from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
+import UserDetailInfo from '../UserDetail';
 
 export default function SearchFriend() {
     const dispatch = useAppDispatch()
@@ -55,29 +56,6 @@ export default function SearchFriend() {
         }
     }
 
-    const selectUserInfo =(user : UserInfo)=> {
-        if(user) {
-            return (
-                <div className='flex flex-col h-full items-center justify-center'>
-                    {user.photoUrl
-                        ?<img src={user.photoUrl} />
-                        :<UserCircleIcon className='w-20 h-20'/>
-                    }
-                </div>
-            )
-        } else {
-            return (
-                <div className='flex flex-col h-full items-center justify-center'>
-                    <QuestionMarkCircleIcon className='w-14 h-14 dark:text-red-500' />       
-                    <p className='dark:text-red-500'>
-                        No Select
-                    </p>
-                </div>
-            )
-        }
-    }
-    
-
     return (
         <div className="flex flex-col items-center">
             <div className="flex flex-row divide-solid divide-x">
@@ -123,7 +101,15 @@ export default function SearchFriend() {
                 </div>
                 {/* Right Side : Selected Friend Inform */}
                 <div className="flex flex-col px-2 min-w-[20rem]">
-                    {selectUserInfo(selUser)}
+                    {selUser 
+                        ? <UserDetailInfo userInfo={selUser}/>  
+                        :   <div className='flex flex-col h-full items-center justify-center'>
+                                <QuestionMarkCircleIcon className='w-14 h-14 dark:text-red-500' />       
+                                <p className='dark:text-red-500'>
+                                    No Select
+                                </p>
+                            </div>
+                    }
                 </div>
             </div>
             
