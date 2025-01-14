@@ -1,4 +1,4 @@
-import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon, IdentificationIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch } from "../redux/hooks";
 import { controlPageLayout } from "../redux/features";
 
@@ -12,6 +12,8 @@ export default function SideNavigation() {
                 return dispatch(controlPageLayout({ left : '', middle : 'WelcomePage', right : ''}))
             case 'chatting' :
                 return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
+            case 'infoDetail':
+                return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
         }
     }
 
@@ -24,8 +26,15 @@ export default function SideNavigation() {
                 className={`${hoverStyle}`}>
                 <HomeIcon className="w-7 h-7"/>
             </button>
-            <button className={`${hoverStyle}`}>
+            <button 
+                onClick={()=>onClickHandler('chatting')}
+                className={`${hoverStyle}`}>
                 <ChatBubbleBottomCenterIcon className="w-7 h-7" />
+            </button>
+            <button 
+                onClick={()=>onClickHandler('infoDetail')}
+                className={`${hoverStyle}`}>
+                <IdentificationIcon className="w-7 h-7" />
             </button>
             <button className={`${hoverStyle}`}>
                 <Cog6ToothIcon className="w-7 h-7"/>           

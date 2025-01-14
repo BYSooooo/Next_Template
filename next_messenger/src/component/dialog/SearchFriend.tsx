@@ -84,6 +84,9 @@ export default function SearchFriend() {
                     {/* Input and Search*/}
                     <div className='flex flex-row'>
                         <input
+                            onKeyDown={(event)=> {
+                                event.key === 'Enter' && onClickSearch()
+                            }}
                             onChange={(e)=>setKeyword(e.target.value)}
                             value={keyword}
                             placeholder="Search..." 

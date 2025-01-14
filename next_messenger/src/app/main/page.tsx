@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
+import UserDetailInfo from '../../main/UserDetailInfo';
 
 export default function Page() {
     const pageReducer = useAppSelector((state)=> state.pageStore);
@@ -60,6 +61,7 @@ export default function Page() {
             case 'WelcomePage' : return <WelcomePage />
             case 'FriendList' : return <FriendList />
             case 'MainPage' : return <MainPage />
+            case 'UserDetailInfo' : return <UserDetailInfo />
             default : break;
         }
     }
