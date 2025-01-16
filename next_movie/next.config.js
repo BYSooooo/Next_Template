@@ -2,8 +2,21 @@
 /** @type {import('next').NextConfig}  */
 
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
-
 const nextConfig = {
+    // async headers() {
+    //     return [
+    //         {
+    //             source: '/api/movies/popular',
+    //             headers : [
+    //                 {
+    //                     key : 'X-Forwarded-ost',
+    //                     value: 'api.themoviedb.org'
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
+
     async rewrites() {
         return [
             {
