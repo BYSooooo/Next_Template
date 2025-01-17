@@ -1,8 +1,8 @@
-import CastInfo from "../common/dialog/content/CastInfo";
 
 export async function getPopular() {
+    const headers = { "X-Forwarded-Host" : "api.themoviedb.org" }
     try {
-        const response = await (await fetch('/api/movies/popular')).json();
+        const response = await (await fetch('/api/movies/popular', {headers : headers})).json();
         console.log(response.results)
         return response.results;
     } catch (err) {
