@@ -12,17 +12,21 @@ import DetailMedia from '../../../detail/DetailMedia';
 import DetailCollection from '../../../detail/DetailCollection';
 import DetailCompany from '../../../detail/DetailCompany';
 import DetailExternalLink from '../../../detail/DetailExternalLink';
+import { useParams } from 'next/navigation';
+
 
 
 export default function DetailPage({params} : {params : {id : string}}) {
     const [detail, setDetail] = React.useState<MovieDetail>()
-    const themeYn = useAppSelector((state)=> state.themeReducer);
+    const param = useParams<{id: string}>();
 
-    React.useEffect(()=> {
-        getDetail(params.id).then((result)=> setDetail(result))
-        console.log(detail)
-    },[])
+    const themeYn = useAppSelector((state)=> state.themeReducer);
     
+    React.useEffect(()=> {
+        getDetail(param.id).then((result)=> setDetail(result))
+    },[])
+
+
     return (
         <Container fixed
             sx={{

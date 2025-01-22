@@ -1,1 +1,0 @@
-GET http://localhost:3000/api/movie/popular?api_key=123

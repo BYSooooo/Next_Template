@@ -1,10 +1,11 @@
+import { use } from "react";
 
+const header = { 'X-Forwarded-Host' : 'api.themoviedb.org'}
 export async function getPopular() {
-    
     try {
-        const response = await (await fetch('/api/movies/popular', {headers: {'X-Forwarded-Host' : 'api.themoviedb.org'}})).json();
-        console.log(response.results)
-        return response.results;
+        const response = await fetch('/api/movies/popular', {headers : header});
+        const { results } = await (response).json()
+        return results;
     } catch (err) {
         console.error(err)
         throw new Error('Failed to Fetch Movie_Popular')
@@ -13,7 +14,7 @@ export async function getPopular() {
 
 export async function getTopRate() {
     try {
-        const response = await (await fetch('/api/movies/topRate')).json();
+        const response = await (await fetch('/api/movies/topRate',{ headers : header})).json();
         return response.results
     } catch(err) {
         console.error(err);
@@ -23,7 +24,7 @@ export async function getTopRate() {
 
 export async function getGenre() {
     try {
-        const response = await (await fetch('/api/movies/genre')).json();
+        const response = await (await fetch('/api/movies/genre',{ headers : header})).json();
         return response.genres        
     }catch(err) {
         console.error(err)
@@ -33,8 +34,7 @@ export async function getGenre() {
 
 export async function getUpcoming() {
     try {
-        const response = await (await fetch('/api/movies/upComing')).json()
-        console.log(response)
+        const response = await (await fetch('/api/movies/upComing', { headers : header})).json()
         return response.results
     }catch(err) {
         console.error(err)
@@ -44,9 +44,9 @@ export async function getUpcoming() {
 
 export async function getDetail(id : string) {
     try {
-        const response = await(await fetch(`/api/movies/detail/${id}`)).json();
-        console.log(response)
-        return response
+        console.log(id)
+        const response = await(await fetch(`/api/movies/detail/${id}`,{ headers : header})).json();
+        return response.results
     } catch(error) {
         console.log(error)
         throw new Error(`Failed to Fetch Modie Detail for Movie : ${id}`)
@@ -55,7 +55,7 @@ export async function getDetail(id : string) {
 
 export async function getPerson(id : number) {
     try {
-        const response = await (await fetch(`/api/movies/person/${id}`)).json()
+        const response = await (await fetch(`/api/movies/person/${id}`,{ headers : header})).json()
         console.log(response)
         return response
     }catch(error) {
@@ -66,7 +66,7 @@ export async function getPerson(id : number) {
 
 export async function getCollection(id : number) {
     try {
-        const response = await (await fetch(`/api/movies/collection/${id}`)).json()
+        const response = await (await fetch(`/api/movies/collection/${id}`,{ headers : header})).json()
         console.log(response);
         return response
     }catch(error) {
@@ -77,7 +77,7 @@ export async function getCollection(id : number) {
 
 export async function getCompany(id: number) {
     try {
-        const response = await (await fetch(`/api/movies/company/${id}`)).json();
+        const response = await (await fetch(`/api/movies/company/${id}`,{ headers : header})).json();
         console.log(response);
         return response
     } catch(error) {
@@ -88,10 +88,10 @@ export async function getCompany(id: number) {
 
 export async function getSearchResult(keyword: string){
     try {
-        const movieResponse = await (await fetch(`/api/movies/search/movie/${keyword}`)).json()
-        const collectionResponse = await (await fetch(`/api/movies/search/collection/${keyword}`)).json();
-        const companyResponse = await ( await fetch(`/api/movies/search/company/${keyword}`)).json()
-        const personResponse = await (await fetch(`/api/movies/search/person/${keyword}`)).json()
+        const movieResponse = await (await fetch(`/api/movies/search/movie/${keyword}`,{ headers : header})).json()
+        const collectionResponse = await (await fetch(`/api/movies/search/collection/${keyword}`,{ headers : header})).json();
+        const companyResponse = await ( await fetch(`/api/movies/search/company/${keyword}`,{ headers : header})).json()
+        const personResponse = await (await fetch(`/api/movies/search/person/${keyword}`,{ headers : header})).json()
         return { 
             movie : movieResponse, 
             collection : collectionResponse, 

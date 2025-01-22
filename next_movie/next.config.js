@@ -12,7 +12,7 @@ const nextConfig= {
             },
             {
                 source : "/api/movies/genre",
-                destination : `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`            
+                destination : `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
             },
             {
                 source : "/api/movies/topRate",
