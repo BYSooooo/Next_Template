@@ -17,6 +17,7 @@ export default function MovieMain() {
         })
         // get Movie Genres List
         getGenre().then((genres) => {
+            console.log(genres)
             window.sessionStorage.setItem('genres',JSON.stringify(genres))
         })
     },[])
