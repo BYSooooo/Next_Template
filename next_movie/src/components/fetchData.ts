@@ -1,8 +1,9 @@
 const header = { 'X-Forwarded-Host' : 'api.themoviedb.org'}
 export async function getPopular() {
     try {
-        const response = await (await (fetch('/api/movies/popular', {headers : header}))).json();
-        return response.results;
+        const response = await fetch('/api/movies/popular', {headers : header})
+        const results = await response.json();
+        return results;
     } catch (err) {
         console.error(err)
         throw new Error('Failed to Fetch Movie_Popular')

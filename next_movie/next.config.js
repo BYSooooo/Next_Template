@@ -4,28 +4,28 @@
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
 const nextConfig= {
-    async headers() {
-        return [
-            {
-                source: "/api/movies/popular",
-                headers: [
-                    {
-                        key : 'X-Forwarded-Host',
-                        value :  'api.themoviedb.org'
-                    }
-                ]
-            },
-            {
-                source : "/api/movies/genre",
-                headers: [
-                    {
-                        key : 'X-Forwarded-Host',
-                        value :  'api.themoviedb.org'
-                    }
-                ]
-            }
-        ]
-    },
+    // async headers() {
+    //     return [
+    //         {
+    //             source: "/api/movies/popular",
+    //             headers: [
+    //                 {
+    //                     key : 'X-Forwarded-Host',
+    //                     value :  'api.themoviedb.org'
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             source : "/api/movies/genre",
+    //             headers: [
+    //                 {
+    //                     key : 'X-Forwarded-Host',
+    //                     value :  'api.themoviedb.org'
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
     async rewrites() {
         return [
             {
