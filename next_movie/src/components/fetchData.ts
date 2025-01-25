@@ -1,7 +1,6 @@
-const header = { 'X-Forwarded-Host' : 'api.themoviedb.org'}
 export async function getPopular() {
     try {
-        const response = await fetch('/api/movies/popular', {headers : header})
+        const response = await fetch('/api/movies/popular')
         const results = await response.json();
         return results;
     } catch (err) {
@@ -22,7 +21,7 @@ export async function getTopRate() {
 
 export async function getGenre() {
     try {
-        const response = await (await fetch('/api/movies/genre', {headers : header})).json();
+        const response = await (await fetch('/api/movies/genre')).json();
         return response.results        
     }catch(err) {
         console.error(err)
