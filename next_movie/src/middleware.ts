@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-    console.log(request)
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('X-Forwarded-Host','api.themoviedb.org')
     const response = NextResponse.next({
@@ -10,7 +9,6 @@ export function middleware(request: NextRequest) {
             headers : requestHeaders
         }
     })
-    console.log(response)
 }
 
 export const config = {

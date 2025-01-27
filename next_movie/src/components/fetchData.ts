@@ -1,6 +1,10 @@
 export async function getPopular() {
     try {
-        const response = await fetch('/api/movies/popular')
+        // const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+        // const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`)
+        const response = await fetch('/api/movies/popular', {headers : {
+            'X-Forwarded-Host': 'api.themoviedb.org'
+        }})
         const results = await response.json();
         return results;
     } catch (err) {
