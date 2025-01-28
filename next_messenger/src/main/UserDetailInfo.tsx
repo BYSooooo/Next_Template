@@ -1,5 +1,6 @@
 "use client"
 
+import EditPohtoUrl from "../profile/EditPhotoUrl";
 import { useAppSelector } from "../redux/hooks"
 
 export default function UserDetailInfo() {
@@ -13,6 +14,7 @@ export default function UserDetailInfo() {
             </p>
             <div className="flex flex-row gap-3">
                 {/* DisplayName*/}
+                <EditPohtoUrl photoUrl={userInfoSlice.photoUrl}/>
                 <div className="">
                     <p >
                         DisplayName
