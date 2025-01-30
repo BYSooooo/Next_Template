@@ -1,5 +1,7 @@
 "use client"
 
+import EditDisplayName from "../profile/EditDisplayName";
+import EditEmail from "../profile/EditEmail";
 import EditPohtoUrl from "../profile/EditPhotoUrl";
 import { useAppSelector } from "../redux/hooks"
 
@@ -8,28 +10,15 @@ export default function UserDetailInfo() {
 
     return (
         <div className='default-box
-            flex flex-col max-w-[79vw] ml-1 w-[100vw] p-5' >
+            flex flex-col max-w-[79vw] ml-1 w-[100vw] p-5 gap-3' >
             <p className="font-bold text-start text-5xl">
                 Profile
             </p>
-            <div className="flex flex-row gap-3">
+            <div className="flex flex-row gap-3 min-w-full justify-between">
                 {/* DisplayName*/}
                 <EditPohtoUrl photoUrl={userInfoSlice.photoUrl}/>
-                <div className="">
-                    <p >
-                        DisplayName
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        Profile Photo
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        Email Change
-                    </p>
-                </div>
+                <EditDisplayName />
+                <EditEmail />
             </div>
         </div>
     )
