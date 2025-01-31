@@ -73,4 +73,30 @@
         rounded-md
         
     }
+
+    .confirm-button {
+        @apply
+        flex
+        bg-green-500 dark:bg-green-600
+        hover:bg-green-400
+        hover:dark:bg-green-500
+        text-white
+        transition
+        duration-200
+        rounded-md
+        items-center
+    }
+
+    .decline-button {
+        @apply
+        flex
+        bg-red-500 dark:bg-red-600
+        hover:bg-red-400
+        hover:dark:bg-red-500
+        text-white
+        transition
+        duration-200
+        rounded-md
+        items-center
+    }
 }
