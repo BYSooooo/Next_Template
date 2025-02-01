@@ -16,7 +16,7 @@ export default function UserDetailInfo() {
             <div className="grid grid-flow-row grid-cols-2 gap-3 min-w-full justify-between">
                 {/* DisplayName*/}
                 <EditPohtoUrl photoUrl={userInfoSlice.photoUrl}/>
-                <EditDisplayName />
+                <EditDisplayName name={userInfoSlice.displayName}/>
                 
             </div>
         </div>

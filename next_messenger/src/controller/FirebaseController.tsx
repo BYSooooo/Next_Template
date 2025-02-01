@@ -1,11 +1,9 @@
 import {    collection, doc, 
             getDoc, 
             getDocs, 
-            onSnapshot, 
             setDoc 
         } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
-import { useAppDispatch } from "../redux/hooks";
 
 const userAuth = firebaseAuth;
 
@@ -55,6 +53,7 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
     },)
+    console.log(aDatas)
     try {
         await setDoc(docRef, Object.assign({},...aDatas), {
             merge : true
