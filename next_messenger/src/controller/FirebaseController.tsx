@@ -1,8 +1,10 @@
-import {    collection, doc, 
-            getDoc, 
-            getDocs, 
-            setDoc 
-        } from "firebase/firestore";
+import {    
+    collection, 
+    doc, 
+    getDoc, 
+    getDocs, 
+    setDoc 
+} from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 
 const userAuth = firebaseAuth;
@@ -19,8 +21,7 @@ export async function initUserInfo() {
                 await setDoc(docRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName,
-                    photoURL : userAuth.currentUser.photoURL
+                    displayName : userAuth.currentUser.displayName
                 }, { merge : true })
                 return { result : true, content : ""};
             }
