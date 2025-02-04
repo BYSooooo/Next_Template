@@ -12,10 +12,7 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
             onClick={onClickItem}
             key={user.email}
             className="listItem-user">
-            {user.photoUrl 
-                ? <img src={user.photoUrl} className="mr-2"/>
-                : <UserIcon className="w-10 h-10 mr-2" />
-            }
+            <UserIcon className='w-10 h-10 mr-2' />
             <div className="flex flex-col text-start truncate">
                 <p className="font-bold">
                     {user.displayName}

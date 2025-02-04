@@ -4,11 +4,7 @@ export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
     
     return (
         <div className='flex flex-col h-full items-center justify-center'>
-            {userInfo.photoUrl
-                ?   <img />
-                :   <UserCircleIcon className="w-28 h-28"/>
-
-            }
+            <UserCircleIcon className="w-28 h-28"/>
             {userInfo.displayName
                 ?   <p className="font-bold text-lg">
                         {userInfo.displayName}

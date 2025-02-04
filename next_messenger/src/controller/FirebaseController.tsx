@@ -21,7 +21,8 @@ export async function initUserInfo() {
                 await setDoc(docRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName
+                    displayName : userAuth.currentUser.displayName,
+                    avatarColor : ""
                 }, { merge : true })
                 return { result : true, content : ""};
             }

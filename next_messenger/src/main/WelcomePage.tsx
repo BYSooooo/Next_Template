@@ -26,14 +26,12 @@ export default function WelcomePage() {
             </p>
             <div className="flex flex-row h-full">
                 <div className="flex flex-col justify-center items-center w-[40vw]">
-                    {userInfoSlice.photoUrl
-                        ? <p> Hello</p>
-                        : <UserCircleIcon className="w-28 h-28"/>}
-                    <p className="text-base dark:text-slate-400 text-slate-600">
-                        Display Name
-                    </p>
+                    <UserCircleIcon className="w-28 h-28"/>
                     <p className="text-xl">
                         {userInfoSlice.displayName}
+                    </p>
+                    <p className="text-base dark:text-slate-400 text-slate-600">
+                        {userInfoSlice.email}
                     </p>
                 </div>
                 <div className="flex flex-col w-[50vw] items-center gap-2">
