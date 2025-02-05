@@ -22,7 +22,7 @@ export async function initUserInfo() {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
                     displayName : userAuth.currentUser.displayName,
-                    avatarColor : ""
+                    photoBinary : ""
                 }, { merge : true })
                 return { result : true, content : ""};
             }

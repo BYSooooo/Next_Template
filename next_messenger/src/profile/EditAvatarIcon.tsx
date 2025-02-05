@@ -1,8 +1,19 @@
 import { UserCircleIcon } from "@heroicons/react/24/solid"
+import { useAppDispatch } from "../redux/hooks";
+import { controlMessageToast } from "../redux/features";
 
-export default function EditPohtoUrl({photoUrl} : {photoUrl : string}) {
-    const photoCircle = ()=> {
+export default function EditAvatarIcon({photoUrl} : {photoUrl : string}) {
+    const dispatch = useAppDispatch();
 
+    const onChangeTempAvatar = (event: React.ChangeEvent<HTMLInputElement>)=> {
+        const { target : { files } }= event;
+        const uploaded = files[0];
+        if(uploaded.size > 1048576) {
+            dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
+            
+        } else {
+            
+        }
     }
 
     return (
@@ -10,7 +21,7 @@ export default function EditPohtoUrl({photoUrl} : {photoUrl : string}) {
         <div className="flex flex-col bg-slate-300 dark:bg-slate-700 rounded-lg p-3 gap-1">
             <div className="flex flex-col text-start ">
                 <p className="text-2xl font-bold">
-                    Photo
+                    Avatar
                 </p>
                 <ul className="text-sm list-inside list-disc">
                     <li>
@@ -18,6 +29,9 @@ export default function EditPohtoUrl({photoUrl} : {photoUrl : string}) {
                     </li>
                     <li>
                         You can control the visibility of your photos in the settings menu.
+                    </li>
+                    <li>
+                        Upload File has a size limit of 1MB.
                     </li>
                 </ul>
             </div>
@@ -33,9 +47,12 @@ export default function EditPohtoUrl({photoUrl} : {photoUrl : string}) {
 
             </div>
             <div className="flex flex-row-reverse gap-2">
-                <button className="confirm-button py-1 px-2">
-                    Upload
+                <button
+                    onClick={()=> document.getElementById("tempAvatar").click()} 
+                    className="confirm-button py-1 px-2">
+                    Select
                 </button>
+                <input type='file' id="tempAvatar"accept="image/*" onChange={(e)=> onChangeTempAvatar(e)} style={{ display : 'none'}} />
                 <button className="decline-button py-1 px-2 ">
                     Delete
                 </button>
