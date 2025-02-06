@@ -6,6 +6,7 @@ import {
     setDoc 
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
+import { binaryEncode } from "./AvatarBinaryController";
 
 const userAuth = firebaseAuth;
 
@@ -83,4 +84,9 @@ export async function getUserListForSearch(keyword : string, sort : string) {
     } catch(error) {
         return { result : false, value : error }
     }
+}
+
+export async function setAvatarBinary(file : File) {
+    const binary = binaryEncode(file)
+    console.log(binary)
 }

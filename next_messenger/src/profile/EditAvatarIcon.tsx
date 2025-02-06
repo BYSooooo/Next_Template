@@ -1,18 +1,19 @@
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
+import { setAvatarBinary } from "../controller/FirebaseController";
 
 export default function EditAvatarIcon({photoUrl} : {photoUrl : string}) {
     const dispatch = useAppDispatch();
 
     const onChangeTempAvatar = (event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
-        const uploaded = files[0];
+        const uploaded : File = files[0];
+        console.log(uploaded)
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
-            
         } else {
-            
+            setAvatarBinary(uploaded)
         }
     }
 
