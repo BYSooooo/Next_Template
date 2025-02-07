@@ -87,6 +87,16 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 }
 
 export async function setAvatarBinary(file : File) {
-    const binary = binaryEncode(file)
-    console.log(binary)
+    const { email, uid } = firebaseAuth.currentUser;
+    const binary = await binaryEncode(file)
+
+    const docRef = doc(firebaseStore, 'avatarImg', uid)
+    try {
+        await setDoc(docRef, { 
+            email : email,
+            url : binary 
+        })
+    } catch (error) {
+        return { result : false, value : error }
+    }
 }
