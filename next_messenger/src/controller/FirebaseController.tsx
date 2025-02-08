@@ -92,10 +92,9 @@ export async function setAvatarBinary(file : File) {
 
     const docRef = doc(firebaseStore, 'avatarImg', uid)
     try {
-        await setDoc(docRef, { 
-            email : email,
-            url : binary 
-        })
+        const result = await setDoc(docRef, { email : email, url : binary })
+        return { result : true, value : result}
+        
     } catch (error) {
         return { result : false, value : error }
     }
