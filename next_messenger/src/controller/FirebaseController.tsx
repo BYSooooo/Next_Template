@@ -22,8 +22,7 @@ export async function initUserInfo() {
                 await setDoc(docRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName,
-                    photoBinary : ""
+                    displayName : userAuth.currentUser.displayName
                 }, { merge : true })
                 return { result : true, content : ""};
             }
@@ -38,11 +37,22 @@ export async function getCurrentUser() {
     console.log(userAuth.currentUser)
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
-        const docRef = doc(firebaseStore, 'userInfo', uuid);
+        const docRef1 = doc(firebaseStore, 'userInfo', uuid);
+        const docRef2 = doc(firebaseStore, 'avatarImg', uuid);
         try {
-            const response = await getDoc(docRef);
-            const docData = response.data();
-            return { result : true, value : docData as UserInfo}
+            const response1 = await getDoc(docRef1);
+            const docData = response1.data();
+            const response2 = await getDoc(docRef2);
+            const docData2 = response2.data();
+
+            const data : UserInfo = {
+                email : docData.email,
+                emailVerified : docData.emailVerified,
+                displayName : docData.displayName,
+                avatarImg : docData2 ? docData2.avatarImg : ""
+            };
+
+            return { result : true, value : data}
                 
         } catch(error) {
             return { result : false, value : error }
@@ -93,7 +103,7 @@ export async function setAvatarBinary(file : File) {
     const docRef = doc(firebaseStore, 'avatarImg', uid)
     try {
         const result = await setDoc(docRef, { email : email, url : binary })
-        return { result : true, value : result}
+        return { result : true, value : result }
         
     } catch (error) {
         return { result : false, value : error }

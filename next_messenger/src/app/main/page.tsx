@@ -34,6 +34,7 @@ export default function Page() {
             console.log("Refresh UserInfo")
             const userInfoData = response.data() as UserInfo;
             userInfoData && dispatch(setUserInfo(userInfoData));
+            
         })
 
         getCurrentUser().then((response) => {
