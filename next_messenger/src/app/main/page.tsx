@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getCurrentUser } from '../../controller/FirebaseController';
+import { getCurrentUser, updateUserInfo } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
@@ -10,7 +10,7 @@ import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDocs, onSnapshot } from 'firebase/firestore';
 import UserDetailInfo from '../../main/UserDetailInfo';
 
 export default function Page() {
@@ -29,11 +29,19 @@ export default function Page() {
     },[])
 
     const getCurUserInfo = ()=> {
-        const docRef = doc(firebaseStore,'userInfo',fireAuth.currentUser.uid);
+        const uuid = fireAuth.currentUser.uid;
+        const docRef = doc(firebaseStore,'userInfo',uuid);
         onSnapshot(docRef,(response)=> {
             console.log("Refresh UserInfo")
-            const userInfoData = response.data() as UserInfo;
-            userInfoData && dispatch(setUserInfo(userInfoData));
+            const userInfoData = response.data();
+            // userInfoData && dispatch(setUserInfo(userInfoData));
+            
+        })
+        const docRef2 = doc(firebaseStore,'avatarImg', uuid)
+        onSnapshot(docRef2, (response)=> {
+            console.log("Refresh avatarImg")
+            const avatarImgData = response.data() as {email : string, avatarImg : string};
+            // avatarImgData && dispatch(setUserInfo({ avatarImg : avatarImgData.avatarImg}));
             
         })
 
