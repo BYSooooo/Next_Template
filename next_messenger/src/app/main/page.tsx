@@ -10,7 +10,7 @@ import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
-import { doc, getDocs, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import UserDetailInfo from '../../main/UserDetailInfo';
 
 export default function Page() {
@@ -30,28 +30,45 @@ export default function Page() {
 
     const getCurUserInfo = ()=> {
         const uuid = fireAuth.currentUser.uid;
+        // set Snapshot for Listen when Update
         const docRef = doc(firebaseStore,'userInfo',uuid);
         onSnapshot(docRef,(response)=> {
             console.log("Refresh UserInfo")
-            const userInfoData = response.data();
-            // userInfoData && dispatch(setUserInfo(userInfoData));
-            
+            getCurrentUser().then((response)=> {
+                const { result, value } = response;
+                result 
+                    ? dispatch(setUserInfo(value))
+                    : dispatch(controlMessageToast({ 
+                        openYn : true, 
+                        title : "Error Occured", 
+                        type: 'error', 
+                        content : 'Error during update'}))
+            })
         })
         const docRef2 = doc(firebaseStore,'avatarImg', uuid)
         onSnapshot(docRef2, (response)=> {
             console.log("Refresh avatarImg")
-            const avatarImgData = response.data() as {email : string, avatarImg : string};
-            // avatarImgData && dispatch(setUserInfo({ avatarImg : avatarImgData.avatarImg}));
-            
+            getCurrentUser().then((response)=> {
+                const { result, value } = response;
+                result 
+                    ? dispatch(setUserInfo(value))
+                    : dispatch(controlMessageToast({ 
+                        openYn : true, 
+                        title : "Error Occured", 
+                        type: 'error', 
+                        content : 'Error during update'}))
+            })
         })
 
         getCurrentUser().then((response) => {
-            console.log(response.result)
             if(response.result) {
+                dispatch(setUserInfo(response.value))
                 const displayNameYn = response.value.displayName ? true : false
-                !displayNameYn 
-                    ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "fit", title: "Confirm"}))
-                    : dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
+                if(!displayNameYn) {
+                    dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "fit", title: "Confirm"}))
+                } else {
+                    dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
+                }
             } else {
                 dispatch(controlMessageToast({ 
                     openYn : true, 

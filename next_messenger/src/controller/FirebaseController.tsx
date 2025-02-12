@@ -12,17 +12,22 @@ const userAuth = firebaseAuth;
 
 export async function initUserInfo() {
     if(userAuth.currentUser) {
-        const docRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
+        const docInfoRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
+        const docImgRef = doc(firebaseStore, 'avatarImg', userAuth.currentUser.uid);
         try {
-            const currentDoc = await getDoc(docRef)
+            const currentDoc = await getDoc(docInfoRef)
             // Check Y/N current User's Info in  firestore base 'userInfo' Collection
             if(currentDoc.data()) {
                 return { result : true, content : currentDoc.data()}
             } else {
-                await setDoc(docRef, {
+                await setDoc(docInfoRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
                     displayName : userAuth.currentUser.displayName
+                }, { merge : true })
+                await setDoc(docImgRef, {
+                    email : userAuth.currentUser.email,
+                    avatarImg : ""
                 }, { merge : true })
                 return { result : true, content : ""};
             }
@@ -102,7 +107,7 @@ export async function setAvatarBinary(file : File) {
 
     const docRef = doc(firebaseStore, 'avatarImg', uid)
     try {
-        const result = await setDoc(docRef, { email : email, url : binary })
+        const result = await setDoc(docRef, { email : email, avatarImg : binary })
         return { result : true, value : result }
         
     } catch (error) {

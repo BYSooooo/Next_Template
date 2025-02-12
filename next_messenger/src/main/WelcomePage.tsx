@@ -26,7 +26,13 @@ export default function WelcomePage() {
             </p>
             <div className="flex flex-row h-full">
                 <div className="flex flex-col justify-center items-center w-[40vw]">
-                    <UserCircleIcon className="w-28 h-28"/>
+                    { userInfoSlice.avatarImg === '' 
+                        ?   <UserCircleIcon className="w-28 h-28"/>
+                        :   <img
+                                className="h-32 w-32 mx-auto object-cover rounded-full" 
+                                src={userInfoSlice.avatarImg} 
+                            />
+                    }
                     <p className="text-xl">
                         {userInfoSlice.displayName}
                     </p>
