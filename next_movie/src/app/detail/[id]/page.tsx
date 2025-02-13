@@ -16,7 +16,7 @@ import { useParams } from 'next/navigation';
 
 
 
-export default function DetailPage({params} : {params : {id : string}}) {
+export default function DetailPage() {
     const [detail, setDetail] = React.useState<MovieDetail>()
     const param = useParams<{id: string}>();
 
