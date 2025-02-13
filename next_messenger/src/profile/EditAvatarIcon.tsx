@@ -1,19 +1,34 @@
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { setAvatarBinary } from "../controller/FirebaseController";
+import { delAvatarBinary, setAvatarBinary } from "../controller/FirebaseController";
+import { deleteDoc } from "firebase/firestore";
 
-export default function EditAvatarIcon({photoUrl} : {photoUrl : string}) {
+export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
     const dispatch = useAppDispatch();
 
-    const onChangeTempAvatar = (event: React.ChangeEvent<HTMLInputElement>)=> {
+    const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
         const uploaded : File = files[0];
         console.log(uploaded)
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
-            setAvatarBinary(uploaded)
+            const {result, value} = await setAvatarBinary(uploaded)
+            if(result) {
+                dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Avatar Image Changed"}))
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value}))
+            }
+        }
+    }
+
+    const onDeleteAvatarImg = async()=> {
+        const { result, value } = await delAvatarBinary()
+        if(result) {
+            value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Avatar Image Deleted'})  
+        } else {
+            controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value})
         }
     }
 
@@ -37,11 +52,12 @@ export default function EditAvatarIcon({photoUrl} : {photoUrl : string}) {
                 </ul>
             </div>
             <div className="flex flex-col items-center">
-            {photoUrl 
-                ? 
-                    <p>
-                        Yes
-                    </p>
+            {avatarImg 
+                ?   <img
+                        className="h-36 w-36 mx-auto object-cover rounded-full" 
+                        src={avatarImg} 
+                    />
+                        
                 : 
                     <UserCircleIcon className="w-40 h-40 text-gray-600 dark:text-white"/> 
             }
@@ -54,7 +70,9 @@ export default function EditAvatarIcon({photoUrl} : {photoUrl : string}) {
                     Select
                 </button>
                 <input type='file' id="tempAvatar"accept="image/*" onChange={(e)=> onChangeTempAvatar(e)} style={{ display : 'none'}} />
-                <button className="decline-button py-1 px-2 ">
+                <button
+                    onClick={onDeleteAvatarImg} 
+                    className="decline-button py-1 px-2 ">
                     Delete
                 </button>
             </div>

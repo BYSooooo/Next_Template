@@ -1,5 +1,6 @@
 import {    
     collection, 
+    deleteDoc, 
     doc, 
     getDoc, 
     getDocs, 
@@ -112,5 +113,17 @@ export async function setAvatarBinary(file : File) {
         
     } catch (error) {
         return { result : false, value : error }
+    }
+}
+
+export async function delAvatarBinary() {
+    const { email, uid } = firebaseAuth.currentUser;
+    const docRef = doc(firebaseStore,'avatarImg', uid);
+
+    try {
+        const result = await deleteDoc(docRef)
+        return { result : true, value : result };
+    } catch(error) {
+        return { result : false, value : error };
     }
 }
