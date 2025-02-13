@@ -56,8 +56,47 @@
         focus:dark:outline-white
         focus:outline-slate-500
         rounded-md
-        
+    }
 
+    .listItem-user {
+        @apply
+        flex flex-row
+        items-center
+        p-2
+        cursor-pointer
+        border-2
+        hover:bg-blue-500
+        border-blue-500
+        bg-none
+        duration-200
+        transition
+        rounded-md
         
+    }
+
+    .confirm-button {
+        @apply
+        flex
+        bg-green-500 dark:bg-green-600
+        hover:bg-green-400
+        hover:dark:bg-green-500
+        text-white
+        transition
+        duration-200
+        rounded-md
+        items-center
+    }
+
+    .decline-button {
+        @apply
+        flex
+        bg-red-500 dark:bg-red-600
+        hover:bg-red-400
+        hover:dark:bg-red-500
+        text-white
+        transition
+        duration-200
+        rounded-md
+        items-center
     }
 }

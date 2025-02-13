@@ -1,0 +1,7 @@
+GET http://localhost:3000/api/movies/popular?api_key=8ce95cb0449a08879b2064c7256b5965
+
+###
+GET https://api.themoviedb.org/3/movie/popular?api_key=8ce95cb0449a08879b2064c7256b5965
+
+###
+GET https://api.themoviedb.org/3/genre/movie/list?api_key=8ce95cb0449a08879b2064c7256b5965

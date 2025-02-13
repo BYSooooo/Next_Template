@@ -1,10 +1,12 @@
-import CastInfo from "../common/dialog/content/CastInfo";
-
 export async function getPopular() {
     try {
-        const response = await (await fetch('/api/movies/popular')).json();
-        console.log(response.results)
-        return response.results;
+        // const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+        // const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`)
+        const response = await fetch('/api/movies/popular', {headers : {
+            'X-Forwarded-Host': 'api.themoviedb.org'
+        }})
+        const results = await response.json();
+        return results;
     } catch (err) {
         console.error(err)
         throw new Error('Failed to Fetch Movie_Popular')
@@ -24,7 +26,7 @@ export async function getTopRate() {
 export async function getGenre() {
     try {
         const response = await (await fetch('/api/movies/genre')).json();
-        return response.genres        
+        return response.results        
     }catch(err) {
         console.error(err)
         throw new Error('Failed to Fetch Getting Genre list')
@@ -34,7 +36,6 @@ export async function getGenre() {
 export async function getUpcoming() {
     try {
         const response = await (await fetch('/api/movies/upComing')).json()
-        console.log(response)
         return response.results
     }catch(err) {
         console.error(err)
@@ -44,9 +45,9 @@ export async function getUpcoming() {
 
 export async function getDetail(id : string) {
     try {
+        console.log(id)
         const response = await(await fetch(`/api/movies/detail/${id}`)).json();
-        console.log(response)
-        return response
+        return response.results
     } catch(error) {
         console.log(error)
         throw new Error(`Failed to Fetch Modie Detail for Movie : ${id}`)

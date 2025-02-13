@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getCurrentUser } from '../../controller/FirebaseController';
+import { getCurrentUser, updateUserInfo } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
+import UserDetailInfo from '../../main/UserDetailInfo';
 
 export default function Page() {
     const pageReducer = useAppSelector((state)=> state.pageStore);
@@ -28,20 +29,46 @@ export default function Page() {
     },[])
 
     const getCurUserInfo = ()=> {
-        const docRef = doc(firebaseStore,'userInfo',fireAuth.currentUser.uid);
+        const uuid = fireAuth.currentUser.uid;
+        // set Snapshot for Listen when Update
+        const docRef = doc(firebaseStore,'userInfo',uuid);
         onSnapshot(docRef,(response)=> {
             console.log("Refresh UserInfo")
-            const userInfoData = response.data() as UserInfo;
-            userInfoData && dispatch(setUserInfo(userInfoData));
+            getCurrentUser().then((response)=> {
+                const { result, value } = response;
+                result 
+                    ? dispatch(setUserInfo(value))
+                    : dispatch(controlMessageToast({ 
+                        openYn : true, 
+                        title : "Error Occured", 
+                        type: 'error', 
+                        content : 'Error during update'}))
+            })
+        })
+        const docRef2 = doc(firebaseStore,'avatarImg', uuid)
+        onSnapshot(docRef2, (response)=> {
+            console.log("Refresh avatarImg")
+            getCurrentUser().then((response)=> {
+                const { result, value } = response;
+                result 
+                    ? dispatch(setUserInfo(value))
+                    : dispatch(controlMessageToast({ 
+                        openYn : true, 
+                        title : "Error Occured", 
+                        type: 'error', 
+                        content : 'Error during update'}))
+            })
         })
 
         getCurrentUser().then((response) => {
-            console.log(response.result)
             if(response.result) {
+                dispatch(setUserInfo(response.value))
                 const displayNameYn = response.value.displayName ? true : false
-                !displayNameYn 
-                    ? dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "oneTwo", title: "Confirm"}))
-                    : dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
+                if(!displayNameYn) {
+                    dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "fit", title: "Confirm"}))
+                } else {
+                    dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
+                }
             } else {
                 dispatch(controlMessageToast({ 
                     openYn : true, 
@@ -60,6 +87,7 @@ export default function Page() {
             case 'WelcomePage' : return <WelcomePage />
             case 'FriendList' : return <FriendList />
             case 'MainPage' : return <MainPage />
+            case 'UserDetailInfo' : return <UserDetailInfo />
             default : break;
         }
     }

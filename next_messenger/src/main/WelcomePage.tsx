@@ -1,6 +1,6 @@
 'use client';
 
-import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, IdentificationIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { controlPageLayout } from "../redux/features";
 
@@ -12,7 +12,9 @@ export default function WelcomePage() {
         switch(moveTo) {
             case 'chatting' : 
                 dispatch(controlPageLayout({left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
-            break
+            break;
+            case 'profile' :
+                dispatch(controlPageLayout({left : 'SideNavigation', middle: 'UserDetailInfo', right : '' }))
         }
     }
 
@@ -24,14 +26,18 @@ export default function WelcomePage() {
             </p>
             <div className="flex flex-row h-full">
                 <div className="flex flex-col justify-center items-center w-[40vw]">
-                    {userInfoSlice.photoUrl
-                        ? <p> Hello</p>
-                        : <UserCircleIcon className="w-28 h-28"/>}
-                    <p className="text-base dark:text-slate-400 text-slate-600">
-                        Display Name
-                    </p>
+                    { userInfoSlice.avatarImg === '' 
+                        ?   <UserCircleIcon className="w-28 h-28"/>
+                        :   <img
+                                className="h-32 w-32 mx-auto object-cover rounded-full" 
+                                src={userInfoSlice.avatarImg} 
+                            />
+                    }
                     <p className="text-xl">
                         {userInfoSlice.displayName}
+                    </p>
+                    <p className="text-base dark:text-slate-400 text-slate-600">
+                        {userInfoSlice.email}
                     </p>
                 </div>
                 <div className="flex flex-col w-[50vw] items-center gap-2">
@@ -46,6 +52,12 @@ export default function WelcomePage() {
                         onClick={()=>handleClick('chatting')}>
                         <ChatBubbleBottomCenterIcon className="w-5 h-5 mr-2"/>
                         Chatting
+                    </button>
+                    <button
+                        onClick={()=>handleClick('profile')}
+                        className="default-button px-3 h-10 w-[70%]">
+                            <IdentificationIcon className="w-5 h-5 mr-2" />
+                            Profile
                     </button>
                     <button className="default-button px-3 h-10 w-[70%]">
                         <Cog6ToothIcon className="w-5 h-5 mr-2"/>

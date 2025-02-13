@@ -65,13 +65,15 @@ export const userInfoSlice = createSlice({
     initialState: {
         email: '',
         displayName : '',
-        photoUrl : ''
+        emailVerified : '',
+        avatarImg : ''
     } ,
     reducers : {
         setUserInfo: (state, action: PayloadAction<UserInfo>)=> {
             state.email = action.payload.email;
             state.displayName = action.payload.displayName;
-            state.photoUrl = action.payload.photoUrl;
+            state.emailVerified = action.payload.emailVerified;
+            state.avatarImg = action.payload.avatarImg;
         }
     }
 

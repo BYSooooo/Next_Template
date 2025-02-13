@@ -58,7 +58,7 @@ export default function NoDisplayName() {
             </div>
             <button
                 onClick={onClickSubmit} 
-                className='confirm-button w-3/4 h-10'>
+                className='confirm-button w-3/4 h-10 justify-around'>
                 <p className='text-sm'>
                     Submit
                 </p>

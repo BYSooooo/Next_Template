@@ -1,28 +1,34 @@
-import {    collection, doc, 
-            getDoc, 
-            getDocs, 
-            onSnapshot, 
-            setDoc 
-        } from "firebase/firestore";
+import {    
+    collection, 
+    deleteDoc, 
+    doc, 
+    getDoc, 
+    getDocs, 
+    setDoc 
+} from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
-import { useAppDispatch } from "../redux/hooks";
+import { binaryEncode } from "./AvatarBinaryController";
 
 const userAuth = firebaseAuth;
 
 export async function initUserInfo() {
     if(userAuth.currentUser) {
-        const docRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
+        const docInfoRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
+        const docImgRef = doc(firebaseStore, 'avatarImg', userAuth.currentUser.uid);
         try {
-            const currentDoc = await getDoc(docRef)
+            const currentDoc = await getDoc(docInfoRef)
             // Check Y/N current User's Info in  firestore base 'userInfo' Collection
             if(currentDoc.data()) {
                 return { result : true, content : currentDoc.data()}
             } else {
-                await setDoc(docRef, {
+                await setDoc(docInfoRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName,
-                    photoURL : userAuth.currentUser.photoURL
+                    displayName : userAuth.currentUser.displayName
+                }, { merge : true })
+                await setDoc(docImgRef, {
+                    email : userAuth.currentUser.email,
+                    avatarImg : ""
                 }, { merge : true })
                 return { result : true, content : ""};
             }
@@ -37,11 +43,22 @@ export async function getCurrentUser() {
     console.log(userAuth.currentUser)
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
-        const docRef = doc(firebaseStore, 'userInfo', uuid);
+        const docRef1 = doc(firebaseStore, 'userInfo', uuid);
+        const docRef2 = doc(firebaseStore, 'avatarImg', uuid);
         try {
-            const response = await getDoc(docRef);
-            const docData = response.data();
-            return { result : true, value : docData as UserInfo}
+            const response1 = await getDoc(docRef1);
+            const docData = response1.data();
+            const response2 = await getDoc(docRef2);
+            const docData2 = response2.data();
+
+            const data : UserInfo = {
+                email : docData.email,
+                emailVerified : docData.emailVerified,
+                displayName : docData.displayName,
+                avatarImg : docData2 ? docData2.avatarImg : ""
+            };
+
+            return { result : true, value : data}
                 
         } catch(error) {
             return { result : false, value : error }
@@ -55,6 +72,7 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
     },)
+    console.log(aDatas)
     try {
         await setDoc(docRef, Object.assign({},...aDatas), {
             merge : true
@@ -81,5 +99,31 @@ export async function getUserListForSearch(keyword : string, sort : string) {
         return { result : true, value : aResults }
     } catch(error) {
         return { result : false, value : error }
+    }
+}
+
+export async function setAvatarBinary(file : File) {
+    const { email, uid } = firebaseAuth.currentUser;
+    const binary = await binaryEncode(file)
+
+    const docRef = doc(firebaseStore, 'avatarImg', uid)
+    try {
+        const result = await setDoc(docRef, { email : email, avatarImg : binary })
+        return { result : true, value : result }
+        
+    } catch (error) {
+        return { result : false, value : error }
+    }
+}
+
+export async function delAvatarBinary() {
+    const { email, uid } = firebaseAuth.currentUser;
+    const docRef = doc(firebaseStore,'avatarImg', uid);
+
+    try {
+        const result = await deleteDoc(docRef)
+        return { result : true, value : result };
+    } catch(error) {
+        return { result : false, value : error };
     }
 }
