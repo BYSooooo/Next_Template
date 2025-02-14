@@ -21,7 +21,7 @@ export default function RootPage() {
                       <MovieCard path='/movie'/>
                   </Grid> 
                   <Grid xs={12} sm={6} md={4}>
-                      <MessengerCard path='/messenger' />
+                      <MessengerCard path='https://next-messenger-nine.vercel.app/' />
                   </Grid>
                   <Grid xs={12} sm={6} md={4}>
                       <ShoppingCard path='/shopping' />

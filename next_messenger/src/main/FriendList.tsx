@@ -1,14 +1,34 @@
 "use client"
 
+import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
+import { doc, onSnapshot } from 'firebase/firestore';
+import { firebaseAuth, firebaseStore } from '../../firebase-config';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
+    
+    const currentUser = firebaseAuth.currentUser;
+
+    React.useEffect(()=> {
+        refreshFriendList()        
+    },[])
+    
     const onClickAddFriend =()=> {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : '1/2', title : 'Search'}))
     }
+
+    const refreshFriendList = ()=> {    
+        const docRef = doc(firebaseStore,'friendList', currentUser.uid);
+        onSnapshot(docRef,(response)=> {
+            
+        })
+    }
+
+
+    
 
     return (
         <div className='default-box
