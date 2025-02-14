@@ -4,6 +4,7 @@ import {
     doc, 
     getDoc, 
     getDocs, 
+    getDocsFromServer, 
     setDoc 
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
@@ -92,7 +93,9 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             await getDocs(colRef).then((response)=> {
                 response.forEach((doc)=> {
                     const data = doc.data() as UserInfo;
-                    data[sort].includes(keyword) && aResults.push(data)
+                    if(firebaseAuth.currentUser.email !== data.email) {
+                        data[sort].includes(keyword) && aResults.push(data)
+                    }
                 })
             });
         }
@@ -125,5 +128,16 @@ export async function delAvatarBinary() {
         return { result : true, value : result };
     } catch(error) {
         return { result : false, value : error };
+    }
+}
+
+export async function getFriendList() {
+    const { email, uid } = firebaseAuth.currentUser;
+    const colRef = collection(firebaseStore,'friendList',uid);
+    try {
+        const results = await getDocsFromServer(colRef);
+        return { result : true, value : results };
+    } catch (error) {
+        return { result : false, value : error}
     }
 }

@@ -5,16 +5,17 @@ import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getUserListForSearch } from '../../controller/FirebaseController';
-import { NoSymbolIcon, QuestionMarkCircleIcon, UserCircleIcon} from '@heroicons/react/24/solid';
+import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';
 
 export default function SearchFriend() {
-    const dispatch = useAppDispatch()
     const [checked, setChecked] = React.useState("email")
     const [selUser, setSelUser] = React.useState<UserInfo>(null);
     const [userList, setUserList] = React.useState([]);
     const [keyword, setKeyword] = React.useState("");
+    
+    const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
         setSelUser(null)
