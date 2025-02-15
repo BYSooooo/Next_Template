@@ -106,7 +106,7 @@ export default function SearchFriend() {
                 {/* Right Side : Selected Friend Inform */}
                 <div className="flex flex-col px-2 min-w-[20rem]">
                     {selUser 
-                        ? <UserDetailInfo userInfo={selUser}/>  
+                        ?   <UserDetailInfo userInfo={selUser}/>  
                         :   <div className='flex flex-col h-full items-center justify-center'>
                                 <QuestionMarkCircleIcon className='w-14 h-14 dark:text-red-500' />       
                                 <p className='dark:text-red-500'>
@@ -114,6 +114,11 @@ export default function SearchFriend() {
                                 </p>
                             </div>
                     }
+                
+                    <button className='confirm-button'>
+                        Request
+                    </button>
+                
                 </div>
             </div>
             
