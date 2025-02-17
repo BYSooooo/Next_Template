@@ -114,10 +114,14 @@ export default function SearchFriend() {
                                 </p>
                             </div>
                     }
-                
-                    <button className='confirm-button'>
-                        Request
-                    </button>
+                    {
+                        selUser && 
+                            <div className='flex flex-row-reverse'>
+                                <button className='flex w-fit p-1 confirm-button'>
+                                    Request
+                                </button>
+                            </div>
+                    }
                 
                 </div>
             </div>

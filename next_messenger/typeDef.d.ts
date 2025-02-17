@@ -3,6 +3,7 @@ type UserInfo = {
     emailVerified : string,
     displayName : string,
     avatarImg : string
+    avatarOpenYn : boolean
 }
 
 type friendRequestInfo = {

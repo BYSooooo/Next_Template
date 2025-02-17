@@ -29,7 +29,8 @@ export async function initUserInfo() {
                 }, { merge : true })
                 await setDoc(docImgRef, {
                     email : userAuth.currentUser.email,
-                    avatarImg : ""
+                    avatarImg : "",
+                    avatarOpenYn : false
                 }, { merge : true })
                 return { result : true, content : ""};
             }
@@ -56,7 +57,8 @@ export async function getCurrentUser() {
                 email : docData.email,
                 emailVerified : docData.emailVerified,
                 displayName : docData.displayName,
-                avatarImg : docData2 ? docData2.avatarImg : ""
+                avatarImg : docData2 ? docData2.avatarImg : "",
+                avatarOpenYn : docData2 ? docData2.avatarOpenYn : false
             };
 
             return { result : true, value : data}

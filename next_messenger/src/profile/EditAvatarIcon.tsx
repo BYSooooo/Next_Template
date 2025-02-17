@@ -1,8 +1,8 @@
+
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
 import { delAvatarBinary, setAvatarBinary } from "../controller/FirebaseController";
-import { deleteDoc } from "firebase/firestore";
 
 export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
     const dispatch = useAppDispatch();
@@ -10,11 +10,12 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
         const uploaded : File = files[0];
-        console.log(uploaded)
+
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
             const {result, value} = await setAvatarBinary(uploaded)
+            
             if(result) {
                 dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Avatar Image Changed"}))
             } else {
@@ -44,7 +45,7 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
                         Upload an image to use as profile picture.  
                     </li>
                     <li>
-                        You can control the visibility of your photos in the settings menu.
+                        You can control the visibility of your avatar.
                     </li>
                     <li>
                         Upload File has a size limit of 1MB.
@@ -59,9 +60,21 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
                     />
                         
                 : 
-                    <UserCircleIcon className="w-40 h-40 text-gray-600 dark:text-white"/> 
+                    <UserCircleIcon className="w-36 h-36 text-gray-600 dark:text-white"/> 
             }
 
+            </div>
+            <div className="flex flex-row-reverse">
+                <label
+                    className="inline-flex relative items-center cursor-pointer">
+                    <input 
+                        type="checkbox" 
+                        className="sr-only peer"
+                        />
+
+
+                </label>
+                
             </div>
             <div className="flex flex-row-reverse gap-2">
                 <button

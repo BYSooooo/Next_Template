@@ -5,7 +5,7 @@ import React from 'react';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { firebaseAuth } from '../../../firebase-config';
 import { useAppDispatch } from '../../redux/hooks';
-import { controlDialog, controlMessageToast } from '../../redux/features';
+import { controlDialog, controlMessageToast, controlPageLayout } from '../../redux/features';
 import { updateUserInfo } from '../../controller/FirebaseController';
 import { useRouter } from 'next/navigation';
 
@@ -24,6 +24,7 @@ export default function NoDisplayName() {
                 .then((result)=> {
                     if(result) {
                         dispatch(controlDialog({ openYn : false, contentName : "", size : "", title : ""}))
+                        dispatch(controlPageLayout({left : 'SideNavigation', middle : 'WelcomePage', right : ''}))
                         router.push("/main")
                     }
                 })
