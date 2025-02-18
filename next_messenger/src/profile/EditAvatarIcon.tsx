@@ -1,3 +1,6 @@
+'use client'
+
+import React from 'react'
 
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch } from "../redux/hooks";
@@ -5,6 +8,7 @@ import { controlMessageToast } from "../redux/features";
 import { delAvatarBinary, setAvatarBinary } from "../controller/FirebaseController";
 
 export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
+    const [publicYn, setPublicYn] = React.useState()
     const dispatch = useAppDispatch();
 
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
@@ -62,19 +66,38 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
                 : 
                     <UserCircleIcon className="w-36 h-36 text-gray-600 dark:text-white"/> 
             }
-
             </div>
-            <div className="flex flex-row-reverse">
+            <div className="flex flex-row-reverse gap-2">
                 <label
                     className="inline-flex relative items-center cursor-pointer">
                     <input 
                         type="checkbox" 
                         className="sr-only peer"
+                        readOnly
                         />
-
-
+                    <div className="w-11 h-6 bg-red-500 rounded-full
+                        peer  
+                            peer-focus:ring-green-300  
+                            peer-checked:after:translate-x-full 
+                            peer-checked:after:border-white 
+                            after:content-[''] 
+                            after:absolute 
+                            after:top-0.5 
+                            after:left-[2px] 
+                            after:bg-white 
+                            after:border-gray-100 
+                            after:border 
+                            after:rounded-full 
+                            after:h-5 
+                            after:w-5 
+                            after:transition-all 
+                            peer-checked:bg-blue-500">
+                        
+                    </div>
                 </label>
-                
+                <p className="text-sm">
+                    Visible `{}`
+                </p>
             </div>
             <div className="flex flex-row-reverse gap-2">
                 <button
