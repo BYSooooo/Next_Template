@@ -5,7 +5,7 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    setDoc 
+    setDoc
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -128,6 +128,22 @@ export async function delAvatarBinary() {
     try {
         const result = await deleteDoc(docRef)
         return { result : true, value : result };
+    } catch(error) {
+        return { result : false, value : error };
+    }
+}
+
+export async function updateAvatarOpenYn(avatarOpenYn : boolean) {
+    const { email, uid } = firebaseAuth.currentUser;
+    const docRef = doc(firebaseStore, 'avatarImg', uid);
+    try {
+        const result = await setDoc(docRef, {
+            avatarOpenYn : avatarOpenYn
+        },{
+            merge : true
+        })
+        return { result : true, value : result };
+
     } catch(error) {
         return { result : false, value : error };
     }

@@ -66,7 +66,8 @@ export const userInfoSlice = createSlice({
         email: '',
         displayName : '',
         emailVerified : '',
-        avatarImg : ''
+        avatarImg : '',
+        avatarOpenYn : false
     } ,
     reducers : {
         setUserInfo: (state, action: PayloadAction<UserInfo>)=> {
@@ -74,6 +75,7 @@ export const userInfoSlice = createSlice({
             state.displayName = action.payload.displayName;
             state.emailVerified = action.payload.emailVerified;
             state.avatarImg = action.payload.avatarImg;
+            state.avatarOpenYn = action.payload.avatarOpenYn;
         }
     }
 

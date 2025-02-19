@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getCurrentUser, updateUserInfo } from '../../controller/FirebaseController';
+import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
 import FriendList from '../../main/FriendList';
 import MainPage from '../../main/MainPage';
