@@ -88,18 +88,28 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
 }
 
 export async function getUserListForSearch(keyword : string, sort : string) {
-    const colRef = collection(firebaseStore,"userInfo");
+    const infoColRef = collection(firebaseStore,"userInfo");
+    const imgColRef = collection(firebaseStore, "avatarImg");
     try {
+        const userInfos = await getDocs(infoColRef);
+        const avatarImgs = await getDocs(imgColRef);
         let aResults = []
+        
         if(keyword.length > 0) {
-            await getDocs(colRef).then((response)=> {
-                response.forEach((doc)=> {
-                    const data = doc.data() as UserInfo;
-                    if(firebaseAuth.currentUser.email !== data.email) {
-                        data[sort].includes(keyword) && aResults.push(data)
-                    }
-                })
-            });
+            userInfos.forEach((doc)=> {
+                const data = doc.data()
+            })
+        }
+
+        if(keyword.length > 0) {
+            // await getDocs(colRef).then((response)=> {
+            //     response.forEach((doc)=> {
+            //         const data = doc.data() as UserInfo;
+            //         if(firebaseAuth.currentUser.email !== data.email) {
+            //             data[sort].includes(keyword) && aResults.push(data)
+            //         }
+            //     })
+            // });
         }
         return { result : true, value : aResults }
     } catch(error) {

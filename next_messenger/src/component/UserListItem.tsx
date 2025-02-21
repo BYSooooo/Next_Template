@@ -8,16 +8,20 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
     }
 
     const showAvatar = ()=> {
-        if(user.avatarImg) {
-            
-        } else {
-            return <UserIcon className='w-10 h-10 mr-2' />
-        }
-        if(user.avatarOpenYn) {
-            
-        } else {
-            
-        }
+        console.log(user)
+        switch(user.avatarOpenYn) {
+            case true :
+                if(user.avatarImg) {
+                    return <p>Hello</p>
+                } else {
+                    return <p> Hello2</p>
+                }
+                // return user.avatarImg
+                //     ? 
+                //     : <UserIcon className='w-10 h-10 mr-2' /> 
+            default : 
+                return <UserIcon className='w-10 h-10 mr-2' />   
+        } 
     }
 
     return (
