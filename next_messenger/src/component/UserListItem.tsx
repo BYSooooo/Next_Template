@@ -11,14 +11,9 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
         console.log(user)
         switch(user.avatarOpenYn) {
             case true :
-                if(user.avatarImg) {
-                    return <p>Hello</p>
-                } else {
-                    return <p> Hello2</p>
-                }
-                // return user.avatarImg
-                //     ? 
-                //     : <UserIcon className='w-10 h-10 mr-2' /> 
+                return user.avatarImg
+                    ? <img src={user.avatarImg} className="w-10 h-10 mx-auto object-cover rounded-full mr-2"/>
+                    : <UserIcon className='w-10 h-10 mr-2' /> 
             default : 
                 return <UserIcon className='w-10 h-10 mr-2' />   
         } 

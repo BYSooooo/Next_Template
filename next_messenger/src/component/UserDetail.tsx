@@ -2,9 +2,22 @@ import { UserCircleIcon } from "@heroicons/react/24/solid"
 
 export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
     
+    const avatarHandler = ()=> {
+        switch(userInfo.avatarOpenYn) {
+            case true : 
+                return userInfo.avatarImg 
+                    ? <img 
+                        src={userInfo.avatarImg} 
+                        className="w-28 h-28 mx-auto object-cover rounded-full"/>
+                    : <UserCircleIcon className="w-28 h-28"/>
+            case false :
+                    return  <UserCircleIcon className="w-28 h-28"/>
+        }            
+    }
+
     return (
         <div className='flex flex-col h-full items-center justify-center'>
-            <UserCircleIcon className="w-28 h-28"/>
+            {avatarHandler()}
             {userInfo.displayName
                 ?   <p className="font-bold text-lg">
                         {userInfo.displayName}

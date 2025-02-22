@@ -26,6 +26,7 @@ export default function SearchFriend() {
     }
 
     const onClickSearch = async()=> {
+        setSelUser(null)
         const {result, value } = await getUserListForSearch(keyword, checked)
         if(result) {
             setUserList(value)
@@ -58,7 +59,7 @@ export default function SearchFriend() {
     }
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-2">
             <div className="flex flex-row divide-solid divide-x">
                 {/*  Left Side : Search, List */}
                 <div className="flex flex-col gap-2 items-center min-w-[20rem]">
@@ -130,9 +131,9 @@ export default function SearchFriend() {
             <div className="">
 
             </div>
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row w-full justify-end">
                 <button 
-                    className="default-button"
+                    className="default-button p-1"
                     onClick={onClickClose}>
                     Close
                 </button>

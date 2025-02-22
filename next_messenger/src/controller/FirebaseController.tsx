@@ -5,10 +5,13 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    setDoc
+    query, 
+    setDoc,
+    where
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
+import { serialize } from "v8";
 
 const userAuth = firebaseAuth;
 
@@ -88,28 +91,37 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
 }
 
 export async function getUserListForSearch(keyword : string, sort : string) {
+
     const infoColRef = collection(firebaseStore,"userInfo");
     const imgColRef = collection(firebaseStore, "avatarImg");
     try {
-        const userInfos = await getDocs(infoColRef);
-        const avatarImgs = await getDocs(imgColRef);
-        let aResults = []
-        
+        const aResults = [];
         if(keyword.length > 0) {
-            userInfos.forEach((doc)=> {
-                const data = doc.data()
+            const currentEmail = firebaseAuth.currentUser.email;
+            const userInfos = await getDocs(infoColRef);
+            const avatarImgs = await getDocs(imgColRef);
+            let avatarList = [];
+            
+            avatarImgs.forEach((doc)=> {
+                const data = doc.data();
+                avatarList.push(data)
             })
-        }
-
-        if(keyword.length > 0) {
-            // await getDocs(colRef).then((response)=> {
-            //     response.forEach((doc)=> {
-            //         const data = doc.data() as UserInfo;
-            //         if(firebaseAuth.currentUser.email !== data.email) {
-            //             data[sort].includes(keyword) && aResults.push(data)
-            //         }
-            //     })
-            // });
+            
+            userInfos.forEach((doc)=> { 
+                const docData = doc.data();
+                if(docData.email !== currentEmail) {
+                    const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
+                    const data : UserInfo = {
+                        email : docData.email,
+                        displayName : docData.displayName,
+                        emailVerified : docData.emailVerified,
+                        avatarImg : findAvatarDoc.avatarImg,
+                        avatarOpenYn : findAvatarDoc.avatarOpenYn
+                    } 
+                    
+                    data[sort].includes(keyword) && aResults.push(data)
+                }
+            })
         }
         return { result : true, value : aResults }
     } catch(error) {
