@@ -5,13 +5,10 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    query, 
     setDoc,
-    where
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
-import { serialize } from "v8";
 
 const userAuth = firebaseAuth;
 
@@ -180,4 +177,17 @@ export async function getFriendList() {
     } catch (error) {
         return { result : false, value : error}
     }
+}
+
+export async function setFriendRequest(receiver : string) {
+    const { email, uid } = firebaseAuth.currentUser;
+    const docRef = doc(firebaseStore, 'requestList', email);
+    
+    try {
+
+        return { result : true, value : "?"};
+    } catch(error) {
+        return { result : false, value : error}
+    }
+
 }

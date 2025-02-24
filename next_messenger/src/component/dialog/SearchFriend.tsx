@@ -4,7 +4,7 @@ import React from 'react';
 import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { getUserListForSearch } from '../../controller/FirebaseController';
+import { getUserListForSearch, setFriendRequest } from '../../controller/FirebaseController';
 import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';
@@ -33,6 +33,10 @@ export default function SearchFriend() {
         } else {
             dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Search Error', content : value}))
         }
+    }
+
+    const onClickRequestFriend = async ()=> {
+        const { result, value } = await setFriendRequest(selUser.email);
     }
 
     const showSearchList = (userList : UserInfo[])=> {
@@ -118,7 +122,9 @@ export default function SearchFriend() {
                     {
                         selUser && 
                             <div className='flex flex-row-reverse'>
-                                <button className='flex w-fit p-1 confirm-button'>
+                                <button 
+                                    onClick={onClickRequestFriend}
+                                    className='flex w-fit p-1 confirm-button'>
                                     Request
                                 </button>
                             </div>
