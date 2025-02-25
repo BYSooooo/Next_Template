@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
+import { randomUUID } from "crypto";
 
 const userAuth = firebaseAuth;
 
@@ -181,11 +182,17 @@ export async function getFriendList() {
 
 export async function setFriendRequest(receiver : string) {
     const { email, uid } = firebaseAuth.currentUser;
-    const docRef = doc(firebaseStore, 'requestList', email);
-    
-    try {
+    const uuid = randomUUID()
+    const docRef = doc(firebaseStore, 'friendRequest', uuid);
 
-        return { result : true, value : "?"};
+    try {
+        await setDoc(docRef, {
+            from : email,
+            to : receiver,
+            status : 'ready',
+            date : new Date()
+        })
+        return { result : true, value : "success"};
     } catch(error) {
         return { result : false, value : error}
     }

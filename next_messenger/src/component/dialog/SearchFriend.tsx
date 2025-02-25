@@ -37,6 +37,11 @@ export default function SearchFriend() {
 
     const onClickRequestFriend = async ()=> {
         const { result, value } = await setFriendRequest(selUser.email);
+        if(result) {
+
+        } else {
+            dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Friend Request Failed', content : value}))
+        }
     }
 
     const showSearchList = (userList : UserInfo[])=> {
