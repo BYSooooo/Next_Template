@@ -5,7 +5,9 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
+    query, 
     setDoc,
+    where,
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -182,16 +184,23 @@ export async function getFriendList() {
 
 export async function setFriendRequest(receiver : string) {
     const { email, uid } = firebaseAuth.currentUser;
-    const uuid = randomUUID()
-    const docRef = doc(firebaseStore, 'friendRequest', uuid);
+    const curDocRef = doc(firebaseStore, 'userInfo', uid);
+    const receiverQuery = query(collection(firebaseStore,'userInfo'), where('email','==',receiver));
+
 
     try {
-        await setDoc(docRef, {
-            from : email,
-            to : receiver,
-            status : 'ready',
-            date : new Date()
+        const queryRes = await getDocs(receiverQuery)
+        queryRes.forEach(async (docData)=> {
+            const receiverUid = docData.id
+            if(uid) {
+                const receiveDocRef = doc(firebaseStore, 'userInfo', receiverUid);
+                await setDoc(receiveDocRef, {
+                    // To Be Continue
+                })
+
+            }
         })
+        
         return { result : true, value : "success"};
     } catch(error) {
         return { result : false, value : error}
