@@ -1,4 +1,5 @@
 import {    
+    arrayUnion,
     collection, 
     deleteDoc, 
     doc, 
@@ -61,7 +62,9 @@ export async function getCurrentUser() {
                 emailVerified : docData.emailVerified,
                 displayName : docData.displayName,
                 avatarImg : docData2 ? docData2.avatarImg : "",
-                avatarOpenYn : docData2 ? docData2.avatarOpenYn : false
+                avatarOpenYn : docData2 ? docData2.avatarOpenYn : false,
+                requested : docData.requested,
+                received : docData.received
             };
 
             return { result : true, value : data}
@@ -116,7 +119,9 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                         displayName : docData.displayName,
                         emailVerified : docData.emailVerified,
                         avatarImg : findAvatarDoc.avatarImg,
-                        avatarOpenYn : findAvatarDoc.avatarOpenYn
+                        avatarOpenYn : findAvatarDoc.avatarOpenYn,
+                        received : docData.received,
+                        requested : docData.requested
                     } 
                     
                     data[sort].includes(keyword) && aResults.push(data)
@@ -184,23 +189,26 @@ export async function getFriendList() {
 
 export async function setFriendRequest(receiver : string) {
     const { email, uid } = firebaseAuth.currentUser;
-    const curDocRef = doc(firebaseStore, 'userInfo', uid);
     const receiverQuery = query(collection(firebaseStore,'userInfo'), where('email','==',receiver));
-
 
     try {
         const queryRes = await getDocs(receiverQuery)
         queryRes.forEach(async (docData)=> {
             const receiverUid = docData.id
+            const receiverEmail = docData.data().email
             if(uid) {
+                const curDocRef = doc(firebaseStore, 'userInfo', uid);
                 const receiveDocRef = doc(firebaseStore, 'userInfo', receiverUid);
-                await setDoc(receiveDocRef, {
-                    // To Be Continue
-                })
-
+                setDoc(receiveDocRef, 
+                        { received : arrayUnion(email) },
+                        { merge : true })
+                    .then(()=> {
+                        setDoc(curDocRef, 
+                            { requested : arrayUnion(receiverEmail) },
+                            { merge : true} )
+                    })
             }
         })
-        
         return { result : true, value : "success"};
     } catch(error) {
         return { result : false, value : error}

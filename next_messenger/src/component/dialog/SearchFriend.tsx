@@ -8,6 +8,7 @@ import { getUserListForSearch, setFriendRequest } from '../../controller/Firebas
 import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';
+import { firebaseAuth } from '../../../firebase-config';
 
 export default function SearchFriend() {
     const [checked, setChecked] = React.useState("email")
@@ -64,6 +65,15 @@ export default function SearchFriend() {
                     </p>
                 </div>
             )
+        }
+    }
+
+    const prevReqRes = ()=> {
+        const curEmail = firebaseAuth.currentUser.email;
+        if(selUser) {
+            const receiveCheck = selUser.received.includes(curEmail);
+            const requestCheck = selUser.requested.includes(curEmail);
+            return (receiveCheck || requestCheck) ? true : false
         }
     }
 
@@ -127,11 +137,18 @@ export default function SearchFriend() {
                     {
                         selUser && 
                             <div className='flex flex-row-reverse'>
-                                <button 
+                                {prevReqRes
+                                    ? <button>
+                                        Hello
+                                    </button>
+                                    : <button 
                                     onClick={onClickRequestFriend}
                                     className='flex w-fit p-1 confirm-button'>
                                     Request
                                 </button>
+
+                                }
+                                
                             </div>
                     }
                 
