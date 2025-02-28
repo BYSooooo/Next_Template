@@ -70,10 +70,17 @@ export default function SearchFriend() {
 
     const prevReqRes = ()=> {
         const curEmail = firebaseAuth.currentUser.email;
+        console.log("Current Email",curEmail)
         if(selUser) {
-            const receiveCheck = selUser.received.includes(curEmail);
-            const requestCheck = selUser.requested.includes(curEmail);
-            return (receiveCheck || requestCheck) ? true : false
+            const receiveCheck = selUser.received?.includes(curEmail);
+            const requestCheck = selUser.requested?.includes(curEmail);
+            return (receiveCheck || requestCheck) 
+                ?   <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
+                        Wait for Response
+                    </button>
+                :   <button className='confirm-button px-1'>
+                        Request
+                    </button>
         }
     }
 
@@ -137,18 +144,7 @@ export default function SearchFriend() {
                     {
                         selUser && 
                             <div className='flex flex-row-reverse'>
-                                {prevReqRes
-                                    ? <button>
-                                        Hello
-                                    </button>
-                                    : <button 
-                                    onClick={onClickRequestFriend}
-                                    className='flex w-fit p-1 confirm-button'>
-                                    Request
-                                </button>
-
-                                }
-                                
+                                {prevReqRes()}
                             </div>
                     }
                 
