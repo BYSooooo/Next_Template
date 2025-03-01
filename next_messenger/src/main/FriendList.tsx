@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
-    
     const currentUser = firebaseAuth.currentUser;
+    const userInfoSlice = useAppSelector((state)=> state.userStore);
 
     React.useEffect(()=> {
         refreshFriendList()        

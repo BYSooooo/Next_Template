@@ -36,7 +36,7 @@ export default async function AuthController(service : "Google" | "Github" | "Em
                     });
               
             case "Test" :
-                return signInWithEmailAndPassword(firebaseAuth, "test_user03@testemail.com", "Asdf!234")
+                return signInWithEmailAndPassword(firebaseAuth, "test_user02@testemail.com", "Asdf!234")
                     .then((credential)=> {
                         return { result : true, content : credential};
                     })
