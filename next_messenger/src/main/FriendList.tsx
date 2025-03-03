@@ -54,7 +54,11 @@ export default function FriendList() {
             </div>
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
             <div>
-                
+                <ul>
+                    <li>
+                        
+                    </li>
+                </ul>
             </div>
         </div>
     )

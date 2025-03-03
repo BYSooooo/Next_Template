@@ -29,7 +29,9 @@ export async function initUserInfo() {
                 await setDoc(docInfoRef, {
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName
+                    displayName : userAuth.currentUser.displayName,
+                    requested : [],
+                    received : []
                 }, { merge : true })
                 await setDoc(docImgRef, {
                     email : userAuth.currentUser.email,
