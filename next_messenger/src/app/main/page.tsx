@@ -12,6 +12,7 @@ import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
 import UserDetailInfo from '../../main/UserDetailInfo';
+import FriendManage from '../../main/FriendManage';
 
 export default function Page() {
     const pageReducer = useAppSelector((state)=> state.pageStore);
@@ -86,6 +87,7 @@ export default function Page() {
             case 'SideNavigation' : return <SideNavigation />
             case 'WelcomePage' : return <WelcomePage />
             case 'FriendList' : return <FriendList />
+            case 'FriendManage' : return <FriendManage />
             case 'MainPage' : return <MainPage />
             case 'UserDetailInfo' : return <UserDetailInfo />
             default : break;
