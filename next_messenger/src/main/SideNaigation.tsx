@@ -13,7 +13,7 @@ export default function SideNavigation() {
             case 'chatting' :
                 return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
             case 'friendHandler' : 
-                return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'FriendManage'}))
+                return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
             case 'infoDetail':
                 return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
         }
