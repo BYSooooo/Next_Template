@@ -52,7 +52,7 @@ export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : 
 
     return (
         
-        <div className="flex flex-col bg-slate-300 dark:bg-slate-700 rounded-lg p-3 gap-1">
+        <div className="default-box-inner">
             <div className="flex flex-col text-start ">
                 <p className="text-2xl font-bold">
                     Avatar
