@@ -7,23 +7,27 @@ export default function FriendManage() {
                 Friend Manage
             </p>
             <div className="grid grid-flow-col gap-2">
-                <div className="default-box-inner h-[100vh]">
+                <div className="default-box-inner h-[100vh] grid-cols-4">
                     <p className="text-xl font-bold text-start">
                         Send Request
                     </p>
-                    <ul className="text-sm list-inside list-disc text-start">
+                    <ul className="text-sm list-inside list-disc text-start text-balance">
                         <li>
-                            
+                            A list of friend requests that are waiting to be accepted.
                         </li>
+                        <li>
+                            You can wait for them to accept or cancel it.
+                        </li>
+
                     </ul>
                 </div>
-                <div className="default-box-inner">
+                <div className="default-box-inner grid-cols-4">
                     <p className="text-xl font-bold text-start">
                         Receive Request
                     </p>
                     
                 </div>
-                <div className="default-box-inner">
+                <div className="default-box-inner grid-cols-4">
                     <p className="text-xl font-bold text-start">
                         Delete Friend
                     </p>
