@@ -37,9 +37,9 @@ export default function SearchFriend() {
     }
 
     const onClickRequestFriend = async ()=> {
-        const { result, value } = await setFriendRequest(selUser.email);
+        const { result, value } = await setFriendRequest(selUser.uid);
         if(result) {
-
+            dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : 'Friend Request Send Success'}))
         } else {
             dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Friend Request Failed', content : value}))
         }
@@ -69,16 +69,18 @@ export default function SearchFriend() {
     }
 
     const prevReqRes = ()=> {
-        const curEmail = firebaseAuth.currentUser.email;
-        console.log("Current Email",curEmail)
+        const uuid = firebaseAuth.currentUser.uid;
+        console.log("Current Email",uuid)
         if(selUser) {
-            const receiveCheck = selUser.received?.includes(curEmail);
-            const requestCheck = selUser.requested?.includes(curEmail);
+            const receiveCheck = selUser.received?.includes(uuid);
+            const requestCheck = selUser.requested?.includes(uuid);
             return (receiveCheck || requestCheck) 
                 ?   <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
                         Wait for Response
                     </button>
-                :   <button className='confirm-button px-1'>
+                :   <button
+                        onClick={onClickRequestFriend} 
+                        className='confirm-button px-1'>
                         Request
                     </button>
         }

@@ -1,4 +1,5 @@
 type UserInfo = {
+    uid : string,
     email : string,
     emailVerified : string,
     displayName : string,

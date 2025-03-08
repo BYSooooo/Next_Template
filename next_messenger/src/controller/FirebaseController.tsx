@@ -12,7 +12,6 @@ import {
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
-import { randomUUID } from "crypto";
 
 const userAuth = firebaseAuth;
 
@@ -27,6 +26,7 @@ export async function initUserInfo() {
                 return { result : true, content : currentDoc.data()}
             } else {
                 await setDoc(docInfoRef, {
+                    uid : userAuth.currentUser.uid,
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
                     displayName : userAuth.currentUser.displayName,
@@ -60,6 +60,7 @@ export async function getCurrentUser() {
             const docData2 = response2.data();
 
             const data : UserInfo = {
+                uid : uuid,
                 email : docData.email,
                 emailVerified : docData.emailVerified,
                 displayName : docData.displayName,
@@ -102,7 +103,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
     try {
         const aResults = [];
         if(keyword.length > 0) {
-            const currentEmail = firebaseAuth.currentUser.email;
+            const currentUid = firebaseAuth.currentUser.uid;
             const userInfos = await getDocs(infoColRef);
             const avatarImgs = await getDocs(imgColRef);
             let avatarList = [];
@@ -114,9 +115,10 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             
             userInfos.forEach((doc)=> { 
                 const docData = doc.data();
-                if(docData.email !== currentEmail) {
+                if(docData.uid !== currentUid) {
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
                     const data : UserInfo = {
+                        uid : docData.uid,
                         email : docData.email,
                         displayName : docData.displayName,
                         emailVerified : docData.emailVerified,
@@ -189,28 +191,20 @@ export async function getFriendList() {
     }
 }
 
-export async function setFriendRequest(receiver : string) {
+export async function setFriendRequest(receiverUid : string) {
     const { email, uid } = firebaseAuth.currentUser;
-    const receiverQuery = query(collection(firebaseStore,'userInfo'), where('email','==',receiver));
-
+    
     try {
-        const queryRes = await getDocs(receiverQuery)
-        queryRes.forEach(async (docData)=> {
-            const receiverUid = docData.id
-            const receiverEmail = docData.data().email
-            if(uid) {
-                const curDocRef = doc(firebaseStore, 'userInfo', uid);
-                const receiveDocRef = doc(firebaseStore, 'userInfo', receiverUid);
-                setDoc(receiveDocRef, 
-                        { received : arrayUnion(email) },
-                        { merge : true })
-                    .then(()=> {
-                        setDoc(curDocRef, 
-                            { requested : arrayUnion(receiverEmail) },
-                            { merge : true} )
-                    })
-            }
-        })
+        const receiverDocRef = doc(firebaseStore, 'userInfo', receiverUid)
+        const curUserDocRef = doc(firebaseStore, 'userInfo', uid);
+        setDoc(receiverDocRef, 
+            { received : arrayUnion(uid) },
+            { merge : true } )
+            .then(()=> {
+                setDoc(curUserDocRef, 
+                    { requested : arrayUnion(receiverUid) },
+                    { merge : true } )
+            }) 
         return { result : true, value : "success"};
     } catch(error) {
         return { result : false, value : error}
