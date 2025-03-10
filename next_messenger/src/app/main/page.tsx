@@ -4,18 +4,13 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
-import FriendList from '../../main/FriendList';
-import MainPage from '../../main/MainPage';
 import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
-import SideNavigation from '../../main/SideNaigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
-import UserDetailInfo from '../../main/UserDetailInfo';
-import FriendManage from '../../main/FriendManage';
+
 
 export default function Page() {
-    const pageReducer = useAppSelector((state)=> state.pageStore);
     const dispatch = useAppDispatch()
     const fireAuth = firebaseAuth;
     const router = useRouter();
@@ -24,8 +19,8 @@ export default function Page() {
         if(fireAuth.currentUser) {
             getCurUserInfo()
         } else {
-            dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
-            router.push("/")
+            //dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
+            router.push("/login")
         }
     },[])
 
@@ -80,33 +75,10 @@ export default function Page() {
             }
         })
     }
-
-    const pageRouter = (componentName : string) => {
-        switch(componentName) {
-            case '' : return null
-            case 'SideNavigation' : return <SideNavigation />
-            case 'WelcomePage' : return <WelcomePage />
-            case 'FriendList' : return <FriendList />
-            case 'FriendManage' : return <FriendManage />
-            case 'MainPage' : return <MainPage />
-            case 'UserDetailInfo' : return <UserDetailInfo />
-            default : break;
-        }
-    }
     
     return (
-        <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
-            <div className='flex max-w-[10vw]'>
-                {pageRouter(pageReducer.left)}
-            </div>
-            <div className='flex flex-row max-w-[90vw]'>
-                <div className='flex'>
-                    {pageRouter(pageReducer.middle)}
-                </div>
-                <div className='flex'>
-                    {pageRouter(pageReducer.right)}
-                </div>
-            </div>
+        <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2 max-w-[100vw]">
+            <WelcomePage />
         </div> 
     )
 }
