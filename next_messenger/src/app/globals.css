@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+    .main-div {
+        @apply
+        flex flex-col 
+        justify-center 
+        items-center 
+        h-svh
+    }
+
     .default-box {
         @apply 
         bg-slate-200 dark:bg-slate-800

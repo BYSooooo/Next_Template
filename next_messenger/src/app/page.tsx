@@ -1,17 +1,27 @@
-import AuthList from "../public/AuthList";
+"use client"
+
+import React from 'react';
+import { firebaseAuth } from "../../firebase-config";
+import { useRouter } from 'next/navigation';
+import Spinner from '../component/Spinner';
 
 export default function Page() {
+    const router = useRouter()
+    const currentUser = firebaseAuth.currentUser
+
+    React.useEffect(()=> {
+      if(currentUser) {
+        console.log("Logined")
+        router.push("/main")
+      } else {
+        console.log("Not Logined")
+        router.push("/login")
+      }
+    },[])
+
     return (
-        <div className="flex flex-col justify-center items-center h-svh">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold">
-              Sign In
-            </h1>
-            <h5>
-              Please Select Service
-            </h5>
-            <AuthList />
-          </div>
+        <div className="main-div">
+          <Spinner />
         </div>
     )
   }
