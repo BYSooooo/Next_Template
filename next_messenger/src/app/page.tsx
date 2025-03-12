@@ -21,7 +21,7 @@ export default function Page() {
 
     return (
         <div className="main-div">
-          <Spinner />
+          <Spinner size={16}/>
         </div>
     )
   }

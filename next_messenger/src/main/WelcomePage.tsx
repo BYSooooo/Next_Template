@@ -1,23 +1,22 @@
 'use client';
 
 import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, IdentificationIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { controlPageLayout } from "../redux/features";
+import { useAppSelector } from "../redux/hooks"
+import { useRouter } from "next/navigation";
 
 export default function WelcomePage() {
     const userInfoSlice = useAppSelector((state)=>state.userStore)
-    const dispatch = useAppDispatch()
+    const router = useRouter();
 
     const handleClick =(moveTo : string) => {
         switch(moveTo) {
             case 'chatting' : 
-                dispatch(controlPageLayout({left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
+                router.push("/chat")
             break;
             case 'friendMng' : 
-                dispatch(controlPageLayout({left : 'SideNavigation', middle : 'FriendManage', right : ''}));
+                
             break;
             case 'profile' :
-                dispatch(controlPageLayout({left : 'SideNavigation', middle: 'UserDetailInfo', right : '' }))
             break;
         }
     }

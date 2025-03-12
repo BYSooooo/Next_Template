@@ -1,8 +1,9 @@
 "use client";
 
 import React from 'react';
-import FriendList from "../../main/FriendList";
+import FriendList from "../../chat/FriendList";
 import SideNavigation from "../../main/SideNaigation";
+import FriendChat from '../../chat/FriendChat';
 
 export default function Page() {
 
@@ -20,7 +21,7 @@ export default function Page() {
                     <FriendList />
                 </div>
                 <div className='flex'>
-                    
+                    <FriendChat />
                 </div>
             </div>
         </div>
