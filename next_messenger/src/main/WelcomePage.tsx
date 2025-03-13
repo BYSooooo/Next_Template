@@ -14,7 +14,7 @@ export default function WelcomePage() {
                 router.push("/chat")
             break;
             case 'friendMng' : 
-                
+                router.push("/friend")
             break;
             case 'profile' :
             break;

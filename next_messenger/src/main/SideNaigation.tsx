@@ -1,17 +1,21 @@
 import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon, IdentificationIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch } from "../redux/hooks";
 import { controlPageLayout } from "../redux/features";
+import { useRouter } from "next/navigation";
 
 export default function SideNavigation() {
     const dispatch = useAppDispatch()
+    const router = useRouter();
     const hoverStyle = "p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500"
 
     const onClickHandler = (navTo: string)=> {
         switch(navTo) {
             case 'welcome' : 
-                return dispatch(controlPageLayout({ left : '', middle : 'WelcomePage', right : ''}))
+                return router.push("/main")
+                //dispatch(controlPageLayout({ left : '', middle : 'WelcomePage', right : ''}))
             case 'chatting' :
-                return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
+                return router.push("/chat")
+                //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
             case 'friendHandler' : 
                 return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
             case 'infoDetail':
