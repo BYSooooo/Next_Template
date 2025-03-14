@@ -5,6 +5,29 @@ import { useAppSelector } from "../redux/hooks";
 export default function SendRequestList() {
     const userStore = useAppSelector((state)=> state.userStore);
     
+    const requestList = ()=> {
+        if(userStore && userStore.requested) {
+            const listArray = userStore.requested;
+            if(listArray.length > 0) {
+                return (
+                    listArray.forEach((item)=> {
+                        <p>
+                            {item}
+                        </p>
+                    })
+                )
+            } else {
+                return (
+                    <p>
+                        No List
+                    </p>
+                )
+            }
+        } else {
+            return <p> No List </p>
+        }
+    }
+
     return (
         <div className="default-box-inner h-[100vh]">
             <p className="text-xl font-bold text-start">
