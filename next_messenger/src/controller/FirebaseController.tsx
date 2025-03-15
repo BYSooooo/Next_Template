@@ -127,8 +127,11 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                         received : docData.received,
                         requested : docData.requested
                     } 
-                    
-                    data[sort].includes(keyword) && aResults.push(data)
+                    if(keyword.length > 0  && sort.length > 0) {
+                        data[sort].includes(keyword) && aResults.push(data)
+                    } else {
+                        aResults.push(data)
+                    }
                 }
             })
         }

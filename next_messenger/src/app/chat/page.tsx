@@ -1,15 +1,9 @@
-"use client";
-
 import React from 'react';
 import FriendList from "../../chat/FriendList";
 import SideNavigation from "../../main/SideNaigation";
 import FriendChat from '../../chat/FriendChat';
 
 export default function Page() {
-
-    React.useEffect(()=> {
-        
-    },[])
 
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">

@@ -1,30 +1,25 @@
 "use client";
 
+import React from 'react';
 import { useAppSelector } from "../redux/hooks";
+import { getUserListForSearch } from '../controller/FirebaseController';
 
 export default function SendRequestList() {
     const userStore = useAppSelector((state)=> state.userStore);
-    
-    const requestList = ()=> {
+    const [sendList, setSendList] = React.useState([]);
+
+    React.useEffect(()=> {
+        getRequestList()
+    },[userStore])
+
+    const getRequestList = async() => {
+        console.log("request list Called")
         if(userStore && userStore.requested) {
-            const listArray = userStore.requested;
-            if(listArray.length > 0) {
-                return (
-                    listArray.forEach((item)=> {
-                        <p>
-                            {item}
-                        </p>
-                    })
-                )
-            } else {
-                return (
-                    <p>
-                        No List
-                    </p>
-                )
+            const {result, value } = await getUserListForSearch("","");
+            if(result) {
+                // Need Modify
             }
-        } else {
-            return <p> No List </p>
+            setSendList(userStore.requested)
         }
     }
 
@@ -45,7 +40,13 @@ export default function SendRequestList() {
 
             </div>
             <div className="h-[85%]">
-                
+                {sendList.map((item)=> {
+                    return (
+                        <p key={item}>
+                            {item}
+                        </p>
+                    )
+                })}
             </div>
         </div>
     )

@@ -1,3 +1,5 @@
+"use client"
+
 import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon, IdentificationIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch } from "../redux/hooks";
 import { controlPageLayout } from "../redux/features";
@@ -17,7 +19,8 @@ export default function SideNavigation() {
                 return router.push("/chat")
                 //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
             case 'friendHandler' : 
-                return dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
+                return router.push("/friend")
+                //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
             case 'infoDetail':
                 return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
         }
