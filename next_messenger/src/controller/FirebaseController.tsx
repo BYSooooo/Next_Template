@@ -6,9 +6,7 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    query, 
     setDoc,
-    where,
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -48,7 +46,6 @@ export async function initUserInfo() {
 }
 
 export async function getCurrentUser() {
-    console.log(userAuth.currentUser)
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
         const docRef1 = doc(firebaseStore, 'userInfo', uuid);
@@ -100,6 +97,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 
     const infoColRef = collection(firebaseStore,"userInfo");
     const imgColRef = collection(firebaseStore, "avatarImg");
+    
     try {
         const aResults = [];
         if(keyword.length > 0) {
@@ -138,6 +136,34 @@ export async function getUserListForSearch(keyword : string, sort : string) {
         return { result : true, value : aResults }
     } catch(error) {
         return { result : false, value : error }
+    }
+}
+
+export async function getSelectedUserInfo(uid: string) {
+    const infoDocRef = doc(firebaseStore,"userInfo", uid);
+    const avatarDocRef = doc(firebaseStore, "avatarImg", uid);
+
+    try {
+        const infoDoc = await getDoc(infoDocRef);
+        const avatarDoc = await getDoc(avatarDocRef);
+
+        const userInfo = infoDoc.data();
+        const avatarInfo = avatarDoc.data();
+        
+        const data : UserInfo = {
+            uid : uid,
+            email : userInfo.email,
+            displayName : userInfo.displayName,
+            emailVerified : userInfo.emailVerified,
+            avatarImg : avatarInfo.avatarImg,
+            avatarOpenYn : avatarInfo.avatarOpenYn,
+            received : userInfo.received,
+            requested : userInfo.requested
+        }
+        
+        return { result : true, value : data };
+    } catch(error) {
+        return { result : false, value : error}
     }
 }
 
@@ -212,5 +238,4 @@ export async function setFriendRequest(receiverUid : string) {
     } catch(error) {
         return { result : false, value : error}
     }
-
 }

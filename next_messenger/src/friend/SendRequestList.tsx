@@ -2,26 +2,31 @@
 
 import React from 'react';
 import { useAppSelector } from "../redux/hooks";
-import { getUserListForSearch } from '../controller/FirebaseController';
+import { getSelectedUserInfo } from '../controller/FirebaseController';
+import UserListItem from '../component/UserListItem';
 
 export default function SendRequestList() {
     const userStore = useAppSelector((state)=> state.userStore);
-    const [sendList, setSendList] = React.useState([]);
+    const [sendList, setSendList] = React.useState<UserInfo[]>([]);
 
     React.useEffect(()=> {
         getRequestList()
     },[userStore])
 
     const getRequestList = async() => {
-        console.log("request list Called")
+        const aResult = [];
         if(userStore && userStore.requested) {
-            const {result, value } = await getUserListForSearch("","");
-            if(result) {
-                // Need Modify
-            }
-            setSendList(userStore.requested)
+            userStore.requested.forEach(async(uid)=> {
+                const { result, value } = await getSelectedUserInfo(uid);
+                result && aResult.push(value);
+            })
+            setSendList(aResult);    
         }
     }
+
+    const onClickList = ()=> {
+        console.log("onClicked")
+    };
 
     return (
         <div className="default-box-inner h-[100vh]">
@@ -42,9 +47,7 @@ export default function SendRequestList() {
             <div className="h-[85%]">
                 {sendList.map((item)=> {
                     return (
-                        <p key={item}>
-                            {item}
-                        </p>
+                        <UserListItem key={item.uid} user={item} selected={onClickList}/>
                     )
                 })}
             </div>
