@@ -11,16 +11,14 @@ export default function SendRequestList() {
 
     React.useEffect(()=> {
         getRequestList()
-    },[userStore])
+    },[])
 
     const getRequestList = async() => {
-        const aResult = [];
         if(userStore && userStore.requested) {
             userStore.requested.forEach(async(uid)=> {
                 const { result, value } = await getSelectedUserInfo(uid);
-                result && aResult.push(value);
+                result && setSendList([value])
             })
-            setSendList(aResult);    
         }
     }
 
