@@ -1,29 +1,32 @@
 "use client";
 
 import React from 'react';
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
+import { controlDialog } from '../redux/features';
 
 export default function SendRequestList() {
-    const userStore = useAppSelector((state)=> state.userStore);
     const [sendList, setSendList] = React.useState<UserInfo[]>([]);
+    const userStore = useAppSelector((state)=> state.userStore);
+    const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
         getRequestList()
-    },[])
+    },[userStore])
 
     const getRequestList = async() => {
         if(userStore && userStore.requested) {
             userStore.requested.forEach(async(uid)=> {
                 const { result, value } = await getSelectedUserInfo(uid);
-                result && setSendList([value])
+                result && setSendList(prev=> prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
             })
         }
     }
 
-    const onClickList = ()=> {
-        console.log("onClicked")
+    const onClickList = (user: UserInfo)=> {
+        dispatch(controlDialog({openYn : true, title : "Request Info", contentName : "SendReceiveInfo", size : "96"}))
+        console.log(user)
     };
 
     return (
@@ -42,7 +45,7 @@ export default function SendRequestList() {
                 </ul>
 
             </div>
-            <div className="h-[85%]">
+            <div className="h-[85%] flex flex-col gap-2">
                 {sendList.map((item)=> {
                     return (
                         <UserListItem key={item.uid} user={item} selected={onClickList}/>
