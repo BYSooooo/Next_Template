@@ -25,7 +25,7 @@ export default function SendRequestList() {
     }
 
     const onClickList = (user: UserInfo)=> {
-        dispatch(controlDialog({openYn : true, title : "Request Info", contentName : "SendReceiveInfo", size : "96"}))
+        dispatch(controlDialog({openYn : true, title : "Request Info", contentName : "SendRequestInfo", size : "96"}))
         console.log(user)
     };
 
