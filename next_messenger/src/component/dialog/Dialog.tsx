@@ -51,7 +51,7 @@ export default function Dialog() {
         <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div
                 ref={wrapperRef}
-                className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} jusify-center py-3 px-2`}>
+                className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} jusify-center py-3`}>
                 <div className="flex flex-col justify-between items-center mb-4">
                     {/* Dialog Title*/}
                     <div className="container flex flex-col">
@@ -63,10 +63,14 @@ export default function Dialog() {
                         </div>
                         {/* Dialog Content*/}
                         {switchContent()}
+                        <div className='flex flex-row-reverse mr-2'>
+                            <button className='default-button p-2'>
+                                Hello
+                            </button>
+                        </div>
                     </div>
                     
                 </div>
-
             </div>
         </div>
     )
