@@ -10,13 +10,9 @@ export default function Page() {
     const currentUser = firebaseAuth.currentUser
 
     React.useEffect(()=> {
-      if(currentUser) {
-        console.log("Logined")
-        router.push("/main")
-      } else {
-        console.log("Not Logined")
-        router.push("/login")
-      }
+      currentUser
+        ? router.push("/main")
+        : router.push("/login")
     },[])
 
     return (

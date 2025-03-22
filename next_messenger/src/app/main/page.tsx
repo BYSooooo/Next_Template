@@ -8,9 +8,11 @@ import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
+import Spinner from '../../component/Spinner';
 
 
 export default function Page() {
+    const [checkYn, setCheckYn] = React.useState(false);
     const dispatch = useAppDispatch()
     const fireAuth = firebaseAuth;
     const router = useRouter();
@@ -19,7 +21,7 @@ export default function Page() {
         if(fireAuth.currentUser) {
             getCurUserInfo()
         } else {
-            //dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
+            dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
             router.push("/login")
         }
     },[])
@@ -60,11 +62,10 @@ export default function Page() {
             if(response.result) {
                 dispatch(setUserInfo(response.value))
                 const displayNameYn = response.value.displayName ? true : false
-                if(!displayNameYn) {
-                    dispatch(controlDialog({openYn : true, contentName : "noDisplayName", size : "fit", title: "Confirm"}))
-                } else {
-                    dispatch(controlPageLayout({left: '', middle : 'WelcomePage', right : ''}))
-                }
+                !displayNameYn
+                    ? router.push("/noname")
+                    : setCheckYn(true)
+
             } else {
                 dispatch(controlMessageToast({ 
                     openYn : true, 
@@ -77,8 +78,11 @@ export default function Page() {
     }
     
     return (
-        <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2 max-w-[100vw]">
-            <WelcomePage />
+        <div className="flex flex-col mx-auto w-max h-svh text-center justify-center pt-14 pb-2 max-w-[100vw]">
+            { checkYn 
+                ? <WelcomePage />
+                : <Spinner size={16}/>           
+            }
         </div> 
     )
 }

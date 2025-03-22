@@ -1,4 +1,5 @@
 import {    
+    arrayRemove,
     arrayUnion,
     collection, 
     deleteDoc, 
@@ -81,7 +82,6 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
     },)
-    console.log(aDatas)
     try {
         await setDoc(docRef, Object.assign({},...aDatas), {
             merge : true
@@ -113,6 +113,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             
             userInfos.forEach((doc)=> { 
                 const docData = doc.data();
+                console.log(docData)
                 if(docData.uid !== currentUid) {
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
                     const data : UserInfo = {
@@ -220,20 +221,34 @@ export async function getFriendList() {
     }
 }
 
-export async function setFriendRequest(receiverUid : string) {
+export async function updateFriendRequest(sort: "add"| "del", receiverUid : string) {
     const { email, uid } = firebaseAuth.currentUser;
     
     try {
         const receiverDocRef = doc(firebaseStore, 'userInfo', receiverUid)
         const curUserDocRef = doc(firebaseStore, 'userInfo', uid);
-        setDoc(receiverDocRef, 
-            { received : arrayUnion(uid) },
-            { merge : true } )
-            .then(()=> {
-                setDoc(curUserDocRef, 
-                    { requested : arrayUnion(receiverUid) },
+        switch(sort) {
+            case "add" : 
+                setDoc(receiverDocRef, 
+                    { received : arrayUnion(uid) },
                     { merge : true } )
-            }) 
+                    .then(()=> {
+                        setDoc(curUserDocRef, 
+                            { requested : arrayUnion(receiverUid) },
+                            { merge : true } )
+                    }) 
+            break;
+            case "del" : 
+                setDoc(curUserDocRef,
+                    { requested : arrayRemove(receiverUid) },
+                    { merge : true } )  
+                    .then(()=> {
+                        setDoc(receiverDocRef,
+                            { requested : arrayRemove(uid) },
+                            { merge : true })
+                    })  
+            break;
+        }
         return { result : true, value : "success"};
     } catch(error) {
         return { result : false, value : error}

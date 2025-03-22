@@ -1,20 +1,38 @@
 "use client";
 
-import { useAppSelector } from "../../redux/hooks";
+import { updateFriendRequest } from "../../controller/FirebaseController";
+import { controlDialog, controlMessageToast } from "../../redux/features";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import UserDetailInfo from "../UserDetail";
 
 export default function SendRequestInfo() {
     const selectedUserInfo = useAppSelector((state)=> state.dialogStore).extraData;
-    
+    const dispatch = useAppDispatch()
+
+    const onClickCancel = async()=> {
+        const { result, value } = await updateFriendRequest("del", selectedUserInfo.uid)
+        if(result) {
+            dispatch(controlMessageToast({ openYn : true, type : "confirm", title : "Success", content : "Request Delete Complete"}))
+            dispatch(controlDialog({ openYn : false, contentName : "", size : "", title : ""}))
+        } else {
+            dispatch(controlMessageToast({ openYn : true, type : "error", title : "Error Occured", content : value}))
+        }
+        
+    }
+
     return (
-        <div className="flex flex-col items-center w-96">
+        <div className="flex flex-col items-center">
             <UserDetailInfo userInfo={selectedUserInfo} />
-            <button 
-                className="default-button text-center">
-                    <p>
-                        Hello
-                    </p>                
-            </button>   
+            <div className="w-full flex flex-row-reverse mt-3">
+                <button
+                    onClick={onClickCancel} 
+                    className="default-button text-center p-1">
+                        <p>
+                            Cancel Request
+                        </p>                
+                </button>   
+
+            </div>
         </div>
     )
 }

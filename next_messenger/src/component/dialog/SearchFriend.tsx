@@ -4,7 +4,7 @@ import React from 'react';
 import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { getUserListForSearch, setFriendRequest } from '../../controller/FirebaseController';
+import { getUserListForSearch, updateFriendRequest } from '../../controller/FirebaseController';
 import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';
@@ -37,7 +37,7 @@ export default function SearchFriend() {
     }
 
     const onClickRequestFriend = async ()=> {
-        const { result, value } = await setFriendRequest(selUser.uid);
+        const { result, value } = await updateFriendRequest("add", selUser.uid);
         if(result) {
             dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : 'Friend Request Send Success'}))
         } else {
@@ -128,7 +128,7 @@ export default function SearchFriend() {
                             <MagnifyingGlassIcon className='w-5 h-5 font-bold'/>
                         </button>
                     </div>
-                    <div className='flex flex-col text-center min-h-[20vh] overflow-scroll'>
+                    <div className='flex flex-col text-center min-h-[30vh] max-h-[40vh] overflow-scroll'>
                         {showSearchList(userList)}
                     </div>
                 </div>
@@ -149,17 +149,12 @@ export default function SearchFriend() {
                                 {prevReqRes()}
                             </div>
                     }
-                
                 </div>
             </div>
             
-            
-            <div className="">
-
-            </div>
-            <div className="flex flex-row w-full justify-end">
+            <div className="flex flex-row-reverse w-full">
                 <button 
-                    className="default-button p-1"
+                    className="default-button p-1 "
                     onClick={onClickClose}>
                     Close
                 </button>

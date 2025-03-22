@@ -12,7 +12,7 @@ export default function FriendList() {
     },[])
     
     const onClickAddFriend =()=> {
-        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : '1/2', title : 'Search'}))
+        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
     }
 
     return (
