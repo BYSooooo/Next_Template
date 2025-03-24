@@ -1,9 +1,9 @@
 "use client"
 
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
-import { controlDialog, controlMessageToast, controlPageLayout, setUserInfo } from '../../redux/features';
+import { controlMessageToast, setUserInfo } from '../../redux/features';
 import { firebaseAuth, firebaseStore } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import WelcomePage from '../../main/WelcomePage';
@@ -78,7 +78,7 @@ export default function Page() {
     }
     
     return (
-        <div className="flex flex-col mx-auto w-max h-svh text-center justify-center pt-14 pb-2 max-w-[100vw]">
+        <div className="flex flex-col mx-auto w-max h-svh text-center justify-center pt-14 pb-2 max-w-[60rem]">
             { checkYn 
                 ? <WelcomePage />
                 : <Spinner size={16}/>           

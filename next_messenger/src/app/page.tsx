@@ -10,10 +10,20 @@ export default function Page() {
     const currentUser = firebaseAuth.currentUser
 
     React.useEffect(()=> {
-      currentUser
-        ? router.push("/main")
-        : router.push("/login")
+      if(currentUser) {
+        attachSnapshot()
+        router.push("/main")
+      } else {
+        debugger;
+        router.push("/login")
+      } 
     },[])
+
+    const attachSnapshot = ()=> {
+      const uuid = currentUser.uid;
+      debugger;
+      console.log(uuid)
+    };
 
     return (
         <div className="main-div">

@@ -244,7 +244,7 @@ export async function updateFriendRequest(sort: "add"| "del", receiverUid : stri
                     { merge : true } )  
                     .then(()=> {
                         setDoc(receiverDocRef,
-                            { requested : arrayRemove(uid) },
+                            { received : arrayRemove(uid) },
                             { merge : true })
                     })  
             break;
