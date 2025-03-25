@@ -1,29 +1,21 @@
 "use client"
 
 import React from 'react';
-import { firebaseAuth } from "../../firebase-config";
+import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { useRouter } from 'next/navigation';
 import Spinner from '../component/Spinner';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { getCurrentUser } from '../controller/FirebaseController';
 
 export default function Page() {
     const router = useRouter()
     const currentUser = firebaseAuth.currentUser
 
     React.useEffect(()=> {
-      if(currentUser) {
-        attachSnapshot()
-        router.push("/main")
-      } else {
-        debugger;
-        router.push("/login")
-      } 
+      currentUser 
+          ? router.push("/main")
+          : router.push("/login")
     },[])
-
-    const attachSnapshot = ()=> {
-      const uuid = currentUser.uid;
-      debugger;
-      console.log(uuid)
-    };
 
     return (
         <div className="main-div">
