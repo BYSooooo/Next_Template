@@ -3,6 +3,8 @@ import SendRequestList from "../../friend/SendRequestList"
 import SideNavigation from "../../main/SideNaigation"
 
 export default function Page() {
+
+    
     
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
