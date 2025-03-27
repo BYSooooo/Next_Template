@@ -19,13 +19,15 @@ export default function Page() {
 
     React.useEffect(()=> {
         if(fireAuth.currentUser) {
-            //firebaseSnapshot()
-            getCurUserInfo()
+            firebaseSnapshot()
+            //getCurUserInfo()
         } else {
             dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
             router.push("/login")
         }
     },[])
+
+    
 
     const getCurUserInfo = ()=> {
         const uuid = fireAuth.currentUser.uid;

@@ -9,7 +9,7 @@ import { controlMessageToast, setUserInfo } from '../redux/features';
 
 export function firebaseSnapshot() {
     
-    React.useEffect(()=> {
+    
         const dispatch = useAppDispatch()
         const uuid = firebaseAuth.currentUser.uid;
         const curDocRef = doc(firebaseStore, 'userInfo', uuid)
@@ -46,12 +46,4 @@ export function firebaseSnapshot() {
                     }))
             })
         })
-
-        
-        return ()=> {
-            currentSnapshot();
-            avatarSnapshot();
-        }
-    },[])
-
 }
