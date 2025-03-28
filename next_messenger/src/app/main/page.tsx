@@ -9,22 +9,23 @@ import { useRouter } from 'next/navigation';
 import WelcomePage from '../../main/WelcomePage';
 import { doc, onSnapshot } from 'firebase/firestore';
 import Spinner from '../../component/Spinner';
-import { firebaseSnapshot } from '../../controller/snapshotController';
 
 export default function Page() {
     const [checkYn, setCheckYn] = React.useState(false);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const fireAuth = firebaseAuth;
     const router = useRouter();
 
     React.useEffect(()=> {
         if(fireAuth.currentUser) {
-            firebaseSnapshot()
-            //getCurUserInfo()
+            getCurUserInfo()
         } else {
             dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
             router.push("/login")
         }
+        return (
+            console.log("Hello")
+        )
     },[])
 
     
