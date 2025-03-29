@@ -1,5 +1,6 @@
-import Toggle from '../component/Toggle';
-import HomeButton from '../component/HomeButton';
+import Toggle from '../component/header/Toggle';
+import HomeButton from '../component/header/HomeButton';
+import LogoutButton from '../component/header/LogoutButton';
 
 export default function Header() {    
     return (
@@ -11,7 +12,10 @@ export default function Header() {
             items-center
             justify-between'>
             <HomeButton />
-            <Toggle />
+            <div className='flex'>
+                <Toggle />
+                <LogoutButton />
+            </div>
         </header>
     )
 }

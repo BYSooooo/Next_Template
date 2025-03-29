@@ -23,7 +23,7 @@ export default function EditDisplayName({name} : { name : string}) {
     }
 
     return (
-        <div className="flex flex-col bg-slate-300 dark:bg-slate-700 rounded-lg p-3">
+        <div className="default-box-inner">
             <div className="flex flex-col text-start ">
                 <p className="text-2xl font-bold">
                     Display Name

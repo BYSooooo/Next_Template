@@ -4,31 +4,16 @@ import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
-import { doc, onSnapshot } from 'firebase/firestore';
-import { firebaseAuth, firebaseStore } from '../../firebase-config';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
-    
-    const currentUser = firebaseAuth.currentUser;
 
     React.useEffect(()=> {
-        refreshFriendList()        
     },[])
     
     const onClickAddFriend =()=> {
-        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : '1/2', title : 'Search'}))
+        dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
     }
-
-    const refreshFriendList = ()=> {    
-        const docRef = doc(firebaseStore,'friendList', currentUser.uid);
-        onSnapshot(docRef,(response)=> {
-            
-        })
-    }
-
-
-    
 
     return (
         <div className='default-box
@@ -54,7 +39,11 @@ export default function FriendList() {
             </div>
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
             <div>
-                
+                <ul>
+                    <li>
+                        
+                    </li>
+                </ul>
             </div>
         </div>
     )

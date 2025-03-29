@@ -31,13 +31,15 @@ export const dialogSlice = createSlice({
         contentName : "",
         size : "",
         title : "",
+        extraData : null
     },
     reducers : {
-        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName : string, size : string, title: string}>)=> {
+        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName : string, size : string, title: string, extraData? : any}>)=> {
             state.openYn = action.payload.openYn
             state.contentName = action.payload.contentName
             state.size = action.payload.size
             state.title = action.payload.title
+            if(action.payload.extraData) state.extraData = action.payload.extraData
         }
     }
 })
@@ -66,14 +68,20 @@ export const userInfoSlice = createSlice({
         email: '',
         displayName : '',
         emailVerified : '',
-        avatarImg : ''
+        avatarImg : '',
+        avatarOpenYn : false,
+        requested : [],
+        received : [],
     } ,
     reducers : {
         setUserInfo: (state, action: PayloadAction<UserInfo>)=> {
-            state.email = action.payload.email;
-            state.displayName = action.payload.displayName;
-            state.emailVerified = action.payload.emailVerified;
-            state.avatarImg = action.payload.avatarImg;
+            action.payload.email && (state.email = action.payload.email);
+            action.payload.displayName && (state.displayName = action.payload.displayName);
+            action.payload.emailVerified && (state.emailVerified = action.payload.emailVerified);
+            action.payload.avatarImg && (state.avatarImg = action.payload.avatarImg);
+            action.payload.avatarOpenYn && (state.avatarOpenYn = action.payload.avatarOpenYn);
+            action.payload.requested && (state.requested = action.payload.requested);
+            action.payload.received && (state.received = action.payload.received);
         }
     }
 

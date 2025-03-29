@@ -1,20 +1,29 @@
+'use client'
+
+import React from 'react'
+
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { delAvatarBinary, setAvatarBinary } from "../controller/FirebaseController";
-import { deleteDoc } from "firebase/firestore";
+import { delAvatarBinary, setAvatarBinary, updateAvatarOpenYn } from "../controller/FirebaseController";
 
-export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
+export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : string, avatarOpenYn : boolean}) {
+    const [publicYn, setPublicYn] = React.useState(false);
     const dispatch = useAppDispatch();
+
+    React.useEffect(()=> {
+        setPublicYn(avatarOpenYn);
+    },[])
 
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
         const uploaded : File = files[0];
-        console.log(uploaded)
+
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
             const {result, value} = await setAvatarBinary(uploaded)
+            
             if(result) {
                 dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Avatar Image Changed"}))
             } else {
@@ -32,9 +41,18 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
         }
     }
 
+    const toggleAvatarOpenYn = async(e: React.MouseEvent<HTMLDivElement,MouseEvent>)=> {
+        const { result, value } = await updateAvatarOpenYn(!publicYn);
+        if(result) {
+            setPublicYn(!publicYn)
+        } else {
+            controlMessageToast({ openYn : true, type : 'error', title : 'Errur Occured', content : value})
+        }
+    }
+
     return (
         
-        <div className="flex flex-col bg-slate-300 dark:bg-slate-700 rounded-lg p-3 gap-1">
+        <div className="default-box-inner">
             <div className="flex flex-col text-start ">
                 <p className="text-2xl font-bold">
                     Avatar
@@ -44,7 +62,7 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
                         Upload an image to use as profile picture.  
                     </li>
                     <li>
-                        You can control the visibility of your photos in the settings menu.
+                        You can control the visibility of your avatar.
                     </li>
                     <li>
                         Upload File has a size limit of 1MB.
@@ -59,9 +77,43 @@ export default function EditAvatarIcon({avatarImg} : {avatarImg : string}) {
                     />
                         
                 : 
-                    <UserCircleIcon className="w-40 h-40 text-gray-600 dark:text-white"/> 
+                    <UserCircleIcon className="w-36 h-36 text-gray-600 dark:text-white"/> 
             }
-
+            </div>
+            <div className="flex flex-row-reverse gap-2">
+                <label
+                    className="inline-flex relative items-center cursor-pointer">
+                    <input 
+                        type="checkbox" 
+                        className="sr-only peer"
+                        checked={publicYn}
+                        readOnly
+                        />
+                    <div 
+                        onClick={toggleAvatarOpenYn}
+                        className="w-11 h-6 bg-red-500 rounded-full
+                        peer  
+                            peer-focus:ring-green-300  
+                            peer-checked:after:translate-x-full 
+                            peer-checked:after:border-white 
+                            after:content-[''] 
+                            after:absolute 
+                            after:top-0.5 
+                            after:left-[2px] 
+                            after:bg-white 
+                            after:border-gray-100 
+                            after:border 
+                            after:rounded-full 
+                            after:h-5 
+                            after:w-5 
+                            after:transition-all 
+                            peer-checked:bg-blue-500">
+                        
+                    </div>
+                </label>
+                <p className="text-sm">
+                    {`Visible : ${publicYn === false ? 'Private' : 'Public'}`}
+                </p>
             </div>
             <div className="flex flex-row-reverse gap-2">
                 <button

@@ -1,11 +1,13 @@
 import {    
+    arrayRemove,
+    arrayUnion,
     collection, 
     deleteDoc, 
     doc, 
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    setDoc 
+    setDoc,
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -23,13 +25,17 @@ export async function initUserInfo() {
                 return { result : true, content : currentDoc.data()}
             } else {
                 await setDoc(docInfoRef, {
+                    uid : userAuth.currentUser.uid,
                     email : userAuth.currentUser.email,
                     emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName
+                    displayName : userAuth.currentUser.displayName,
+                    requested : [],
+                    received : []
                 }, { merge : true })
                 await setDoc(docImgRef, {
                     email : userAuth.currentUser.email,
-                    avatarImg : ""
+                    avatarImg : "",
+                    avatarOpenYn : false
                 }, { merge : true })
                 return { result : true, content : ""};
             }
@@ -41,7 +47,6 @@ export async function initUserInfo() {
 }
 
 export async function getCurrentUser() {
-    console.log(userAuth.currentUser)
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
         const docRef1 = doc(firebaseStore, 'userInfo', uuid);
@@ -53,10 +58,14 @@ export async function getCurrentUser() {
             const docData2 = response2.data();
 
             const data : UserInfo = {
+                uid : uuid,
                 email : docData.email,
                 emailVerified : docData.emailVerified,
                 displayName : docData.displayName,
-                avatarImg : docData2 ? docData2.avatarImg : ""
+                avatarImg : docData2 ? docData2.avatarImg : "",
+                avatarOpenYn : docData2 ? docData2.avatarOpenYn : false,
+                requested : docData.requested,
+                received : docData.received
             };
 
             return { result : true, value : data}
@@ -73,7 +82,6 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
     },)
-    console.log(aDatas)
     try {
         await setDoc(docRef, Object.assign({},...aDatas), {
             merge : true
@@ -86,22 +94,76 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
 }
 
 export async function getUserListForSearch(keyword : string, sort : string) {
-    const colRef = collection(firebaseStore,"userInfo");
+
+    const infoColRef = collection(firebaseStore,"userInfo");
+    const imgColRef = collection(firebaseStore, "avatarImg");
+    
     try {
-        let aResults = []
+        const aResults = [];
         if(keyword.length > 0) {
-            await getDocs(colRef).then((response)=> {
-                response.forEach((doc)=> {
-                    const data = doc.data() as UserInfo;
-                    if(firebaseAuth.currentUser.email !== data.email) {
+            const currentUid = firebaseAuth.currentUser.uid;
+            const userInfos = await getDocs(infoColRef);
+            const avatarImgs = await getDocs(imgColRef);
+            let avatarList = [];
+            
+            avatarImgs.forEach((doc)=> {
+                const data = doc.data();
+                avatarList.push(data)
+            })
+            
+            userInfos.forEach((doc)=> { 
+                const docData = doc.data();
+                if(docData.uid !== currentUid) {
+                    const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
+                    const data : UserInfo = {
+                        uid : docData.uid,
+                        email : docData.email,
+                        displayName : docData.displayName,
+                        emailVerified : docData.emailVerified,
+                        avatarImg : findAvatarDoc.avatarImg,
+                        avatarOpenYn : findAvatarDoc.avatarOpenYn,
+                        received : docData.received,
+                        requested : docData.requested
+                    } 
+                    if(keyword.length > 0  && sort.length > 0) {
                         data[sort].includes(keyword) && aResults.push(data)
+                    } else {
+                        aResults.push(data)
                     }
-                })
-            });
+                }
+            })
         }
         return { result : true, value : aResults }
     } catch(error) {
         return { result : false, value : error }
+    }
+}
+
+export async function getSelectedUserInfo(uid: string) {
+    const infoDocRef = doc(firebaseStore,"userInfo", uid);
+    const avatarDocRef = doc(firebaseStore, "avatarImg", uid);
+
+    try {
+        const infoDoc = await getDoc(infoDocRef);
+        const avatarDoc = await getDoc(avatarDocRef);
+
+        const userInfo = infoDoc.data();
+        const avatarInfo = avatarDoc.data();
+        
+        const data : UserInfo = {
+            uid : uid,
+            email : userInfo.email,
+            displayName : userInfo.displayName,
+            emailVerified : userInfo.emailVerified,
+            avatarImg : avatarInfo.avatarImg,
+            avatarOpenYn : avatarInfo.avatarOpenYn,
+            received : userInfo.received,
+            requested : userInfo.requested
+        }
+        
+        return { result : true, value : data };
+    } catch(error) {
+        return { result : false, value : error}
     }
 }
 
@@ -131,6 +193,22 @@ export async function delAvatarBinary() {
     }
 }
 
+export async function updateAvatarOpenYn(avatarOpenYn : boolean) {
+    const { email, uid } = firebaseAuth.currentUser;
+    const docRef = doc(firebaseStore, 'avatarImg', uid);
+    try {
+        const result = await setDoc(docRef, {
+            avatarOpenYn : avatarOpenYn
+        },{
+            merge : true
+        })
+        return { result : true, value : result };
+
+    } catch(error) {
+        return { result : false, value : error };
+    }
+}
+
 export async function getFriendList() {
     const { email, uid } = firebaseAuth.currentUser;
     const colRef = collection(firebaseStore,'friendList',uid);
@@ -138,6 +216,40 @@ export async function getFriendList() {
         const results = await getDocsFromServer(colRef);
         return { result : true, value : results };
     } catch (error) {
+        return { result : false, value : error}
+    }
+}
+
+export async function updateFriendRequest(sort: "add"| "del", receiverUid : string) {
+    const { email, uid } = firebaseAuth.currentUser;
+    
+    try {
+        const receiverDocRef = doc(firebaseStore, 'userInfo', receiverUid)
+        const curUserDocRef = doc(firebaseStore, 'userInfo', uid);
+        switch(sort) {
+            case "add" : 
+                setDoc(receiverDocRef, 
+                    { received : arrayUnion(uid) },
+                    { merge : true } )
+                    .then(()=> {
+                        setDoc(curUserDocRef, 
+                            { requested : arrayUnion(receiverUid) },
+                            { merge : true } )
+                    }) 
+            break;
+            case "del" : 
+                setDoc(curUserDocRef,
+                    { requested : arrayRemove(receiverUid) },
+                    { merge : true } )  
+                    .then(()=> {
+                        setDoc(receiverDocRef,
+                            { received : arrayRemove(uid) },
+                            { merge : true })
+                    })  
+            break;
+        }
+        return { result : true, value : "success"};
+    } catch(error) {
         return { result : false, value : error}
     }
 }

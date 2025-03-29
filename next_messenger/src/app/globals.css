@@ -3,11 +3,29 @@
 @tailwind utilities;
 
 @layer components {
+    .main-div {
+        @apply
+        flex flex-col 
+        justify-center 
+        items-center 
+        h-svh
+    }
+
     .default-box {
         @apply 
         bg-slate-200 dark:bg-slate-800
         rounded-md overflow-hidden
         shadow-sm
+    }
+
+    .default-box-inner {
+        @apply
+        flex flex-col
+        bg-slate-300 
+        dark:bg-slate-700 
+        rounded-lg 
+        shadow-sm
+        p-3 gap-1
     }
     .default-button {
         @apply

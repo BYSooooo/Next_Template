@@ -7,12 +7,24 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
         selected(user)
     }
 
+    const showAvatar = ()=> {
+        switch(user.avatarOpenYn) {
+            case true :
+                return user.avatarImg
+                    ? <img src={user.avatarImg} className="w-10 h-10 mx-auto object-cover rounded-full mr-2"/>
+                    : <UserIcon className='w-10 h-10 mr-2' /> 
+            default : 
+                return <UserIcon className='w-10 h-10 mr-2' />   
+        } 
+    }
+
     return (
         <li 
             onClick={onClickItem}
             key={user.email}
             className="listItem-user">
-            <UserIcon className='w-10 h-10 mr-2' />
+            {showAvatar()}
+            
             <div className="flex flex-col text-start truncate">
                 <p className="font-bold">
                     {user.displayName}
