@@ -8,7 +8,6 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
     }
 
     const showAvatar = ()=> {
-        console.log(user)
         switch(user.avatarOpenYn) {
             case true :
                 return user.avatarImg

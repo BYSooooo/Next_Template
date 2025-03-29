@@ -16,11 +16,16 @@ export default function SendRequestList() {
     },[userStore])
 
     const getRequestList = async() => {
-        if(userStore && userStore.requested) {
-            userStore.requested.forEach(async(uid)=> {
-                const { result, value } = await getSelectedUserInfo(uid);
-                result && setSendList(prev=> prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
-            })
+        if(userStore) {
+            const requestList = userStore.requested
+            if(requestList.length > 0) {
+                requestList.forEach(async(uid)=> {
+                    const { result, value } = await getSelectedUserInfo(uid);
+                    result && setSendList(prev=> prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
+                })
+            } else {
+                setSendList([]);
+            }
         }
     }
 

@@ -4,10 +4,9 @@ import React from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlMessageToast, setUserInfo } from '../../redux/features';
-import { firebaseAuth, firebaseStore } from '../../../firebase-config';
+import { firebaseAuth } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import WelcomePage from '../../main/WelcomePage';
-import { doc, onSnapshot } from 'firebase/firestore';
 import Spinner from '../../component/Spinner';
 
 export default function Page() {
@@ -18,50 +17,13 @@ export default function Page() {
 
     React.useEffect(()=> {
         if(fireAuth.currentUser) {
-            getCurUserInfo()
+            nameCheck()
         } else {
             dispatch(controlMessageToast({type : "error", title : "Login Error", content : "Please Try Login Again.", openYn : true}))
             router.push("/login")
         }
-        return (
-            console.log("Hello")
-        )
     },[])
-
-    
-
-    const getCurUserInfo = ()=> {
-        const uuid = fireAuth.currentUser.uid;
-        // set Snapshot for Listen when Update
-        const docRef = doc(firebaseStore,'userInfo',uuid);
-        onSnapshot(docRef,(response)=> {
-            console.log("Refresh UserInfo")
-            getCurrentUser().then((response)=> {
-                const { result, value } = response;
-                result 
-                    ? dispatch(setUserInfo(value))
-                    : dispatch(controlMessageToast({ 
-                        openYn : true, 
-                        title : "Error Occured", 
-                        type: 'error', 
-                        content : 'Error during update'}))
-            })
-        })
-        const docRef2 = doc(firebaseStore,'avatarImg', uuid)
-        onSnapshot(docRef2, (response)=> {
-            console.log("Refresh avatarImg")
-            getCurrentUser().then((response)=> {
-                const { result, value } = response;
-                result 
-                    ? dispatch(setUserInfo(value))
-                    : dispatch(controlMessageToast({ 
-                        openYn : true, 
-                        title : "Error Occured", 
-                        type: 'error', 
-                        content : 'Error during update'}))
-            })
-        })
-
+    const nameCheck = ()=> {
         getCurrentUser().then((response) => {
             if(response.result) {
                 dispatch(setUserInfo(response.value))

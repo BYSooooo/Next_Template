@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import SearchFriend from './SearchFriend';
 import { controlDialog } from '../../redux/features';
 import SendRequestInfo from './SendRequestInfo';
@@ -11,10 +10,6 @@ export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
     const wrapperRef = React.useRef(null);
     const dispatch = useAppDispatch()
-
-    React.useEffect(()=> {
-        console.log(openYn,contentName,size,title)
-    },[openYn])
 
     React.useEffect(()=> {
         const handleOutsideClick = (event)=> {

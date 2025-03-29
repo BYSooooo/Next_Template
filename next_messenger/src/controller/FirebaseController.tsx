@@ -113,7 +113,6 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             
             userInfos.forEach((doc)=> { 
                 const docData = doc.data();
-                console.log(docData)
                 if(docData.uid !== currentUid) {
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
                     const data : UserInfo = {

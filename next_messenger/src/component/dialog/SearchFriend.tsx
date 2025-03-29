@@ -15,12 +15,18 @@ export default function SearchFriend() {
     const [selUser, setSelUser] = React.useState<UserInfo>(null);
     const [userList, setUserList] = React.useState([]);
     const [keyword, setKeyword] = React.useState("");
+    const [relationYn, setRelationYn] = React.useState(false)
     
     const dispatch = useAppDispatch()
+    const uuid = firebaseAuth.currentUser.uid;
 
     React.useEffect(()=> {
         setSelUser(null)
     },[])
+
+    React.useEffect(()=> {
+        checkReceiveOrRequest()
+    },[selUser])
 
     const onClickClose = ()=> {
         dispatch(controlDialog({ openYn : false, contentName : "", size : "",title : "",}))
@@ -39,50 +45,22 @@ export default function SearchFriend() {
     const onClickRequestFriend = async ()=> {
         const { result, value } = await updateFriendRequest("add", selUser.uid);
         if(result) {
-            dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : 'Friend Request Send Success'}))
+            getUserListForSearch(keyword,checked)
+                .then((response)=> {
+                    setUserList(response.value)
+                    checkReceiveOrRequest()
+                    dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : 'Friend Request Send Success'}))
+                })
         } else {
             dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Friend Request Failed', content : value}))
         }
     }
 
-    const showSearchList = (userList : UserInfo[])=> {
-        if(userList.length > 0) {
-            return (
-                <ul 
-                    role="list" 
-                    className='flex flex-col gap-2'>
-                    {userList.map((user)=> {
-                        return <UserListItem key={user.email} user={user} selected={setSelUser}/>
-                    })}
-                </ul>   
-            )
-        } else {
-            return (
-                <div className='flex flex-col items-center h-full justify-center'>
-                    <NoSymbolIcon className='w-10 h-10 dark:text-red-400 text-red-600'/>
-                    <p className='text-lg dark:text-red-200 text-red-800'>
-                        No Result
-                    </p>
-                </div>
-            )
-        }
-    }
-
-    const prevReqRes = ()=> {
-        const uuid = firebaseAuth.currentUser.uid;
-        console.log("Current Email",uuid)
+    const checkReceiveOrRequest = ()=> {
         if(selUser) {
             const receiveCheck = selUser.received?.includes(uuid);
             const requestCheck = selUser.requested?.includes(uuid);
-            return (receiveCheck || requestCheck) 
-                ?   <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
-                        Wait for Response
-                    </button>
-                :   <button
-                        onClick={onClickRequestFriend} 
-                        className='confirm-button px-1'>
-                        Request
-                    </button>
+            setRelationYn(receiveCheck || requestCheck)
         }
     }
 
@@ -129,7 +107,23 @@ export default function SearchFriend() {
                         </button>
                     </div>
                     <div className='flex flex-col text-center min-h-[30vh] max-h-[40vh] overflow-scroll'>
-                        {showSearchList(userList)}
+                        {userList.length > 0
+                            ?
+                                <ul 
+                                    role="list" 
+                                    className='flex flex-col gap-2'>
+                                    {userList.map((user)=> {
+                                        return <UserListItem key={user.email} user={user} selected={setSelUser}/>
+                                    })}
+                                </ul> 
+                            :   <div className='flex flex-col items-center h-full justify-center'>
+                                    <NoSymbolIcon className='w-10 h-10 dark:text-red-400 text-red-600'/>
+                                    <p className='text-lg dark:text-red-200 text-red-800'>
+                                        No Result
+                                    </p>
+                                </div>
+
+                        }
                     </div>
                 </div>
                 {/* Right Side : Selected Friend Inform */}
@@ -146,7 +140,16 @@ export default function SearchFriend() {
                     {
                         selUser && 
                             <div className='flex flex-row-reverse'>
-                                {prevReqRes()}
+                                { !relationYn 
+                                    ? <button
+                                        onClick={onClickRequestFriend} 
+                                        className='confirm-button px-1'>
+                                        Request
+                                    </button>
+                                    : <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
+                                        Wait for Response
+                                    </button>
+                                }
                             </div>
                     }
                 </div>
