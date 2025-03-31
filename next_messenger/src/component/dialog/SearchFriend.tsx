@@ -36,6 +36,7 @@ export default function SearchFriend() {
         setSelUser(null)
         const {result, value } = await getUserListForSearch(keyword, checked)
         if(result) {
+            
             setUserList(value)
         } else {
             dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Search Error', content : value}))
@@ -58,6 +59,7 @@ export default function SearchFriend() {
 
     const checkReceiveOrRequest = ()=> {
         if(selUser) {
+            console.log("serUser : ",selUser)
             const receiveCheck = selUser.received?.includes(uuid);
             const requestCheck = selUser.requested?.includes(uuid);
             setRelationYn(receiveCheck || requestCheck)
