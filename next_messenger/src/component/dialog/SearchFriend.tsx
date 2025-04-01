@@ -44,11 +44,13 @@ export default function SearchFriend() {
     }
 
     const onClickRequestFriend = async ()=> {
-        const { result, value } = await updateFriendRequest("add", selUser.uid);
+        const uuid = selUser.uid
+        const { result, value } = await updateFriendRequest("add", uuid);
         if(result) {
             getUserListForSearch(keyword,checked)
                 .then((response)=> {
                     setUserList(response.value)
+                    setSelUser(response.value.find((user: UserInfo)=> user.uid === uuid))
                     checkReceiveOrRequest()
                     dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : 'Friend Request Send Success'}))
                 })

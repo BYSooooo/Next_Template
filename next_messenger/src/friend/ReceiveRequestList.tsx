@@ -1,31 +1,36 @@
 "use client"
 
 import React from 'react';
-import { useAppSelector } from "../redux/hooks"
+import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
+import { controlDialog } from '../redux/features';
 
 export default function ReceiveRequestList() {
-    const userStore = useAppSelector((state)=> state.userStore);
     const [receiveList, setReceiveList] = React.useState<UserInfo[]>([]);
+    const userStore = useAppSelector((state)=> state.userStore);
+    const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
         getReceiveList()
     },[userStore])
 
     const getReceiveList = ()=> {
-        const aResult = [];
-        if(userStore && userStore.received) {
-            userStore.received.forEach(async(uid)=> {
-                const { result, value } = await getSelectedUserInfo(uid);
-                result && aResult.push(value);
-            })
-            setReceiveList(aResult);
+        if(userStore) {
+            const receiveList = userStore.received;
+            if(receiveList.length > 0) {
+                receiveList.forEach(async(uid)=> {
+                    const { result, value } = await getSelectedUserInfo(uid);
+                    result && setReceiveList(prev => prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
+                })
+            } else {
+                setReceiveList([])
+            }
         }   
     }
 
-    const onClickList = ()=> {
-        console.log("onClicked")
+    const onClickList = (user: UserInfo)=> {
+        dispatch(controlDialog({openYn : true, title : "Receive Info", contentName : "ReceiveRequestInfo", size : "96", extraData : user}))
     }
 
     return (
@@ -43,7 +48,7 @@ export default function ReceiveRequestList() {
                     </li>
                 </ul>
             </div>
-            <div className="h-[85%]">
+            <div className="h-[85%] flex flex-col gap-2">
                 {receiveList.map((item)=>{
                     return <UserListItem key={item.uid} user={item} selected={onClickList}/>
                 })}
