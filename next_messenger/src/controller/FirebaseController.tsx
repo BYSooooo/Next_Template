@@ -253,3 +253,13 @@ export async function updateFriendRequest(sort: "add"| "del", receiverUid : stri
         return { result : false, value : error}
     }
 }
+
+export async function updateFriendReceive(sort : "accept" | "decline", requestUid : string) {
+    const { uid } = firebaseAuth.currentUser;
+    
+    try {
+
+    } catch(error) {
+        return { result : false, value : error}
+    }
+}
