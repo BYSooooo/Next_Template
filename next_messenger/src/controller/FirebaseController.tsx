@@ -258,6 +258,25 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
     const { uid } = firebaseAuth.currentUser;
     
     try {
+        const currentUserDoc = doc(firebaseStore, 'userInfo', uid);
+        const sendRequestUserDoc = doc(firebaseStore, 'userInfo', requestUid);
+
+        switch(sort) {
+            case 'accept':
+
+            return { result : true, value : "Accept Success"};
+            case 'decline' :
+                setDoc(sendRequestUserDoc,
+                    { requested : arrayRemove(uid) },
+                    { merge : true }
+                ).then(()=> {
+                    setDoc(currentUserDoc,
+                        { received : arrayRemove(requestUid) },
+                        { merge : true }
+                    )
+                })
+            return {result : true, value : "Success"};
+        }
 
     } catch(error) {
         return { result : false, value : error}

@@ -1,5 +1,7 @@
 "use client";
 
+import { firebaseAuth } from "../../../firebase-config";
+import { updateFriendReceive } from "../../controller/FirebaseController";
 import { controlMessageToast } from "../../redux/features";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import UserDetailInfo from "../UserDetail";
@@ -9,8 +11,12 @@ export default function ReceiveRequestInfo() {
     const dispatch = useAppDispatch();
 
     const onClickDecline = async()=> {
-        
-        dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Decliend"}))
+        const { result, value } = await updateFriendReceive("decline",firebaseAuth.currentUser.uid)
+        if(result) {
+            dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Decliend"}))
+        } else {
+            dispatch(controlMessageToast({ openYn : true, title : "Error", type : 'error', content : value}))
+        }
     }
 
     const onClickAccept = async()=> {
