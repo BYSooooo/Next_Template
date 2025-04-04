@@ -2,7 +2,7 @@
 
 import { firebaseAuth } from "../../../firebase-config";
 import { updateFriendReceive } from "../../controller/FirebaseController";
-import { controlMessageToast } from "../../redux/features";
+import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import UserDetailInfo from "../UserDetail";
 
@@ -11,8 +11,9 @@ export default function ReceiveRequestInfo() {
     const dispatch = useAppDispatch();
 
     const onClickDecline = async()=> {
-        const { result, value } = await updateFriendReceive("decline",firebaseAuth.currentUser.uid)
+        const { result, value } = await updateFriendReceive("decline",selectedUserInfo.uid)
         if(result) {
+            dispatch(controlDialog({ openYn : false, contentName : "", size : "", title: ""}))
             dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Decliend"}))
         } else {
             dispatch(controlMessageToast({ openYn : true, title : "Error", type : 'error', content : value}))
@@ -20,6 +21,7 @@ export default function ReceiveRequestInfo() {
     }
 
     const onClickAccept = async()=> {
+        const { result, value } = await updateFriendReceive("accept", selectedUserInfo.uid);
         dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Accepted"}))
     }
 

@@ -263,7 +263,7 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
 
         switch(sort) {
             case 'accept':
-
+                
             return { result : true, value : "Accept Success"};
             case 'decline' :
                 setDoc(sendRequestUserDoc,
