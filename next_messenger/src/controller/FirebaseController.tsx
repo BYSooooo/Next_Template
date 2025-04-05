@@ -30,7 +30,8 @@ export async function initUserInfo() {
                     emailVerified : userAuth.currentUser.emailVerified,
                     displayName : userAuth.currentUser.displayName,
                     requested : [],
-                    received : []
+                    received : [],
+                    friend : []
                 }, { merge : true })
                 await setDoc(docImgRef, {
                     email : userAuth.currentUser.email,
@@ -65,7 +66,8 @@ export async function getCurrentUser() {
                 avatarImg : docData2 ? docData2.avatarImg : "",
                 avatarOpenYn : docData2 ? docData2.avatarOpenYn : false,
                 requested : docData.requested,
-                received : docData.received
+                received : docData.received,
+                friend : docData.friend
             };
 
             return { result : true, value : data}
@@ -104,6 +106,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             const currentUid = firebaseAuth.currentUser.uid;
             const userInfos = await getDocs(infoColRef);
             const avatarImgs = await getDocs(imgColRef);
+            const friendList = (await getDoc(doc(firebaseStore, "userInfo", currentUid))).data().friend;
             let avatarList = [];
             
             avatarImgs.forEach((doc)=> {
@@ -113,7 +116,10 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             
             userInfos.forEach((doc)=> { 
                 const docData = doc.data();
-                if(docData.uid !== currentUid) {
+                const friendYn = friendList.includes(docData.uid)
+                const currenYn = docData.uid !== currentUid
+
+                if(!friendYn && currenYn) {
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
                     const data : UserInfo = {
                         uid : docData.uid,
@@ -123,7 +129,8 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                         avatarImg : findAvatarDoc.avatarImg,
                         avatarOpenYn : findAvatarDoc.avatarOpenYn,
                         received : docData.received,
-                        requested : docData.requested
+                        requested : docData.requested,
+                        friend : docData.friend
                     } 
                     if(keyword.length > 0  && sort.length > 0) {
                         data[sort].includes(keyword) && aResults.push(data)
@@ -158,7 +165,8 @@ export async function getSelectedUserInfo(uid: string) {
             avatarImg : avatarInfo.avatarImg,
             avatarOpenYn : avatarInfo.avatarOpenYn,
             received : userInfo.received,
-            requested : userInfo.requested
+            requested : userInfo.requested,
+            friend : userInfo.friend
         }
         
         return { result : true, value : data };
@@ -263,6 +271,20 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
 
         switch(sort) {
             case 'accept':
+                setDoc(sendRequestUserDoc,
+                    {   requested : arrayRemove(uid),
+                        friend : arrayUnion(uid)
+                    },
+                    { merge : true }
+                ).then(()=> {
+                    setDoc(currentUserDoc,
+                        {
+                            received : arrayRemove(requestUid),
+                            friend : arrayUnion(requestUid)
+                        },
+                        { merge : true}
+                    )
+                })
                 
             return { result : true, value : "Accept Success"};
             case 'decline' :
@@ -275,7 +297,7 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
                         { merge : true }
                     )
                 })
-            return {result : true, value : "Success"};
+            return {result : true, value : "Decline Success"};
         }
 
     } catch(error) {

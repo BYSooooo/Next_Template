@@ -6,7 +6,8 @@ type UserInfo = {
     avatarImg : string
     avatarOpenYn : boolean
     requested : [string],
-    received : [string]
+    received : [string],
+    friend : [string]
 }
 
 type friendRequestInfo = {
