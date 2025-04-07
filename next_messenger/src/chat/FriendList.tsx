@@ -7,6 +7,7 @@ import { controlDialog } from "../redux/features";
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
+    
 
     React.useEffect(()=> {
     },[])
@@ -14,6 +15,8 @@ export default function FriendList() {
     const onClickAddFriend =()=> {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
     }
+
+    
 
     return (
         <div className='default-box
