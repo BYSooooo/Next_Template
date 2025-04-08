@@ -2,15 +2,16 @@
 
 import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
-    
-
+    const userStore = useAppSelector((state)=> state.userStore)
+    const [friendList, setFriendList] = React.useState<string[]>([]);
     React.useEffect(()=> {
-    },[])
+        setFriendList(userStore.friend)
+    },[userStore])
     
     const onClickAddFriend =()=> {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
@@ -43,9 +44,7 @@ export default function FriendList() {
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
             <div>
                 <ul>
-                    <li>
-                        
-                    </li>
+                    
                 </ul>
             </div>
         </div>

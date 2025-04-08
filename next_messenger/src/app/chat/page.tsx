@@ -3,9 +3,12 @@
 import FriendList from "../../chat/FriendList";
 import SideNavigation from "../../main/SideNaigation";
 import FriendChat from '../../chat/FriendChat';
+import { SnapshotController } from "../../controller/SnapshotController";
 
 export default function Page() {
     
+    SnapshotController()
+
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
             <div className='flex max-w-[10vw]'>
