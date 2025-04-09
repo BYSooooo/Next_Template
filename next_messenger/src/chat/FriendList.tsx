@@ -37,15 +37,25 @@ export default function FriendList() {
             </div>
             <div className="mb-4">
                 <input 
-                    className="default-input
-                    w-5/6 "
-                    placeholder="Search..."/>
+                    className="default-input w-5/6 "
+                    placeholder="Search..."
+                />
             </div>
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
             <div>
-                <ul>
-                    
-                </ul>
+                {friendList.length > 0 
+                    ?   <ul role="list" className='flex flex-col gap-2'>
+                            {friendList.map((uuid)=> {
+                               return <li key={uuid}>
+                                {uuid}
+                               </li> 
+                            })}
+                        </ul>
+
+                    : <p>
+                        No List
+                    </p>
+                }
             </div>
         </div>
     )
