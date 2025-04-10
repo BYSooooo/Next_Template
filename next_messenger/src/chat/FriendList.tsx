@@ -4,18 +4,34 @@ import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
+import { getSelectedUserInfo } from '../controller/FirebaseController';
+import UserListItem from '../component/UserListItem';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
     const userStore = useAppSelector((state)=> state.userStore)
-    const [friendList, setFriendList] = React.useState<string[]>([]);
+    const [friendList, setFriendList] = React.useState<UserInfo[]>([]);
     React.useEffect(()=> {
-        setFriendList(userStore.friend)
+        getFriendInfo(userStore.friend)
+        
     },[userStore])
     
     const onClickAddFriend =()=> {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
     }
+
+    const getFriendInfo = async(uuids : string[])=> {
+        uuids.forEach(async(uid)=> {
+            const { result, value } = await getSelectedUserInfo(uid);
+            result && setFriendList(prev => prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value] )
+        })
+    }
+
+    const onClickListItem = (res : any)=> {
+        console.log(res)
+    }
+
+    
 
     
 
@@ -45,10 +61,8 @@ export default function FriendList() {
             <div>
                 {friendList.length > 0 
                     ?   <ul role="list" className='flex flex-col gap-2'>
-                            {friendList.map((uuid)=> {
-                               return <li key={uuid}>
-                                {uuid}
-                               </li> 
+                            {friendList.map((userInfo)=> {
+                               return <UserListItem key={userInfo.uid} user={userInfo} selected={onClickListItem}/>
                             })}
                         </ul>
 
