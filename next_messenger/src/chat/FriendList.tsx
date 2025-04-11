@@ -11,6 +11,8 @@ export default function FriendList() {
     const dispatch = useAppDispatch()
     const userStore = useAppSelector((state)=> state.userStore)
     const [friendList, setFriendList] = React.useState<UserInfo[]>([]);
+    const [inputValue, setInputValue] = React.useState("");
+
     React.useEffect(()=> {
         getFriendInfo(userStore.friend)
         
@@ -23,7 +25,13 @@ export default function FriendList() {
     const getFriendInfo = async(uuids : string[])=> {
         uuids.forEach(async(uid)=> {
             const { result, value } = await getSelectedUserInfo(uid);
-            result && setFriendList(prev => prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value] )
+            result && setFriendList((prev) => {
+                if(inputValue.length > 0) {
+                    const matchedYn = value.displayName.includes(inputValue);
+                    // To Be Continue
+                }
+                return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
+            })
         })
     }
 
@@ -31,14 +39,10 @@ export default function FriendList() {
         console.log(res)
     }
 
-    
-
-    
-
     return (
         <div className='default-box
             flex flex-col
-            max-w-[15rem] relative w-[30vw] mx-1 '>
+            max-w-[15rem] relative w-[30vw] mx-1'>
             <div className="flex flex-row static min-w-full h-[10%] items-center px-3 justify-between">
                 <p className="text-lg font-bold ">
                     Friend List
@@ -51,24 +55,28 @@ export default function FriendList() {
                         hover:cursor-pointer"
                 />
             </div>
-            <div className="mb-4">
+            <div>
                 <input 
+                    onChange={(e)=>setInputValue(e.target.value.trim())}
+                    value={inputValue}
                     className="default-input w-5/6 "
                     placeholder="Search..."
                 />
             </div>
-            <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
-            <div>
+            <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md my-5"/>
+            <div className='px-2'>
                 {friendList.length > 0 
-                    ?   <ul role="list" className='flex flex-col gap-2'>
+                    ?   
+                        <ul role="list" className='flex flex-col gap-2'>
                             {friendList.map((userInfo)=> {
                                return <UserListItem key={userInfo.uid} user={userInfo} selected={onClickListItem}/>
                             })}
                         </ul>
 
-                    : <p>
-                        No List
-                    </p>
+                    : 
+                        <p>
+                            No List
+                        </p>
                 }
             </div>
         </div>
