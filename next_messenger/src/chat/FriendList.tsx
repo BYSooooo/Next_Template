@@ -14,9 +14,10 @@ export default function FriendList() {
     const [inputValue, setInputValue] = React.useState("");
 
     React.useEffect(()=> {
+        setFriendList([])
         getFriendInfo(userStore.friend)
         
-    },[userStore])
+    },[userStore, inputValue])
     
     const onClickAddFriend =()=> {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
@@ -26,11 +27,14 @@ export default function FriendList() {
         uuids.forEach(async(uid)=> {
             const { result, value } = await getSelectedUserInfo(uid);
             result && setFriendList((prev) => {
+                console.log(inputValue)
                 if(inputValue.length > 0) {
                     const matchedYn = value.displayName.includes(inputValue);
-                    // To Be Continue
+                    console.log(matchedYn)
+                    return matchedYn && prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
+                } else {
+                    return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
                 }
-                return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
             })
         })
     }
