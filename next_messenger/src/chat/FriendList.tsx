@@ -14,9 +14,7 @@ export default function FriendList() {
     const [inputValue, setInputValue] = React.useState("");
 
     React.useEffect(()=> {
-        setFriendList([])
         getFriendInfo(userStore.friend)
-        
     },[userStore, inputValue])
     
     const onClickAddFriend =()=> {
@@ -24,19 +22,21 @@ export default function FriendList() {
     }
 
     const getFriendInfo = async(uuids : string[])=> {
-        uuids.forEach(async(uid)=> {
-            const { result, value } = await getSelectedUserInfo(uid);
-            result && setFriendList((prev) => {
-                console.log(inputValue)
-                if(inputValue.length > 0) {
-                    const matchedYn = value.displayName.includes(inputValue);
-                    console.log(matchedYn)
-                    return matchedYn && prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
-                } else {
-                    return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
-                }
-            })
-        })
+        setFriendList([])
+        // uuids.forEach(async(uid)=> {
+        //     const { result, value } = await getSelectedUserInfo(uid);
+        //     result && setFriendList((prev) => {
+        //         console.log(inputValue)
+        //         // Keyword Input = DisplayName Filtered
+        //         if(inputValue.length > 0) {
+        //             const matchedYn = value.displayName.includes(inputValue);
+        //             return matchedYn && prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
+        //         // No Keyword Input = All list search
+        //         } else {
+        //             return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
+        //         }
+        //     })
+        // })
     }
 
     const onClickListItem = (res : any)=> {
