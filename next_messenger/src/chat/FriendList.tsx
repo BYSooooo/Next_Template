@@ -14,6 +14,7 @@ export default function FriendList() {
     const [inputValue, setInputValue] = React.useState("");
 
     React.useEffect(()=> {
+        setFriendList([])
         getFriendInfo(userStore.friend)
     },[userStore, inputValue])
     
@@ -22,21 +23,19 @@ export default function FriendList() {
     }
 
     const getFriendInfo = async(uuids : string[])=> {
-        setFriendList([])
-        // uuids.forEach(async(uid)=> {
-        //     const { result, value } = await getSelectedUserInfo(uid);
-        //     result && setFriendList((prev) => {
-        //         console.log(inputValue)
-        //         // Keyword Input = DisplayName Filtered
-        //         if(inputValue.length > 0) {
-        //             const matchedYn = value.displayName.includes(inputValue);
-        //             return matchedYn && prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
-        //         // No Keyword Input = All list search
-        //         } else {
-        //             return prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev, value]
-        //         }
-        //     })
-        // })
+        const friendInfos = [];
+        for(const uid of uuids) {
+            const { result, value } = await getSelectedUserInfo(uid);
+            result && friendInfos.push(value);
+        };
+        if(inputValue.length > 0) {
+            const filterList = friendInfos.filter((friend)=> 
+                friend.displayName.toLowerCase().includes(inputValue.toLowerCase())
+            )
+            setFriendList(filterList)
+        } else {
+            setFriendList(friendInfos)
+        }
     }
 
     const onClickListItem = (res : any)=> {
