@@ -1,7 +1,14 @@
+"use client";
+
+import React from 'react';
+
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 
 export default function FriendChat() {
+
+    
+    
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1' >
