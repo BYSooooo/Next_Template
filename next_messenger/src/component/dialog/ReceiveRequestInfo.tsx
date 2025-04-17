@@ -22,7 +22,9 @@ export default function ReceiveRequestInfo() {
 
     const onClickAccept = async()=> {
         const { result, value } = await updateFriendReceive("accept", selectedUserInfo.uid);
-        dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Accepted"}))
+        result
+            ? dispatch(controlMessageToast({ openYn : true, title : "Success", type : "confirm", content : "Request Accepted"}))
+            : dispatch(controlMessageToast({ openYn : true, title : "Error", type : "error", content : value}))
     }
 
     return (

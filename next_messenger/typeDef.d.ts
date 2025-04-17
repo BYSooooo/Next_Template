@@ -7,7 +7,7 @@ type UserInfo = {
     avatarOpenYn : boolean
     requested : [string],
     received : [string],
-    friend : [string]
+    friend : [{uuid : string, chatId : string}]
 }
 
 type friendRequestInfo = {

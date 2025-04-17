@@ -4,8 +4,9 @@ import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
-import { getSelectedUserInfo } from '../controller/FirebaseController';
+import { createChatRoom, getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
+import { firebaseAuth } from '../../firebase-config';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
@@ -22,24 +23,34 @@ export default function FriendList() {
         dispatch(controlDialog({ openYn : true, contentName : 'searchFriend', size : 'fit', title : 'Search'}))
     }
 
-    const getFriendInfo = async(uuids : string[])=> {
-        const friendInfos = [];
-        for(const uid of uuids) {
-            const { result, value } = await getSelectedUserInfo(uid);
-            result && friendInfos.push(value);
+    const getFriendInfo = async(friendInfos)=> {
+        const fullfriendInfos = [];
+        for(const info of friendInfos) {
+            const { result, value } = await getSelectedUserInfo(info);
+            result && fullfriendInfos.push(value);
         };
         if(inputValue.length > 0) {
-            const filterList = friendInfos.filter((friend)=> 
+            const filterList = fullfriendInfos.filter((friend)=> 
                 friend.displayName.toLowerCase().includes(inputValue.toLowerCase())
             )
             setFriendList(filterList)
         } else {
-            setFriendList(friendInfos)
+            setFriendList(fullfriendInfos)
         }
     }
 
-    const onClickListItem = (res : any)=> {
-        console.log(res)
+    const onClickListItem = async(selUserInfo : UserInfo)=> {
+        const {uuid, chatId} = selUserInfo.friend.find((info)=> info.uuid === firebaseAuth.currentUser.uid);
+        // Case 1. Not created Chat Room 
+        if(chatId.length === 0) {
+            const { result, value } = await createChatRoom(selUserInfo.uid);
+
+        // Case 2. Already has Chat Room
+        } else {
+
+        }
+
+        
     }
 
     return (

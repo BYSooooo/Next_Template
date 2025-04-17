@@ -146,9 +146,10 @@ export async function getUserListForSearch(keyword : string, sort : string) {
     }
 }
 
-export async function getSelectedUserInfo(uid: string) {
-    const infoDocRef = doc(firebaseStore,"userInfo", uid);
-    const avatarDocRef = doc(firebaseStore, "avatarImg", uid);
+export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : string}) {
+    
+    const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
+    const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
 
     try {
         const infoDoc = await getDoc(infoDocRef);
@@ -158,7 +159,7 @@ export async function getSelectedUserInfo(uid: string) {
         const avatarInfo = avatarDoc.data();
         
         const data : UserInfo = {
-            uid : uid,
+            uid : friendInfo.uuid,
             email : userInfo.email,
             displayName : userInfo.displayName,
             emailVerified : userInfo.emailVerified,
@@ -273,14 +274,14 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
             case 'accept':
                 setDoc(sendRequestUserDoc,
                     {   requested : arrayRemove(uid),
-                        friend : arrayUnion(uid)
+                        friend : arrayUnion({uuid : uid, chatId : ""})
                     },
                     { merge : true }
                 ).then(()=> {
                     setDoc(currentUserDoc,
                         {
                             received : arrayRemove(requestUid),
-                            friend : arrayUnion(requestUid)
+                            friend : arrayUnion({uuid : requestUid, chatId : ""})
                         },
                         { merge : true}
                     )
@@ -302,5 +303,16 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
 
     } catch(error) {
         return { result : false, value : error}
+    }
+}
+
+export async function createChatRoom(friendUUID : string) {
+    const currentUid = firebaseAuth.currentUser.uid;
+    try {
+            
+
+        return { result : true, value : "success"}
+    } catch(error) {
+        return { result : false, value : error};
     }
 }
