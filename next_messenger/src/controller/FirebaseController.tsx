@@ -309,16 +309,15 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
 export async function createChatRoom(friendUUID : string) {
     const currentUid = firebaseAuth.currentUser.uid;
     try {
-        const chatUUID = crypto.randomUUID();
-        const curDocRef = doc(firebaseStore, "userInfo", currentUid);
-        const friendDocRef = doc(firebaseStore, "userInfo", friendUUID);
+        // const chatUUID = crypto.randomUUID();
+        // const curDocRef = doc(firebaseStore, "userInfo", currentUid);
+        // const friendDocRef = doc(firebaseStore, "userInfo", friendUUID);
         
-        setDoc(curDocRef, {
-            friend : arrayUnion({uuid : friendUUID, chatId : chatUUID})
-        }, {
-            merge : true,
-            mergeFields : ["/friend/chatId"]
-        })
+        // setDoc(curDocRef, {
+        //     friend : arrayUnion({uuid : friendUUID, chatId : chatUUID})
+        // }, {
+        //     merge : true
+        // })
         
 
         return { result : true, value : "success"}
