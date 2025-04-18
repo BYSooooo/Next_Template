@@ -44,7 +44,7 @@ export default function FriendList() {
         // Case 1. Not created Chat Room 
         if(chatId.length === 0) {
             const { result, value } = await createChatRoom(selUserInfo.uid);
-
+            console.log(value)
         // Case 2. Already has Chat Room
         } else {
 
