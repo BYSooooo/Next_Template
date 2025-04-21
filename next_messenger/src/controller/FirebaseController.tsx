@@ -7,7 +7,8 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    setDoc
+    setDoc,
+    updateDoc
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -309,16 +310,33 @@ export async function updateFriendReceive(sort : "accept" | "decline", requestUi
 export async function createChatRoom(friendUUID : string) {
     const currentUid = firebaseAuth.currentUser.uid;
     try {
-        // const chatUUID = crypto.randomUUID();
-        // const curDocRef = doc(firebaseStore, "userInfo", currentUid);
-        // const friendDocRef = doc(firebaseStore, "userInfo", friendUUID);
+        const chatUUID = crypto.randomUUID();
+        const curDocRef = doc(firebaseStore, "userInfo", currentUid);
+        const friendDocRef = doc(firebaseStore, "userInfo", friendUUID);
         
-        // setDoc(curDocRef, {
-        //     friend : arrayUnion({uuid : friendUUID, chatId : chatUUID})
-        // }, {
-        //     merge : true
-        // })
+        // Update Current User Document for Update ChatRoom ID
+        const curDocData = (await getDoc(curDocRef)).data();
+        const updateCurFriend = curDocData.friend.map((item : {chatId : string, uuid : string})=> {
+            return item.uuid === friendUUID
+                ? { chatId : chatUUID, uuid : item.uuid}
+                : item
+        })
+        await updateDoc(curDocRef, { friend : updateCurFriend });
         
+        // Update Friend User Document for Update ChatRoom ID
+        const frdDocData = (await getDoc(friendDocRef)).data();
+        const updateFreFriend = frdDocData.friend.map((item : { chatId : string, uuid : string})=> {
+            return item.uuid === currentUid
+                ? { chatId : chatUUID, uuid : item.uuid}
+                : item
+        });
+
+        await updateDoc(friendDocRef, { friend : updateFreFriend});
+
+        const chatDocRef = doc(firebaseStore, "chat", chatUUID);
+        await setDoc(chatDocRef, {
+            //To Be Continued
+        })
 
         return { result : true, value : "success"}
     } catch(error) {
