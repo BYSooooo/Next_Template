@@ -1,4 +1,5 @@
 import {    
+    addDoc,
     arrayRemove,
     arrayUnion,
     collection, 
@@ -12,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
+import { UserInfo } from "../../typeDef";
 
 const userAuth = firebaseAuth;
 
@@ -333,10 +335,22 @@ export async function createChatRoom(friendUUID : string) {
 
         await updateDoc(friendDocRef, { friend : updateFreFriend});
 
+        // create Chat Document
         const chatDocRef = doc(firebaseStore, "chat", chatUUID);
-        await setDoc(chatDocRef, {
-            //To Be Continued
+        await setDoc(chatDocRef, { 
+            member : [friendUUID, currentUid],
         })
+
+        const messageCol = collection(chatDocRef, "messages");
+        const initChat = {
+            content : "Chatting Start!",
+            createdAt : new Date(),
+            createdBy : "System",
+            attachYn : false,
+            attachFile : ""
+        };
+        await addDoc(messageCol, initChat)
+        
 
         return { result : true, value : "success"}
     } catch(error) {

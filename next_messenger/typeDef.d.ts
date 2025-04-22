@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore"
+
 type UserInfo = {
     uid : string,
     email : string,
@@ -15,4 +17,12 @@ type friendRequestInfo = {
     to : string,
     date : string,
     status : string,
+}
+
+type Chat = {
+    content : string,
+    createdAt : Timestamp,
+    createdBy : string,
+    attachYn : boolean,
+    attachFile : string
 }
