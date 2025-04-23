@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserInfo } from "../../typeDef";
 
 type toastType = {
     type : "error" | "info" | "confirm",
@@ -86,7 +87,6 @@ export const userInfoSlice = createSlice({
             action.payload.received && (state.received = action.payload.received);
         }
     }
-
 })
 
 export const { controlMessageToast } = toastSlice.actions

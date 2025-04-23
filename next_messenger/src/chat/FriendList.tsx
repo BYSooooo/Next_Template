@@ -3,10 +3,11 @@
 import React from 'react';
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { controlDialog } from "../redux/features";
+import { controlDialog, controlMessageToast } from "../redux/features";
 import { createChatRoom, getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
 import { firebaseAuth } from '../../firebase-config';
+import { UserInfo } from '../../typeDef';
 
 export default function FriendList() {
     const dispatch = useAppDispatch()
@@ -41,15 +42,11 @@ export default function FriendList() {
 
     const onClickListItem = async(selUserInfo : UserInfo)=> {
         const {uuid, chatId} = selUserInfo.friend.find((info)=> info.uuid === firebaseAuth.currentUser.uid);
-        // Case 1. Not created Chat Room 
+        // If Not has ChatRoom with Selected Friend, Create new one. 
         if(chatId.length === 0) {
             const { result, value } = await createChatRoom(selUserInfo.uid);
-            console.log(value)
-        // Case 2. Already has Chat Room
-        } else {
-
-        }
-
+            result && dispatch(controlMessageToast({ openYn : true, type : 'info', title : "New Chat", content : "New ChatRoom Created "}))
+        }  
         
     }
 
