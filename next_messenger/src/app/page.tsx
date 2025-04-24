@@ -8,7 +8,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { doc, onSnapshot } from "firebase/firestore";
 import { getCurrentUser } from "../controller/FirebaseController";
 import { controlMessageToast, setUserInfo } from "../redux/features";
-import { SnapshotController } from "../controller/SnapshotController";
+import { UserInfoSnapshot } from "../controller/SnapshotController";
 
 export default function Page() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function Page() {
           router.push("/login");
       }
   }, []);
-  SnapshotController();
+  UserInfoSnapshot();
 
   return (
     <div className="main-div">

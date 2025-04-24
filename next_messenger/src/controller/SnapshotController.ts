@@ -6,7 +6,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
 
-export function SnapshotController() {
+export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
@@ -58,5 +58,13 @@ export function SnapshotController() {
             } 
 
         }
+    })
+}
+
+export function ChatRoomSnapshot() {
+    const dispatch = useAppDispatch();
+    
+    React.useEffect(()=> {
+        
     })
 }

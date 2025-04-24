@@ -1,13 +1,12 @@
 "use client"
 
-import { SnapshotController } from "../../controller/SnapshotController"
+import { UserInfoSnapshot } from "../../controller/SnapshotController"
 import ReceiveRequestList from "../../friend/ReceiveRequestList"
 import SendRequestList from "../../friend/SendRequestList"
 import SideNavigation from "../../main/SideNaigation"
 
 export default function Page() {
-
-    SnapshotController()
+    UserInfoSnapshot()
     
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
