@@ -8,12 +8,14 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
+    orderBy, 
+    query, 
     setDoc,
     updateDoc
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
-import { UserInfo } from "../../typeDef";
+import { Chat, UserInfo } from "../../typeDef";
 
 const userAuth = firebaseAuth;
 
@@ -355,5 +357,28 @@ export async function createChatRoom(friendUUID : string) {
         return { result : true, value : "success"}
     } catch(error) {
         return { result : false, value : error};
+    }
+}
+
+export async function setChatRoomMessage(
+        chatId: string, 
+        content : string, 
+        attachYn : boolean, 
+        attachFile : string,
+        createdBy : string ) {
+    const colRef = doc(firebaseStore, `chat/${chatId}/messages`);
+    try {
+        const data ={
+            content : content,
+            attachYn : attachYn,
+            attacnFile : attachFile,
+            createdAt : new Date(),
+            createdBy : createdBy  
+        }
+        await setDoc(colRef, data)
+        
+        return { result : true, value : "Success"}
+    } catch(error) {
+        return { result : false, value : error}
     }
 }

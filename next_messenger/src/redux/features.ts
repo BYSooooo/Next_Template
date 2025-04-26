@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserInfo } from "../../typeDef";
+import { Chat, UserInfo } from "../../typeDef";
 
 type toastType = {
     type : "error" | "info" | "confirm",
@@ -89,14 +89,26 @@ export const userInfoSlice = createSlice({
     }
 })
 
+export const chatSlice = createSlice({
+    name : 'chatSlice',
+    initialState : [] as Chat[],
+    reducers : {
+        getChatRoomMessages: (state, action: PayloadAction<Chat[]>)=> {
+            state = action.payload
+        }
+    }
+})
+
 export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
+export const { getChatRoomMessages } = chatSlice.actions
 
 export default [
     toastSlice.reducer,
     dialogSlice.reducer,
     pageSlice.reducer,
-    userInfoSlice.reducer
+    userInfoSlice.reducer,
+    chatSlice.reducer
 ]

@@ -1,6 +1,6 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { controlMessageToast, setUserInfo } from '../redux/features';
@@ -65,13 +65,22 @@ export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     
     React.useEffect(()=> {
+        const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
+        const colRefQuery = query(colRef, orderBy("createdAt", "asc"));
         
-    },[])
+        const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
+            snapshot.docChanges().forEach((change)=> {
+                if(change.type === 'added') {
+                    // To Be Continue
+                }
+            })
+        })
+        
+        return ()=> {
+            chatSnapshot()
+        }
+    },[chatId])
     
-    const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
-    const chatSnapshot = onSnapshot(colRef, {
-        
-    })
     
     
 }
