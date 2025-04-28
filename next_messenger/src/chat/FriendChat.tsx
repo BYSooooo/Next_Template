@@ -3,13 +3,15 @@
 import React from 'react';
 
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { ChatRoomSnapshot } from '../controller/SnapshotController';
 
 
-export default function FriendChat() {
+export default function FriendChat({chatId} : {chatId : string}) {
     React.useEffect(()=> {
         
     },[])
     
+    ChatRoomSnapshot(chatId)
     
     return (
         <div className='default-box

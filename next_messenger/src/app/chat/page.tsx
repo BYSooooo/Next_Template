@@ -1,12 +1,15 @@
 "use client"
 
+import React from 'react';
 import FriendList from "../../chat/FriendList";
 import SideNavigation from "../../main/SideNaigation";
 import FriendChat from '../../chat/FriendChat';
 import { UserInfoSnapshot } from "../../controller/SnapshotController";
+import { useAppSelector } from "../../redux/hooks";
 
 export default function Page() {
-    
+    const [chatId, setChatId ] = React.useState("")
+
     UserInfoSnapshot()
 
     return (
@@ -16,10 +19,10 @@ export default function Page() {
             </div>
             <div className='flex flex-row max-w-[90vw]'>
                 <div className='flex'>
-                    <FriendList />
+                    <FriendList selChatId={setChatId}/>
                 </div>
                 <div className='flex'>
-                    <FriendChat />
+                    <FriendChat chatId={chatId}/>
                 </div>
             </div>
         </div>

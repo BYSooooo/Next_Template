@@ -1,10 +1,11 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { getCurrentUser } from './FirebaseController';
+import { getCurrentUser, setChatRoomMessage } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
-import { controlMessageToast, setUserInfo } from '../redux/features';
+import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
+import { Chat } from '../../typeDef';
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -71,7 +72,8 @@ export function ChatRoomSnapshot(chatId : string) {
         const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
             snapshot.docChanges().forEach((change)=> {
                 if(change.type === 'added') {
-                    // To Be Continue
+                    const addedMessage = change.doc.data();
+                    dispatch(addChatRoomMessage(addedMessage as Chat));
                 }
             })
         })

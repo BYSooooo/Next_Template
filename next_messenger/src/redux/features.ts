@@ -95,6 +95,9 @@ export const chatSlice = createSlice({
     reducers : {
         getChatRoomMessages: (state, action: PayloadAction<Chat[]>)=> {
             state = action.payload
+        },
+        addChatRoomMessage : (state, action:PayloadAction<Chat>)=> {
+            state.push(action.payload);
         }
     }
 })
@@ -103,7 +106,7 @@ export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
-export const { getChatRoomMessages } = chatSlice.actions
+export const { getChatRoomMessages, addChatRoomMessage } = chatSlice.actions
 
 export default [
     toastSlice.reducer,
