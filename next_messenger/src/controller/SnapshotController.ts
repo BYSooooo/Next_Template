@@ -48,12 +48,9 @@ export function UserInfoSnapshot() {
                     }))
             })
         })
-
-        console.log("Snapshot Enabled")
         userInfoSnapshot();
         avatarImgSnapshot();
             return ()=> {
-                console.log("Snapshot Disabled")
                 userInfoSnapshot();
                 avatarImgSnapshot();
             } 
@@ -66,20 +63,24 @@ export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     
     React.useEffect(()=> {
-        const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
-        const colRefQuery = query(colRef, orderBy("createdAt", "asc"));
-        
-        const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
-            snapshot.docChanges().forEach((change)=> {
-                if(change.type === 'added') {
-                    const addedMessage = change.doc.data();
-                    dispatch(addChatRoomMessage(addedMessage as Chat));
-                }
+        if(chatId !== ""){
+            const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
+            const colRefQuery = query(colRef, orderBy("createdAt", "asc"));
+            
+            const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
+                snapshot.docChanges().forEach((change)=> {
+                    if(change.type === 'added') {
+                        const addedMessage = change.doc.data();
+                        dispatch(addChatRoomMessage(addedMessage as Chat));
+                    }
+                })
             })
-        })
-        
-        return ()=> {
-            chatSnapshot()
+            
+            chatSnapshot();
+
+            return ()=> {
+                chatSnapshot()
+            }
         }
     },[chatId])
     

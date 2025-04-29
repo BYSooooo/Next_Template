@@ -3,16 +3,15 @@
 import React from 'react';
 
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { ChatRoomSnapshot } from '../controller/SnapshotController';
+import { useAppSelector } from '../redux/hooks';
 
 
 export default function FriendChat({chatId} : {chatId : string}) {
+    const chatStore = useAppSelector((state)=> state.chatStore);    
     React.useEffect(()=> {
-        
-    },[])
-    
-    ChatRoomSnapshot(chatId)
-    
+
+    },[chatId])
+
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1' >
@@ -21,7 +20,10 @@ export default function FriendChat({chatId} : {chatId : string}) {
                     <UserCircleIcon className="w-16 h-16"/>
                     <div className="flex flex-col text-start">
                         <p className="font-bold text-xl">
-                            User Name
+                            {chatId !== ""
+                                ? chatId
+                                : "No Chat ID"
+                            }
                         </p>
                         <p className="text-sm">
                             SampleEmail@example.com
