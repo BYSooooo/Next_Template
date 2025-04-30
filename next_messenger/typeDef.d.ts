@@ -20,6 +20,12 @@ type friendRequestInfo = {
 }
 
 type Chat = {
+    member : string[],
+    messages : ChatMsg[]
+    
+};
+
+type ChatMsg = {
     content : string,
     createdAt : Timestamp,
     createdBy : string,

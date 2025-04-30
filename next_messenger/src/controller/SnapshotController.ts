@@ -5,7 +5,7 @@ import { getCurrentUser, setChatRoomMessage } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
-import { Chat } from '../../typeDef';
+import { Chat, ChatMsg } from '../../typeDef';
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -64,14 +64,16 @@ export function ChatRoomSnapshot(chatId : string) {
     
     React.useEffect(()=> {
         if(chatId !== ""){
-            const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
-            const colRefQuery = query(colRef, orderBy("createdAt", "asc"));
+            const chatRef = doc(firebaseStore, 'chat', chatId);
+            const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
+            const colRefQuery = query(chatMsgRef, orderBy("createdAt", "asc"));
             
+            // If messages subcollection has changed, update just only messages collection.
             const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
                 snapshot.docChanges().forEach((change)=> {
                     if(change.type === 'added') {
                         const addedMessage = change.doc.data();
-                        dispatch(addChatRoomMessage(addedMessage as Chat));
+                        dispatch(addChatRoomMessage(addedMessage as ChatMsg));
                     }
                 })
             })

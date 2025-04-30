@@ -382,3 +382,19 @@ export async function setChatRoomMessage(
         return { result : false, value : error}
     }
 }
+
+export async function getChatRoom(chatId : string) {
+    const docRef = doc(firebaseStore, "chat", chatId);
+    const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
+    try {
+        const { member } = (await getDoc(docRef)).data();
+        const messages = (await getDocs(colRef)).docs;
+        const response = {
+            member : member,
+            // To be Continue
+        } as Chat
+        return { result : true, value : response};
+    } catch (error) {
+        return { result : false, value : error };
+    }
+}

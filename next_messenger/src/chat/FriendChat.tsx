@@ -4,12 +4,14 @@ import React from 'react';
 
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAppSelector } from '../redux/hooks';
+import { UserInfo } from '../../typeDef';
 
 
 export default function FriendChat({chatId} : {chatId : string}) {
     const chatStore = useAppSelector((state)=> state.chatStore);    
+    const [selectedUser, setSelectedUser] = React.useState<UserInfo>();
     React.useEffect(()=> {
-
+        
     },[chatId])
 
     return (
