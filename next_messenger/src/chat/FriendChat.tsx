@@ -3,16 +3,28 @@
 import React from 'react';
 
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
+import { getChatRoom } from '../controller/FirebaseController';
+import { controlMessageToast, setChatRoom } from '../redux/features';
 
 
 export default function FriendChat({chatId} : {chatId : string}) {
+    const dispatch = useAppDispatch();
     const chatStore = useAppSelector((state)=> state.chatStore);    
     const [selectedUser, setSelectedUser] = React.useState<UserInfo>();
     React.useEffect(()=> {
-        
+        initChatRoom();
     },[chatId])
+
+    const initChatRoom = async()=> {
+        const { result, value } = await getChatRoom(chatId)
+        if(result) {
+            dispatch(setChatRoom(value));
+        } else {
+            dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : value}))
+        }
+    }   
 
     return (
         <div className='default-box

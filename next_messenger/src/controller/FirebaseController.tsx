@@ -388,10 +388,14 @@ export async function getChatRoom(chatId : string) {
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
     try {
         const { member } = (await getDoc(docRef)).data();
-        const messages = (await getDocs(colRef)).docs;
+        const messages = [];
+        (await getDocs(colRef)).docs.forEach((msg)=> {
+            messages.push(msg)
+        });
+        
         const response = {
             member : member,
-            // To be Continue
+            messages : messages
         } as Chat
         return { result : true, value : response};
     } catch (error) {
