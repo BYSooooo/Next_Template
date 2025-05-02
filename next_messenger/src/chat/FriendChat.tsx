@@ -8,13 +8,13 @@ import { UserInfo } from '../../typeDef';
 import { getChatRoom } from '../controller/FirebaseController';
 import { controlMessageToast, setChatRoom } from '../redux/features';
 
-
-export default function FriendChat({chatId} : {chatId : string}) {
+export default function FriendChat({chatId, selUserInfo} : {chatId : string, selUserInfo : UserInfo}) {
     const dispatch = useAppDispatch();
     const chatStore = useAppSelector((state)=> state.chatStore);    
-    const [selectedUser, setSelectedUser] = React.useState<UserInfo>();
+    const [selectedUser, setSelectedUser] = React.useState<UserInfo>(selUserInfo);
     React.useEffect(()=> {
-        initChatRoom();
+        chatId !== "" && initChatRoom();
+        
     },[chatId])
 
     const initChatRoom = async()=> {
@@ -33,12 +33,16 @@ export default function FriendChat({chatId} : {chatId : string}) {
                 <span className="flex flex-row items-center">
                     <UserCircleIcon className="w-16 h-16"/>
                     <div className="flex flex-col text-start">
-                        <p className="font-bold text-xl">
-                            {chatId !== ""
-                                ? chatId
-                                : "No Chat ID"
-                            }
-                        </p>
+                        { selectedUser 
+                            ? 
+                                <p className='font-bold text-xl' >
+                                    {selectedUser.displayName}
+                                </p>
+                            :
+                                <p className='text-xl italic'>
+                                    DisplayName not set
+                                </p>
+                        }
                         <p className="text-sm">
                             SampleEmail@example.com
                         </p>

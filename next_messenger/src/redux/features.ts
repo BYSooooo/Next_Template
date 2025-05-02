@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Chat, ChatMsg, UserInfo } from "../../typeDef";
+import { Chat, ChatMessage, UserInfo } from "../../typeDef";
+import { Timestamp } from "firebase/firestore";
 
 type toastType = {
     type : "error" | "info" | "confirm",
@@ -93,13 +94,13 @@ export const chatSlice = createSlice({
     name : 'chatSlice',
     initialState : {
         member : [],
-        messages : <ChatMsg[]>[] 
+        messages : <ChatMessage[]>[] 
     },
     reducers : {
         setChatRoom: (state, action: PayloadAction<Chat>)=> {
             state = action.payload
         },
-        addChatRoomMessage : (state, action:PayloadAction<ChatMsg>)=> {
+        addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
             state.messages.push(action.payload);
         }
     }

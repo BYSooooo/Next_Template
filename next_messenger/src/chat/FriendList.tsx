@@ -9,7 +9,7 @@ import UserListItem from '../component/UserListItem';
 import { firebaseAuth } from '../../firebase-config';
 import { UserInfo } from '../../typeDef';
 
-export default function FriendList({selChatId} : {selChatId : Function}) {
+export default function FriendList({selectFn} : {selectFn : Function}) {
     const dispatch = useAppDispatch()
     const userStore = useAppSelector((state)=> state.userStore)
     const [friendList, setFriendList] = React.useState<UserInfo[]>([]);
@@ -47,7 +47,7 @@ export default function FriendList({selChatId} : {selChatId : Function}) {
             const { result, value } = await createChatRoom(selUserInfo.uid);
             result && dispatch(controlMessageToast({ openYn : true, type : 'info', title : "New Chat", content : "New ChatRoom Created "}))
         } 
-        selChatId(chatId);
+        selectFn(chatId, selUserInfo);
     }
     
         

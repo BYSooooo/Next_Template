@@ -21,13 +21,12 @@ type friendRequestInfo = {
 
 type Chat = {
     member : string[],
-    messages : ChatMsg[]
-    
+    messages : ChatMessage[]
 };
 
-type ChatMsg = {
+type ChatMessage = {
     content : string,
-    createdAt : Timestamp,
+    createdAt : Timestamp | Date,
     createdBy : string,
     attachYn : boolean,
     attachFile : string

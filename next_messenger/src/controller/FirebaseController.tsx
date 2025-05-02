@@ -8,14 +8,13 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
-    orderBy, 
-    query, 
     setDoc,
+    Timestamp,
     updateDoc
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
-import { Chat, UserInfo } from "../../typeDef";
+import { Chat, ChatMessage, UserInfo } from "../../typeDef";
 
 const userAuth = firebaseAuth;
 
@@ -386,17 +385,24 @@ export async function setChatRoomMessage(
 export async function getChatRoom(chatId : string) {
     const docRef = doc(firebaseStore, "chat", chatId);
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
+    
     try {
+        // Get Member Array in Chat Document
         const { member } = (await getDoc(docRef)).data();
+        
+        // Get Messages List in subCollection of Chat/{chatId}/Messages 
         const messages = [];
         (await getDocs(colRef)).docs.forEach((msg)=> {
-            messages.push(msg)
+            const data = msg.data() as ChatMessage;
+            // type exchage from Timestamp to Date
+            if(data.createdAt instanceof Timestamp) {
+                messages.push({...data, createdAt : data.createdAt.toDate().toString()})
+            } else {
+                messages.push(data)
+            }
         });
         
-        const response = {
-            member : member,
-            messages : messages
-        } as Chat
+        const response = { member : member, messages : messages } as Chat
         return { result : true, value : response};
     } catch (error) {
         return { result : false, value : error };

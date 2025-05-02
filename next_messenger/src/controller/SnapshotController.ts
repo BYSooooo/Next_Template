@@ -5,7 +5,7 @@ import { getCurrentUser, setChatRoomMessage } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
-import { Chat, ChatMsg } from '../../typeDef';
+import { ChatMessage } from '../../typeDef';
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -73,7 +73,7 @@ export function ChatRoomSnapshot(chatId : string) {
                 snapshot.docChanges().forEach((change)=> {
                     if(change.type === 'added') {
                         const addedMessage = change.doc.data();
-                        dispatch(addChatRoomMessage(addedMessage as ChatMsg));
+                        dispatch(addChatRoomMessage(addedMessage as ChatMessage));
                     }
                 })
             })

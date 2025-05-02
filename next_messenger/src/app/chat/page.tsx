@@ -8,10 +8,12 @@ import { ChatRoomSnapshot, UserInfoSnapshot } from "../../controller/SnapshotCon
 import { getChatRoom } from '../../controller/FirebaseController';
 import { useAppDispatch } from '../../redux/hooks';
 import { controlMessageToast, setChatRoom } from '../../redux/features';
+import { UserInfo } from '../../../typeDef';
 
 export default function Page() {
     const dispatch = useAppDispatch();
-    const [chatId, setChatId ] = React.useState("")
+    const [ chatId, setChatId ] = React.useState("")
+    const [ selUserInfo, setSeluserInfo ] = React.useState<UserInfo>()
     React.useEffect(()=> {
         getChatRoomInit()
     },[chatId])
@@ -30,6 +32,11 @@ export default function Page() {
 
     UserInfoSnapshot()
     ChatRoomSnapshot(chatId);
+
+    const selectionHandler = (chatId : string, selectedUserInfo : UserInfo)=> {
+        setChatId(chatId);
+        setSeluserInfo(selectedUserInfo);
+    }
     
     return (
         <div className="flex flex-row mx-auto w-max h-svh text-center justify-center pt-14 pb-2">
@@ -38,10 +45,10 @@ export default function Page() {
             </div>
             <div className='flex flex-row max-w-[90vw]'>
                 <div className='flex'>
-                    <FriendList selChatId={setChatId}/>
+                    <FriendList selectFn={selectionHandler}/>
                 </div>
                 <div className='flex'>
-                    <FriendChat chatId={chatId}/>
+                    <FriendChat chatId={chatId} selUserInfo={selUserInfo}/>
                 </div>
             </div>
         </div>
