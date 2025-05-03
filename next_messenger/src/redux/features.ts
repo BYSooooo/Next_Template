@@ -90,6 +90,7 @@ export const userInfoSlice = createSlice({
     }
 })
 
+
 export const chatSlice = createSlice({
     name : 'chatSlice',
     initialState : {
@@ -98,7 +99,8 @@ export const chatSlice = createSlice({
     },
     reducers : {
         setChatRoom: (state, action: PayloadAction<Chat>)=> {
-            state = action.payload
+            state.member =  action.payload.member;
+            state.messages = action.payload.messages;
         },
         addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
             state.messages.push(action.payload);

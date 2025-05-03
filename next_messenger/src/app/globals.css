@@ -18,6 +18,13 @@
         shadow-sm
     }
 
+    .chat-input-box {
+        @apply
+        bg-slate-400 dark:bg-slate-600
+        rounded-md overflow-hidden
+        shadow-sm
+    }
+
     .default-box-inner {
         @apply
         flex flex-col

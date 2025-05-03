@@ -9,6 +9,7 @@ import { getChatRoom } from '../../controller/FirebaseController';
 import { useAppDispatch } from '../../redux/hooks';
 import { controlMessageToast, setChatRoom } from '../../redux/features';
 import { UserInfo } from '../../../typeDef';
+import { FriendChatInput } from '../../chat/FriendChatInput';
 
 export default function Page() {
     const dispatch = useAppDispatch();
@@ -47,8 +48,9 @@ export default function Page() {
                 <div className='flex'>
                     <FriendList selectFn={selectionHandler}/>
                 </div>
-                <div className='flex'>
+                <div className='flex flex-col gap-2'>
                     <FriendChat chatId={chatId} selUserInfo={selUserInfo}/>
+                    <FriendChatInput />
                 </div>
             </div>
         </div>
