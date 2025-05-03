@@ -1,4 +1,5 @@
 import { UserCircleIcon } from "@heroicons/react/24/solid"
+import { UserInfo } from "../../typeDef"
 
 export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
     
