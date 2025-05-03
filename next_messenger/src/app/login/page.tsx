@@ -5,10 +5,10 @@ export default function Page() {
         <div className="flex flex-col justify-center items-center h-svh">
             <div className="text-center">
                 <h1 className="text-3xl font-bold">
-                Sign In
+                    Sign In
                 </h1>
                 <h5>
-                Please Select Service
+                    Please Select Service
                 </h5>
                 <AuthList />
             </div>

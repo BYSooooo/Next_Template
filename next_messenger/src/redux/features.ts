@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Chat, ChatMessage, UserInfo } from "../../typeDef";
+import { Timestamp } from "firebase/firestore";
 
 type toastType = {
     type : "error" | "info" | "confirm",
@@ -70,6 +72,7 @@ export const userInfoSlice = createSlice({
         emailVerified : '',
         avatarImg : '',
         avatarOpenYn : false,
+        friend : [],
         requested : [],
         received : [],
     } ,
@@ -80,21 +83,41 @@ export const userInfoSlice = createSlice({
             action.payload.emailVerified && (state.emailVerified = action.payload.emailVerified);
             action.payload.avatarImg && (state.avatarImg = action.payload.avatarImg);
             action.payload.avatarOpenYn && (state.avatarOpenYn = action.payload.avatarOpenYn);
+            action.payload.friend && (state.friend = action.payload.friend)
             action.payload.requested && (state.requested = action.payload.requested);
             action.payload.received && (state.received = action.payload.received);
         }
     }
+})
 
+
+export const chatSlice = createSlice({
+    name : 'chatSlice',
+    initialState : {
+        member : [],
+        messages : <ChatMessage[]>[] 
+    },
+    reducers : {
+        setChatRoom: (state, action: PayloadAction<Chat>)=> {
+            state.member =  action.payload.member;
+            state.messages = action.payload.messages;
+        },
+        addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
+            state.messages.push(action.payload);
+        }
+    }
 })
 
 export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
+export const { setChatRoom, addChatRoomMessage } = chatSlice.actions
 
 export default [
     toastSlice.reducer,
     dialogSlice.reducer,
     pageSlice.reducer,
-    userInfoSlice.reducer
+    userInfoSlice.reducer,
+    chatSlice.reducer
 ]

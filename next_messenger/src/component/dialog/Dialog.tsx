@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import SearchFriend from './SearchFriend';
 import { controlDialog } from '../../redux/features';
 import SendRequestInfo from './SendRequestInfo';
+import ReceiveRequestInfo from './ReceiveRequestInfo';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -34,6 +35,8 @@ export default function Dialog() {
                 return <SearchFriend />
             case 'SendRequestInfo' : 
                 return <SendRequestInfo />
+            case 'ReceiveRequestInfo' : 
+                return <ReceiveRequestInfo />
             default :
             break;
         }

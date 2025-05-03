@@ -26,9 +26,10 @@ export default function SendRequestInfo() {
             <div className="w-full flex flex-row-reverse mt-3">
                 <button
                     onClick={onClickCancel} 
-                    className="default-button text-center p-1">
+                    className="default-button text-center p-1 
+                        hover:bg-red-600 dark:hover:bg-red-600">
                         <p>
-                            Cancel Request
+                            Cancel
                         </p>                
                 </button>   
 

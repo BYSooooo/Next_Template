@@ -1,6 +1,7 @@
 "use client"
 
 import { UserIcon } from "@heroicons/react/24/solid"
+import { UserInfo } from "../../typeDef"
 
 export default function UserListItem({user, selected} : {user : UserInfo, selected:Function}) {
     const onClickItem = ()=> {
