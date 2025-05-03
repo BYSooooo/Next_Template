@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
+import { UserInfo } from '../../typeDef';
 
 export default function ReceiveRequestList() {
     const [receiveList, setReceiveList] = React.useState<UserInfo[]>([]);
