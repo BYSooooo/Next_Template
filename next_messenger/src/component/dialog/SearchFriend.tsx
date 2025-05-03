@@ -9,6 +9,7 @@ import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';
 import { firebaseAuth } from '../../../firebase-config';
+import { UserInfo } from '../../../typeDef';
 
 export default function SearchFriend() {
     const [checked, setChecked] = React.useState("email")
