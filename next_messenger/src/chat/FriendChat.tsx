@@ -5,25 +5,17 @@ import React from 'react';
 import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
-import { getChatRoom } from '../controller/FirebaseController';
-import { controlMessageToast, setChatRoom } from '../redux/features';
+import ChatItem from './ChatItem';
+import { firebaseAuth } from '../../firebase-config';
 
 export default function FriendChat({chatId, selUserInfo} : {chatId : string, selUserInfo : UserInfo}) {
     const dispatch = useAppDispatch();
     const chatStore = useAppSelector((state)=> state.chatStore);  
+    const currentUid = firebaseAuth.currentUser.uid;
+    
     React.useEffect(()=> {
-        // chatId !== "" && initChatRoom();
         
     },[chatId])
-
-    // const initChatRoom = async()=> {
-    //     const { result, value } = await getChatRoom(chatId)
-    //     if(result) {
-    //         dispatch(setChatRoom(value));
-    //     } else {
-    //         dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : value}))
-    //     }
-    // }   
 
     return (
         <div className='default-box
@@ -64,7 +56,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
             { chatStore.messages.length > 0 &&
                 chatStore.messages.map((chat)=>{
-                    return chat.content
+                    return <ChatItem currentUid={currentUid} chat={chat}/>
                 } )
             }
         </div>
