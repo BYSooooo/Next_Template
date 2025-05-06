@@ -344,7 +344,7 @@ export async function createChatRoom(friendUUID : string) {
 
         const messageCol = collection(chatDocRef, "messages");
         const initChat = {
-            content : "Chatting Start!",
+            content : "Please be careful not to write sensitive information such as personal information or account number in the chat.",
             createdAt : new Date(),
             createdBy : "System",
             attachYn : false,

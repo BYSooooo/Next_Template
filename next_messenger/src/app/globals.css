@@ -125,4 +125,11 @@
         rounded-md
         items-center
     }
+
+    .default-chat-item {
+        @apply
+        flex 
+        rounded-md
+        px-2
+    }
 }

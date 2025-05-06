@@ -8,7 +8,7 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
     React.useEffect(()=> {
         switch(chat.createdBy) {
-            case 'system' : 
+            case 'System' : 
                 setSenderType('sys')
             break;
             default : 
@@ -16,24 +16,26 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
                 ? setSenderType('me')
                 : setSenderType('other')
         }
+        
     },[])
 
     // Set justify of message position
     const senderHandler = () => {
+        console.log("senderHandler Called")
         switch(senderType){
             case 'me' : 
                 return 'justify-end'
             case 'other' : 
                 return 'justify-begin'
             case 'sys' : 
-                return 'justify-center bg-black'
+                return 'justify-center'
         }
-            
-    }
+    };
+
     
     return (
-        <div className={`${senderHandler}`}>
-            <p>
+        <div className={`flex mx-2 ${senderHandler()}`}>
+            <p className='default-chat-item'>
                 {chat.content}
             </p>
         </div>

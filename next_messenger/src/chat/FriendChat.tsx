@@ -53,10 +53,10 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                 </span>
                 
             </div>
-            <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md"/>
+            <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md mb-2"/>
             { chatStore.messages.length > 0 &&
                 chatStore.messages.map((chat)=>{
-                    return <ChatItem currentUid={currentUid} chat={chat}/>
+                    return <ChatItem key={chat.createdAt.toString()} currentUid={currentUid} chat={chat}/>
                 } )
             }
         </div>
