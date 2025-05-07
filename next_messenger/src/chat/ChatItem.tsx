@@ -21,7 +21,6 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
 
     // Set justify of message position
     const senderHandler = () => {
-        console.log("senderHandler Called")
         switch(senderType){
             case 'me' : 
                 return 'justify-end'
@@ -34,7 +33,7 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
 
     
     return (
-        <div className={`flex mx-2 ${senderHandler()}`}>
+        <div className={`flex mx-2 ${senderHandler()} px-20`}>
             <p className='default-chat-item'>
                 {chat.content}
             </p>
