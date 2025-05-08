@@ -98,6 +98,10 @@ export const chatSlice = createSlice({
         messages : <ChatMessage[]>[] 
     },
     reducers : {
+        initChatRoom : (state, action)=> {
+            state.member = [];
+            state.messages = [];
+        },
         setChatRoom: (state, action: PayloadAction<Chat>)=> {
             state.member =  action.payload.member;
             state.messages = action.payload.messages;
@@ -112,7 +116,7 @@ export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
-export const { setChatRoom, addChatRoomMessage } = chatSlice.actions
+export const { initChatRoom, setChatRoom, addChatRoomMessage } = chatSlice.actions
 
 export default [
     toastSlice.reducer,

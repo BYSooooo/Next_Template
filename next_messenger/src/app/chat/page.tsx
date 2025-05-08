@@ -7,8 +7,8 @@ import FriendChat from '../../chat/FriendChat';
 import { ChatRoomSnapshot, UserInfoSnapshot } from "../../controller/SnapshotController";
 import { getChatRoom } from '../../controller/FirebaseController';
 import { useAppDispatch } from '../../redux/hooks';
-import { controlMessageToast, setChatRoom } from '../../redux/features';
-import { UserInfo } from '../../../typeDef';
+import { controlMessageToast, initChatRoom, setChatRoom } from '../../redux/features';
+import { Chat, ChatMessage, UserInfo } from '../../../typeDef';
 import { FriendChatInput } from '../../chat/FriendChatInput';
 
 export default function Page() {
@@ -28,6 +28,8 @@ export default function Page() {
             } else {
                 dispatch(controlMessageToast({ openYn : true, type : 'error', title : "Error", content : value}));   
             }
+        } else {
+            //dispatch(initChatRoom)
         }
     }
 

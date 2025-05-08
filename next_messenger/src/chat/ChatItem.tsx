@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { ChatMessage } from "../../typeDef";
+import { InformationCircleIcon } from '@heroicons/react/24/solid';
 
 export default function ChatItem({currentUid, chat} : {currentUid : string , chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
@@ -35,6 +36,8 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
     return (
         <div className={`flex mx-2 ${senderHandler()} px-20`}>
             <p className='default-chat-item'>
+            { chat.createdBy === "System" 
+                && <InformationCircleIcon className='w-6 h-6'/>}
                 {chat.content}
             </p>
         </div>
