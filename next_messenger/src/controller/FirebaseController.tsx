@@ -365,7 +365,7 @@ export async function setChatRoomMessage(
         attachYn : boolean, 
         attachFile : string,
         createdBy : string ) {
-    const colRef = doc(firebaseStore, `chat/${chatId}/messages`);
+    const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
     try {
         const data ={
             content : content,
@@ -374,7 +374,7 @@ export async function setChatRoomMessage(
             createdAt : new Date(),
             createdBy : createdBy  
         }
-        await setDoc(colRef, data)
+        await addDoc(colRef, data)
         
         return { result : true, value : "Success"}
     } catch(error) {

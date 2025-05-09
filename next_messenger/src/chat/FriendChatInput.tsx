@@ -1,14 +1,47 @@
-export function FriendChatInput() {
+"use client";
+
+import React from 'react';
+import { setChatRoomMessage } from '../controller/FirebaseController';
+import { firebaseAuth } from '../../firebase-config';
+import { useAppDispatch } from '../redux/hooks';
+import { controlMessageToast } from '../redux/features';
+
+export function FriendChatInput({chatId} : {chatId : string}) {
+    const [inputValue, setInputValue] = React.useState("");
+    const dispatch = useAppDispatch();
+    const currentUid = firebaseAuth.currentUser.uid;
+    React.useEffect(()=> {
+
+    },[])
+
+    const onClickSendMessage = ()=> {
+        sendMessage()        
+    }
+
+    const sendMessage = async()=> {
+        const { result, value } = await setChatRoomMessage(chatId,inputValue,false,"",currentUid);
+        if(result){
+            setInputValue("");
+        } else {
+            dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+        }
+    }
+
     return (
         <div className="chat-input-box
             flex flex-row w-[40rem] ml-1 h-[3rem]
             justify-center p-2 gap-2">
-            <input className="default-input w-[80%]">
+            <input
+                onChange={(e)=>setInputValue(e.target.value.trim())}
+                value={inputValue} 
+                className="default-input w-[80%]">
             </input>
             <button className="default-button w-[7%] justify-center">
                 File
             </button>
-            <button className="default-button w-[7%] justify-center">
+            <button 
+                onClick={onClickSendMessage}
+                className="default-button w-[7%] justify-center">
                 Send
             </button>
         </div>
