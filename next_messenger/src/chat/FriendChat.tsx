@@ -11,11 +11,14 @@ import { firebaseAuth } from '../../firebase-config';
 export default function FriendChat({chatId, selUserInfo} : {chatId : string, selUserInfo : UserInfo}) {
     const dispatch = useAppDispatch();
     const chatStore = useAppSelector((state)=> state.chatStore);  
+    const chatContainerRef = React.useRef<HTMLDivElement>(null);
     const currentUid = firebaseAuth.currentUser.uid;
     
     React.useEffect(()=> {
-        
-    },[chatId])
+        if(chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    },[chatId, chatStore.messages])
 
     return (
         <div className='default-box
@@ -54,11 +57,32 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                 
             </div>
             <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md mb-2"/>
-            { chatStore.messages.length > 0 &&
-                chatStore.messages.map((chat)=>{
-                    return <ChatItem key={chat.createdAt.toString()} currentUid={currentUid} chat={chat}/>
-                } )
-            }
+            <div 
+                ref={chatContainerRef}
+                className='flex flex-col gap-3 overflow-scroll'>
+                { chatStore.messages.reduce((acc, cur, index, array)=> {
+                    const curDate = new Date(cur.createdAt as any);
+                    const preChat = array[index - 1];
+                    const preDate = preChat ? new Date(preChat.createdAt as any) : null;
+
+                    const dateSeperatorYn = !preDate || curDate.getDate() !== preDate.getDate();
+
+                    if(dateSeperatorYn) {
+                        acc.push(
+                            <p  key={curDate.toISOString()} 
+                                className='text-sm bg-gray-500 rounded-md mx-2'> 
+                                {   curDate.getFullYear() + '-' + 
+                                    curDate.getMonth().toString().padStart(2,"0") + "-" + 
+                                    curDate.getDate().toString().padStart(2,"0")
+                                } 
+                            </p>
+                            )
+                    }
+                    acc.push(<ChatItem key={cur.createdAt.toString()} currentUid={currentUid} chat={cur}/>)
+                    return acc;
+                    },[])
+                }
+            </div>
         </div>
     )
 }

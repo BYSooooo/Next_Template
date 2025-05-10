@@ -61,15 +61,16 @@ export function UserInfoSnapshot() {
 
 export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
-    
+    console.log("ChatRoomSnapshot Called")
     React.useEffect(()=> {
         if(chatId !== ""){
             const chatRef = doc(firebaseStore, 'chat', chatId);
             const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
-            const colRefQuery = query(chatMsgRef, orderBy("createdAt", "asc"));
+            const colRefQuery = query(chatMsgRef, orderBy("createdAt", "desc"));
             
             // If messages subcollection has changed, update just only messages collection.
             const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
+                console.log("chatSnapshot Catch Event for add Message")
                 snapshot.docChanges().forEach((change)=> {
                     if(change.type === 'added') {
                         const addedMessage = change.doc.data();

@@ -126,16 +126,4 @@
         items-center
     }
 
-    .default-chat-item {
-        @apply
-        flex 
-        min-w-full
-        rounded-lg
-        px-2
-        bg-gray-300
-        dark:bg-gray-500
-        
-        
-        
-    }
 }

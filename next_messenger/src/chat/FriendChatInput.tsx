@@ -32,7 +32,8 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             flex flex-row w-[40rem] ml-1 h-[3rem]
             justify-center p-2 gap-2">
             <input
-                onChange={(e)=>setInputValue(e.target.value.trim())}
+                onKeyDown={(e)=> e.key === 'Enter' && onClickSendMessage()}
+                onChange={(e)=>setInputValue(e.target.value)}
                 value={inputValue} 
                 className="default-input w-[80%]">
             </input>

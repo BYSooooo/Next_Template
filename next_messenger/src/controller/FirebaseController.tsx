@@ -8,6 +8,8 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
+    orderBy, 
+    query, 
     setDoc,
     Timestamp,
     updateDoc
@@ -385,14 +387,14 @@ export async function setChatRoomMessage(
 export async function getChatRoom(chatId : string) {
     const docRef = doc(firebaseStore, "chat", chatId);
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
-    
+    const msgQuery = query(colRef, orderBy("createdAt", "asc"));
     try {
         // Get Member Array in Chat Document
         const { member } = (await getDoc(docRef)).data();
         
         // Get Messages List in subCollection of Chat/{chatId}/Messages 
         const messages = [];
-        (await getDocs(colRef)).docs.forEach((msg)=> {
+        (await getDocs(msgQuery)).docs.forEach((msg)=> {
             const data = msg.data() as ChatMessage;
             // type exchage from Timestamp to Date
             if(data.createdAt instanceof Timestamp) {
