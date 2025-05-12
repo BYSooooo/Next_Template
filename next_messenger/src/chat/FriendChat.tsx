@@ -15,6 +15,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     const currentUid = firebaseAuth.currentUser.uid;
     
     React.useEffect(()=> {
+        // Bottom Scroll Control
         if(chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }

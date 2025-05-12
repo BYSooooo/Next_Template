@@ -18,6 +18,10 @@ export function FriendChatInput({chatId} : {chatId : string}) {
         sendMessage()        
     }
 
+    const onClickAttachFile = ()=> {
+        console.log("Clicked")
+    }
+
     const sendMessage = async()=> {
         const { result, value } = await setChatRoomMessage(chatId,inputValue,false,"",currentUid);
         if(result){
@@ -37,12 +41,14 @@ export function FriendChatInput({chatId} : {chatId : string}) {
                 value={inputValue} 
                 className="default-input w-[80%]">
             </input>
-            <button className="default-button w-[7%] justify-center">
+            <button
+                onClick={onClickAttachFile} 
+                className="default-button w-[7%] justify-center">
                 File
             </button>
             <button 
                 onClick={onClickSendMessage}
-                className="default-button w-[7%] justify-center">
+                className="default-button w-[7%] justify-center dark:bg-blue-500">
                 Send
             </button>
         </div>

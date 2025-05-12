@@ -31,7 +31,7 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
     // Set Text CSS Setting for message
     const textCSS = {
         me : "bg-blue-500 dark:bg-blue-600 self-end",
-        other : "",
+        other : "bg-gray-500 dark:bg-gray-600",
         sys : "bg-gray-500 dark:bg-gray-600"
     }
     
@@ -50,6 +50,12 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
                 }
                 {chat.content}
             </p>
+            { /* Display Send Time for 'other */
+                senderType === "other" &&
+                <p className='text-[0.6rem] self-start ml-1'>
+                    {new Date(chat.createdAt as any).toLocaleDateString()}
+                </p>
+            }
         </span>
     )
 }
