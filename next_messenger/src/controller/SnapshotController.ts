@@ -62,7 +62,10 @@ export function UserInfoSnapshot() {
 export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     console.log("ChatRoomSnapshot Called")
+    console.log(chatId)
     React.useEffect(()=> {
+        let snapshotChk : ()=> void | undefined;
+
         if(chatId !== ""){
             const chatRef = doc(firebaseStore, 'chat', chatId);
             const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
@@ -78,11 +81,14 @@ export function ChatRoomSnapshot(chatId : string) {
                     }
                 })
             })
-            
+            snapshotChk = chatSnapshot;
             chatSnapshot();
 
             return ()=> {
-                chatSnapshot()
+                if(snapshotChk) {
+                    console.log("ChatRoomSnapshot Detached")
+                    snapshotChk()
+                }
             }
         }
     },[chatId])
