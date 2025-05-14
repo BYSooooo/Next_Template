@@ -1,7 +1,7 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { getCurrentUser, setChatRoomMessage } from './FirebaseController';
+import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
@@ -62,36 +62,35 @@ export function UserInfoSnapshot() {
 export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     console.log("ChatRoomSnapshot Called")
-    console.log(chatId)
     React.useEffect(()=> {
         let snapshotChk : ()=> void | undefined;
-
         if(chatId !== ""){
+            console.log(chatId)
             const chatRef = doc(firebaseStore, 'chat', chatId);
             const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
             const colRefQuery = query(chatMsgRef, orderBy("createdAt", "desc"));
             
             // If messages subcollection has changed, update just only messages collection.
-            const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
-                console.log("chatSnapshot Catch Event for add Message")
-                snapshot.docChanges().forEach((change)=> {
-                    if(change.type === 'added') {
-                        const addedMessage = change.doc.data();
-                        dispatch(addChatRoomMessage(addedMessage as ChatMessage));
-                    }
-                })
-            })
-            snapshotChk = chatSnapshot;
-            chatSnapshot();
+            // const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
+            //     console.log("chatSnapshot Catch Event for add Message")
+            //     snapshot.docChanges().forEach((change)=> {
+            //         if(change.type === 'added') {
+            //             const addedMessage = change.doc.data();
+            //             dispatch(addChatRoomMessage(addedMessage as ChatMessage));
+            //         }
+            //     })
+            // })
+            // snapshotChk = chatSnapshot;
+            // chatSnapshot();
 
             return ()=> {
-                if(snapshotChk) {
-                    console.log("ChatRoomSnapshot Detached")
-                    snapshotChk()
-                }
+                // if(snapshotChk) {
+                //     console.log("ChatRoomSnapshot Detached")
+                //     snapshotChk()
+                // }
             }
         }
-    },[chatId])
+    })
     
     
     
