@@ -1,11 +1,12 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
-import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query, Timestamp } from 'firebase/firestore';
 import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
 import { ChatMessage } from '../../typeDef';
+import { error } from 'console';
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -65,10 +66,32 @@ export function ChatRoomSnapshot(chatId : string) {
     React.useEffect(()=> {
         let snapshotChk : ()=> void | undefined;
         if(chatId !== ""){
-            console.log(chatId)
-            const chatRef = doc(firebaseStore, 'chat', chatId);
-            const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
-            const colRefQuery = query(chatMsgRef, orderBy("createdAt", "desc"));
+            const messageColRef = collection(firebaseStore, 'chat', chatId, 'messages');
+            const messageQuery = query(messageColRef,orderBy("createdAt","desc"));
+
+            const chatSnapshot = onSnapshot(messageQuery,(snapshot)=> {
+                snapshot.docChanges().forEach((change)=> {
+                    if(change.type === 'added') {
+                        const messageData = change.doc.data();
+                        const createdAt = messageData.createdAt 
+                            ? (messageData.createdAt as Timestamp).toDate() 
+                            : null
+                        const addedMessage = {
+                            ...messageData,
+                            createdAt : createdAt
+                        }
+                        dispatch(addChatRoomMessage(addedMessage as ChatMessage));
+                    }
+                });
+            }, (error)=> {
+                dispatch(controlMessageToast({openYn : true, type : "error", title : "Error", content : error.message}));
+            })
+
+            snapshotChk = chatSnapshot;
+
+            // const chatRef = doc(firebaseStore, 'chat', chatId);
+            // const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
+            // const colRefQuery = query(chatMsgRef, orderBy("createdAt", "desc"));
             
             // If messages subcollection has changed, update just only messages collection.
             // const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
@@ -84,6 +107,9 @@ export function ChatRoomSnapshot(chatId : string) {
             // chatSnapshot();
 
             return ()=> {
+                if(snapshotChk) {
+                    snapshotChk()
+                }
                 // if(snapshotChk) {
                 //     console.log("ChatRoomSnapshot Detached")
                 //     snapshotChk()
