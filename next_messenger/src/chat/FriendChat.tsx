@@ -65,7 +65,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                     const curDate = new Date(cur.createdAt as any);
                     const preChat = array[index - 1];
                     const preDate = preChat ? new Date(preChat.createdAt as any) : null;
-
+                    const uuid = crypto.randomUUID()
                     const dateSeperatorYn = !preDate || curDate.getDate() !== preDate.getDate();
 
                     if(dateSeperatorYn) {
@@ -79,7 +79,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             </p>
                             )
                     }
-                    acc.push(<ChatItem key={cur.createdAt.toString()} currentUid={currentUid} chat={cur}/>)
+                    acc.push(<ChatItem key={uuid} currentUid={currentUid} chat={cur}/>)
                     return acc;
                     },[])
                 }

@@ -73,14 +73,13 @@ export function ChatRoomSnapshot(chatId : string) {
                 snapshot.docChanges().forEach((change)=> {
                     if(change.type === 'added') {
                         const messageData = change.doc.data();
-                        const createdAt = messageData.createdAt 
-                            ? (messageData.createdAt as Timestamp).toDate() 
-                            : null
+                        const createdAt = messageData.createdAt.toDate();
                         const addedMessage = {
                             ...messageData,
-                            createdAt : createdAt
-                        }
-                        dispatch(addChatRoomMessage(addedMessage as ChatMessage));
+                            createdAt : createdAt.toISOString()
+                        } as ChatMessage
+                        console.log(addedMessage)
+                        dispatch(addChatRoomMessage(addedMessage));
                     }
                 });
             }, (error)=> {

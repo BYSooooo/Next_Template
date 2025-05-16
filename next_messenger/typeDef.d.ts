@@ -26,7 +26,7 @@ type Chat = {
 
 type ChatMessage = {
     content : string,
-    createdAt : Timestamp | Date,
+    createdAt : Date | string,
     createdBy : string,
     attachYn : boolean,
     attachFile : string
