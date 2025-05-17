@@ -88,31 +88,10 @@ export function ChatRoomSnapshot(chatId : string) {
 
             snapshotChk = chatSnapshot;
 
-            // const chatRef = doc(firebaseStore, 'chat', chatId);
-            // const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
-            // const colRefQuery = query(chatMsgRef, orderBy("createdAt", "desc"));
-            
-            // If messages subcollection has changed, update just only messages collection.
-            // const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
-            //     console.log("chatSnapshot Catch Event for add Message")
-            //     snapshot.docChanges().forEach((change)=> {
-            //         if(change.type === 'added') {
-            //             const addedMessage = change.doc.data();
-            //             dispatch(addChatRoomMessage(addedMessage as ChatMessage));
-            //         }
-            //     })
-            // })
-            // snapshotChk = chatSnapshot;
-            // chatSnapshot();
-
             return ()=> {
                 if(snapshotChk) {
                     snapshotChk()
                 }
-                // if(snapshotChk) {
-                //     console.log("ChatRoomSnapshot Detached")
-                //     snapshotChk()
-                // }
             }
         }
     })

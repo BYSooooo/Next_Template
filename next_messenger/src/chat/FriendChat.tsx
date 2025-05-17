@@ -24,40 +24,44 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
-            <div className="flex flex-row p-4 justify-between">
-                <span className="flex flex-row items-center">
-                    { selUserInfo &&
-                        selUserInfo.avatarOpenYn
-                            ? selUserInfo.avatarImg.length > 0
-                                ? <img className="w-16 h-16 rounded-full object-cover mx-auto" src={selUserInfo.avatarImg} />
-                                : <UserCircleIcon className="w-16 h-16"/>
-                            : <UserCircleIcon className="w-16 h-16"/>       
+            {selUserInfo &&
+                <div className="flex flex-row p-4 justify-between">
+                    <span className="flex flex-row items-center">
                         
-                    }
-                    <div className="flex flex-col text-start">
-                        { selUserInfo 
-                            ? 
-                                <p className='font-bold text-xl' >
+                        { selUserInfo &&
+                            selUserInfo.avatarOpenYn
+                                ? selUserInfo.avatarImg.length > 0
+                                    ? <img className="w-16 h-16 rounded-full object-cover mx-auto" src={selUserInfo.avatarImg} />
+                                    : <UserCircleIcon className="w-16 h-16"/>
+                                : <UserCircleIcon className="w-16 h-16"/>       
+                            
+                        }
+                        <div className="flex flex-col text-start">
+                            { selUserInfo 
+                                ? 
+                                    <p className='font-bold text-xl' >
+                                        {selUserInfo.displayName}
+                                    </p>
+                                :
+                                    <p className='text-xl italic'>
+                                        DisplayName not set
+                                    </p>
+                            }
+                            { selUserInfo && 
+                                <p className='text-sm'>
                                     {selUserInfo.displayName}
                                 </p>
-                            :
-                                <p className='text-xl italic'>
-                                    DisplayName not set
-                                </p>
-                        }
-                        { selUserInfo && 
-                            <p className='text-sm'>
-                                {selUserInfo.displayName}
-                            </p>
-                        }
-                    </div>
-                </span>
-                <span>
-                    <ListBulletIcon className="w-7 h-7" />
-                </span>
-                
-            </div>
-            <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md mb-2"/>
+                            }
+                        </div>
+                    </span>
+                    <span>
+                        <ListBulletIcon className="w-7 h-7" />
+                    </span>
+                </div>
+            }
+            { selUserInfo 
+                && <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md mb-2"/>
+            }
             <div 
                 ref={chatContainerRef}
                 className='flex flex-col gap-3 overflow-scroll'>
@@ -73,7 +77,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             <p  key={curDate.toISOString()} 
                                 className='text-sm bg-gray-500 rounded-md mx-2'> 
                                 {   curDate.getFullYear() + '-' + 
-                                    curDate.getMonth().toString().padStart(2,"0") + "-" + 
+                                    (curDate.getMonth()+1).toString().padStart(2,"0") + "-" + 
                                     curDate.getDate().toString().padStart(2,"0")
                                 } 
                             </p>

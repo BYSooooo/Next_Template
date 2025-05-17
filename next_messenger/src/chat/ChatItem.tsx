@@ -25,14 +25,14 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
     const spanCSS = {
         me : 'self-end text-end',
         other : 'justify-begin',
-        sys : 'justify-center mx-20'
+        sys : 'self-center justify-center mx-20'
      }
 
     // Set Text CSS Setting for message
     const textCSS = {
         me : "bg-blue-500 dark:bg-blue-600 self-end",
         other : "bg-gray-500 dark:bg-gray-600",
-        sys : "bg-gray-500 dark:bg-gray-600"
+        sys : "bg-purple-500 dark:bg-purple-600"
     }
     
     return (
@@ -52,8 +52,8 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
             </p>
             { /* Display Send Time for 'other */
                 senderType === "other" &&
-                <p className='text-[0.6rem] self-start ml-1'>
-                    {new Date(chat.createdAt as any).toLocaleDateString()}
+                <p className='text-[0.6rem] self-end ml-1'>
+                    {new Date(chat.createdAt as any).toLocaleTimeString()}
                 </p>
             }
         </span>
