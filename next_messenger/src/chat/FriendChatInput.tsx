@@ -8,6 +8,8 @@ import { controlMessageToast } from '../redux/features';
 
 export function FriendChatInput({chatId} : {chatId : string}) {
     const [inputValue, setInputValue] = React.useState("");
+    const [ attachFile, setAttachFile] = React.useState<{name:string, type : string, value: string} | null>(null);
+    const [attachYn, setAttachYn] = React.useState(false);
     const dispatch = useAppDispatch();
     const currentUid = firebaseAuth.currentUser.uid;
     React.useEffect(()=> {
@@ -18,9 +20,18 @@ export function FriendChatInput({chatId} : {chatId : string}) {
         sendMessage()        
     }
 
-    const onClickAttachFile = ()=> {
-        console.log("Clicked")
+    const attachFileHandler = (event: React.ChangeEvent<HTMLInputElement>)=> {
+        const { target : { files } } = event;
+        const uploaded = files[0]
+        const reader = new FileReader();
+        reader.onloadend = (finished: any)=> {
+            const { currentTarget : { result } } = finished;
+            setAttachFile({ name : uploaded.name, type: uploaded.type, value : result});
+
+        }
+        reader.readAsDataURL(uploaded);
     }
+
 
     const sendMessage = async()=> {
         const { result, value } = await setChatRoomMessage(chatId,inputValue,false,"",currentUid);
@@ -36,17 +47,21 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             flex flex-row w-[40rem] ml-1 h-[3rem]
             justify-center p-2 gap-2">
             <input
+                disabled={chatId === ""}
                 onKeyDown={(e)=> e.key === 'Enter' && onClickSendMessage()}
                 onChange={(e)=>setInputValue(e.target.value)}
                 value={inputValue} 
                 className="default-input w-[80%]">
             </input>
             <button
-                onClick={onClickAttachFile} 
+                disabled={chatId === ""}
+                onClick={()=> document.getElementById('tempAttach').click()} 
                 className="default-button w-[7%] justify-center">
                 File
             </button>
+            <input type="file" id="tempAttach" accept='image/*' onChange={(e)=>attachFileHandler(e)} style={{display : 'none'}}/>
             <button 
+                disabled={chatId === ""}
                 onClick={onClickSendMessage}
                 className="default-button w-[7%] justify-center dark:bg-blue-500">
                 Send
