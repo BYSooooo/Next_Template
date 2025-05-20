@@ -13,7 +13,7 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     const dispatch = useAppDispatch();
     const currentUid = firebaseAuth.currentUser.uid;
     React.useEffect(()=> {
-
+        setAttachFile(null);
     },[])
 
     const onClickSendMessage = ()=> {
@@ -23,13 +23,17 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     const attachFileHandler = (event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } } = event;
         const uploaded = files[0]
-        const reader = new FileReader();
-        reader.onloadend = (finished: any)=> {
-            const { currentTarget : { result } } = finished;
-            setAttachFile({ name : uploaded.name, type: uploaded.type, value : result});
-
+        if(uploaded.size <= 1048576) {
+            const reader = new FileReader();
+            reader.onloadend = (finished: any)=> {
+                const { currentTarget : { result } } = finished;
+                setAttachFile({ name : uploaded.name, type: uploaded.type, value : result});
+            }
+            reader.readAsDataURL(uploaded);
+            
+        } else {
+            dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         }
-        reader.readAsDataURL(uploaded);
     }
 
 
@@ -56,8 +60,8 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             <button
                 disabled={chatId === ""}
                 onClick={()=> document.getElementById('tempAttach').click()} 
-                className="default-button w-[7%] justify-center">
-                File
+                className="default-button w-[10%] justify-center dark:bg-green-700">
+                Image
             </button>
             <input type="file" id="tempAttach" accept='image/*' onChange={(e)=>attachFileHandler(e)} style={{display : 'none'}}/>
             <button 
