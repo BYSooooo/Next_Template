@@ -20,6 +20,11 @@ export function FriendChatInput({chatId} : {chatId : string}) {
         sendMessage()        
     }
 
+    const inputCss = {
+        attachTrue : 'h-[10rem]',
+        attachFalse : 'h-[3rem]'
+    }
+
     const attachFileHandler = (event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } } = event;
         const uploaded = files[0]
@@ -47,9 +52,9 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     }
 
     return (
-        <div className="chat-input-box
-            flex flex-row w-[40rem] ml-1 h-[3rem]
-            justify-center p-2 gap-2">
+        <div className={`chat-input-box ${inputCss[attachFile ? 'attachTrue' : 'attachFalse']}
+            flex flex-row w-[40rem] ml-1 
+            justify-center p-2 gap-2`}>
             <input
                 disabled={chatId === ""}
                 onKeyDown={(e)=> e.key === 'Enter' && onClickSendMessage()}
