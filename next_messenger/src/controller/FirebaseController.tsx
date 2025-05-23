@@ -384,6 +384,30 @@ export async function setChatRoomMessage(
     }
 }
 
+export async function setChatRoomFile (
+    chatId : string,
+    currentUid : string,
+    attachFile : {name: string, type: string, value: string} ) 
+    {
+        try {
+            const uid = crypto.randomUUID();
+            const colRef = collection(firebaseStore, `chat/${chatId}/files`);
+            const data = {
+                UUID: uid,
+                name: attachFile.name,
+                type : attachFile.type,
+                file : attachFile.value,
+                createdAt : new Date(),
+                createdBy : currentUid
+            }  
+            await addDoc(colRef, data);
+            return { result : true, value : uid}
+        } catch(error) {
+            return { result : false, value : error}
+        }
+        
+    }
+
 export async function getChatRoom(chatId : string) {
     const docRef = doc(firebaseStore, "chat", chatId);
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);

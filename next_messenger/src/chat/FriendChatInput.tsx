@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { setChatRoomMessage } from '../controller/FirebaseController';
+import { setChatRoomFile, setChatRoomMessage } from '../controller/FirebaseController';
 import { firebaseAuth } from '../../firebase-config';
 import { useAppDispatch } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
@@ -17,7 +17,10 @@ export function FriendChatInput({chatId} : {chatId : string}) {
         setAttachFile(null);
     },[])
 
-    const onClickSendMessage = ()=> {
+    const onClickSendMessage = async()=> {
+        if(attachYn) {
+            const { result, value } = await setChatRoomFile(chatId, currentUid, attachFile);
+        }
         sendMessage()        
     }
 
@@ -30,6 +33,7 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             const reader = new FileReader();
             reader.onloadend = (finished: any)=> {
                 const { currentTarget : { result } } = finished;
+                setAttachYn(true);
                 setAttachFile({ name : uploaded.name, type: uploaded.type, value : result});
             }
             reader.readAsDataURL(uploaded);
@@ -41,31 +45,40 @@ export function FriendChatInput({chatId} : {chatId : string}) {
 
 
     const sendMessage = async()=> {
-        const { result, value } = await setChatRoomMessage(chatId,inputValue,false,"",currentUid);
-        if(result){
-            setInputValue("");
-        } else {
-            dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+        const data = {
+            chatId : chatId,
+            content : inputValue,
+            attachYn : attachYn ? true : false,
+            attachFile : attachYn ? attachFile : "",
+            createdBy : currentUid
         }
+        
+        // const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.createdBy);
+        // if(result){
+        //     setInputValue("");
+        // } else {
+        //     dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+        // }
     }
 
     const previewHandler = ()=> {
         if(attachFile.type.includes('image')) {
             return (
-                <div className='flex w-20 h-fit items-center'>
+                <div className='flex flex-row w-fit h-fit items-center'>
                     <div className='w-fit h-fit rounded-md bg-black'>
                         <img 
                             src={attachFile?.value}
-                            className='w-20 h-20 rounded-md border-none bg-opacity-0 cursor-pointer hover:opacity-50'
+                            className='w-14 h-14 rounded-md border-none bg-opacity-0 cursor-pointer hover:opacity-50'
                             onClick={()=> {
                                 setAttachFile(null)
                                 
                             }}
                         />
                     </div>
-                    <h1 className='text-sm flex-nowrap overflow-ellipsis'>
-                        {attachFile.name}
-                    </h1>
+                    <div className='flex flex-col items-start ml-2'>
+                        <p className='text-md'>{`Name : ${attachFile.name}`}</p>
+                        <p className='text-sm'>{attachFile.type}</p>
+                    </div>
                 </div>
             )
         } else {
@@ -85,11 +98,13 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             flex flex-col w-[40rem] ml-1 
             justify-center`}>
             { attachFile && 
-                <div className='flex flex-col items-start p-2'>
-                    <h1 className='text-sm'>
-                        Attached File
-                    </h1>
-                    <div className='flex flex-rows'>
+                <div className='flex flex-col items-start px-2'>
+                    <div className='p-1'>
+                        <h1 className='text-sm'>
+                            Attached File
+                        </h1>
+                    </div>
+                    <div>
                         {attachFile.name.length > 0 && previewHandler()}
                     </div>
                 </div>
