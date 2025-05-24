@@ -407,6 +407,16 @@ export async function setChatRoomFile (
         }
         
     }
+export async function getChatRoomFile(chatId : string, fileId : string) {
+    try {
+        const docRef = doc(firebaseStore, `chat/${chatId}/files`,fileId);
+        const response = await getDoc(docRef);
+        const fileString = response.data();
+        return { result : true, value : fileString};
+    } catch(error) {
+        return { result : false, value : error};
+    }
+}
 
 export async function getChatRoom(chatId : string) {
     const docRef = doc(firebaseStore, "chat", chatId);

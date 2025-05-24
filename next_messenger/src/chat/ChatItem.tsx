@@ -5,9 +5,11 @@ import React from 'react';
 import { ChatMessage } from "../../typeDef";
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { Timestamp } from 'firebase/firestore';
+import { getChatRoomFile } from '../controller/FirebaseController';
 
-export default function ChatItem({currentUid, chat} : {currentUid : string , chat : ChatMessage}){
+export default function ChatItem({currentUid, chatId, chat} : {currentUid : string , chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
+    const [fileString, setFileString ] = React.useState(null);
     React.useEffect(()=> {
         switch(chat.createdBy) {
             case 'System' : 
@@ -18,8 +20,15 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
                 ? setSenderType('me')
                 : setSenderType('other')
         }
+        chat.attachYn && getAttach(chat.attachFile);
         
     },[])
+
+    const getAttach = async (attachUid : string)=> {
+        const { result, value } = await getChatRoomFile(chatId, attachUid);
+        console.log("getAttach Result : "+value)
+        result && setFileString(value);
+    }
 
     // Set justify of message position
     const spanCSS = {
@@ -42,6 +51,14 @@ export default function ChatItem({currentUid, chat} : {currentUid : string , cha
                 <p className='text-[0.6rem] self-end mr-1'>
                     {new Date(chat.createdAt as any).toLocaleTimeString()}
                 </p>
+            }
+            { /* Display Attach File(Image)*/
+                chat.attachYn &&
+                <img
+                    className='w-10 h-10 rounded-md' 
+                    src={fileString} 
+                />
+            
             }
             <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
                 { /* Icon for System Message */ 

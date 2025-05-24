@@ -83,7 +83,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             </p>
                             )
                     }
-                    acc.push(<ChatItem key={uuid} currentUid={currentUid} chat={cur}/>)
+                    acc.push(<ChatItem key={uuid} currentUid={currentUid} chatId={chatId} chat={cur}/>)
                     return acc;
                     },[])
                 }

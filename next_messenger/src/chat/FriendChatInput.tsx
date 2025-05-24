@@ -20,8 +20,13 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     const onClickSendMessage = async()=> {
         if(attachYn) {
             const { result, value } = await setChatRoomFile(chatId, currentUid, attachFile);
+            result
+                ? sendMessage(value)
+                : dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : value}))
+
+        } else {
+            sendMessage(null);
         }
-        sendMessage()        
     }
 
     const inputCss = { attachTrue : 'h-[10rem]', attachFalse : 'h-[3rem]'};
@@ -44,21 +49,21 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     }
 
 
-    const sendMessage = async()=> {
+    const sendMessage = async(fileUid : string | null)=> {
         const data = {
             chatId : chatId,
             content : inputValue,
-            attachYn : attachYn ? true : false,
-            attachFile : attachYn ? attachFile : "",
+            attachYn : fileUid ? true : false,
+            attachFile : fileUid ? fileUid : "",
             createdBy : currentUid
         }
         
-        // const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.createdBy);
-        // if(result){
-        //     setInputValue("");
-        // } else {
-        //     dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
-        // }
+        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.createdBy);
+        if(result){
+            setInputValue("");
+        } else {
+            dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+        }
     }
 
     const previewHandler = ()=> {
