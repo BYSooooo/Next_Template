@@ -4,12 +4,11 @@ import React from 'react';
 
 import { ChatMessage } from "../../typeDef";
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import { Timestamp } from 'firebase/firestore';
 import { getChatRoomFile } from '../controller/FirebaseController';
 
 export default function ChatItem({currentUid, chatId, chat} : {currentUid : string , chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
-    const [fileString, setFileString ] = React.useState(null);
+    const [fileString, setFileString ] = React.useState<string>(null);
     React.useEffect(()=> {
         switch(chat.createdBy) {
             case 'System' : 
@@ -20,14 +19,15 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 ? setSenderType('me')
                 : setSenderType('other')
         }
-        chat.attachYn && getAttach(chat.attachFile);
-        
+        console.log("useEffect Call")
+        chat.attachYn && displayAttachFile(chat.attachFile);
     },[])
 
-    const getAttach = async (attachUid : string)=> {
+    const displayAttachFile = async (attachUid : string)=> {
         const { result, value } = await getChatRoomFile(chatId, attachUid);
-        console.log("getAttach Result : "+value)
-        result && setFileString(value);
+        console.log("Result : " + result);
+        console.log("Value : "+ value)
+        result && setFileString(value); 
     }
 
     // Set justify of message position
@@ -53,12 +53,11 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 </p>
             }
             { /* Display Attach File(Image)*/
-                chat.attachYn &&
+                chat.attachYn && fileString &&
                 <img
-                    className='w-10 h-10 rounded-md' 
-                    src={fileString} 
-                />
-            
+                    className='w-16 h-16' 
+                    src={fileString}
+                /> 
             }
             <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
                 { /* Icon for System Message */ 
