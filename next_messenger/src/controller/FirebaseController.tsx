@@ -411,7 +411,7 @@ export async function getChatRoomFile(chatId : string, fileId : string) {
     try {
         const docRef = doc(firebaseStore, `chat/${chatId}/files`,fileId);
         const response = await getDoc(docRef);
-        const fileString = response.data();
+        const fileString = response.data().file;
         return { result : true, value : fileString};
     } catch(error) {
         return { result : false, value : error};

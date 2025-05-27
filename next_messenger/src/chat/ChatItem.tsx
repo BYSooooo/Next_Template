@@ -20,13 +20,13 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 : setSenderType('other')
         }
         console.log("useEffect Call")
-        chat.attachYn && displayAttachFile(chat.attachFile);
+        console.log(chat.attachYn)
+        chat.attachYn && getFileString(chat.attachFile);
     },[])
 
-    const displayAttachFile = async (attachUid : string)=> {
+    const getFileString = async (attachUid : string)=> {
         const { result, value } = await getChatRoomFile(chatId, attachUid);
-        console.log("Result : " + result);
-        console.log("Value : "+ value)
+        console.log("Result : ", result)
         result && setFileString(value); 
     }
 
@@ -53,11 +53,14 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 </p>
             }
             { /* Display Attach File(Image)*/
-                chat.attachYn && fileString &&
-                <img
-                    className='w-16 h-16' 
-                    src={fileString}
-                /> 
+                chat.attachYn && 
+                <p>
+                    {fileString}
+                </p>
+                // <img
+                //     className='w-10 h-10' 
+                //     src={fileString}
+                // /> 
             }
             <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
                 { /* Icon for System Message */ 

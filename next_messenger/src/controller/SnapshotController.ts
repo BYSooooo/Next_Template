@@ -78,7 +78,6 @@ export function ChatRoomSnapshot(chatId : string) {
                             ...messageData,
                             createdAt : createdAt.toISOString()
                         } as ChatMessage
-                        console.log(addedMessage)
                         dispatch(addChatRoomMessage(addedMessage));
                     }
                 });
