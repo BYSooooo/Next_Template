@@ -409,9 +409,12 @@ export async function setChatRoomFile (
     }
 export async function getChatRoomFile(chatId : string, fileId : string) {
     try {
+        console.log('fileID : ', fileId)
         const docRef = doc(firebaseStore, `chat/${chatId}/files`,fileId);
         const response = await getDoc(docRef);
+        console.log(response)
         const fileString = response.data().file;
+        console.log("fileString : ",fileString)
         return { result : true, value : fileString};
     } catch(error) {
         return { result : false, value : error};

@@ -8,7 +8,7 @@ import { getChatRoomFile } from '../controller/FirebaseController';
 
 export default function ChatItem({currentUid, chatId, chat} : {currentUid : string , chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
-    const [fileString, setFileString ] = React.useState<string>(null);
+    const [fileString, setFileString ] = React.useState<string>("");
     React.useEffect(()=> {
         switch(chat.createdBy) {
             case 'System' : 
@@ -19,12 +19,11 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 ? setSenderType('me')
                 : setSenderType('other')
         }
-        console.log("useEffect Call")
-        console.log(chat.attachYn)
         chat.attachYn && getFileString(chat.attachFile);
-    },[])
+    },[chat.attachYn, chat.attachFile, chat.createdAt, chat.content, chat.createdBy, currentUid])
 
     const getFileString = async (attachUid : string)=> {
+        console.log(attachUid)
         const { result, value } = await getChatRoomFile(chatId, attachUid);
         console.log("Result : ", result)
         result && setFileString(value); 
@@ -53,14 +52,11 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 </p>
             }
             { /* Display Attach File(Image)*/
-                chat.attachYn && 
-                <p>
-                    {fileString}
-                </p>
-                // <img
-                //     className='w-10 h-10' 
-                //     src={fileString}
-                // /> 
+                chat.attachYn === true && 
+                <img src={fileString}
+                    className='w-20 h-20 rounded-md overflow-auto' 
+                    
+                /> 
             }
             <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
                 { /* Icon for System Message */ 

@@ -23,7 +23,6 @@ export default function Page() {
         dispatch(setChatRoom({member : [], messages : []}))
         if(chatId !== "") {
             const { result, value } = await getChatRoom(chatId)
-            console.log(value)
             if(result) {
                 dispatch(setChatRoom(value));
             } else {
