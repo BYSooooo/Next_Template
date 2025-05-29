@@ -8,7 +8,7 @@ import { getChatRoomFile } from '../controller/FirebaseController';
 
 export default function ChatItem({currentUid, chatId, chat} : {currentUid : string , chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
-    const [fileString, setFileString ] = React.useState<string>("");
+    const [fileString, setFileString ] = React.useState<string>(null);
     React.useEffect(()=> {
         switch(chat.createdBy) {
             case 'System' : 
@@ -19,13 +19,13 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 ? setSenderType('me')
                 : setSenderType('other')
         }
+        console.log("attachFile Value : "+chat.attachFile);
         chat.attachYn && getFileString(chat.attachFile);
-    },[chat.attachYn, chat.attachFile, chat.createdAt, chat.content, chat.createdBy, currentUid])
+    },[])
 
     const getFileString = async (attachUid : string)=> {
-        console.log(attachUid)
+        console.log('getFileString Called')
         const { result, value } = await getChatRoomFile(chatId, attachUid);
-        console.log("Result : ", result)
         result && setFileString(value); 
     }
 

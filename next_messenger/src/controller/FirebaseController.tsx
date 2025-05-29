@@ -12,7 +12,8 @@ import {
     query, 
     setDoc,
     Timestamp,
-    updateDoc
+    updateDoc,
+    where
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -407,16 +408,15 @@ export async function setChatRoomFile (
         }
         
     }
-export async function getChatRoomFile(chatId : string, fileId : string) {
+export async function getChatRoomFile(chatId : string, UUID : string) {
+    const colRef = collection(firebaseStore, `chat/${chatId}/files`);
+    const colQuery = query(colRef, where("UUID","==", UUID));
     try {
-        console.log('fileID : ', fileId)
-        const docRef = doc(firebaseStore, `chat/${chatId}/files`,fileId);
-        const response = await getDoc(docRef);
-        console.log(response)
+        const response = (await getDocs(colQuery)).docs[0];
         const fileString = response.data().file;
-        console.log("fileString : ",fileString)
         return { result : true, value : fileString};
     } catch(error) {
+        console.error(error)
         return { result : false, value : error};
     }
 }
