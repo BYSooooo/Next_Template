@@ -10,7 +10,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
     const [fileString, setFileString ] = React.useState<string>(null);
     React.useEffect(()=> {
-        switch(chat.createdBy) {
+        switch(chat.createdBy) {    
             case 'System' : 
                 setSenderType('sys')
             break;
@@ -19,12 +19,13 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
                 ? setSenderType('me')
                 : setSenderType('other')
         }
-        console.log("attachFile Value : "+chat.attachFile);
+    },[])
+    React.useEffect(()=> {
         chat.attachYn && getFileString(chat.attachFile);
     },[])
 
     const getFileString = async (attachUid : string)=> {
-        console.log('getFileString Called')
+        console.log('attachUid : ', attachUid)
         const { result, value } = await getChatRoomFile(chatId, attachUid);
         result && setFileString(value); 
     }
@@ -44,7 +45,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid : stri
     }
     
     return (
-        <span className={`flex mx-2 ${spanCSS[senderType]} max-w-[70%]`}>
+        <span className={`flex flex-col mx-2 ${spanCSS[senderType]} max-w-[70%]`}>
             { /* Display Send Time for 'me' */
                 senderType === "me" &&
                 <p className='text-[0.6rem] self-end mr-1'>

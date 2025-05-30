@@ -20,10 +20,12 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     const onClickSendMessage = async()=> {
         if(attachYn) {
             const { result, value } = await setChatRoomFile(chatId, currentUid, attachFile);
-            result
-                ? sendMessage(value)
-                : dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : value}))
-
+            if(result) {
+                sendMessage(value)
+                setAttachFile(null)
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : value}))
+            }
         } else {
             sendMessage(null);
         }

@@ -84,6 +84,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             )
                     }
                     acc.push(<ChatItem key={uuid} currentUid={currentUid} chatId={chatId} chat={cur}/>)
+                    console.log(cur)
                     return acc;
                     },[])
                 }

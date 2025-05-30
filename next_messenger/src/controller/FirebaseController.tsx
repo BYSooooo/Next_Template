@@ -373,7 +373,7 @@ export async function setChatRoomMessage(
         const data ={
             content : content,
             attachYn : attachYn,
-            attacnFile : attachFile,
+            attachFile : attachFile,
             createdAt : new Date(),
             createdBy : createdBy  
         }
@@ -416,7 +416,6 @@ export async function getChatRoomFile(chatId : string, UUID : string) {
         const fileString = response.data().file;
         return { result : true, value : fileString};
     } catch(error) {
-        console.error(error)
         return { result : false, value : error};
     }
 }
