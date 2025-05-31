@@ -8,7 +8,7 @@ import { ChatRoomSnapshot, UserInfoSnapshot } from "../../controller/SnapshotCon
 import { getChatRoom } from '../../controller/FirebaseController';
 import { useAppDispatch } from '../../redux/hooks';
 import { controlMessageToast, setChatRoom } from '../../redux/features';
-import { UserInfo } from '../../../typeDef';
+import { Chat, UserInfo } from '../../../typeDef';
 import { FriendChatInput } from '../../chat/FriendChatInput';
 
 export default function Page() {
@@ -20,9 +20,9 @@ export default function Page() {
     },[chatId])
 
     const getChatRoomInit = async()=> {
+        dispatch(setChatRoom({member : [], messages : []}))
         if(chatId !== "") {
             const { result, value } = await getChatRoom(chatId)
-            console.log(value)
             if(result) {
                 dispatch(setChatRoom(value));
             } else {
@@ -50,7 +50,7 @@ export default function Page() {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <FriendChat chatId={chatId} selUserInfo={selUserInfo}/>
-                    <FriendChatInput />
+                    <FriendChatInput chatId={chatId}/>
                 </div>
             </div>
         </div>

@@ -8,9 +8,12 @@ import {
     getDoc, 
     getDocs, 
     getDocsFromServer, 
+    orderBy, 
+    query, 
     setDoc,
     Timestamp,
-    updateDoc
+    updateDoc,
+    where
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -344,7 +347,7 @@ export async function createChatRoom(friendUUID : string) {
 
         const messageCol = collection(chatDocRef, "messages");
         const initChat = {
-            content : "Chatting Start!",
+            content : "Please be careful not to write sensitive information such as personal information or account number in the chat.",
             createdAt : new Date(),
             createdBy : "System",
             attachYn : false,
@@ -365,16 +368,16 @@ export async function setChatRoomMessage(
         attachYn : boolean, 
         attachFile : string,
         createdBy : string ) {
-    const colRef = doc(firebaseStore, `chat/${chatId}/messages`);
+    const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
     try {
         const data ={
             content : content,
             attachYn : attachYn,
-            attacnFile : attachFile,
+            attachFile : attachFile,
             createdAt : new Date(),
             createdBy : createdBy  
         }
-        await setDoc(colRef, data)
+        await addDoc(colRef, data)
         
         return { result : true, value : "Success"}
     } catch(error) {
@@ -382,17 +385,52 @@ export async function setChatRoomMessage(
     }
 }
 
+export async function setChatRoomFile (
+    chatId : string,
+    currentUid : string,
+    attachFile : {name: string, type: string, value: string} ) 
+    {
+        try {
+            const uid = crypto.randomUUID();
+            const colRef = collection(firebaseStore, `chat/${chatId}/files`);
+            const data = {
+                UUID: uid,
+                name: attachFile.name,
+                type : attachFile.type,
+                file : attachFile.value,
+                createdAt : new Date(),
+                createdBy : currentUid
+            }  
+            await addDoc(colRef, data);
+            return { result : true, value : uid}
+        } catch(error) {
+            return { result : false, value : error}
+        }
+        
+    }
+export async function getChatRoomFile(chatId : string, UUID : string) {
+    const colRef = collection(firebaseStore, `chat/${chatId}/files`);
+    const colQuery = query(colRef, where("UUID","==", UUID));
+    try {
+        const response = (await getDocs(colQuery)).docs[0];
+        const fileString = response.data().file;
+        return { result : true, value : fileString};
+    } catch(error) {
+        return { result : false, value : error};
+    }
+}
+
 export async function getChatRoom(chatId : string) {
     const docRef = doc(firebaseStore, "chat", chatId);
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
-    
+    const msgQuery = query(colRef, orderBy("createdAt", "asc"));
     try {
         // Get Member Array in Chat Document
         const { member } = (await getDoc(docRef)).data();
         
         // Get Messages List in subCollection of Chat/{chatId}/Messages 
         const messages = [];
-        (await getDocs(colRef)).docs.forEach((msg)=> {
+        (await getDocs(msgQuery)).docs.forEach((msg)=> {
             const data = msg.data() as ChatMessage;
             // type exchage from Timestamp to Date
             if(data.createdAt instanceof Timestamp) {

@@ -96,7 +96,7 @@ export const chatSlice = createSlice({
     initialState : {
         member : [],
         messages : <ChatMessage[]>[] 
-    },
+    } as Chat,
     reducers : {
         setChatRoom: (state, action: PayloadAction<Chat>)=> {
             state.member =  action.payload.member;
@@ -104,6 +104,7 @@ export const chatSlice = createSlice({
         },
         addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
             state.messages.push(action.payload);
+            //state.messages.push({...action.payload, createdAt : new Date(action.payload.createdAt)});
         }
     }
 })

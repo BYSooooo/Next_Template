@@ -1,11 +1,12 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
-import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { getCurrentUser, setChatRoomMessage } from './FirebaseController';
+import { collection, doc, onSnapshot, orderBy, query, Timestamp } from 'firebase/firestore';
+import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
 import { useRouter } from 'next/navigation';
 import { ChatMessage } from '../../typeDef';
+import { error } from 'console';
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -61,30 +62,38 @@ export function UserInfoSnapshot() {
 
 export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
-    
+    console.log("ChatRoomSnapshot Called")
     React.useEffect(()=> {
+        let snapshotChk : ()=> void | undefined;
         if(chatId !== ""){
-            const chatRef = doc(firebaseStore, 'chat', chatId);
-            const chatMsgRef = collection(firebaseStore, `chat/${chatId}/messages`);
-            const colRefQuery = query(chatMsgRef, orderBy("createdAt", "asc"));
-            
-            // If messages subcollection has changed, update just only messages collection.
-            const chatSnapshot = onSnapshot(colRefQuery,(snapshot)=> {
+            const messageColRef = collection(firebaseStore, 'chat', chatId, 'messages');
+            const messageQuery = query(messageColRef,orderBy("createdAt","desc"));
+
+            const chatSnapshot = onSnapshot(messageQuery,(snapshot)=> {
                 snapshot.docChanges().forEach((change)=> {
                     if(change.type === 'added') {
-                        const addedMessage = change.doc.data();
-                        dispatch(addChatRoomMessage(addedMessage as ChatMessage));
+                        const messageData = change.doc.data();
+                        const createdAt = messageData.createdAt.toDate();
+                        const addedMessage = {
+                            ...messageData,
+                            createdAt : createdAt.toISOString()
+                        } as ChatMessage
+                        dispatch(addChatRoomMessage(addedMessage));
                     }
-                })
+                });
+            }, (error)=> {
+                dispatch(controlMessageToast({openYn : true, type : "error", title : "Error", content : error.message}));
             })
-            
-            chatSnapshot();
+
+            snapshotChk = chatSnapshot;
 
             return ()=> {
-                chatSnapshot()
+                if(snapshotChk) {
+                    snapshotChk()
+                }
             }
         }
-    },[chatId])
+    })
     
     
     
