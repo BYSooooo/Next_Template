@@ -12,14 +12,13 @@ export function FriendChatInput({chatId} : {chatId : string}) {
     const [ attachFile, setAttachFile] = React.useState<{name:string, type : string, value: string} | null>(null);
     const [attachYn, setAttachYn] = React.useState(false);
     const dispatch = useAppDispatch();
-    const currentUid = firebaseAuth.currentUser.uid;
     React.useEffect(()=> {
         setAttachFile(null);
     },[])
 
     const onClickSendMessage = async()=> {
         if(attachYn) {
-            const { result, value } = await setChatRoomFile(chatId, currentUid, attachFile);
+            const { result, value } = await setChatRoomFile(chatId, attachFile);
             if(result) {
                 sendMessage(value)
                 setAttachFile(null)
@@ -57,10 +56,9 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             content : inputValue,
             attachYn : fileUid ? true : false,
             attachFile : fileUid ? fileUid : "",
-            createdBy : currentUid
         }
         
-        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.createdBy);
+        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile );
         if(result){
             setInputValue("");
         } else {
