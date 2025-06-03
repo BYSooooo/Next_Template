@@ -366,16 +366,17 @@ export async function setChatRoomMessage(
         chatId: string, 
         content : string, 
         attachYn : boolean, 
-        attachFile : string,
-        createdBy : string ) {
+        attachFile : string
+        ) {
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
+    const currentUid = firebaseAuth.currentUser.uid
     try {
         const data ={
             content : content,
             attachYn : attachYn,
             attachFile : attachFile,
             createdAt : new Date(),
-            createdBy : createdBy  
+            createdBy : currentUid  
         }
         await addDoc(colRef, data)
         
@@ -387,10 +388,10 @@ export async function setChatRoomMessage(
 
 export async function setChatRoomFile (
     chatId : string,
-    currentUid : string,
     attachFile : {name: string, type: string, value: string} ) 
     {
         try {
+            const currentUid = firebaseAuth.currentUser.uid
             const uid = crypto.randomUUID();
             const colRef = collection(firebaseStore, `chat/${chatId}/files`);
             const data = {

@@ -14,6 +14,7 @@ export function UserInfoSnapshot() {
 
     React.useEffect(()=> {
         const currentUser = firebaseAuth.currentUser;
+        console.log(currentUser)
         if(!currentUser) {
             console.log("No Auth Information. Move to Login Page for get Auth")
             return router.push("/login");
