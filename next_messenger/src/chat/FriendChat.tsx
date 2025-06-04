@@ -15,9 +15,27 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     
     React.useEffect(()=> {
         // Bottom Scroll Control
-        if(chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        console.log("FriendChat UseEffect Called")
+        const scrollToDown = ()=> {
+            if(chatContainerRef.current) {
+                chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
         }
+        const timer = setTimeout(scrollToDown, 100);
+        const images = chatContainerRef.current?.querySelectorAll('img');
+        if(images) {
+            images.forEach(img => {
+                img.addEventListener('load', scrollToDown);
+            });
+        }
+        return () => {
+            clearTimeout(timer);
+            if (images) {
+                images.forEach(img => {
+                    img.removeEventListener('load', scrollToDown);
+                });
+            }
+        };
     },[chatId, chatStore.messages])
 
     return (
@@ -86,7 +104,6 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                                 )
                         }
                         acc.push(<ChatItem key={uuid} chatId={chatId} currentUid={currentUid} chat={cur}/>)
-                        console.log(cur)
                         return acc;
                         },[])
                     }
