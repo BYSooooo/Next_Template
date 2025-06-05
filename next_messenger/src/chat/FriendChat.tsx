@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { FaceFrownIcon, ListBulletIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
 import ChatItem from './ChatItem';
@@ -41,7 +41,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
-            {selUserInfo &&
+            {selUserInfo ?
                 <div className="flex flex-row p-4 justify-between">
                     <span className="flex flex-row items-center">
                         
@@ -75,6 +75,14 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                         <ListBulletIcon className="w-7 h-7" />
                     </span>
                 </div>
+            :   <div className='flex flex-col justify-center h-full items-center'>
+                    <FaceFrownIcon className='w-16 h-16'/>
+                    <h1>
+                        Select the friend <br/>
+                        you want to start a chat with.
+                    </h1>
+                </div>
+
             }
             { selUserInfo 
                 && <div className="h-0.5 bg-slate-800 dark:bg-white mx-2 rounded-md mb-2"/>

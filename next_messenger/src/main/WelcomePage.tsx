@@ -17,6 +17,7 @@ export default function WelcomePage() {
                 router.push("/friend")
             break;
             case 'profile' :
+                router.push("/profile")
             break;
         }
     }

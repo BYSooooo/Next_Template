@@ -22,7 +22,8 @@ export default function SideNavigation() {
                 return router.push("/friend")
                 //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
             case 'infoDetail':
-                return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
+                return router.push('/profile')
+                //return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
         }
     }
 
