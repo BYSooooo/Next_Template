@@ -3,16 +3,21 @@
 import React from 'react'
 
 import { UserCircleIcon } from "@heroicons/react/24/solid"
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
 import { delAvatarBinary, setAvatarBinary, updateAvatarOpenYn } from "../controller/FirebaseController";
+import { UserInfo } from '../../typeDef';
+import { firebaseAuth } from '../../firebase-config';
 
-export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : string, avatarOpenYn : boolean}) {
+export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);
+    const [ userInfo, setUserInfo ] = React.useState<UserInfo>(null);
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
-        setPublicYn(avatarOpenYn);
+        const userStore = useAppSelector((state)=> state.userStore);
+        
+        //setPublicYn(avatarOpenYn);
     },[])
 
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
