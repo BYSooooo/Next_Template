@@ -3,6 +3,7 @@
 import { UserInfoSnapshot } from "../../controller/SnapshotController";
 import SideNavigation from "../../main/SideNaigation";
 import EditAvatarIcon from "../../profile/EditAvatarIcon";
+import EditDisplayName from "../../profile/EditDisplayName";
 
 export default function Page() {
     UserInfoSnapshot();
@@ -19,9 +20,7 @@ export default function Page() {
                 </p>
                 <div className="grid grid-cols-3 grid-flow-row  gap-2">
                     <EditAvatarIcon />
-                    <div> 
-                        Part 2
-                    </div>
+                    <EditDisplayName />
                     <div>
                         Part 3
                     </div>

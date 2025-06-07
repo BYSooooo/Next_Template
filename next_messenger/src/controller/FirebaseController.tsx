@@ -202,7 +202,9 @@ export async function delAvatarBinary() {
     const docRef = doc(firebaseStore,'avatarImg', uid);
 
     try {
-        const result = await deleteDoc(docRef)
+        const result = await updateDoc(docRef, {
+            avatarImg : ""
+        })
         return { result : true, value : result };
     } catch(error) {
         return { result : false, value : error };
@@ -213,10 +215,8 @@ export async function updateAvatarOpenYn(avatarOpenYn : boolean) {
     const { email, uid } = firebaseAuth.currentUser;
     const docRef = doc(firebaseStore, 'avatarImg', uid);
     try {
-        const result = await setDoc(docRef, {
+        const result = await updateDoc(docRef, {
             avatarOpenYn : avatarOpenYn
-        },{
-            merge : true
         })
         return { result : true, value : result };
 

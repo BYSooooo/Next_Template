@@ -11,11 +11,10 @@ import { firebaseAuth } from '../../firebase-config';
 
 export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);
-    const [ userInfo, setUserInfo ] = React.useState<UserInfo>(null);
+    const userStore = useAppSelector((state)=> state.userStore);
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
-        const userStore = useAppSelector((state)=> state.userStore);
         
         //setPublicYn(avatarOpenYn);
     },[])
@@ -39,6 +38,7 @@ export default function EditAvatarIcon() {
 
     const onDeleteAvatarImg = async()=> {
         const { result, value } = await delAvatarBinary()
+        console.log(result, value)
         if(result) {
             value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Avatar Image Deleted'})  
         } else {
@@ -75,10 +75,10 @@ export default function EditAvatarIcon() {
                 </ul>
             </div>
             <div className="flex flex-col items-center">
-            {avatarImg 
+            {userStore.avatarImg
                 ?   <img
                         className="h-36 w-36 mx-auto object-cover rounded-full" 
-                        src={avatarImg} 
+                        src={userStore.avatarImg} 
                     />
                         
                 : 
