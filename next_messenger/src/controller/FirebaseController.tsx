@@ -183,6 +183,29 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : s
     }
 }
 
+export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, avatarOpenYn?: boolean, action: 'set'|'delete'|'openYn'}) {
+    const currentUser = firebaseAuth.currentUser
+    if(!currentUser) {
+        return { result : false, value : "User not logined"};
+    }
+    const { email, uid } = currentUser
+    const docRef = doc(firebaseStore, 'avatarImg', uid);
+
+    try {
+        switch(action) {
+            case 'set' : 
+            break;
+            case 'delete' : 
+            break;
+            case 'openYn' : 
+            break;
+        }
+        return { result: true, value : "Success" };
+    } catch (error) {
+        return { result: false, value : error };
+    }
+}
+
 export async function setAvatarBinary(file : File) {
     const { email, uid } = firebaseAuth.currentUser;
     const binary = await binaryEncode(file)

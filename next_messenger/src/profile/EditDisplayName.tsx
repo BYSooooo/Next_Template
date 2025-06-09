@@ -14,11 +14,15 @@ export default function EditDisplayName() {
     },[])       
 
     const submitChangeHandler = async()=> {
-        const {result, content} = await updateUserInfo([{key : 'displayName', value : nameText}])
-        if(result) {
-            dispatch(controlMessageToast({openYn: true, type: 'confirm', title : "Success", content : "Display Name Changed"}))
+        if(nameText.length > 0) {
+            const {result, content} = await updateUserInfo([{key : 'displayName', value : nameText}])
+            if(result) {
+                dispatch(controlMessageToast({openYn: true, type: 'confirm', title : "Success", content : "Display Name Changed"}))
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type : 'error', title : "Error Occured", content: content}))
+            }
         } else {
-            dispatch(controlMessageToast({ openYn : true, type : 'error', title : "Error Occured", content: content}))
+            dispatch(controlMessageToast({ openYn : true, type: 'error', title: 'Required field is empty', content : 'DisplayName is Required '}))
         }
         
     }
