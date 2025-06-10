@@ -188,19 +188,22 @@ export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, 
     if(!currentUser) {
         return { result : false, value : "User not logined"};
     }
-    const { email, uid } = currentUser
-    const docRef = doc(firebaseStore, 'avatarImg', uid);
-
+    const docRef = doc(firebaseStore, 'avatarImg', currentUser.uid);
+    
     try {
         switch(action) {
             case 'set' : 
-            break;
+                const fileString = file ? await binaryEncode(file) : "";
+                const setResult = await updateDoc(docRef, { avatarImg : fileString})
+                debugger;
+                return { result : true, value : setResult }; 
             case 'delete' : 
-            break;
-            case 'openYn' : 
-            break;
+                const delResult = await updateDoc(docRef, { avatarImg : ""});
+                return { result : true, value : delResult };
+            case 'openYn' :
+                const openResult = await updateDoc(docRef, { avatarOpenYn : avatarOpenYn}) 
+                return { result : true, value : openResult}   
         }
-        return { result: true, value : "Success" };
     } catch (error) {
         return { result: false, value : error };
     }

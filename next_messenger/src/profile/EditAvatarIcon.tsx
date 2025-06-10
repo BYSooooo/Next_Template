@@ -5,19 +5,20 @@ import React from 'react'
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { delAvatarBinary, setAvatarBinary, updateAvatarOpenYn } from "../controller/FirebaseController";
+import { delAvatarBinary, manageAvatar, setAvatarBinary, updateAvatarOpenYn } from "../controller/FirebaseController";
 import { UserInfo } from '../../typeDef';
 import { firebaseAuth } from '../../firebase-config';
 
 export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);
+    const [avatarImg, setAvatarImg ] = React.useState(null);
     const userStore = useAppSelector((state)=> state.userStore);
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
-        
-        //setPublicYn(avatarOpenYn);
-    },[])
+        setAvatarImg(userStore.avatarImg);
+        setPublicYn(userStore.avatarOpenYn);
+    },[userStore.avatarImg, userStore.avatarOpenYn])
 
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
@@ -26,8 +27,7 @@ export default function EditAvatarIcon() {
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
-            const {result, value} = await setAvatarBinary(uploaded)
-            
+            const {result, value } = await manageAvatar({action : 'set', file : uploaded});
             if(result) {
                 dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Avatar Image Changed"}))
             } else {
@@ -75,10 +75,10 @@ export default function EditAvatarIcon() {
                 </ul>
             </div>
             <div className="flex flex-col items-center">
-            {userStore.avatarImg
+            {avatarImg
                 ?   <img
                         className="h-36 w-36 mx-auto object-cover rounded-full" 
-                        src={userStore.avatarImg} 
+                        src={avatarImg} 
                     />
                         
                 : 
