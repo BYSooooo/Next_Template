@@ -195,7 +195,6 @@ export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, 
             case 'set' : 
                 const fileString = file ? await binaryEncode(file) : "";
                 const setResult = await updateDoc(docRef, { avatarImg : fileString})
-                debugger;
                 return { result : true, value : setResult }; 
             case 'delete' : 
                 const delResult = await updateDoc(docRef, { avatarImg : ""});
