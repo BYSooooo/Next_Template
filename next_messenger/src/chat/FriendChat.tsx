@@ -14,6 +14,50 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     const currentUid = firebaseAuth?.currentUser?.uid;
     
     React.useEffect(()=> {
+        const chatContainer = chatContainerRef.current;
+        if(!chatContainer) return;
+
+        const scrollToBottom = ()=> {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        const awitImgLoading = () => {
+            const images = chatContainer.querySelectorAll('img');
+            if(images.length === 0) {
+                scrollToBottom();
+                return;
+            }
+            let imagesLoaded = 0;
+            const totalImgCount = images.length;
+
+            const handleImageLoaded = () => {
+                imagesLoaded++;
+                (imagesLoaded == totalImgCount) && scrollToBottom();
+            }
+            images.forEach(img => {
+                img.complete
+                    ? handleImageLoaded()
+                    : img.addEventListener('load', handleImageLoaded);
+            });
+            return ()=> {
+                images.forEach(img => {
+                    img.removeEventListener('load', handleImageLoaded);
+                })
+            }
+        }
+        const cleanupImageLoaders = awitImgLoading();
+        const initialScrollTimer = setTimeout(scrollToBottom, 100);
+
+        return () => {
+            clearTimeout(initialScrollTimer);
+            if (cleanupImageLoaders) {
+                cleanupImageLoaders();
+            }
+        };
+    }, [chatId, chatStore.messages])
+
+    /*
+    React.useEffect(()=> {
         // Bottom Scroll Control
         console.log("FriendChat UseEffect Called")
         const scrollToDown = ()=> {
@@ -37,7 +81,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
             }
         };
     },[chatId, chatStore.messages])
-
+    */
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
@@ -111,7 +155,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                                 </p>
                                 )
                         }
-                        acc.push(<ChatItem key={uuid} chatId={chatId} currentUid={currentUid} chat={cur}/>)
+                        acc.push(<ChatItem key={chatId} chatId={chatId} currentUid={currentUid} chat={cur}/>)
                         return acc;
                         },[])
                     }

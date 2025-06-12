@@ -50,8 +50,6 @@ export function UserInfoSnapshot() {
             })
         })
         console.log("UserInfoSnapshot Attached")
-        userInfoSnapshot();
-        avatarImgSnapshot();
             return ()=> {
                 console.log("UserInfoSnapshot Detached")
                 userInfoSnapshot();
