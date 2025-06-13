@@ -64,7 +64,6 @@ export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     console.log("ChatRoomSnapshot Called")
     React.useEffect(()=> {
-        let snapshotChk : ()=> void | undefined;
         if(chatId !== ""){
             const messageColRef = collection(firebaseStore, 'chat', chatId, 'messages');
             const messageQuery = query(messageColRef,orderBy("createdAt","desc"));
@@ -84,13 +83,9 @@ export function ChatRoomSnapshot(chatId : string) {
             }, (error)=> {
                 dispatch(controlMessageToast({openYn : true, type : "error", title : "Error", content : error.message}));
             })
-
-            snapshotChk = chatSnapshot;
-
             return ()=> {
-                if(snapshotChk) {
-                    snapshotChk()
-                }
+                chatSnapshot()
+                
             }
         }
     })

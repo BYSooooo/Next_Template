@@ -7,12 +7,16 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
 import ChatItem from './ChatItem';
 import { firebaseAuth } from '../../firebase-config';
+import { controlDialog, dialogSlice } from '../redux/features';
 
 export default function FriendChat({chatId, selUserInfo} : {chatId : string, selUserInfo : UserInfo}) {
     const chatStore = useAppSelector((state)=> state.chatStore);  
     const chatContainerRef = React.useRef<HTMLDivElement>(null);
     const currentUid = firebaseAuth?.currentUser?.uid;
-    
+    const dispatch = useAppDispatch();
+
+    const hoverStyle = "p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500";
+    /*
     React.useEffect(()=> {
         const chatContainer = chatContainerRef.current;
         if(!chatContainer) return;
@@ -55,8 +59,8 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
             }
         };
     }, [chatId, chatStore.messages])
-
-    /*
+    */
+    
     React.useEffect(()=> {
         // Bottom Scroll Control
         console.log("FriendChat UseEffect Called")
@@ -81,7 +85,10 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
             }
         };
     },[chatId, chatStore.messages])
-    */
+    
+    const onClickChatMenu = ()=> {
+        //
+    }
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
@@ -116,11 +123,13 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                         </div>
                     </span>
                     <span>
-                        <ListBulletIcon className="w-7 h-7" />
+                        <ListBulletIcon 
+                            className={`w-7 h-7 ${hoverStyle} hover:cursor-pointer`}
+                            onClick={onClickChatMenu} />
                     </span>
                 </div>
             :   <div className='flex flex-col justify-center h-full items-center'>
-                    <FaceFrownIcon className='w-16 h-16'/>
+                    <FaceFrownIcon className='w-16 h-16' />
                     <h1>
                         Select the friend <br/>
                         you want to start a chat with.
@@ -155,7 +164,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                                 </p>
                                 )
                         }
-                        acc.push(<ChatItem key={chatId} chatId={chatId} currentUid={currentUid} chat={cur}/>)
+                        acc.push(<ChatItem key={uuid} chatId={chatId} currentUid={currentUid} chat={cur}/>)
                         return acc;
                         },[])
                     }
