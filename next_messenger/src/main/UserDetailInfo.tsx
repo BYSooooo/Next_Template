@@ -16,10 +16,8 @@ export default function UserDetailInfo() {
             </p>
             <div className="grid grid-flow-row grid-cols-2 gap-3 min-w-full justify-between">
                 {/* DisplayName*/}
-                <EditAvatarIcon 
-                    avatarImg={userInfoSlice.avatarImg}
-                    avatarOpenYn={userInfoSlice.avatarOpenYn}/>
-                <EditDisplayName name={userInfoSlice.displayName}/>
+                <EditAvatarIcon />
+                <EditDisplayName />
                 
             </div>
         </div>
