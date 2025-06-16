@@ -11,6 +11,7 @@ import { firebaseAuth } from '../../firebase-config';
 export default function ChatItem({currentUid, chatId, chat} : {currentUid: string, chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
     const [fileString, setFileString ] = React.useState<string>(null);
+    const [loadingYn, setLoadingYn] = React.useState(false);
     React.useEffect(()=> {
         switch(chat.createdBy) {    
             case 'System' : 
@@ -27,7 +28,6 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
     },[])
 
     const getFileString = async (attachUid : string)=> {
-        console.log('attachUid : ', attachUid)
         const { result, value } = await getChatRoomFile(chatId, attachUid);
         result && setFileString(value); 
     }
@@ -65,7 +65,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                     }
                     <Link href={fileString} target="_blank" >
                         <img src={fileString}
-                            className='w-20 h-20 rounded-md overflow-auto bg-blue-600 p-2' 
+                            className={`w-20 h-20 rounded-md overflow-auto ${textCSS[senderType]} p-2`}
                         /> 
                     </Link>
                     { senderType === 'other' &&

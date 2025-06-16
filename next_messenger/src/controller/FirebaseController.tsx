@@ -183,6 +183,31 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : s
     }
 }
 
+export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, avatarOpenYn?: boolean, action: 'set'|'delete'|'openYn'}) {
+    const currentUser = firebaseAuth.currentUser
+    if(!currentUser) {
+        return { result : false, value : "User not logined"};
+    }
+    const docRef = doc(firebaseStore, 'avatarImg', currentUser.uid);
+    
+    try {
+        switch(action) {
+            case 'set' : 
+                const fileString = file ? await binaryEncode(file) : "";
+                const setResult = await updateDoc(docRef, { avatarImg : fileString})
+                return { result : true, value : setResult }; 
+            case 'delete' : 
+                const delResult = await updateDoc(docRef, { avatarImg : ""});
+                return { result : true, value : delResult };
+            case 'openYn' :
+                const openResult = await updateDoc(docRef, { avatarOpenYn : avatarOpenYn}) 
+                return { result : true, value : openResult}   
+        }
+    } catch (error) {
+        return { result: false, value : error };
+    }
+}
+
 export async function setAvatarBinary(file : File) {
     const { email, uid } = firebaseAuth.currentUser;
     const binary = await binaryEncode(file)
@@ -202,7 +227,9 @@ export async function delAvatarBinary() {
     const docRef = doc(firebaseStore,'avatarImg', uid);
 
     try {
-        const result = await deleteDoc(docRef)
+        const result = await updateDoc(docRef, {
+            avatarImg : ""
+        })
         return { result : true, value : result };
     } catch(error) {
         return { result : false, value : error };
@@ -213,10 +240,8 @@ export async function updateAvatarOpenYn(avatarOpenYn : boolean) {
     const { email, uid } = firebaseAuth.currentUser;
     const docRef = doc(firebaseStore, 'avatarImg', uid);
     try {
-        const result = await setDoc(docRef, {
+        const result = await updateDoc(docRef, {
             avatarOpenYn : avatarOpenYn
-        },{
-            merge : true
         })
         return { result : true, value : result };
 

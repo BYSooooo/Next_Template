@@ -3,21 +3,26 @@
 import React from 'react';
 import { updateUserInfo } from '../controller/FirebaseController';
 import { controlMessageToast } from '../redux/features';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
-export default function EditDisplayName({name} : { name : string}) {
+export default function EditDisplayName() {
     const [nameText, setNameText] = React.useState("")
     const dispatch = useAppDispatch()
+    const userStore = useAppSelector((state)=> state.userStore);
     React.useEffect(()=> {
-        setNameText(name)
+        setNameText(userStore.displayName)
     },[])       
 
     const submitChangeHandler = async()=> {
-        const {result, content} = await updateUserInfo([{key : 'displayName', value : nameText}])
-        if(result) {
-            dispatch(controlMessageToast({openYn: true, type: 'confirm', title : "Success", content : "Display Name Changed"}))
+        if(nameText.length > 0) {
+            const {result, content} = await updateUserInfo([{key : 'displayName', value : nameText}])
+            if(result) {
+                dispatch(controlMessageToast({openYn: true, type: 'confirm', title : "Success", content : "Display Name Changed"}))
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type : 'error', title : "Error Occured", content: content}))
+            }
         } else {
-            dispatch(controlMessageToast({ openYn : true, type : 'error', title : "Error Occured", content: content}))
+            dispatch(controlMessageToast({ openYn : true, type: 'error', title: 'Required field is empty', content : 'DisplayName is Required '}))
         }
         
     }

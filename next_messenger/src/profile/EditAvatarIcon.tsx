@@ -3,17 +3,20 @@
 import React from 'react'
 
 import { UserCircleIcon } from "@heroicons/react/24/solid"
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { delAvatarBinary, setAvatarBinary, updateAvatarOpenYn } from "../controller/FirebaseController";
+import { manageAvatar, updateAvatarOpenYn } from "../controller/FirebaseController";
 
-export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : string, avatarOpenYn : boolean}) {
+export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);
+    const [avatarImg, setAvatarImg ] = React.useState(null);
+    const userStore = useAppSelector((state)=> state.userStore);
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
-        setPublicYn(avatarOpenYn);
-    },[])
+        setAvatarImg(userStore.avatarImg);
+        setPublicYn(userStore.avatarOpenYn);
+    },[userStore.avatarImg, userStore.avatarOpenYn])
 
     const onChangeTempAvatar = async(event: React.ChangeEvent<HTMLInputElement>)=> {
         const { target : { files } }= event;
@@ -22,8 +25,7 @@ export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : 
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
-            const {result, value} = await setAvatarBinary(uploaded)
-            
+            const {result, value } = await manageAvatar({action : 'set', file : uploaded});
             if(result) {
                 dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Avatar Image Changed"}))
             } else {
@@ -33,7 +35,7 @@ export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : 
     }
 
     const onDeleteAvatarImg = async()=> {
-        const { result, value } = await delAvatarBinary()
+        const { result, value } = await manageAvatar({ action: 'delete'})
         if(result) {
             value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Avatar Image Deleted'})  
         } else {
@@ -70,7 +72,7 @@ export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : 
                 </ul>
             </div>
             <div className="flex flex-col items-center">
-            {avatarImg 
+            {avatarImg
                 ?   <img
                         className="h-36 w-36 mx-auto object-cover rounded-full" 
                         src={avatarImg} 
@@ -123,7 +125,7 @@ export default function EditAvatarIcon({avatarImg, avatarOpenYn} : {avatarImg : 
                 </button>
                 <input type='file' id="tempAvatar"accept="image/*" onChange={(e)=> onChangeTempAvatar(e)} style={{ display : 'none'}} />
                 <button
-                    onClick={onDeleteAvatarImg} 
+                    onClick={()=>onDeleteAvatarImg()} 
                     className="decline-button py-1 px-2 ">
                     Delete
                 </button>

@@ -6,6 +6,7 @@ import SearchFriend from './SearchFriend';
 import { controlDialog } from '../../redux/features';
 import SendRequestInfo from './SendRequestInfo';
 import ReceiveRequestInfo from './ReceiveRequestInfo';
+import ChatRoomAction from './ChatRoomAction';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -37,6 +38,8 @@ export default function Dialog() {
                 return <SendRequestInfo />
             case 'ReceiveRequestInfo' : 
                 return <ReceiveRequestInfo />
+            case 'ChatRoomAction' : 
+                return <ChatRoomAction />
             default :
             break;
         }

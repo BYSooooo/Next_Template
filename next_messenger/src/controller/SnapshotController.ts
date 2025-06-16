@@ -14,7 +14,6 @@ export function UserInfoSnapshot() {
 
     React.useEffect(()=> {
         const currentUser = firebaseAuth.currentUser;
-        console.log(currentUser)
         if(!currentUser) {
             console.log("No Auth Information. Move to Login Page for get Auth")
             return router.push("/login");
@@ -50,9 +49,9 @@ export function UserInfoSnapshot() {
                     }))
             })
         })
-        userInfoSnapshot();
-        avatarImgSnapshot();
+        console.log("UserInfoSnapshot Attached")
             return ()=> {
+                console.log("UserInfoSnapshot Detached")
                 userInfoSnapshot();
                 avatarImgSnapshot();
             } 
@@ -65,7 +64,6 @@ export function ChatRoomSnapshot(chatId : string) {
     const dispatch = useAppDispatch();
     console.log("ChatRoomSnapshot Called")
     React.useEffect(()=> {
-        let snapshotChk : ()=> void | undefined;
         if(chatId !== ""){
             const messageColRef = collection(firebaseStore, 'chat', chatId, 'messages');
             const messageQuery = query(messageColRef,orderBy("createdAt","desc"));
@@ -85,13 +83,9 @@ export function ChatRoomSnapshot(chatId : string) {
             }, (error)=> {
                 dispatch(controlMessageToast({openYn : true, type : "error", title : "Error", content : error.message}));
             })
-
-            snapshotChk = chatSnapshot;
-
             return ()=> {
-                if(snapshotChk) {
-                    snapshotChk()
-                }
+                chatSnapshot()
+                
             }
         }
     })
