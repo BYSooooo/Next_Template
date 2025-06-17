@@ -1,13 +1,17 @@
 "use client";
-import { PhotoIcon } from '@heroicons/react/24/solid';
+import { ArchiveBoxArrowDownIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 export default function ChatRoomAction() {
-
-    const hoverStyle ="p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500"
+    const [ selection, setSelection] = React.useState(0);
+    const hoverStyle ="p-[0.2rem] rounded-md hover:bg-slate-300 hover:dark:bg-slate-500"
     
-    const onClickHandler = (name: string)=> {
+    React.useEffect(()=> {
+        setSelection(0);
+    },[])
 
+    const onClickHandler = (select: number)=> {
+        setSelection(select);
     };
 
     return (
@@ -15,19 +19,20 @@ export default function ChatRoomAction() {
             <div className='h-[15%] flex flex-col gap-2'>
                 <button
                     className={`${hoverStyle}`}
-                    // onClick={()=> onClickHandler()} 
-                    >
+                    onClick={()=> onClickHandler(0)} >
                     <span className='flex flex-row items-center gap-2'>
-                        <PhotoIcon className='w-7 h-7'/>
-                        <p>Photo List</p>
+                        <PhotoIcon className='w-5 h-5'/>
+                        <h1 className='text-sm'>Photo List</h1>
                     </span>
                 </button>
-
-                
+                <button className={`${hoverStyle}`}>
+                    <span className='flex flex-row items-center gap-2'>
+                        <ArchiveBoxArrowDownIcon className='w-5 h-5'/>
+                        <h1 className='text-sm'>Archive</h1>
+                    </span>
+                </button>
             </div>
-            <div className='h-[85%]'>
-                Hello
-            </div>
+            
         </div>
     )
 }
