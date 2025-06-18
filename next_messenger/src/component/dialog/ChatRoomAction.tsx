@@ -1,6 +1,9 @@
 "use client";
+
 import { ArchiveBoxArrowDownIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import ChatRoomPhoto from './ChatRoomPhoto';
+import ChatRoomArchive from './ChatRoomArchive';
 
 export default function ChatRoomAction() {
     const [ selection, setSelection] = React.useState(0);
@@ -25,12 +28,18 @@ export default function ChatRoomAction() {
                         <h1 className='text-sm'>Photo List</h1>
                     </span>
                 </button>
-                <button className={`${hoverStyle}`}>
+                <button
+                    className={`${hoverStyle}`}
+                    onClick={()=> onClickHandler(1)}>
                     <span className='flex flex-row items-center gap-2'>
                         <ArchiveBoxArrowDownIcon className='w-5 h-5'/>
                         <h1 className='text-sm'>Archive</h1>
                     </span>
                 </button>
+            </div>
+            <div>
+                { selection === 0 && <ChatRoomPhoto />}
+                { selection === 1 && <ChatRoomArchive />}
             </div>
             
         </div>
