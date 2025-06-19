@@ -39,7 +39,7 @@ export default function ChatRoomAction() {
             </div>
             <div>
                 { selection === 0 && <ChatRoomPhoto />}
-                { selection === 1 && <ChatRoomArchive />}
+                { selection === 1 && <ChatRoomArchive chatId='' uuid=''/>}
             </div>
             
         </div>
