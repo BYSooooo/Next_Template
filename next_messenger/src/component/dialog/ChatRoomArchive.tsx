@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function ChatRoomArchive({chatId, uuid} : {chatId : string, uuid : string}) {
+export default function ChatRoomArchive() {
     
     React.useEffect(()=> {
         
