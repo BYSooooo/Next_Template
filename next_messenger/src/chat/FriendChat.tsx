@@ -87,7 +87,13 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
     },[chatId, chatStore.messages])
     
     const onClickChatMenu = ()=> {
-        dispatch(controlDialog({ openYn: true, contentName : 'ChatRoomAction', title : 'Setting', size: 'fit' }))
+        dispatch(controlDialog({ 
+            openYn: true, 
+            contentName : 'ChatRoomAction', 
+            title : 'Setting', 
+            size: 'fit',
+            extraData : {chatId : chatId}
+        }))
     }
     return (
         <div className='default-box

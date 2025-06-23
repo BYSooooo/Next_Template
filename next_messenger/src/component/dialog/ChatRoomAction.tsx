@@ -43,7 +43,7 @@ export default function ChatRoomAction() {
                 </button>
             </div>
             <div>
-                { selection === 0 && <ChatRoomPhoto chatId={''} attach={attaches}/>}
+                { selection === 0 && <ChatRoomPhoto />}
                 { selection === 1 && <ChatRoomArchive />}
             </div>
             
