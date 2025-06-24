@@ -23,7 +23,7 @@ export default function ChatRoomAction() {
     };
 
     return (
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center gap-2">
             <div className='h-[15%] flex flex-col gap-2'>
                 <button
                     className={`${hoverStyle}`}
