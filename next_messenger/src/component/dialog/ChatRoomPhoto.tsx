@@ -2,12 +2,14 @@
 
 import React from 'react';
 import { getChatRoomFile } from '../../controller/FirebaseController';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChatMessage } from '../../../typeDef';
+import { controlMessageToast } from '../../redux/features';
 
 export default function ChatRoomPhoto() {
     const [ fileStrings, setFileStrings ] = React.useState([]); 
     const chatSlice = useAppSelector((state)=> state.chatStore);
+    const dispatch = useAppDispatch();
     const { chatId } = useAppSelector((state)=> state.dialogStore).extraData;
 
     React.useEffect(()=> {
@@ -18,18 +20,22 @@ export default function ChatRoomPhoto() {
         const getFileStrings = async()=> {
             for(const item of files) {
                 const UUID = item.attachFile;
-                
                 const { result, value } = await getChatRoomFile(chatId, UUID);
+                
                 if(result) {
                     tempArray.push(value)
                 } else {
-                    
+                    dispatch(controlMessageToast({ openYn : true, title : 'Error', type : 'error', content : 'Error Occured during Attach File'}))
                 }
             } 
             setFileStrings(tempArray);   
         }
         getFileStrings()
     },[]);
+
+    const onClickImage = ()=> {
+        alert("Hello")
+    }
 
     
     
@@ -38,7 +44,11 @@ export default function ChatRoomPhoto() {
         <div className='flex gap-2 '>
             { fileStrings.length > 0 &&
                 fileStrings.map((string)=> {
-                    return <img key={string} src={string} className='w-20 h-20 rounded-md'/>
+                    return <img 
+                        key={string} 
+                        src={string} 
+                        className='w-20 h-20 rounded-md hover:opacity-50 hover:cursor-pointer'
+                        onClick={onClickImage}/>
                 })                
             }
         </div>
