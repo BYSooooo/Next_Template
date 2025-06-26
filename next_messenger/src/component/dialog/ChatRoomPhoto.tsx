@@ -37,18 +37,23 @@ export default function ChatRoomPhoto() {
         alert("Hello")
     }
 
-    
-    
-
     return (
         <div className='flex gap-2 '>
             { fileStrings.length > 0 &&
                 fileStrings.map((string)=> {
-                    return <img 
-                        key={string} 
-                        src={string} 
-                        className='w-20 h-20 rounded-md hover:opacity-50 hover:cursor-pointer'
-                        onClick={onClickImage}/>
+                    return (
+                        <div
+                            onClick={onClickImage} 
+                            className='relative w-20 h-20 cursor-pointer group rounded-md'>
+                            <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-4'/>
+                            
+                            <img 
+                                key={string} 
+                                src={string} 
+                                className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
+                            />
+                        </div>
+                    )                        
                 })                
             }
         </div>
