@@ -38,24 +38,41 @@ export default function ChatRoomPhoto() {
     }
 
     return (
-        <div className='flex gap-2 '>
-            { fileStrings.length > 0 &&
-                fileStrings.map((string)=> {
-                    return (
-                        <div
-                            onClick={onClickImage} 
-                            className='relative w-20 h-20 cursor-pointer group rounded-md'>
-                            <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-4'/>
-                            
-                            <img 
-                                key={string} 
-                                src={string} 
-                                className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
-                            />
-                        </div>
-                    )                        
-                })                
-            }
+        <div className='flex flex-col gap-3'>
+            <div className='grid grid-flow-row grid-cols-3 gap-2 '>
+                { fileStrings.length > 0 &&
+                    fileStrings.map((string)=> {
+                        return (
+                            <div
+                                key={string}
+                                onClick={onClickImage} 
+                                className='relative w-20 h-20 cursor-pointer group rounded-md'>
+                                <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-4'/>
+                                
+                                <img 
+                                    key={string} 
+                                    src={string} 
+                                    className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
+                                />
+                            </div>
+                        )                        
+                    })                
+                }
+            </div>
+            <div>
+
+            </div>
+            <div className='flex flex-row gap-2'>
+                <button className='default-button p-1 w-[50%] text-center'>
+                    <p>
+                        View
+                    </p>
+                </button>
+                <button className='default-button p-1 w-[50%] '>
+                    Delete
+                </button>
+            </div>
         </div>
+        
     )
 }
