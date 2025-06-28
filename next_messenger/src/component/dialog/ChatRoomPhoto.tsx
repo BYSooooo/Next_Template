@@ -5,6 +5,7 @@ import { getChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChatMessage } from '../../../typeDef';
 import { controlMessageToast } from '../../redux/features';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function ChatRoomPhoto() {
     const [ fileStrings, setFileStrings ] = React.useState([]); 
@@ -23,7 +24,7 @@ export default function ChatRoomPhoto() {
                 const { result, value } = await getChatRoomFile(chatId, UUID);
                 
                 if(result) {
-                    tempArray.push(value)
+                    tempArray.push({string : value, checkYn : false})
                 } else {
                     dispatch(controlMessageToast({ openYn : true, title : 'Error', type : 'error', content : 'Error Occured during Attach File'}))
                 }
@@ -33,25 +34,41 @@ export default function ChatRoomPhoto() {
         getFileStrings()
     },[]);
 
-    const onClickImage = ()=> {
-        alert("Hello")
+    const onClickImage = (file : {string : string, checkYn : boolean})=> {
+        const fileArr = fileStrings.map((item)=> {
+            if(item.string == file.string) {
+                return { ...item, checkYn : !item.checkYn}
+            } else {
+                return item
+            }
+        });
+        setFileStrings(fileArr);
+    };
+
+    const onClickDelete = () => {
+        // for(const item of fileStrings) {
+            
+        //}
     }
 
     return (
         <div className='flex flex-col gap-3'>
             <div className='grid grid-flow-row grid-cols-3 gap-2 '>
                 { fileStrings.length > 0 &&
-                    fileStrings.map((string)=> {
+                    fileStrings.map((file)=> {
                         return (
                             <div
-                                key={string}
-                                onClick={onClickImage} 
+                                key={file.string}
+                                onClick={()=>onClickImage(file)} 
                                 className='relative w-20 h-20 cursor-pointer group rounded-md'>
-                                <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-4'/>
+                                { file.checkYn 
+                                    ?   <CheckCircleIcon className='absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full'/>
+                                    :   <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-2'/>
+                                }
                                 
                                 <img 
-                                    key={string} 
-                                    src={string} 
+                                    key={file.string} 
+                                    src={file.string} 
                                     className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
                                 />
                             </div>
@@ -62,13 +79,10 @@ export default function ChatRoomPhoto() {
             <div>
 
             </div>
-            <div className='flex flex-row gap-2'>
-                <button className='default-button p-1 w-[50%] text-center'>
-                    <p>
-                        View
-                    </p>
-                </button>
-                <button className='default-button p-1 w-[50%] '>
+            <div className='flex flex-row gap-2 justify-end'>
+                <button
+                    onClick={onClickDelete} 
+                    className='default-button p-1 w-[50%] justify-center'>
                     Delete
                 </button>
             </div>
