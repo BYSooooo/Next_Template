@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { getChatRoomFile } from '../../controller/FirebaseController';
+import { getChatRoomFile, setChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChatMessage } from '../../../typeDef';
 import { controlMessageToast } from '../../redux/features';
@@ -45,10 +45,14 @@ export default function ChatRoomPhoto() {
         setFileStrings(fileArr);
     };
 
-    const onClickDelete = () => {
-        // for(const item of fileStrings) {
-            
-        //}
+    const onClickDelete = async() => {
+        // const resultArr = [];
+        for(const item of fileStrings) {
+            const { result, value } = await setChatRoomFile(chatId, {name : "", type: "", value : ""});
+            // resultArr.push(new Promise((resolve, reject)=> {
+                
+            // }))
+        }
     }
 
     return (
