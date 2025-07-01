@@ -434,6 +434,22 @@ export async function setChatRoomFile (
         }
         
     }
+
+export async function delChatRoomFile(chatId : string, uuid: string) {
+    const fileColRef = collection(firebaseStore, `chat/${chatId}/files`);
+    const fileColQuery = query(fileColRef, where("UUID", "==", uuid));
+    
+    const msgColRef = collection(firebaseStore, `chat/${chatId}/messages`);
+    const msgColQuery = query(msgColRef, where("attachFile", "==", uuid));
+    
+    try {
+        //const fileResponse = await 
+        return { result : true, value : "Success"};
+    } catch(error) {
+        return { result : false, value : error};
+    }
+};
+
 export async function getChatRoomFile(chatId : string, UUID : string) {
     const colRef = collection(firebaseStore, `chat/${chatId}/files`);
     const colQuery = query(colRef, where("UUID","==", UUID));

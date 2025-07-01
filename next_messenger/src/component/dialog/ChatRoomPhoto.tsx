@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { getChatRoomFile, setChatRoomFile } from '../../controller/FirebaseController';
+import { delChatRoomFile, getChatRoomFile, setChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChatMessage } from '../../../typeDef';
 import { controlMessageToast } from '../../redux/features';
@@ -24,7 +24,7 @@ export default function ChatRoomPhoto() {
                 const { result, value } = await getChatRoomFile(chatId, UUID);
                 
                 if(result) {
-                    tempArray.push({string : value, checkYn : false})
+                    tempArray.push({string : value, checkYn : false, uuid: UUID});
                 } else {
                     dispatch(controlMessageToast({ openYn : true, title : 'Error', type : 'error', content : 'Error Occured during Attach File'}))
                 }
@@ -46,12 +46,11 @@ export default function ChatRoomPhoto() {
     };
 
     const onClickDelete = async() => {
-        // const resultArr = [];
-        for(const item of fileStrings) {
-            const { result, value } = await setChatRoomFile(chatId, {name : "", type: "", value : ""});
-            // resultArr.push(new Promise((resolve, reject)=> {
-                
-            // }))
+
+        const checkedImage = fileStrings.filter((item)=> item.checkYn === true);
+        for(const item of checkedImage) {
+            console.log(item.uuid)
+            const { result, value } = await delChatRoomFile(chatId, item.uuid);
         }
     }
 
