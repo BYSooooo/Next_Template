@@ -440,10 +440,13 @@ export async function delChatRoomFile(chatId : string, uuid: string) {
     const fileColQuery = query(fileColRef, where("UUID", "==", uuid));
     
     const msgColRef = collection(firebaseStore, `chat/${chatId}/messages`);
-    const msgColQuery = query(msgColRef, where("attachFile", "==", uuid));
+    //const msgColQuery = query(msgColRef, where("attachFile", "==", uuid), deleteDoc());
     
     try {
-        //const fileResponse = await 
+        // await updateDoc(msgColQuery, {
+
+        // })
+        
         return { result : true, value : "Success"};
     } catch(error) {
         return { result : false, value : error};
