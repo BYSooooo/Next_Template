@@ -51,6 +51,11 @@ export default function ChatRoomPhoto() {
         for(const item of checkedImage) {
             console.log(item.uuid)
             const { result, value } = await delChatRoomFile(chatId, item.uuid);
+            if(result) {
+                
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type: 'error', title : 'Delete Error', content : value }))
+            }
         }
     }
 
