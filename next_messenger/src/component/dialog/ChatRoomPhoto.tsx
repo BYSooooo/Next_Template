@@ -4,7 +4,7 @@ import React from 'react';
 import { delChatRoomFile, getChatRoomFile, setChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChatMessage } from '../../../typeDef';
-import { controlMessageToast } from '../../redux/features';
+import { controlDialog, controlMessageToast } from '../../redux/features';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function ChatRoomPhoto() {
@@ -49,10 +49,10 @@ export default function ChatRoomPhoto() {
 
         const checkedImage = fileStrings.filter((item)=> item.checkYn === true);
         for(const item of checkedImage) {
-            console.log(item.uuid)
             const { result, value } = await delChatRoomFile(chatId, item.uuid);
             if(result) {
-                
+                dispatch(controlDialog({ openYn : false, title: "", contentName : "", size : ""}));
+                dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : "File Delete Complete"}))
             } else {
                 dispatch(controlMessageToast({ openYn : true, type: 'error', title : 'Delete Error', content : value }))
             }

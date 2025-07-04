@@ -439,12 +439,17 @@ export async function delChatRoomFile(chatId : string, uuid: string) {
     const fileDocRef = doc(firebaseStore, `chat/${chatId}/files`, uuid);
     
     const msgColRef = collection(firebaseStore, `chat/${chatId}/messages`);
-    const msgDocQuery = query(msgColRef, where('UUID','==',uuid));
-    
+    const msgDocQuery = query(msgColRef, where('attachFile','==',uuid));
+    console.log(uuid)
     try {
-        const msgDoc = (await getDocs(msgDocQuery)).docs[0];
-        
-        //await deleteDoc()
+        const msgDocRef = (await getDocs(msgDocQuery)).docs[0].ref;
+        console.log(msgDocRef)
+        updateDoc(msgDocRef, {
+            attachYn : false,
+            attachFile : ""
+        }).then(async()=> {
+            await deleteDoc(fileDocRef);
+        })
         
         return { result : true, value : "Success"};
     } catch(error) {
