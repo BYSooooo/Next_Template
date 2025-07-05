@@ -104,7 +104,11 @@ export const chatSlice = createSlice({
         },
         addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
             state.messages.push(action.payload);
-            //state.messages.push({...action.payload, createdAt : new Date(action.payload.createdAt)});
+        },
+        updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
+            const updatedMsg = state.messages.find((item)=> {
+                // return item.
+            })
         }
     }
 })
