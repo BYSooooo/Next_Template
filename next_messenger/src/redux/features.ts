@@ -106,9 +106,11 @@ export const chatSlice = createSlice({
             state.messages.push(action.payload);
         },
         updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
-            const updatedMsg = state.messages.find((item)=> {
-                // return item.
-            })
+            state.messages.map((item)=> {
+                return action.payload.docId == item.docId
+                    ? action.payload
+                    : item
+            });
         }
     }
 })
@@ -117,7 +119,7 @@ export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
-export const { setChatRoom, addChatRoomMessage } = chatSlice.actions
+export const { setChatRoom, addChatRoomMessage, updateChatRoomMessage } = chatSlice.actions
 
 export default [
     toastSlice.reducer,

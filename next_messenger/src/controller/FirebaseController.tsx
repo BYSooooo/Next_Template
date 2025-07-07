@@ -403,8 +403,10 @@ export async function setChatRoomMessage(
             createdAt : new Date(),
             createdBy : currentUid  
         }
-        await addDoc(colRef, data)
-        
+        const response = await addDoc(colRef, data)
+        // Update Docoument for Save Document ID
+        response && await updateDoc(response, { docId : response.id});
+                
         return { result : true, value : "Success"}
     } catch(error) {
         return { result : false, value : error}

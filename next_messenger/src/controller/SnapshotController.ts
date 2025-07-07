@@ -3,7 +3,7 @@ import { firebaseAuth, firebaseStore } from '../../firebase-config';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
-import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
+import { addChatRoomMessage, controlMessageToast, setUserInfo, updateChatRoomMessage } from '../redux/features';
 import { useRouter } from 'next/navigation';
 import { ChatMessage } from '../../typeDef';
 
@@ -81,8 +81,11 @@ export function ChatRoomSnapshot(chatId : string) {
                             dispatch(addChatRoomMessage(addedMessage));
                         break;
                         case 'modified' :
-                            
-                             
+                            const updateMsg = {
+                                ...changedMsgData,
+                                createdAt : createdAt.toISOString()
+                            } as ChatMessage
+                            dispatch(updateChatRoomMessage(updateMsg))
                         break;
                         case 'removed' : 
                         break;

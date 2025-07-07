@@ -25,6 +25,7 @@ type Chat = {
 };
 
 type ChatMessage = {
+    docId : string,
     content : string,
     createdAt : Date | string,
     createdBy : string,
