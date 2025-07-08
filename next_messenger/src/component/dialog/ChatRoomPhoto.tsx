@@ -22,7 +22,6 @@ export default function ChatRoomPhoto() {
             for(const item of files) {
                 const UUID = item.attachFile;
                 const { result, value } = await getChatRoomFile(chatId, UUID);
-                
                 if(result) {
                     tempArray.push({string : value, checkYn : false, uuid: UUID});
                 } else {

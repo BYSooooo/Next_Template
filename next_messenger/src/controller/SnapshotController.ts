@@ -88,6 +88,7 @@ export function ChatRoomSnapshot(chatId : string) {
                             dispatch(updateChatRoomMessage(updateMsg))
                         break;
                         case 'removed' : 
+                            console.log(changedMsgData[])
                         break;
                     }
                 });
