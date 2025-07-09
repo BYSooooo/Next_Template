@@ -71,9 +71,9 @@ export function ChatRoomSnapshot(chatId : string) {
             const chatSnapshot = onSnapshot(messageQuery,(snapshot)=> {
                 snapshot.docChanges().forEach((change)=> {
                     const changedMsgData = change.doc.data();
+                    const createdAt = changedMsgData.createdAt.toDate();
                     switch(change.type) {
                         case 'added' : 
-                            const createdAt = changedMsgData.createdAt.toDate();
                             const addedMessage = {
                                 ...changedMsgData,
                                 createdAt : createdAt.toISOString()
@@ -88,7 +88,7 @@ export function ChatRoomSnapshot(chatId : string) {
                             dispatch(updateChatRoomMessage(updateMsg))
                         break;
                         case 'removed' : 
-                            console.log(changedMsgData[])
+                            console.log(changedMsgData)
                         break;
                     }
                 });

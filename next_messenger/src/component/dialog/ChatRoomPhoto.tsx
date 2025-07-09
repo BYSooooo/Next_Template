@@ -60,29 +60,38 @@ export default function ChatRoomPhoto() {
 
     return (
         <div className='flex flex-col gap-3'>
-            <div className='grid grid-flow-row grid-cols-3 gap-2 '>
-                { fileStrings.length > 0 &&
-                    fileStrings.map((file)=> {
-                        return (
-                            <div
-                                key={file.string}
-                                onClick={()=>onClickImage(file)} 
-                                className='relative w-20 h-20 cursor-pointer group rounded-md'>
-                                { file.checkYn 
-                                    ?   <CheckCircleIcon className='absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full'/>
-                                    :   <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-2'/>
-                                }
-                                
-                                <img 
-                                    key={file.string} 
-                                    src={file.string} 
-                                    className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
-                                />
-                            </div>
-                        )                        
-                    })                
-                }
-            </div>
+            { fileStrings.length > 0 
+                ? 
+                    <div className='grid grid-flow-row grid-cols-3 gap-2 '>
+                        { fileStrings.length > 0 &&
+                            fileStrings.map((file)=> {
+                                return (
+                                    <div
+                                        key={file.string}
+                                        onClick={()=>onClickImage(file)} 
+                                        className='relative w-20 h-20 cursor-pointer group rounded-md'>
+                                        { file.checkYn 
+                                            ?   <CheckCircleIcon className='absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full'/>
+                                            :   <div className='absolute top-1 right-1 w-5 h-5 rounded-full stroke-white border-2'/>
+                                        }
+                                        
+                                        <img 
+                                            key={file.string} 
+                                            src={file.string} 
+                                            className='w-20 h-20 overflow-hidden rounded-md hover:opacity-50'
+                                        />
+                                    </div>
+                                )                        
+                            })
+                        }
+                    </div>
+                :   <div className='w-20 h-20 text-center'>
+                        <p>
+                            No File
+                        </p>
+                    </div>
+            }
+            
             <div>
 
             </div>
