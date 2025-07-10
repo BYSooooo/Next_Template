@@ -1,17 +1,16 @@
 "use client";
 
 import React from 'react';
-import { delChatRoomFile, getChatRoomFile, setChatRoomFile } from '../../controller/FirebaseController';
+import { delChatRoomFile, getChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { ChatMessage } from '../../../typeDef';
 import { controlDialog, controlMessageToast } from '../../redux/features';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 export default function ChatRoomPhoto() {
     const [ fileStrings, setFileStrings ] = React.useState([]); 
     const chatSlice = useAppSelector((state)=> state.chatStore);
-    const dispatch = useAppDispatch();
     const { chatId } = useAppSelector((state)=> state.dialogStore).extraData;
+    const dispatch = useAppDispatch();
 
     React.useEffect(()=> {
         const files = chatSlice.messages.filter((msg)=> {
@@ -85,7 +84,8 @@ export default function ChatRoomPhoto() {
                             })
                         }
                     </div>
-                :   <div className='w-20 h-20 text-center'>
+                :   <div className='flex flex-col min-w-52 min-h-52 text-center justify-center items-center'>
+                        <ExclamationCircleIcon className='w-20 h-20'/>
                         <p>
                             No File
                         </p>
@@ -95,13 +95,15 @@ export default function ChatRoomPhoto() {
             <div>
 
             </div>
-            <div className='flex flex-row gap-2 justify-end'>
+            { fileStrings.length > 0 &&
+                <div className='flex flex-row gap-2 justify-end'>
                 <button
                     onClick={onClickDelete} 
                     className='default-button p-1 w-[50%] justify-center'>
                     Delete
                 </button>
             </div>
+            }
         </div>
         
     )
