@@ -91,9 +91,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                                 && <InformationCircleIcon className='w-6 h-6'/> 
                         }
                         { /* Control for Already Deleted ChatItem */
-                            chat.content == ""
-                                ? "Deleted"
-                                : chat.content
+                            chat.content
                         }
                     </p>
                     { /* Display Send Time for 'other */
