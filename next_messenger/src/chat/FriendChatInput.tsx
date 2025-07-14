@@ -56,6 +56,7 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             content : inputValue,
             attachYn : fileUid ? true : false,
             attachFile : fileUid ? fileUid : "",
+            deleteYn : false
         }
         
         const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile );
