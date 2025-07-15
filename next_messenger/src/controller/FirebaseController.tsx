@@ -403,8 +403,10 @@ export async function setChatRoomMessage(
             createdAt : new Date(),
             createdBy : currentUid  
         }
-        await addDoc(colRef, data)
-        
+        const response = await addDoc(colRef, data)
+        // Update Docoument for Save Document ID
+        response && await updateDoc(response, { docId : response.id});
+                
         return { result : true, value : "Success"}
     } catch(error) {
         return { result : false, value : error}
@@ -434,6 +436,29 @@ export async function setChatRoomFile (
         }
         
     }
+
+export async function delChatRoomFile(chatId : string, uuid: string) {
+    const fileDocRef = doc(firebaseStore, `chat/${chatId}/files`, uuid);
+    
+    const msgColRef = collection(firebaseStore, `chat/${chatId}/messages`);
+    const msgDocQuery = query(msgColRef, where('attachFile','==',uuid));
+    console.log(uuid)
+    try {
+        const msgDocRef = (await getDocs(msgDocQuery)).docs[0].ref;
+        console.log(msgDocRef)
+        updateDoc(msgDocRef, {
+            attachYn : false,
+            attachFile : ""
+        }).then(async()=> {
+            await deleteDoc(fileDocRef);
+        })
+        
+        return { result : true, value : "Success"};
+    } catch(error) {
+        return { result : false, value : error};
+    }
+};
+
 export async function getChatRoomFile(chatId : string, UUID : string) {
     const colRef = collection(firebaseStore, `chat/${chatId}/files`);
     const colQuery = query(colRef, where("UUID","==", UUID));

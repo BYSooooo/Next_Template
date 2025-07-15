@@ -1,12 +1,12 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
-import { collection, doc, onSnapshot, orderBy, query, Timestamp } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
-import { addChatRoomMessage, controlMessageToast, setUserInfo } from '../redux/features';
+import { addChatRoomMessage, controlMessageToast, setUserInfo, updateChatRoomMessage } from '../redux/features';
 import { useRouter } from 'next/navigation';
 import { ChatMessage } from '../../typeDef';
-import { error } from 'console';
+
 
 export function UserInfoSnapshot() {
     const dispatch = useAppDispatch();
@@ -70,14 +70,26 @@ export function ChatRoomSnapshot(chatId : string) {
 
             const chatSnapshot = onSnapshot(messageQuery,(snapshot)=> {
                 snapshot.docChanges().forEach((change)=> {
-                    if(change.type === 'added') {
-                        const messageData = change.doc.data();
-                        const createdAt = messageData.createdAt.toDate();
-                        const addedMessage = {
-                            ...messageData,
-                            createdAt : createdAt.toISOString()
-                        } as ChatMessage
-                        dispatch(addChatRoomMessage(addedMessage));
+                    const changedMsgData = change.doc.data();
+                    const createdAt = changedMsgData.createdAt.toDate();
+                    switch(change.type) {
+                        case 'added' : 
+                            const addedMessage = {
+                                ...changedMsgData,
+                                createdAt : createdAt.toISOString()
+                            } as ChatMessage
+                            dispatch(addChatRoomMessage(addedMessage));
+                        break;
+                        case 'modified' :
+                            const updateMsg = {
+                                ...changedMsgData,
+                                createdAt : createdAt.toISOString()
+                            } as ChatMessage
+                            dispatch(updateChatRoomMessage(updateMsg))
+                        break;
+                        case 'removed' : 
+                            console.log("removed : "+changedMsgData)
+                        break;
                     }
                 });
             }, (error)=> {

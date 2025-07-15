@@ -14,16 +14,12 @@ export default function SideNavigation() {
         switch(navTo) {
             case 'welcome' : 
                 return router.push("/main")
-                //dispatch(controlPageLayout({ left : '', middle : 'WelcomePage', right : ''}))
             case 'chatting' :
                 return router.push("/chat")
-                //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendList', right : 'MainPage'}))
             case 'friendHandler' : 
                 return router.push("/friend")
-                //dispatch(controlPageLayout({ left : 'SideNavigation', middle : 'FriendManage', right : ''}))
             case 'infoDetail':
                 return router.push('/profile')
-                //return dispatch(controlPageLayout({ left : 'SideNavigation', middle: 'UserDetailInfo', right : ''}))
         }
     }
 
