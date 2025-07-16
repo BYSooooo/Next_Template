@@ -177,6 +177,7 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : s
             friend : userInfo.friend
         }
         
+        console.log(data);
         return { result : true, value : data };
     } catch(error) {
         return { result : false, value : error}
@@ -376,7 +377,8 @@ export async function createChatRoom(friendUUID : string) {
             createdAt : new Date(),
             createdBy : "System",
             attachYn : false,
-            attachFile : ""
+            attachFile : "",
+            deleteYn : false
         };
         await addDoc(messageCol, initChat)
         
@@ -391,7 +393,8 @@ export async function setChatRoomMessage(
         chatId: string, 
         content : string, 
         attachYn : boolean, 
-        attachFile : string
+        attachFile : string,
+        deleteYn : boolean
         ) {
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
     const currentUid = firebaseAuth.currentUser.uid
@@ -401,7 +404,8 @@ export async function setChatRoomMessage(
             attachYn : attachYn,
             attachFile : attachFile,
             createdAt : new Date(),
-            createdBy : currentUid  
+            createdBy : currentUid,
+            deleteYn : deleteYn  
         }
         const response = await addDoc(colRef, data)
         // Update Docoument for Save Document ID

@@ -90,12 +90,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                             chat.createdBy === "System" 
                                 && <InformationCircleIcon className='w-6 h-6'/> 
                         }
-                        { /* Control for Already Deleted ChatItem */
-                            chat.attachYn === false && chat.content === "" && chat.attachFile === ""
-                            ? "Deleted"
-                            : chat.content
-                            
-                        }
+                        { }
                     </p>
                     { /* Display Send Time for 'other */
                         senderType === "other" &&
