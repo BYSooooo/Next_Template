@@ -21,7 +21,7 @@ export default function ReceiveRequestList() {
             const receiveList = userStore.received;
             if(receiveList.length > 0) {
                 receiveList.forEach(async(uid)=> {
-                    const { result, value } = await getSelectedUserInfo(uid);
+                    const { result, value } = await getSelectedUserInfo({uuid: uid});
                     result && setReceiveList(prev => prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
                 })
             } else {

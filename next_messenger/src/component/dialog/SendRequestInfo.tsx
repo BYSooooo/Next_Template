@@ -23,14 +23,21 @@ export default function SendRequestInfo() {
     return (
         <div className="flex flex-col items-center">
             <UserDetailInfo userInfo={selectedUserInfo} />
-            <div className="w-full flex flex-row-reverse mt-3">
+            <div className="w-full flex flex-row mt-3 justify-end gap-x-2">
                 <button
                     onClick={onClickCancel} 
                     className="default-button text-center p-1 
                         hover:bg-red-600 dark:hover:bg-red-600">
                         <p>
-                            Cancel
+                            Cancel Request
                         </p>                
+                </button>
+                <button
+                    onClick={()=>dispatch(controlDialog({ openYn : false, contentName : "", size : "", title : ""}))}
+                    className="default-button text-center p-1">
+                    <p>
+                        Close
+                    </p>    
                 </button>   
 
             </div>

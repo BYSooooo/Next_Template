@@ -153,10 +153,11 @@ export async function getUserListForSearch(keyword : string, sort : string) {
     }
 }
 
-export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : string}) {
-    
+export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : string}) {
+    console.log(friendInfo)
     const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
     const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
+    
 
     try {
         const infoDoc = await getDoc(infoDocRef);
@@ -176,8 +177,6 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : s
             requested : userInfo.requested,
             friend : userInfo.friend
         }
-        
-        console.log(data);
         return { result : true, value : data };
     } catch(error) {
         return { result : false, value : error}
