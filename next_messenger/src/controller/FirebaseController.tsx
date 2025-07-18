@@ -451,7 +451,8 @@ export async function delChatRoomFile(chatId : string, uuid: string) {
         console.log(msgDocRef)
         updateDoc(msgDocRef, {
             attachYn : false,
-            attachFile : ""
+            attachFile : "",
+            deleteYn : true
         }).then(async()=> {
             await deleteDoc(fileDocRef);
         })

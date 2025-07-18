@@ -30,5 +30,6 @@ type ChatMessage = {
     createdAt : Date | string,
     createdBy : string,
     attachYn : boolean,
-    attachFile : string
+    attachFile : string,
+    deleteYn : boolean
 }

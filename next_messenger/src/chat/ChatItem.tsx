@@ -13,6 +13,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
     const [fileString, setFileString ] = React.useState<string>(null);
     const [loadingYn, setLoadingYn] = React.useState(false);
     React.useEffect(()=> {
+        console.log(chat)
         switch(chat.createdBy) {    
             case 'System' : 
                 setSenderType('sys')
@@ -90,7 +91,10 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                             chat.createdBy === "System" 
                                 && <InformationCircleIcon className='w-6 h-6'/> 
                         }
-                        { chat.content}
+                        { chat.deleteYn === true 
+                            ?   "This Message Deleted"
+                            :   chat.content
+                        }
                     </p>
                     { /* Display Send Time for 'other */
                         senderType === "other" &&
