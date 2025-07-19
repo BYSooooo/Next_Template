@@ -6,7 +6,6 @@ import { ChatMessage } from "../../typeDef";
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { getChatRoomFile } from '../controller/FirebaseController';
 import Link from 'next/link';
-import { firebaseAuth } from '../../firebase-config';
 
 export default function ChatItem({currentUid, chatId, chat} : {currentUid: string, chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
