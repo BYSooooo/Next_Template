@@ -95,14 +95,12 @@ export function ChatRoomSnapshot(chatId : string) {
                 });
             }, (error)=> {
                 dispatch(controlMessageToast({openYn : true, type : "error", title : "Error", content : error.message}));
-            })
+            });
 
-            // Snapshot of files
-            const fileColRef = collection(firebaseStore,'chat', chatId, 'files');
-            const fileQuery = query(fileColRef, orderBy('updatedAt', 'desc'));
             return ()=> {
-                chatSnapshot()
-                
+                if(chatSnapshot) {
+                    chatSnapshot()
+                }
             }
         }
     })

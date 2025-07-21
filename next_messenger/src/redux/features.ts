@@ -106,6 +106,7 @@ export const chatSlice = createSlice({
             state.messages.push(action.payload);
         },
         updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
+            console.log("updateChatRoom Called")
             state.messages.map((item)=> {
                 return action.payload.docId == item.docId
                     ? action.payload
