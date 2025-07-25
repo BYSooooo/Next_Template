@@ -50,6 +50,13 @@ export default function ChatRoomArchive() {
     const onClickExportCSV = (e : React.MouseEvent)=> {
         e.preventDefault();
         const headers = ['Time', 'Sender', 'message'];
+        const csvContent = chatStore.messages.reduce(async (acc, msg)=> {
+            const { createdAt, createdBy, content } = msg;
+            const { result, value } = await getSelectedUserInfo({ uuid : createdBy})
+            acc.push([createdAt.toLocaleString(), value.displayName, content ])
+            return acc
+        },[])
+        messageDown([...headers, ...csvContent].join('\n'), `export_msg_${new Date().toLocaleDateString()}.csv`, 'text/csv')
         
     }
 
