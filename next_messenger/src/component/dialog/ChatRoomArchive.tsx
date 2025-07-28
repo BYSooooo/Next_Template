@@ -49,52 +49,48 @@ export default function ChatRoomArchive() {
 
     const onClickExportCSV = async(e : React.MouseEvent)=> {
         e.preventDefault();
-        const headers = ['Time', 'Sender', 'message'];
-        const csvContent = [];
+        const headers = ['Time','Sender','Message'];
+        const csvRows :string[] = [];
+
+        csvRows.push([...headers].join(','))
+
         for(const message of chatStore.messages) {
             const { createdAt, createdBy, content } = message;
             const { result, value } = await getSelectedUserInfo({ uuid : createdBy});
-            if(result) {
-                csvContent.push({
-                    Time : createdAt.toLocaleString(),
-                    Sender : value.displayName,
-                    Message : content
-                })
+            if(result && value) {
+                const rowData = [
+                    createdAt.toLocaleString(),
+                    value.displayName,
+                    content ? content : 'Deleted Message'
+                ]
+                csvRows.push([...rowData].join(','))
             }
         }
-        // const csvContent = chatStore.messages.reduce(async (acc, msg)=> {
-        //     const { createdAt, createdBy, content } = msg;
-        //     const { result, value } = await getSelectedUserInfo({ uuid : createdBy})
-        //     acc.push([createdAt.toLocaleString(), value.displayName, content ])
-        //     return acc
-        // },[])
-        messageDown([...headers, ...csvContent].join('\n'), `export_msg_${new Date().toLocaleDateString()}.csv`, 'text/csv')
-        
+        messageDown(csvRows.join('\n'), `export_msg_${new Date().toLocaleDateString()}.csv`, 'text/csv')
     }
 
     return (
-        <div className='flex flex-col '>
+        <div className='flex flex-col gap-2'>
             <h1 className='font-bold text-sm mb-1'>
                 Messages Export
             </h1>
-            <ul>
+            <ul className='list-disc px-2'>
                 <li className='text-xs'>
                     You can export Messages.
                 </li>
-                <li>
+                <li className='text-xs'>
                     Attachments Files are not export.
                 </li>
             </ul>
             <button 
-                className='default-button'
-                onClick={onClickExportText}
-                >
-                Export TXT
+                className='default-button px-2 py-1'
+                onClick={onClickExportText}>
+                Export .txt
             </button>
             <button 
-                className='default-button'
+                className='default-button px-2 py-1'
                 onClick={onClickExportCSV}>
-                Export CSV
+                Export .csv
             </button>
         </div>
     )
