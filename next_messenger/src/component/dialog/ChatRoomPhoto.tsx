@@ -46,7 +46,8 @@ export default function ChatRoomPhoto() {
     const onClickDelete = async() => {
 
         const checkedImage = fileStrings.filter((item)=> item.checkYn === true);
-        for(const item of checkedImage) {
+        if(checkedImage.length > 0) {
+            for(const item of checkedImage) {
             const { result, value } = await delChatRoomFile(chatId, item.uuid);
             if(result) {
                 dispatch(controlDialog({ openYn : false, title: "", contentName : "", size : ""}));
@@ -55,6 +56,10 @@ export default function ChatRoomPhoto() {
                 dispatch(controlMessageToast({ openYn : true, type: 'error', title : 'Delete Error', content : value }))
             }
         }
+        } else {
+            dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error', content : 'Select one or more files that you want to delete.'}))
+        }
+        
     }
 
     return (
