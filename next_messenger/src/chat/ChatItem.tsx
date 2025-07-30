@@ -92,13 +92,13 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                             </p>
                         : /* else if message not removed */
                         <> 
-                            { chat.content.length > 0 &&
+                            { chat.content.length > 0 &&  
                                 <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
                                     { /* Icon for System Message */ 
                                         chat.createdBy === "System" 
                                             && <InformationCircleIcon className='w-6 h-6'/> 
                                     }
-                                    { chat.content}
+                                    { chat.content }
                                 </p>
                             }
                         </>

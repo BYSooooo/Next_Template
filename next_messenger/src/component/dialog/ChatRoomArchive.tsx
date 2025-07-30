@@ -71,27 +71,34 @@ export default function ChatRoomArchive() {
 
     return (
         <div className='flex flex-col gap-2'>
-            <h1 className='font-bold text-sm mb-1'>
-                Messages Export
-            </h1>
-            <ul className='list-disc px-2'>
-                <li className='text-xs'>
-                    You can export Messages.
-                </li>
-                <li className='text-xs'>
-                    Attachments Files are not export.
-                </li>
-            </ul>
-            <button 
-                className='default-button px-2 py-1'
-                onClick={onClickExportText}>
-                Export .txt
-            </button>
-            <button 
-                className='default-button px-2 py-1'
-                onClick={onClickExportCSV}>
-                Export .csv
-            </button>
+            <div className='flex flex-col'>
+                <h1 className='font-bold text-sm mb-1'>
+                    Messages Export
+                </h1>
+                <ul className='list-disc px-2'>
+                    <li className='text-xs'>
+                        You can export Messages.
+                    </li>
+                    <li className='text-xs'>
+                        Attachments Files are not export.
+                    </li>
+                </ul>
+                <button 
+                    className='default-button px-2 py-1'
+                    onClick={onClickExportText}>
+                    Export .txt
+                </button>
+                <button 
+                    className='default-button px-2 py-1'
+                    onClick={onClickExportCSV}>
+                    Export .csv
+                </button>
+            </div>
+            <div className='flex flex-row-reverse'>
+                <button>
+                    Close
+                </button>
+            </div>
         </div>
     )
 }

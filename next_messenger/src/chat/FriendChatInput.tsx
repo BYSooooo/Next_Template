@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { setChatRoomFile, setChatRoomMessage } from '../controller/FirebaseController';
-import { firebaseAuth } from '../../firebase-config';
 import { useAppDispatch } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
 import { DocumentIcon } from '@heroicons/react/24/solid';
