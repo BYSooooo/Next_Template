@@ -11,8 +11,8 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
     const [fileString, setFileString ] = React.useState<string>(null);
     const [loadingYn, setLoadingYn] = React.useState(false);
+    
     React.useEffect(()=> {
-        console.log(chat)
         switch(chat.createdBy) {    
             case 'System' : 
                 setSenderType('sys')
@@ -76,13 +76,14 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
 
                 </div>
             }
-            { chat &&
+            { chat && chat.attachYn === false && 
                 <div className='flex flex-row'>
                     { /* Display Send Time for 'me' */
-                        senderType === "me" && 
+                        senderType === "me" &&
                         <p className='text-[0.6rem] self-end mr-1'>
                             {new Date(chat.createdAt as any).toLocaleTimeString()}
                         </p>
+                        
                     }
                     {/* Check Message Delete (Delete Function provided only File )*/
                         chat.deleteYn === true

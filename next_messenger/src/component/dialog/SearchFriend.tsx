@@ -16,7 +16,8 @@ export default function SearchFriend() {
     const [selUser, setSelUser] = React.useState<UserInfo>(null);
     const [userList, setUserList] = React.useState([]);
     const [keyword, setKeyword] = React.useState("");
-    const [relationYn, setRelationYn] = React.useState(false)
+    const [relationYn, setRelationYn] = React.useState(false);
+    const [friendYn, setFriendYn] = React.useState(false);
     
     const dispatch = useAppDispatch()
     const uuid = firebaseAuth.currentUser.uid;
@@ -27,6 +28,7 @@ export default function SearchFriend() {
 
     React.useEffect(()=> {
         checkReceiveOrRequest()
+        checkFriend()
     },[selUser])
 
     const onClickClose = ()=> {
@@ -37,8 +39,8 @@ export default function SearchFriend() {
         setSelUser(null)
         const {result, value } = await getUserListForSearch(keyword, checked)
         if(result) {
-            
-            setUserList(value)
+            const aResult = value.filter((item)=> item.uid !== uuid);
+            setUserList(aResult)
         } else {
             dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Search Error', content : value}))
         }
@@ -62,11 +64,18 @@ export default function SearchFriend() {
 
     const checkReceiveOrRequest = ()=> {
         if(selUser) {
-            console.log("serUser : ",selUser)
             const receiveCheck = selUser.received?.includes(uuid);
             const requestCheck = selUser.requested?.includes(uuid);
             setRelationYn(receiveCheck || requestCheck)
         }
+    }
+    const checkFriend = ()=> {
+        if(selUser && selUser.friend) {
+            const friendCheck = selUser.friend.find((item)=> item.uuid === uuid) ? true : false 
+            // To Be Continue
+            setFriendYn(friendCheck)        
+        }
+        
     }
 
     return (
@@ -146,14 +155,19 @@ export default function SearchFriend() {
                         selUser && 
                             <div className='flex flex-row-reverse'>
                                 { !relationYn 
-                                    ? <button
-                                        onClick={onClickRequestFriend} 
-                                        className='confirm-button px-1'>
-                                        Request
-                                    </button>
-                                    : <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
-                                        Wait for Response
-                                    </button>
+                                    ?   ( friendYn
+                                            ?   <button className='bg-blue-500 dark:bg-blue-500 rounded-md px-1' disabled>
+                                                    Already Friend
+                                                </button>
+                                            :   <button
+                                                    onClick={onClickRequestFriend} 
+                                                    className='confirm-button px-1'>
+                                                    Request
+                                                </button>   
+                                        )  
+                                    :   <button className='bg-orange-300 dark:bg-orange-700 rounded-md px-1' disabled>
+                                            Wait for Response
+                                        </button> 
                                 }
                             </div>
                     }
