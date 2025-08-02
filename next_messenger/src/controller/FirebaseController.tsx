@@ -154,7 +154,6 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 }
 
 export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : string}) {
-    console.log(friendInfo)
     const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
     const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
     

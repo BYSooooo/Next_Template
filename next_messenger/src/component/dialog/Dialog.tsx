@@ -6,7 +6,8 @@ import SearchFriend from './SearchFriend';
 import { controlDialog } from '../../redux/features';
 import SendRequestInfo from './SendRequestInfo';
 import ReceiveRequestInfo from './ReceiveRequestInfo';
-import ChatRoomAction from './ChatRoomAction';
+import ChatRoomPhoto from './ChatRoomPhoto';
+import ChatRoomArchive from './ChatRoomArchive';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -46,8 +47,10 @@ export default function Dialog() {
                 return <SendRequestInfo />
             case 'ReceiveRequestInfo' : 
                 return <ReceiveRequestInfo />
-            case 'ChatRoomAction' : 
-                return <ChatRoomAction />
+            case 'ChatRoomPhoto' : 
+                return <ChatRoomPhoto />
+            case 'ChatRoomArchive' : 
+                return <ChatRoomArchive />
             default :
             break;
         }

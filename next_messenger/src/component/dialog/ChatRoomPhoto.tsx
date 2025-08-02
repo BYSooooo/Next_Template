@@ -9,7 +9,7 @@ import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outl
 export default function ChatRoomPhoto() {
     const [ fileStrings, setFileStrings ] = React.useState([]); 
     const chatSlice = useAppSelector((state)=> state.chatStore);
-    const { chatId } = useAppSelector((state)=> state.dialogStore).extraData;
+    const chatId = useAppSelector((state)=> state.dialogStore).extraData;
     const dispatch = useAppDispatch();
 
     React.useEffect(()=> {

@@ -63,15 +63,26 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
         }
     },[menuRef])
     
-    const onClickChatMenu = ()=> {
-        dispatch(controlDialog({ 
-            openYn: true, 
-            contentName : 'ChatRoomAction', 
-            title : 'Setting', 
-            size: 'fit',
-            extraData : {chatId : chatId}
+    const onClickPhoto = ()=> {
+        setIsMenuOpen(false)
+        dispatch(controlDialog({
+            openYn : true, 
+            contentName : 'ChatRoomPhoto', 
+            title : 'Photo', 
+            extraData : chatId }
+        ))
+    }
+
+    const onClickExport = ()=> {
+        setIsMenuOpen(false)
+        dispatch(controlDialog({
+            openYn : true,
+            contentName : 'ChatRoomArchive',
+            title : 'Export',
+            
         }))
     }
+
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
@@ -114,6 +125,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                         { isMenuOpen &&
                             (   <div className='absolute flex flex-col gap-2 top-5 right-0 w-48 mt-2 origin-top-right bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50'>
                                     <button
+                                        onClick={onClickPhoto}
                                         className={`${hoverStyle}`}>
                                         <span className='flex flex-row items-center gap-2'>
                                             <PhotoIcon className='w-5 h-5'/>
@@ -121,6 +133,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                                         </span>
                                     </button>
                                     <button
+                                        onClick={onClickExport}
                                         className={`${hoverStyle}`}>
                                         <span className='flex flex-row items-center gap-2'>
                                             <ArchiveBoxArrowDownIcon className='w-5 h-5'/>
