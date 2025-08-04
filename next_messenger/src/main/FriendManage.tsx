@@ -96,6 +96,19 @@ export default function FriendManage() {
                     <p className="text-xl font-bold text-start">
                         Delete Friend
                     </p>
+                    <div className="h-[15%]">
+                        <ul className="text-sm list-inside list-disc text-start text-pretty">
+                            <li>
+                                You can remove a friend from your list.
+                            </li>
+                            <li>
+                                After you delete it, you can add it to your list again by registering as a friend.
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="h-[85%]">
+
+                    </div>
                 </div>
             </div>
 
