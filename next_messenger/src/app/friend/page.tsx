@@ -2,6 +2,7 @@
 
 import { UserInfoSnapshot } from "../../controller/SnapshotController"
 import ReceiveRequestList from "../../friend/ReceiveRequestList"
+import RemoveFriendList from "../../friend/RemoveFriendList"
 import SendRequestList from "../../friend/SendRequestList"
 import SideNavigation from "../../main/SideNaigation"
 
@@ -21,11 +22,7 @@ export default function Page() {
                 <div className="grid grid-flow-col  grid-cols-3 gap-2">
                     <SendRequestList  />
                     <ReceiveRequestList />
-                    <div className="default-box-inner">
-                        <p className="text-xl font-bold text-start">
-                            Delete Friend
-                        </p>
-                    </div>
+                    <RemoveFriendList />
                 </div>
             </div>
         </div>
