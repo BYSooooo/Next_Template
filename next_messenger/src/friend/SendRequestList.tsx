@@ -21,7 +21,7 @@ export default function SendRequestList() {
             const requestList = userStore.requested
             if(requestList.length > 0) {
                 requestList.forEach(async(uid)=> {
-                    const { result, value } = await getSelectedUserInfo(uid);
+                    const { result, value } = await getSelectedUserInfo({uuid : uid});
                     result && setSendList(prev=> prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
                 })
             } else {

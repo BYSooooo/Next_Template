@@ -34,9 +34,11 @@ export default function Page() {
     UserInfoSnapshot()
     ChatRoomSnapshot(chatId);
 
-    const selectionHandler = (chatId : string, selectedUserInfo : UserInfo)=> {
-        setChatId(chatId);
-        setSeluserInfo(selectedUserInfo);
+    const selectionHandler = (selChatId : string, selectedUserInfo : UserInfo)=> {
+        if(chatId !== selChatId) {
+            setChatId(selChatId);
+            setSeluserInfo(selectedUserInfo);
+        }
     }
     
     return (

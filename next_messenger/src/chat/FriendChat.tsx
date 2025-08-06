@@ -8,58 +8,23 @@ import { UserInfo } from '../../typeDef';
 import ChatItem from './ChatItem';
 import { firebaseAuth } from '../../firebase-config';
 import { controlDialog, dialogSlice } from '../redux/features';
+import { ArchiveBoxArrowDownIcon, PhotoIcon } from '@heroicons/react/24/outline';
 
 export default function FriendChat({chatId, selUserInfo} : {chatId : string, selUserInfo : UserInfo}) {
+    const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
+    
     const chatStore = useAppSelector((state)=> state.chatStore);  
     const chatContainerRef = React.useRef<HTMLDivElement>(null);
+    const menuRef = React.useRef(null);
     const currentUid = firebaseAuth?.currentUser?.uid;
+    
     const dispatch = useAppDispatch();
+    const menuToggle = ()=> {
+        setIsMenuOpen(!isMenuOpen);
+    }
 
     const hoverStyle = "p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500";
-    /*
-    React.useEffect(()=> {
-        const chatContainer = chatContainerRef.current;
-        if(!chatContainer) return;
-
-        const scrollToBottom = ()=> {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        const awitImgLoading = () => {
-            const images = chatContainer.querySelectorAll('img');
-            if(images.length === 0) {
-                scrollToBottom();
-                return;
-            }
-            let imagesLoaded = 0;
-            const totalImgCount = images.length;
-
-            const handleImageLoaded = () => {
-                imagesLoaded++;
-                (imagesLoaded == totalImgCount) && scrollToBottom();
-            }
-            images.forEach(img => {
-                img.complete
-                    ? handleImageLoaded()
-                    : img.addEventListener('load', handleImageLoaded);
-            });
-            return ()=> {
-                images.forEach(img => {
-                    img.removeEventListener('load', handleImageLoaded);
-                })
-            }
-        }
-        const cleanupImageLoaders = awitImgLoading();
-        const initialScrollTimer = setTimeout(scrollToBottom, 100);
-
-        return () => {
-            clearTimeout(initialScrollTimer);
-            if (cleanupImageLoaders) {
-                cleanupImageLoaders();
-            }
-        };
-    }, [chatId, chatStore.messages])
-    */
+    
     
     React.useEffect(()=> {
         // Bottom Scroll Control
@@ -85,16 +50,39 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
             }
         };
     },[chatId, chatStore.messages])
+
+    React.useEffect(()=> {
+        const clickOutside = (event)=> {
+            if(menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsMenuOpen(false)
+            };
+        }
+        document.addEventListener('mousedown', clickOutside);
+        return ()=> {
+            document.removeEventListener('mousedown',clickOutside);
+        }
+    },[menuRef])
     
-    const onClickChatMenu = ()=> {
-        dispatch(controlDialog({ 
-            openYn: true, 
-            contentName : 'ChatRoomAction', 
-            title : 'Setting', 
-            size: 'fit',
-            extraData : {chatId : chatId}
+    const onClickPhoto = ()=> {
+        setIsMenuOpen(false)
+        dispatch(controlDialog({
+            openYn : true, 
+            contentName : 'ChatRoomPhoto', 
+            title : 'Photo', 
+            extraData : chatId }
+        ))
+    }
+
+    const onClickExport = ()=> {
+        setIsMenuOpen(false)
+        dispatch(controlDialog({
+            openYn : true,
+            contentName : 'ChatRoomArchive',
+            title : 'Export',
+            
         }))
     }
+
     return (
         <div className='default-box
             flex flex-col w-[40rem] ml-1 h-full' >
@@ -128,10 +116,33 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             }
                         </div>
                     </span>
-                    <span>
+                    <span
+                        ref={menuRef} 
+                        className='relative'>
                         <ListBulletIcon 
                             className={`w-7 h-7 ${hoverStyle} hover:cursor-pointer`}
-                            onClick={onClickChatMenu} />
+                            onClick={menuToggle} />
+                        { isMenuOpen &&
+                            (   <div className='absolute flex flex-col gap-2 top-5 right-0 w-48 mt-2 origin-top-right bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50'>
+                                    <button
+                                        onClick={onClickPhoto}
+                                        className={`${hoverStyle}`}>
+                                        <span className='flex flex-row items-center gap-2'>
+                                            <PhotoIcon className='w-5 h-5'/>
+                                            <h1 className='text-sm'>Photo List</h1>
+                                        </span>
+                                    </button>
+                                    <button
+                                        onClick={onClickExport}
+                                        className={`${hoverStyle}`}>
+                                        <span className='flex flex-row items-center gap-2'>
+                                            <ArchiveBoxArrowDownIcon className='w-5 h-5'/>
+                                            <h1 className='text-sm'>Archive</h1>
+                                        </span>
+                                    </button>
+                                </div>
+                            )
+                        }
                     </span>
                 </div>
             :   <div className='flex flex-col justify-center h-full items-center'>

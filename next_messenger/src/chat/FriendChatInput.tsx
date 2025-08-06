@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { setChatRoomFile, setChatRoomMessage } from '../controller/FirebaseController';
-import { firebaseAuth } from '../../firebase-config';
 import { useAppDispatch } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
 import { DocumentIcon } from '@heroicons/react/24/solid';
@@ -59,7 +58,7 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             deleteYn : false
         }
         
-        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile );
+        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.deleteYn);
         if(result){
             setInputValue("");
         } else {

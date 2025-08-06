@@ -36,7 +36,7 @@ export const dialogSlice = createSlice({
         extraData : null
     },
     reducers : {
-        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName : string, size : string, title: string, extraData? : any}>)=> {
+        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName? : string, size? : string, title?: string, extraData? : any}>)=> {
             state.openYn = action.payload.openYn
             state.contentName = action.payload.contentName
             state.size = action.payload.size
@@ -106,6 +106,7 @@ export const chatSlice = createSlice({
             state.messages.push(action.payload);
         },
         updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
+            console.log("updateChatRoom Called")
             state.messages.map((item)=> {
                 return action.payload.docId == item.docId
                     ? action.payload

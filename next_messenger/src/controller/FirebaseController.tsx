@@ -153,10 +153,10 @@ export async function getUserListForSearch(keyword : string, sort : string) {
     }
 }
 
-export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : string}) {
-    
+export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : string}) {
     const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
     const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
+    
 
     try {
         const infoDoc = await getDoc(infoDocRef);
@@ -176,7 +176,6 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId : s
             requested : userInfo.requested,
             friend : userInfo.friend
         }
-        
         return { result : true, value : data };
     } catch(error) {
         return { result : false, value : error}
@@ -376,7 +375,8 @@ export async function createChatRoom(friendUUID : string) {
             createdAt : new Date(),
             createdBy : "System",
             attachYn : false,
-            attachFile : ""
+            attachFile : "",
+            deleteYn : false
         };
         await addDoc(messageCol, initChat)
         
@@ -391,7 +391,8 @@ export async function setChatRoomMessage(
         chatId: string, 
         content : string, 
         attachYn : boolean, 
-        attachFile : string
+        attachFile : string,
+        deleteYn : boolean
         ) {
     const colRef = collection(firebaseStore, `chat/${chatId}/messages`);
     const currentUid = firebaseAuth.currentUser.uid
@@ -401,7 +402,8 @@ export async function setChatRoomMessage(
             attachYn : attachYn,
             attachFile : attachFile,
             createdAt : new Date(),
-            createdBy : currentUid  
+            createdBy : currentUid,
+            deleteYn : deleteYn  
         }
         const response = await addDoc(colRef, data)
         // Update Docoument for Save Document ID
@@ -438,20 +440,21 @@ export async function setChatRoomFile (
     }
 
 export async function delChatRoomFile(chatId : string, uuid: string) {
-    const fileDocRef = doc(firebaseStore, `chat/${chatId}/files`, uuid);
+    const fileDocRef = collection(firebaseStore, `chat/${chatId}/files`);
+    const fileDocQuery = query(fileDocRef, where('UUID','==',uuid));
     
     const msgColRef = collection(firebaseStore, `chat/${chatId}/messages`);
     const msgDocQuery = query(msgColRef, where('attachFile','==',uuid));
-    console.log(uuid)
+    
     try {
         const msgDocRef = (await getDocs(msgDocQuery)).docs[0].ref;
-        console.log(msgDocRef)
-        updateDoc(msgDocRef, {
+        const fileDocRef = (await getDocs(fileDocQuery)).docs[0].ref;
+        await updateDoc(msgDocRef, {
             attachYn : false,
-            attachFile : ""
-        }).then(async()=> {
-            await deleteDoc(fileDocRef);
+            attachFile : "",
+            deleteYn : true
         })
+        await deleteDoc(fileDocRef);
         
         return { result : true, value : "Success"};
     } catch(error) {

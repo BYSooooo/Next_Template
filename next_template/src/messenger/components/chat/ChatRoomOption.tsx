@@ -321,7 +321,6 @@ export function ChatRoomOption() {
                     onClick={()=>onClickHandler("ok")}>
                     <h1 className='text-sm'>
                         Return
-
                     </h1>
                 </button>
             </div>

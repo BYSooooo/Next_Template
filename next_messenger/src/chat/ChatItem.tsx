@@ -6,12 +6,12 @@ import { ChatMessage } from "../../typeDef";
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { getChatRoomFile } from '../controller/FirebaseController';
 import Link from 'next/link';
-import { firebaseAuth } from '../../firebase-config';
 
 export default function ChatItem({currentUid, chatId, chat} : {currentUid: string, chatId : string, chat : ChatMessage}){
     const [senderType, setSenderType] =  React.useState<'me'|'other'|'sys'>('sys');
     const [fileString, setFileString ] = React.useState<string>(null);
     const [loadingYn, setLoadingYn] = React.useState(false);
+    
     React.useEffect(()=> {
         switch(chat.createdBy) {    
             case 'System' : 
@@ -76,29 +76,37 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
 
                 </div>
             }
-            { chat.content.length !== 0 &&
+            { chat && chat.attachYn === false && 
                 <div className='flex flex-row'>
                     { /* Display Send Time for 'me' */
                         senderType === "me" &&
                         <p className='text-[0.6rem] self-end mr-1'>
                             {new Date(chat.createdAt as any).toLocaleTimeString()}
                         </p>
+                        
+                    }
+                    {/* Check Message Delete (Delete Function provided only File )*/
+                        chat.deleteYn === true
+                        ? /* If removed */
+                            <p className={'flex rounded-lg px-2 py-2 text-pretty bg-gray-900 text-gray-600 italic text-sm'}>
+                                This message has been deleted.
+                            </p>
+                        : /* else if message not removed */
+                        <> 
+                            { chat.content.length > 0 &&  
+                                <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
+                                    { /* Icon for System Message */ 
+                                        chat.createdBy === "System" 
+                                            && <InformationCircleIcon className='w-6 h-6'/> 
+                                    }
+                                    { chat.content }
+                                </p>
+                            }
+                        </>
                     }
                     
-                    <p className={`flex rounded-lg px-2 py-1 ${textCSS[senderType]} text-pretty`}>
-                        { /* Icon for System Message */ 
-                            chat.createdBy === "System" 
-                                && <InformationCircleIcon className='w-6 h-6'/> 
-                        }
-                        { /* Control for Already Deleted ChatItem */
-                            chat.attachYn === false && chat.content === "" && chat.attachFile === ""
-                            ? "Deleted"
-                            : chat.content
-                            
-                        }
-                    </p>
                     { /* Display Send Time for 'other */
-                        senderType === "other" &&
+                        senderType === "other" && 
                         <p className='text-[0.6rem] self-end ml-1'>
                             {new Date(chat.createdAt as any).toLocaleTimeString()}
                         </p>

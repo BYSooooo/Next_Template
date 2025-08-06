@@ -6,7 +6,9 @@ import SearchFriend from './SearchFriend';
 import { controlDialog } from '../../redux/features';
 import SendRequestInfo from './SendRequestInfo';
 import ReceiveRequestInfo from './ReceiveRequestInfo';
-import ChatRoomAction from './ChatRoomAction';
+import ChatRoomPhoto from './ChatRoomPhoto';
+import ChatRoomArchive from './ChatRoomArchive';
+import RemoveFriend from './RemoveFriend';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -25,6 +27,14 @@ export default function Dialog() {
         }
     },[wrapperRef])
 
+    React.useEffect(()=> {
+        if(openYn) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = ''
+        }
+    },[openYn])
+
     const dialogBgControl = {
         open : 'opacity-100',
         close : 'opacity-0 pointer-events-none'
@@ -38,15 +48,19 @@ export default function Dialog() {
                 return <SendRequestInfo />
             case 'ReceiveRequestInfo' : 
                 return <ReceiveRequestInfo />
-            case 'ChatRoomAction' : 
-                return <ChatRoomAction />
+            case 'ChatRoomPhoto' : 
+                return <ChatRoomPhoto />
+            case 'ChatRoomArchive' : 
+                return <ChatRoomArchive />
+            case 'RemoveFriend' : 
+                return <RemoveFriend />
             default :
             break;
         }
     }
     
     return (
-        <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-50 transition-opacity duration-200 ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
+        <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-75 transition-opacity duration-200 ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div
                 ref={wrapperRef}
                 className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} jusify-center py-3`}>
