@@ -8,6 +8,7 @@ import SendRequestInfo from './SendRequestInfo';
 import ReceiveRequestInfo from './ReceiveRequestInfo';
 import ChatRoomPhoto from './ChatRoomPhoto';
 import ChatRoomArchive from './ChatRoomArchive';
+import RemoveFriend from './RemoveFriend';
 
 export default function Dialog() {
     const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
@@ -51,6 +52,8 @@ export default function Dialog() {
                 return <ChatRoomPhoto />
             case 'ChatRoomArchive' : 
                 return <ChatRoomArchive />
+            case 'RemoveFriend' : 
+                return <RemoveFriend />
             default :
             break;
         }
