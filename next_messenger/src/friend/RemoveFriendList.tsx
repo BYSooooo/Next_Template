@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
 import { getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
+import { controlDialog } from '../redux/features';
 
 export default function RemoveFriendList() {
     const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ export default function RemoveFriendList() {
     }
 
     const onClickListItem = async(selUserInfo: UserInfo) => {
-        console.log(selUserInfo)
+        dispatch(controlDialog({ openYn : true, title : "Friend Info", contentName: "RemoveFriend", size : "96", extraData : selUserInfo}))
     }
 
     return (
