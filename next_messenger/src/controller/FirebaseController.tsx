@@ -500,3 +500,7 @@ export async function getChatRoom(chatId : string) {
         return { result : false, value : error };
     }
 }
+
+export async function deleteFriend(userInfo : UserInfo) {
+ //   const fileDocRef = collection(firebaseStore, `chat/${}`)
+}

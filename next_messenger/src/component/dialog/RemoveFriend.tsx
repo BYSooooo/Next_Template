@@ -14,6 +14,14 @@ export default function RemoveFriend() {
     return (
         <div className='flex flex-col items-center'>
             <UserDetailInfo userInfo={selectedUserInfo}/>
+            <ul className='text-sm list-inside list-disc text-start text-pretty'>
+                <li>
+                    Once deleted, it cannot be undone.
+                </li>
+                <li>
+                    If you remove a friend from your list, all chats and attachments will also be deleted.
+                </li>
+            </ul>
             <div className='w-full flex flex-row mt-3 justify-end gap-x-2'>
                 <button
                     className='default-button text-center p-1
