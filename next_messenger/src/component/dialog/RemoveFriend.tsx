@@ -2,13 +2,19 @@ import React from 'react';
 import UserDetailInfo from '../UserDetail';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { controlDialog } from '../../redux/features';
+import { deleteFriend } from '../../controller/FirebaseController';
 
 export default function RemoveFriend() {
     const selectedUserInfo = useAppSelector((state)=> state.dialogStore).extraData;
     const dispatch = useAppDispatch();
 
-    const onClickRemove = ()=> {
+    const onClickRemove = async()=> {
+        const { result, value } = await deleteFriend(selectedUserInfo);
+        if(result) {
 
+        } else {
+            
+        }
     }
 
     return (

@@ -502,5 +502,11 @@ export async function getChatRoom(chatId : string) {
 }
 
 export async function deleteFriend(userInfo : UserInfo) {
- //   const fileDocRef = collection(firebaseStore, `chat/${}`)
+    try {
+        //const fileDocRef = collection(firebaseStore, `chat/${}`)
+        
+        return { result : true, value : "Success"}
+    } catch(error) {
+        return { result : false, value : error}
+    }
 }
