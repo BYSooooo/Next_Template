@@ -13,7 +13,8 @@ import {
     setDoc,
     Timestamp,
     updateDoc,
-    where
+    where,
+    writeBatch
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "./AvatarBinaryController";
@@ -501,13 +502,55 @@ export async function getChatRoom(chatId : string) {
     }
 }
 
-export async function deleteFriend(userInfo : UserInfo) {
+export async function deleteFriend(friendInfo : UserInfo) {
     try {
+        // Process.1 - Search chatId in friend list array at current user document
         const uuid = firebaseAuth.currentUser.uid;
-        const chatId = userInfo.friend.find((item)=> item.uuid === uuid).chatId;
-        //const docRef = await getDoc()
-        const fileDocRef = collection(firebaseStore, `chat/${chatId}`);
+        const friendEntry = friendInfo.friend.find((item)=> item.uuid === uuid);
+        
+        // If cannot find friend in user Document, return error.
+        if(!friendEntry || !friendEntry.chatId) {
+            return { result : false, value : "Cannot find Chatting Information"}
+        } 
+        const chatId = friendEntry.chatId;
+        
+        // Process.2 - remove each friend info in current user and friend user
+        const currentUserDocRef = doc(firebaseStore, 'userInfo', uuid);
+        const friendUserDocRef = doc(firebaseStore, 'userInfo', friendInfo.uid);
 
+        const currentUserData = (await getDoc(currentUserDocRef)).data();
+        const friendUserData = (await getDoc(friendUserDocRef)).data();
+
+        const updateCurrentUserInfo = currentUserData.friend.filter((item)=> item.uuid !== friendInfo.uid);
+        const updateFriendUserInfo = friendUserData.friend.filterI((item)=> item.uuid !== uuid);
+
+        const batch = writeBatch(firebaseStore);
+        batch.update(currentUserDocRef, { friend : updateCurrentUserInfo});
+        batch.update(friendUserDocRef, { friend : updateFriendUserInfo});
+        await batch.commit();
+
+        // Process.3 - remove sub collection in chat document.
+        const messagesCollectionRef = collection(firebaseStore, `chat/${chatId}/messages`);
+        const messagesSnapshot = await getDocs(messagesCollectionRef);
+
+        const messagesDeletionPromises = messagesSnapshot.docs.map((messageDoc) =>
+            deleteDoc(doc(messagesCollectionRef, messageDoc.id))
+        );
+
+        await Promise.all(messagesDeletionPromises);
+
+        const filesCollectionRef = collection(firebaseStore, `chat/${chatId}/files`);
+        const filesSnapshot = await getDocs(filesCollectionRef);
+
+        const filesDeletionPromises = filesSnapshot.docs.map((fileDoc) =>
+            deleteDoc(doc(filesCollectionRef, fileDoc.id))
+        );
+
+        await Promise.all(filesDeletionPromises);
+
+        // Process.4 - Remove Chat Document
+        const chatDocRef = doc(firebaseStore, "chat", chatId);
+        await deleteDoc(chatDocRef);
 
         
         return { result : true, value : "Success"}
