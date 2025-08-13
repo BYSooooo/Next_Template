@@ -7,8 +7,73 @@ import { addChatRoomMessage, controlMessageToast, setUserInfo, updateChatRoomMes
 import { useRouter } from 'next/navigation';
 import { ChatMessage } from '../../typeDef';
 
-
 export function UserInfoSnapshot() {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const [ userInfoData, setUserInfoData ] = React.useState(null);
+    const [ avatarImgData, setAvatarImgData ] = React.useState(null);
+
+    React.useEffect(()=> {
+        const currentUser = firebaseAuth.currentUser;
+        if(!currentUser) {
+            console.log("No Auth Information. Move to Login Page for get Auth")
+            return router.push("/login");
+        } else {
+            // Listener of Changing UserInfo Document
+            const userDocRef = doc(firebaseStore, 'userInfo', firebaseAuth.currentUser.uid);
+            const userInfoSnapshot = onSnapshot(userDocRef, (snapshot)=> {
+                if(snapshot.exists()) {
+                    setUserInfoData(snapshot.data());
+                }
+            })
+            //Listener of Changing AvatarImg Document
+            const avatarDocRef = doc(firebaseStore, 'userInfo', firebaseAuth.currentUser.uid);
+            const avatarImgSnapshot = onSnapshot(avatarDocRef,(snapshot)=> {
+                if(snapshot.exists()) {
+                    setAvatarImgData(snapshot.data())
+                }
+            })
+            console.log("UserInfoSnapshot Attached")
+            return ()=> {
+                console.log("UserInfoSnapshot Detached")
+                userInfoSnapshot();
+                avatarImgSnapshot();
+            }
+        }
+    },[router, dispatch])
+
+    // Call Function when each Document Changed.
+    React.useEffect(()=> {
+        if(userInfoData && avatarImgData) {
+            try { 
+                const data = {
+                    uid : firebaseAuth.currentUser.uid,
+                    email : userInfoData.email,
+                    emailVerified : userInfoData.emailVerified,
+                    displayName : userInfoData.displayName,
+                    avatarImg : avatarImgData.avatarImg,
+                    avatarOpenYn : avatarImgData.avatarOpenYn,
+                    requested : userInfoData.requested,
+                    received : userInfoData.received,
+                    friend : userInfoData.friend
+                };
+                dispatch(setUserInfo(data))
+
+            } catch(error) {
+                dispatch(controlMessageToast({
+                    openYn : true,
+                    title : 'Error',
+                    type : "error",
+                    content : "Error Occured During Update"
+                }));
+                console.error("Failed to combine data and dispatch", error);
+            }
+        }
+    },[userInfoData, avatarImgData, dispatch])
+ };
+
+export function UserInfoSnapshot_old() {
     const dispatch = useAppDispatch();
     const router = useRouter();
 

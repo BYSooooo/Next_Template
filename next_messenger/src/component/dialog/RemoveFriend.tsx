@@ -1,7 +1,7 @@
 import React from 'react';
 import UserDetailInfo from '../UserDetail';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { controlDialog } from '../../redux/features';
+import { controlDialog, controlMessageToast } from '../../redux/features';
 import { deleteFriend } from '../../controller/FirebaseController';
 
 export default function RemoveFriend() {
@@ -11,9 +11,10 @@ export default function RemoveFriend() {
     const onClickRemove = async()=> {
         const { result, value } = await deleteFriend(selectedUserInfo);
         if(result) {
-
+            dispatch(controlDialog({ openYn : false }))
+            dispatch(controlMessageToast({ openYn : true, title : "Success", type : 'confirm', content : 'Remove Friend Success'}))
         } else {
-            
+            dispatch(controlMessageToast({ openYn : true, title : "Error", type : 'error', content : value}))
         }
     }
 

@@ -522,7 +522,7 @@ export async function deleteFriend(friendInfo : UserInfo) {
         const friendUserData = (await getDoc(friendUserDocRef)).data();
 
         const updateCurrentUserInfo = currentUserData.friend.filter((item)=> item.uuid !== friendInfo.uid);
-        const updateFriendUserInfo = friendUserData.friend.filterI((item)=> item.uuid !== uuid);
+        const updateFriendUserInfo = friendUserData.friend.filter((item)=> item.uuid !== uuid);
 
         const batch = writeBatch(firebaseStore);
         batch.update(currentUserDocRef, { friend : updateCurrentUserInfo});
