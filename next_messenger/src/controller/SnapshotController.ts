@@ -73,59 +73,59 @@ export function UserInfoSnapshot() {
     },[userInfoData, avatarImgData, dispatch])
  };
 
-export function UserInfoSnapshot_old() {
-    const dispatch = useAppDispatch();
-    const router = useRouter();
+// export function UserInfoSnapshot_old() {
+//     const dispatch = useAppDispatch();
+//     const router = useRouter();
 
-    React.useEffect(()=> {
-        const currentUser = firebaseAuth.currentUser;
-        if(!currentUser) {
-            console.log("No Auth Information. Move to Login Page for get Auth")
-            return router.push("/login");
-        } else {
-            // Snapshot of 'userinfo' Document
-        const userDocRef = doc(firebaseStore,'userInfo', firebaseAuth.currentUser.uid);
-        const userInfoSnapshot = onSnapshot(userDocRef, ()=> {
-            getCurrentUser().then((response)=> {
-                const { result, value } = response;
-                result
-                    ? dispatch(setUserInfo(value))
-                    : dispatch(controlMessageToast({
-                        openYn : true,
-                        title : 'Error',
-                        type : "error",
-                        content : "Error Occured during Update"
-                    }))
-            })
-        })
+//     React.useEffect(()=> {
+//         const currentUser = firebaseAuth.currentUser;
+//         if(!currentUser) {
+//             console.log("No Auth Information. Move to Login Page for get Auth")
+//             return router.push("/login");
+//         } else {
+//             // Snapshot of 'userinfo' Document
+//         const userDocRef = doc(firebaseStore,'userInfo', firebaseAuth.currentUser.uid);
+//         const userInfoSnapshot = onSnapshot(userDocRef, ()=> {
+//             getCurrentUser().then((response)=> {
+//                 const { result, value } = response;
+//                 result
+//                     ? dispatch(setUserInfo(value))
+//                     : dispatch(controlMessageToast({
+//                         openYn : true,
+//                         title : 'Error',
+//                         type : "error",
+//                         content : "Error Occured during Update"
+//                     }))
+//             })
+//         })
 
-        // Snapshot of 'avatarImg' Document
-        const avatarDocRef = doc(firebaseStore, 'avatarImg', firebaseAuth.currentUser.uid);
-        const avatarImgSnapshot = onSnapshot(avatarDocRef,()=> {
-            getCurrentUser().then((response)=> {
-                const { result , value } = response;
-                result
-                    ? dispatch(setUserInfo(value))
-                    : dispatch(controlMessageToast({
-                        openYn : true,
-                        title : 'Error',
-                        type : 'error',
-                        content : "Error Occured During Update"
-                    }))
-            })
-        })
-        console.log("UserInfoSnapshot Attached")
-            return ()=> {
-                console.log("UserInfoSnapshot Detached")
-                userInfoSnapshot();
-                avatarImgSnapshot();
-            } 
+//         // Snapshot of 'avatarImg' Document
+//         const avatarDocRef = doc(firebaseStore, 'avatarImg', firebaseAuth.currentUser.uid);
+//         const avatarImgSnapshot = onSnapshot(avatarDocRef,()=> {
+//             getCurrentUser().then((response)=> {
+//                 const { result , value } = response;
+//                 result
+//                     ? dispatch(setUserInfo(value))
+//                     : dispatch(controlMessageToast({
+//                         openYn : true,
+//                         title : 'Error',
+//                         type : 'error',
+//                         content : "Error Occured During Update"
+//                     }))
+//             })
+//         })
+//         console.log("UserInfoSnapshot Attached")
+//             return ()=> {
+//                 console.log("UserInfoSnapshot Detached")
+//                 userInfoSnapshot();
+//                 avatarImgSnapshot();
+//             } 
 
-        }
-    })
-}
+//         }
+//     })
+// }
 
-export function ChatRoomSnapshot(chatId : string) {
+export function ChatRoomSnapshot_old(chatId : string) {
     const dispatch = useAppDispatch();
     console.log("ChatRoomSnapshot Called")
     React.useEffect(()=> {
@@ -167,6 +167,18 @@ export function ChatRoomSnapshot(chatId : string) {
                     chatSnapshot()
                 }
             }
+        }
+    })
+}
+
+export function ChatRoomSnapshot(chatId : string) {
+    const dispatch = useAppDispatch();
+    console.log("ChatRoom Snapshot Called");
+
+    React.useEffect(()=> {
+        if(chatId !== "") {
+            // Snapshot of Messages
+            
         }
     })
 }
