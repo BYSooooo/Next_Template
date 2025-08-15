@@ -178,7 +178,23 @@ export function ChatRoomSnapshot(chatId : string) {
     React.useEffect(()=> {
         if(chatId !== "") {
             // Snapshot of Messages
-            
+            const messageColRef = collection(firebaseStore, 'chat', chatId, 'messages');
+            const messageQuery = query(messageColRef, orderBy("createdAt", "asc"));
+
+            const chatSnapshot = onSnapshot(messageQuery, (snapshot)=> {
+                // Case.1 : Init
+                if(snapshot.docChanges().length > 0 && snapshot.docs.length == snapshot.docChanges().length) {
+                    const initMessages  = snapshot.docs.map((doc) => {
+                        const data = doc.data()
+                        return {
+                            ...data,
+                            id : doc.id,
+                            createdAt : data.createdAt.toDate().toISOString()
+                        }
+                    });
+                    // dispatch()
+                }
+            })
         }
     })
 }
