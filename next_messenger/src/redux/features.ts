@@ -102,16 +102,21 @@ export const chatSlice = createSlice({
             state.member =  action.payload.member;
             state.messages = action.payload.messages;
         },
+        setInitMessages: (state, action: PayloadAction<ChatMessage[]>)=> {
+            state.messages = action.payload
+        },
         addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
             state.messages.push(action.payload);
         },
         updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
             console.log("updateChatRoom Called")
-            state.messages.map((item)=> {
-                return action.payload.docId == item.docId
-                    ? action.payload
-                    : item
-            });
+            const index = state.messages.findIndex((item)=> item.docId === action.payload.docId);
+            if(index !==  -1) {
+                state.messages[index] = action.payload
+            }
+        },
+        removeChatRoomMessage : (state,action: PayloadAction<{docId : string}>)=> {
+            state.messages = state.messages.filter((item=> item.docId !== action.payload.docId))
         }
     }
 })
@@ -120,7 +125,12 @@ export const { controlMessageToast } = toastSlice.actions
 export const { controlDialog } = dialogSlice.actions
 export const { controlPageLayout } = pageSlice.actions
 export const { setUserInfo } = userInfoSlice.actions
-export const { setChatRoom, addChatRoomMessage, updateChatRoomMessage } = chatSlice.actions
+export const { 
+    setChatRoom,
+    setInitMessages, 
+    addChatRoomMessage, 
+    updateChatRoomMessage,
+    removeChatRoomMessage } = chatSlice.actions
 
 export default [
     toastSlice.reducer,
