@@ -76,10 +76,10 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
 
                 </div>
             }
-            { chat && chat.attachYn === false && 
+            { chat && 
                 <div className='flex flex-row'>
                     { /* Display Send Time for 'me' */
-                        senderType === "me" &&
+                        senderType === "me" && chat.content.length > 0 && 
                         <p className='text-[0.6rem] self-end mr-1'>
                             {new Date(chat.createdAt as any).toLocaleTimeString()}
                         </p>
@@ -106,7 +106,7 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
                     }
                     
                     { /* Display Send Time for 'other */
-                        senderType === "other" && 
+                        senderType === "other" && chat.content.length > 0 && 
                         <p className='text-[0.6rem] self-end ml-1'>
                             {new Date(chat.createdAt as any).toLocaleTimeString()}
                         </p>

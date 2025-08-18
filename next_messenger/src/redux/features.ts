@@ -106,7 +106,7 @@ export const chatSlice = createSlice({
             state.messages = action.payload
         },
         addChatRoomMessage : (state, action:PayloadAction<ChatMessage>)=> {
-            state.messages.unshift(action.payload);
+            state.messages.push(action.payload);
         },
         updateChatRoomMessage: (state, action: PayloadAction<ChatMessage>)=> {
             console.log("updateChatRoom Called")
