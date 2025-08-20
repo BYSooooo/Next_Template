@@ -26,6 +26,7 @@ export async function initUserInfo() {
     if(userAuth.currentUser) {
         const docInfoRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
         const docImgRef = doc(firebaseStore, 'avatarImg', userAuth.currentUser.uid);
+        const docProfileImgRef = doc(firebaseStore, 'profileImg', userAuth.currentUser.uid);
         try {
             const currentDoc = await getDoc(docInfoRef)
             // Check Y/N current User's Info in  firestore base 'userInfo' Collection
@@ -46,6 +47,11 @@ export async function initUserInfo() {
                     avatarImg : "",
                     avatarOpenYn : false
                 }, { merge : true })
+                await setDoc(docProfileImgRef, {
+                    email : userAuth.currentUser.email,
+                    profileImg : "",
+                    profileOpenYn : false
+                }, { merge : true})
                 return { result : true, content : ""};
             }
 
@@ -58,24 +64,32 @@ export async function initUserInfo() {
 export async function getCurrentUser() {
     if(userAuth.currentUser) {
         const uuid = userAuth.currentUser.uid
+        // UserInfo Document
         const docRef1 = doc(firebaseStore, 'userInfo', uuid);
+        // Avatar Image Document
         const docRef2 = doc(firebaseStore, 'avatarImg', uuid);
+        // Profile Image Document
+        const docRef3 = doc(firebaseStore, 'displayImg', uuid);
         try {
-            const response1 = await getDoc(docRef1);
-            const docData = response1.data();
-            const response2 = await getDoc(docRef2);
-            const docData2 = response2.data();
+            const userInfoResponse = await getDoc(docRef1);
+            const userInfoDocData = userInfoResponse.data();
+            const avatarImgResponse = await getDoc(docRef2);
+            const avatarImgDocData = avatarImgResponse.data();
+            const profileImgResponse = await getDoc(docRef3);
+            const profileImgDocData = profileImgResponse.data();
 
             const data : UserInfo = {
                 uid : uuid,
-                email : docData.email,
-                emailVerified : docData.emailVerified,
-                displayName : docData.displayName,
-                avatarImg : docData2 ? docData2.avatarImg : "",
-                avatarOpenYn : docData2 ? docData2.avatarOpenYn : false,
-                requested : docData.requested,
-                received : docData.received,
-                friend : docData.friend
+                email : userInfoDocData.email,
+                emailVerified : userInfoDocData.emailVerified,
+                displayName : userInfoDocData.displayName,
+                avatarImg : avatarImgDocData ? avatarImgDocData.avatarImg : "",
+                avatarOpenYn : avatarImgDocData ? avatarImgDocData.avatarOpenYn : false,
+                requested : userInfoDocData.requested,
+                received : userInfoDocData.received,
+                friend : userInfoDocData.friend,
+                profileImg : profileImgDocData ? profileImgDocData.profileImg : "",
+                profileOpenYn : profileImgDocData ? profileImgDocData.profileOpenYn : false
             };
 
             return { result : true, value : data}
@@ -91,7 +105,7 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
     const docRef = doc(firebaseStore, 'userInfo', uid);
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
-    },)
+    })
     try {
         await setDoc(docRef, Object.assign({},...aDatas), {
             merge : true
@@ -129,6 +143,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 
                 if(!friendYn && currenYn) {
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
+                    // To Be Continue
                     const data : UserInfo = {
                         uid : docData.uid,
                         email : docData.email,
