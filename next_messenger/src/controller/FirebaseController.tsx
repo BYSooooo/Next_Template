@@ -121,10 +121,12 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 
     const infoColRef = collection(firebaseStore,"userInfo");
     const imgColRef = collection(firebaseStore, "avatarImg");
+    const profileImgColRef = collection(firebaseStore, "profileImg");
     
     try {
         const aResults = [];
         if(keyword.length > 0) {
+            // Get Documents Datas
             const currentUid = firebaseAuth.currentUser.uid;
             const userInfos = await getDocs(infoColRef);
             const avatarImgs = await getDocs(imgColRef);
@@ -151,9 +153,12 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                         emailVerified : docData.emailVerified,
                         avatarImg : findAvatarDoc.avatarImg,
                         avatarOpenYn : findAvatarDoc.avatarOpenYn,
+                        profileImg : "",
+                        profileOpenYn : false,
                         received : docData.received,
                         requested : docData.requested,
-                        friend : docData.friend
+                        friend : docData.friend,
+
                     } 
                     if(keyword.length > 0  && sort.length > 0) {
                         data[sort].includes(keyword) && aResults.push(data)
