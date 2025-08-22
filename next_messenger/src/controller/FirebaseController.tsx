@@ -130,6 +130,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             const currentUid = firebaseAuth.currentUser.uid;
             const userInfos = await getDocs(infoColRef);
             const avatarImgs = await getDocs(imgColRef);
+            
             const friendList = (await getDoc(doc(firebaseStore, "userInfo", currentUid))).data().friend;
             let avatarList = [];
             
@@ -576,5 +577,30 @@ export async function deleteFriend(friendInfo : UserInfo) {
         return { result : true, value : "Success"}
     } catch(error) {
         return { result : false, value : error}
+    }
+}
+
+export async function manageProfileImage({file, profileImgOpenYn, action } : {file?: File, profileImgOpenYn?: boolean, action: 'set'|'delete'|'openYn'}) {
+    const currentUser = firebaseAuth.currentUser;
+    if(!currentUser) {
+        return { result : false, value : "User not logined"};
+    }
+    const docRef = doc(firebaseStore, 'profileImg', currentUser.uid);
+
+    try {
+        switch(action) {
+            case 'set' : 
+                const fileString = file ? await binaryEncode(file) : "";
+                const setResult = await updateDoc(docRef, { profileImg : fileString });
+                return { result : true, value : setResult };
+            case 'delete' :
+                const delResult = await updateDoc(docRef, { profileImg : "" }) 
+                return { result : true, value : delResult };
+            case 'openYn' : 
+                const openResult = await updateDoc(docRef, { profileOpenYn : profileImgOpenYn})
+                return { result : true, value : openResult };
+        };
+    } catch(error) {
+        return { result : false, value : error };
     }
 }

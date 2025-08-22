@@ -3,6 +3,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
+import { manageProfileImage } from '../controller/FirebaseController';
 
 export default function EditProfileImg() {
     const userStore = useAppSelector((state)=> state.userStore);
@@ -15,13 +16,13 @@ export default function EditProfileImg() {
         if(uploaded.size > 1048576) {
             dispatch(controlMessageToast({ openYn: true, type: "error", title : "File Upload Error", content : "File Size exceed 1MB"}))
         } else {
-            // To be Continue
-            // const { result, value } = await manageDisplayImg({ action : 'set', file : uploaded});
-            // if(result) {
-            //     dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Profile Image Changed"}))
-            // } else {
-            //     dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value}))
-            // }
+            //To be Continue
+            const { result, value } = await manageProfileImage({ action : 'set', file : uploaded});
+            if(result) {
+                dispatch(controlMessageToast({ openYn : true, type : 'confirm', title : 'Success', content : "Profile Image Changed"}))
+            } else {
+                dispatch(controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value}))
+            }
         }
     }
 
