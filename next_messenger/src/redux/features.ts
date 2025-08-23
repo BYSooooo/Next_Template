@@ -72,6 +72,8 @@ export const userInfoSlice = createSlice({
         emailVerified : '',
         avatarImg : '',
         avatarOpenYn : false,
+        profileImg : '',
+        profileImgOpenYn : false,
         friend : [],
         requested : [],
         received : [],
@@ -83,6 +85,8 @@ export const userInfoSlice = createSlice({
             action.payload.emailVerified && (state.emailVerified = action.payload.emailVerified);
             action.payload.avatarImg && (state.avatarImg = action.payload.avatarImg);
             action.payload.avatarOpenYn && (state.avatarOpenYn = action.payload.avatarOpenYn);
+            action.payload.profileImg && (state.profileImg = action.payload.profileImg);
+            action.payload.profileImgOpenYn && (state.profileImgOpenYn = action.payload.profileImgOpenYn)
             action.payload.friend && (state.friend = action.payload.friend)
             action.payload.requested && (state.requested = action.payload.requested);
             action.payload.received && (state.received = action.payload.received);

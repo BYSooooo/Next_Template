@@ -94,7 +94,7 @@ export default function EditAvatarIcon() {
                     <div 
                         onClick={toggleAvatarOpenYn}
                         className="w-11 h-6 bg-red-500 rounded-full
-                        peer  
+                            peer  
                             peer-focus:ring-green-300  
                             peer-checked:after:translate-x-full 
                             peer-checked:after:border-white 

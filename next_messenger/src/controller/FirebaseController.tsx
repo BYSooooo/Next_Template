@@ -17,7 +17,7 @@ import {
     writeBatch
 } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
-import { binaryEncode } from "./AvatarBinaryController";
+import { binaryEncode } from "./BinaryController";
 import { Chat, ChatMessage, UserInfo } from "../../typeDef";
 
 const userAuth = firebaseAuth;
@@ -50,7 +50,7 @@ export async function initUserInfo() {
                 await setDoc(docProfileImgRef, {
                     email : userAuth.currentUser.email,
                     profileImg : "",
-                    profileOpenYn : false
+                    profileImgOpenYn : false
                 }, { merge : true})
                 return { result : true, content : ""};
             }
@@ -89,7 +89,7 @@ export async function getCurrentUser() {
                 received : userInfoDocData.received,
                 friend : userInfoDocData.friend,
                 profileImg : profileImgDocData ? profileImgDocData.profileImg : "",
-                profileOpenYn : profileImgDocData ? profileImgDocData.profileOpenYn : false
+                profileImgOpenYn : profileImgDocData ? profileImgDocData.profileOpenYn : false
             };
 
             return { result : true, value : data}
@@ -155,7 +155,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                         avatarImg : findAvatarDoc.avatarImg,
                         avatarOpenYn : findAvatarDoc.avatarOpenYn,
                         profileImg : "",
-                        profileOpenYn : false,
+                        profileImgOpenYn : false,
                         received : docData.received,
                         requested : docData.requested,
                         friend : docData.friend,
@@ -178,15 +178,17 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : string}) {
     const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
     const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
-    
+    const profileImgDocRef = doc(firebaseStore, "displayImg", friendInfo.uuid);
 
     try {
         const infoDoc = await getDoc(infoDocRef);
         const avatarDoc = await getDoc(avatarDocRef);
+        const profileImgDoc = await getDoc(profileImgDocRef);
 
         const userInfo = infoDoc.data();
         const avatarInfo = avatarDoc.data();
-        
+        const profileImgInfo = profileImgDoc.data();
+
         const data : UserInfo = {
             uid : friendInfo.uuid,
             email : userInfo.email,
@@ -194,6 +196,8 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : 
             emailVerified : userInfo.emailVerified,
             avatarImg : avatarInfo.avatarImg,
             avatarOpenYn : avatarInfo.avatarOpenYn,
+            profileImg : profileImgInfo.profileImg,
+            profileImgOpenYn : profileImgInfo.profileOpenYn,
             received : userInfo.received,
             requested : userInfo.requested,
             friend : userInfo.friend

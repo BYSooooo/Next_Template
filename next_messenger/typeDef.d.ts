@@ -8,7 +8,7 @@ type UserInfo = {
     avatarImg : string
     avatarOpenYn : boolean,
     profileImg : string,
-    profileOpenYn : boolean,
+    profileImgOpenYn : boolean,
     requested : [string],
     received : [string],
     friend : [{uuid : string, chatId : string}]

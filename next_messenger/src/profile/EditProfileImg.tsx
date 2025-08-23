@@ -4,10 +4,18 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
 import { manageProfileImage } from '../controller/FirebaseController';
+import { PhotoIcon } from '@heroicons/react/24/solid';
 
 export default function EditProfileImg() {
+    const [ publicYn, setPublicYn ] = React.useState(false);
+    const [ profileImg, setProfileImg ] = React.useState("");
     const userStore = useAppSelector((state)=> state.userStore);
     const dispatch = useAppDispatch();
+
+    React.useEffect(()=> {
+        setProfileImg(userStore.profileImg);
+        setPublicYn(userStore.profileImgOpenYn);
+    },[userStore.profileImg, userStore.profileImgOpenYn])
 
     const onChangeTempDisplayImg = async(event:React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files }} = event;
@@ -26,6 +34,15 @@ export default function EditProfileImg() {
         }
     }
 
+    const toggleProfileImgOpenYn = async(e: React.MouseEvent<HTMLDivElement, MouseEvent>)=> {
+        const { result, value } = await manageProfileImage({action : 'openYn', profileImgOpenYn : !publicYn});
+        if(result) {
+            setPublicYn(!publicYn)
+        } else {
+            controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value});
+        }
+    }
+
 
     return (
         <div className="default-box-inner">
@@ -34,9 +51,56 @@ export default function EditProfileImg() {
                     Profile Image
                 </p>
                 <ul className="text-sm list-inside list-disc">
-                    <li> Set a Image for display user information page.</li>
-                    
+                    <li> 
+                        Set a Image for display user information page.
+                    </li>
+                    <li>
+                        You can control the visibility of your profileImg.
+                    </li>
+                    <li>
+                        Upload File has a size limit of 1MB.
+                    </li>
                 </ul>
+            </div>
+            <div className='flex flex-col items-center'>
+                {profileImg
+                    ? <img />
+                    : <PhotoIcon className='w-36 h-36 text-gray-600 dark:text-white'/>
+                }
+            </div>
+            <div className='flex flex-row-reverse gap-2'>
+                <label
+                    className='inline-flex relative items-center cursor-pointer'>
+                    <input
+                        type='checkbox'
+                        className='sr-only peer'
+                        checked={publicYn}
+                        readOnly
+                    />
+                    <div
+                        onClick={toggleProfileImgOpenYn}
+                        className="w-11 h-6 bg-red-500 rounded-full
+                            peer  
+                            peer-focus:ring-green-300  
+                            peer-checked:after:translate-x-full 
+                            peer-checked:after:border-white 
+                            after:content-[''] 
+                            after:absolute 
+                            after:top-0.5 
+                            after:left-[2px] 
+                            after:bg-white 
+                            after:border-gray-100 
+                            after:border 
+                            after:rounded-full 
+                            after:h-5 
+                            after:w-5 
+                            after:transition-all 
+                            peer-checked:bg-blue-500">
+                    </div>
+                </label>
+                <p className='text-sm'>
+                    {`Visible : ${publicYn === false ? 'Private' : 'Public'}`}
+                </p>
             </div>
             <div className='flex flex-row-reverse gap-2'>
                 <button
