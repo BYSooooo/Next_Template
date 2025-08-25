@@ -13,6 +13,7 @@ export function UserInfoSnapshot() {
 
     const [ userInfoData, setUserInfoData ] = React.useState(null);
     const [ avatarImgData, setAvatarImgData ] = React.useState(null);
+    const [ profileImgData, setProfileImgData ] = React.useState(null);
 
     React.useEffect(()=> {
         const currentUser = firebaseAuth.currentUser;
@@ -28,12 +29,15 @@ export function UserInfoSnapshot() {
                 }
             })
             //Listener of Changing AvatarImg Document
-            const avatarDocRef = doc(firebaseStore, 'userInfo', firebaseAuth.currentUser.uid);
+            const avatarDocRef = doc(firebaseStore, 'avatarImg', firebaseAuth.currentUser.uid);
             const avatarImgSnapshot = onSnapshot(avatarDocRef,(snapshot)=> {
                 if(snapshot.exists()) {
                     setAvatarImgData(snapshot.data())
                 }
             })
+
+            const profileImgDocRef = doc(firebaseStore, 'profileImg', firebaseAuth.currentUser.uid);
+            //const profileImgSnapshot = onSnapshot()
             console.log("UserInfoSnapshot Attached")
             return ()=> {
                 console.log("UserInfoSnapshot Detached")
