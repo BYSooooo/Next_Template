@@ -37,12 +37,17 @@ export function UserInfoSnapshot() {
             })
 
             const profileImgDocRef = doc(firebaseStore, 'profileImg', firebaseAuth.currentUser.uid);
-            //const profileImgSnapshot = onSnapshot()
+            const profileImgSnapshot = onSnapshot(profileImgDocRef,(snapshot)=> {
+                if(snapshot.exists()) {
+                    setProfileImgData(snapshot.data())
+                }
+            })
             console.log("UserInfoSnapshot Attached")
             return ()=> {
                 console.log("UserInfoSnapshot Detached")
                 userInfoSnapshot();
                 avatarImgSnapshot();
+                profileImgSnapshot();
             }
         }
     },[router, dispatch])
@@ -58,6 +63,8 @@ export function UserInfoSnapshot() {
                     displayName : userInfoData.displayName,
                     avatarImg : avatarImgData.avatarImg,
                     avatarOpenYn : avatarImgData.avatarOpenYn,
+                    profileImg : profileImgData.profileImg,
+                    profileImgOpenYn : profileImgData.profileImgOpenYn,
                     requested : userInfoData.requested,
                     received : userInfoData.received,
                     friend : userInfoData.friend
@@ -74,7 +81,7 @@ export function UserInfoSnapshot() {
                 console.error("Failed to combine data and dispatch", error);
             }
         }
-    },[userInfoData, avatarImgData, dispatch])
+    },[userInfoData, avatarImgData, profileImgData, dispatch])
  };
 
 // export function UserInfoSnapshot_old() {

@@ -65,7 +65,7 @@ export default function EditProfileImg() {
             <div className='flex flex-col items-center'>
                 {profileImg
                     ?   <img 
-                            className='h-36 w-36 mx-auto'
+                            className='h-36 w-36 mx-auto rounded-lg'
                             src={profileImg}
                         />
                     : <PhotoIcon className='w-36 h-36 text-gray-600 dark:text-white'/>
