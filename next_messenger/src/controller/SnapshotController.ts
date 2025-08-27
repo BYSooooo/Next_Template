@@ -54,7 +54,7 @@ export function UserInfoSnapshot() {
 
     // Call Function when each Document Changed.
     React.useEffect(()=> {
-        if(userInfoData && avatarImgData) {
+        if(userInfoData && avatarImgData && profileImgData) {
             try { 
                 const data = {
                     uid : firebaseAuth.currentUser.uid,
