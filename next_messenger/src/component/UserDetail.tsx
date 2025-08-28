@@ -17,7 +17,9 @@ export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
     }
 
     return (
-        <div className='flex flex-col h-full items-center justify-center'>
+        <div 
+            style={userInfo.profileImg ? { backgroundImage: `url(${userInfo.profileImg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+            className='flex flex-col h-full items-center justify-center'>
             {avatarHandler()}
             {userInfo.displayName
                 ?   <p className="font-bold text-lg">
