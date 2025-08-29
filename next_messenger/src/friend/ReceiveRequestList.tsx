@@ -6,6 +6,7 @@ import { getSelectedUserInfo } from '../controller/FirebaseController';
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
 import { UserInfo } from '../../typeDef';
+import FriendList from '../chat/FriendList';
 
 export default function ReceiveRequestList() {
     const [receiveList, setReceiveList] = React.useState<UserInfo[]>([]);
@@ -22,6 +23,7 @@ export default function ReceiveRequestList() {
             if(receiveList.length > 0) {
                 receiveList.forEach(async(uid)=> {
                     const { result, value } = await getSelectedUserInfo({uuid: uid});
+                    console.log(value)
                     result && setReceiveList(prev => prev.find((item)=> item.uid === value.uid) ? [...prev] : [...prev,value])
                 })
             } else {
@@ -50,9 +52,18 @@ export default function ReceiveRequestList() {
                 </ul>
             </div>
             <div className="h-[85%] flex flex-col gap-2">
-                {receiveList.map((item)=>{
-                    return <UserListItem key={item.uid} user={item} selected={onClickList}/>
-                })}
+                { receiveList.length > 0
+                    ? 
+                        <ul role='list' className='flex flex-col gap-2'>
+                            {receiveList.map((item)=>{
+                                return <UserListItem key={item.uid} user={item} selected={onClickList}/>
+                            })}
+                        </ul>                
+                    :
+                        <p>
+                            No List
+                        </p>
+                }
             </div>
         </div>
     )

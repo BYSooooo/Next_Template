@@ -43,11 +43,13 @@ export async function initUserInfo() {
                     friend : []
                 }, { merge : true })
                 await setDoc(docImgRef, {
+                    uid : userAuth.currentUser.uid,
                     email : userAuth.currentUser.email,
                     avatarImg : "",
                     avatarOpenYn : false
                 }, { merge : true })
                 await setDoc(docProfileImgRef, {
+                    uid : userAuth.currentUser.uid,
                     email : userAuth.currentUser.email,
                     profileImg : "",
                     profileImgOpenYn : false
@@ -178,7 +180,7 @@ export async function getUserListForSearch(keyword : string, sort : string) {
 export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : string}) {
     const infoDocRef = doc(firebaseStore,"userInfo", friendInfo.uuid);
     const avatarDocRef = doc(firebaseStore, "avatarImg", friendInfo.uuid);
-    const profileImgDocRef = doc(firebaseStore, "displayImg", friendInfo.uuid);
+    const profileImgDocRef = doc(firebaseStore, "profileImg", friendInfo.uuid);
 
     try {
         const infoDoc = await getDoc(infoDocRef);

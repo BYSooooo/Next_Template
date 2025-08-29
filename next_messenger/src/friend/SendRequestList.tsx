@@ -51,11 +51,21 @@ export default function SendRequestList() {
 
             </div>
             <div className="h-[85%] flex flex-col gap-2">
-                {sendList.map((item)=> {
-                    return (
-                        <UserListItem key={item.uid} user={item} selected={onClickList}/>
-                    )
-                })}
+                { sendList.length > 0
+                    ?
+                        <ul role='list' className='flex flex-col gap-2'>
+                            {sendList.map((item)=> {
+                                return (
+                                    <UserListItem key={item.uid} user={item} selected={onClickList}/>
+                                )
+                            })}
+                        </ul>                    
+                    :
+                        <p>
+                            No List
+                        </p>
+
+                }
             </div>
         </div>
     )
