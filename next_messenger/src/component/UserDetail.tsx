@@ -15,10 +15,9 @@ export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
                     return  <UserCircleIcon className="w-28 h-28"/>
         }            
     }
-
+    
     return (
         <div 
-            style={userInfo.profileImg ? { backgroundImage: `url(${userInfo.profileImg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
             className='flex flex-col h-full items-center justify-center'>
             {avatarHandler()}
             {userInfo.displayName

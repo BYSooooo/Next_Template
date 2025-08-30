@@ -91,7 +91,7 @@ export async function getCurrentUser() {
                 received : userInfoDocData.received,
                 friend : userInfoDocData.friend,
                 profileImg : profileImgDocData ? profileImgDocData.profileImg : "",
-                profileImgOpenYn : profileImgDocData ? profileImgDocData.profileOpenYn : false
+                profileImgOpenYn : profileImgDocData ? profileImgDocData.profileImgOpenYn : false
             };
 
             return { result : true, value : data}
@@ -199,7 +199,7 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : 
             avatarImg : avatarInfo.avatarImg,
             avatarOpenYn : avatarInfo.avatarOpenYn,
             profileImg : profileImgInfo.profileImg,
-            profileImgOpenYn : profileImgInfo.profileOpenYn,
+            profileImgOpenYn : profileImgInfo.profileImgOpenYn,
             received : userInfo.received,
             requested : userInfo.requested,
             friend : userInfo.friend
@@ -603,7 +603,7 @@ export async function manageProfileImage({file, profileImgOpenYn, action } : {fi
                 const delResult = await updateDoc(docRef, { profileImg : "" }) 
                 return { result : true, value : delResult };
             case 'openYn' : 
-                const openResult = await updateDoc(docRef, { profileOpenYn : profileImgOpenYn})
+                const openResult = await updateDoc(docRef, { profileImgOpenYn : profileImgOpenYn})
                 return { result : true, value : openResult };
         };
     } catch(error) {

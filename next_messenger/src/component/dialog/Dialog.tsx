@@ -11,14 +11,15 @@ import ChatRoomArchive from './ChatRoomArchive';
 import RemoveFriend from './RemoveFriend';
 
 export default function Dialog() {
-    const { openYn, contentName, size, title } = useAppSelector((state)=> state.dialogStore);
+    const { openYn, contentName, size, title, extraData, background, } = useAppSelector((state)=> state.dialogStore);
+    const [ backImgYn, setBackImgYn] = React.useState(false);
     const wrapperRef = React.useRef(null);
     const dispatch = useAppDispatch()
 
     React.useEffect(()=> {
         const handleOutsideClick = (event)=> {
             if(!wrapperRef.current?.contains(event.target)) {
-                dispatch(controlDialog({openYn : false, contentName : "", size: "", title : ""}))
+                dispatch(controlDialog({openYn : false, contentName : "", size: "", title : "", background : ""}))
             }
         };
         window.addEventListener("mousedown", handleOutsideClick)
@@ -34,6 +35,16 @@ export default function Dialog() {
             document.body.style.overflow = ''
         }
     },[openYn])
+
+    // Checking User Profile Image
+    React.useEffect(()=> {
+        if(contentName === 'SendRequestInfo' || contentName === 'ReceiveRequestInfo') {
+            if(extraData)  {
+                const profileOpenYn = extraData.profileImgOpenYn;
+                setBackImgYn(profileOpenYn)
+            }
+        }
+    },[contentName])
 
     const dialogBgControl = {
         open : 'opacity-100',
@@ -60,9 +71,17 @@ export default function Dialog() {
     }
     
     return (
-        <div className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-75 transition-opacity duration-200 ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
+        <div
+            className={`fixed inset-0 flex items-center justify-center z-50 bg-block bg-opacity-75 transition-opacity duration-200 ${dialogBgControl[openYn === true ? "open" : "close"]}`}>
             <div
                 ref={wrapperRef}
+                style={(background.length > 0 && backImgYn === true) 
+                    ? {
+                        backgroundImage: `url(${background})`, 
+                        backgroundSize: 'cover', 
+                        backgroundPosition: 'center',
+                        backgroundBlendMode : 'soft-light' } 
+                    : {}}
                 className={`flex dark:bg-gray-700 bg-gray-300 rounded-lg shadow-lg w-${size} jusify-center py-3`}>
                 <div className='container p-2'>
                     {/* Part1 : Dialog Title  */}
@@ -76,22 +95,7 @@ export default function Dialog() {
                         {switchContent()}
                     </div>
                 </div>
-                {/* <div className="flex flex-col justify-between items-center mb-4">
-                    
-                    <div className="container flex flex-col ">
-                        <div className="flex items-center mb-2">
-                            <InformationCircleIcon className="w-7 h-7 dark:text-blue-300 text-blue-700 mr-2" />
-                            <h4 className="text-xl text-black dark:text-white">
-                                {title} 
-                            </h4>
-                        </div>
-                        {switchContent()}
-                    </div>
-                    
-                </div> */}
             </div>
         </div>
     )
 }
-
-//<div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} >

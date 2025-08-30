@@ -33,14 +33,16 @@ export const dialogSlice = createSlice({
         contentName : "",
         size : "",
         title : "",
+        background : "",
         extraData : null
     },
     reducers : {
-        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName? : string, size? : string, title?: string, extraData? : any}>)=> {
+        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName? : string, size? : string, background? :string, title?: string, extraData? : any}>)=> {
             state.openYn = action.payload.openYn
             state.contentName = action.payload.contentName
             state.size = action.payload.size
             state.title = action.payload.title
+            action.payload.background ? state.background = action.payload.background : state.background = ""
             if(action.payload.extraData) state.extraData = action.payload.extraData
         }
     }
