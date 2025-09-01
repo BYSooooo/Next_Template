@@ -39,7 +39,7 @@ export default function EditAvatarIcon() {
         if(result) {
             value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Avatar Image Deleted'})  
         } else {
-            controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value})
+            controlMessageToast({ openYn : true, type : 'error', title : 'Error occured', content : value})
         }
     }
 

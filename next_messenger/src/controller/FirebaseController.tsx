@@ -600,7 +600,7 @@ export async function manageProfileImage({file, profileImgOpenYn, action } : {fi
                 const setResult = await updateDoc(docRef, { profileImg : fileString });
                 return { result : true, value : setResult };
             case 'delete' :
-                const delResult = await updateDoc(docRef, { profileImg : "" }) 
+                const delResult = await updateDoc(docRef, { profileImg : "", profileImgOpenYn : false }) 
                 return { result : true, value : delResult };
             case 'openYn' : 
                 const openResult = await updateDoc(docRef, { profileImgOpenYn : profileImgOpenYn})

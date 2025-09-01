@@ -43,6 +43,15 @@ export default function EditProfileImg() {
         }
     }
 
+    const onDeleteProfileImg = async()=> {
+        const {result, value } = await manageProfileImage({ action : 'delete'})
+        if(result) {
+            value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Profile Image Deleted'});
+        } else {
+            controlMessageToast({ openYn : true, type : 'error', title : 'Error occured', content : value});
+        }
+    }
+
 
     return (
         <div className="default-box-inner">
@@ -117,7 +126,12 @@ export default function EditProfileImg() {
                     accept="image/*" 
                     onChange={(e)=> onChangeTempDisplayImg(e)}
                     style={{ display : 'none'}} 
-                />
+                    />
+                <button 
+                    onClick={()=>onDeleteProfileImg}
+                    className='decline-button py-1 px-2'>
+                    Delete
+                </button>
             </div>
         </div>
     )
