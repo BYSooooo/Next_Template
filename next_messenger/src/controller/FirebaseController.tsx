@@ -22,102 +22,102 @@ import { Chat, ChatMessage, UserInfo } from "../../typeDef";
 
 const userAuth = firebaseAuth;
 
-export async function initUserInfo() {
-    if(userAuth.currentUser) {
-        const docInfoRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
-        const docImgRef = doc(firebaseStore, 'avatarImg', userAuth.currentUser.uid);
-        const docProfileImgRef = doc(firebaseStore, 'profileImg', userAuth.currentUser.uid);
-        try {
-            const currentDoc = await getDoc(docInfoRef)
-            // Check Y/N current User's Info in  firestore base 'userInfo' Collection
-            if(currentDoc.data()) {
-                return { result : true, content : currentDoc.data()}
-            } else {
-                await setDoc(docInfoRef, {
-                    uid : userAuth.currentUser.uid,
-                    email : userAuth.currentUser.email,
-                    emailVerified : userAuth.currentUser.emailVerified,
-                    displayName : userAuth.currentUser.displayName,
-                    requested : [],
-                    received : [],
-                    friend : []
-                }, { merge : true })
-                await setDoc(docImgRef, {
-                    uid : userAuth.currentUser.uid,
-                    email : userAuth.currentUser.email,
-                    avatarImg : "",
-                    avatarOpenYn : false
-                }, { merge : true })
-                await setDoc(docProfileImgRef, {
-                    uid : userAuth.currentUser.uid,
-                    email : userAuth.currentUser.email,
-                    profileImg : "",
-                    profileImgOpenYn : false
-                }, { merge : true})
-                return { result : true, content : ""};
-            }
+// export async function initUserInfo() {
+//     if(userAuth.currentUser) {
+//         const docInfoRef = doc(firebaseStore, 'userInfo', userAuth.currentUser.uid);
+//         const docImgRef = doc(firebaseStore, 'avatarImg', userAuth.currentUser.uid);
+//         const docProfileImgRef = doc(firebaseStore, 'profileImg', userAuth.currentUser.uid);
+//         try {
+//             const currentDoc = await getDoc(docInfoRef)
+//             // Check Y/N current User's Info in  firestore base 'userInfo' Collection
+//             if(currentDoc.data()) {
+//                 return { result : true, content : currentDoc.data()}
+//             } else {
+//                 await setDoc(docInfoRef, {
+//                     uid : userAuth.currentUser.uid,
+//                     email : userAuth.currentUser.email,
+//                     emailVerified : userAuth.currentUser.emailVerified,
+//                     displayName : userAuth.currentUser.displayName,
+//                     requested : [],
+//                     received : [],
+//                     friend : []
+//                 }, { merge : true })
+//                 await setDoc(docImgRef, {
+//                     uid : userAuth.currentUser.uid,
+//                     email : userAuth.currentUser.email,
+//                     avatarImg : "",
+//                     avatarOpenYn : false
+//                 }, { merge : true })
+//                 await setDoc(docProfileImgRef, {
+//                     uid : userAuth.currentUser.uid,
+//                     email : userAuth.currentUser.email,
+//                     profileImg : "",
+//                     profileImgOpenYn : false
+//                 }, { merge : true})
+//                 return { result : true, content : ""};
+//             }
 
-        } catch(error) {
-            return { result : false, content : error}
-        }
-    }
-}
+//         } catch(error) {
+//             return { result : false, content : error}
+//         }
+//     }
+// }
 
-export async function getCurrentUser() {
-    if(userAuth.currentUser) {
-        const uuid = userAuth.currentUser.uid
-        // UserInfo Document
-        const docRef1 = doc(firebaseStore, 'userInfo', uuid);
-        // Avatar Image Document
-        const docRef2 = doc(firebaseStore, 'avatarImg', uuid);
-        // Profile Image Document
-        const docRef3 = doc(firebaseStore, 'displayImg', uuid);
-        try {
-            const userInfoResponse = await getDoc(docRef1);
-            const userInfoDocData = userInfoResponse.data();
-            const avatarImgResponse = await getDoc(docRef2);
-            const avatarImgDocData = avatarImgResponse.data();
-            const profileImgResponse = await getDoc(docRef3);
-            const profileImgDocData = profileImgResponse.data();
+// export async function getCurrentUser() {
+//     if(userAuth.currentUser) {
+//         const uuid = userAuth.currentUser.uid
+//         // UserInfo Document
+//         const docRef1 = doc(firebaseStore, 'userInfo', uuid);
+//         // Avatar Image Document
+//         const docRef2 = doc(firebaseStore, 'avatarImg', uuid);
+//         // Profile Image Document
+//         const docRef3 = doc(firebaseStore, 'displayImg', uuid);
+//         try {
+//             const userInfoResponse = await getDoc(docRef1);
+//             const userInfoDocData = userInfoResponse.data();
+//             const avatarImgResponse = await getDoc(docRef2);
+//             const avatarImgDocData = avatarImgResponse.data();
+//             const profileImgResponse = await getDoc(docRef3);
+//             const profileImgDocData = profileImgResponse.data();
 
-            const data : UserInfo = {
-                uid : uuid,
-                email : userInfoDocData.email,
-                emailVerified : userInfoDocData.emailVerified,
-                displayName : userInfoDocData.displayName,
-                avatarImg : avatarImgDocData ? avatarImgDocData.avatarImg : "",
-                avatarOpenYn : avatarImgDocData ? avatarImgDocData.avatarOpenYn : false,
-                requested : userInfoDocData.requested,
-                received : userInfoDocData.received,
-                friend : userInfoDocData.friend,
-                profileImg : profileImgDocData ? profileImgDocData.profileImg : "",
-                profileImgOpenYn : profileImgDocData ? profileImgDocData.profileImgOpenYn : false
-            };
+//             const data : UserInfo = {
+//                 uid : uuid,
+//                 email : userInfoDocData.email,
+//                 emailVerified : userInfoDocData.emailVerified,
+//                 displayName : userInfoDocData.displayName,
+//                 avatarImg : avatarImgDocData ? avatarImgDocData.avatarImg : "",
+//                 avatarOpenYn : avatarImgDocData ? avatarImgDocData.avatarOpenYn : false,
+//                 requested : userInfoDocData.requested,
+//                 received : userInfoDocData.received,
+//                 friend : userInfoDocData.friend,
+//                 profileImg : profileImgDocData ? profileImgDocData.profileImg : "",
+//                 profileImgOpenYn : profileImgDocData ? profileImgDocData.profileImgOpenYn : false
+//             };
 
-            return { result : true, value : data}
+//             return { result : true, value : data}
                 
-        } catch(error) {
-            return { result : false, value : error }
-        }
-    }
-}
+//         } catch(error) {
+//             return { result : false, value : error }
+//         }
+//     }
+// }
 
-export async function updateUserInfo(content? : [{key : string, value : any}]) {
-    const uid = userAuth.currentUser.uid
-    const docRef = doc(firebaseStore, 'userInfo', uid);
-    const aDatas = content.map((item)=> {
-        return { [item.key] : item.value }       
-    })
-    try {
-        await setDoc(docRef, Object.assign({},...aDatas), {
-            merge : true
-        })
-        return { result : true, content : ""};
-    } catch(error) {
-        return { result : false, value : error};
-    }
+// export async function updateUserInfo(content? : [{key : string, value : any}]) {
+//     const uid = userAuth.currentUser.uid
+//     const docRef = doc(firebaseStore, 'userInfo', uid);
+//     const aDatas = content.map((item)=> {
+//         return { [item.key] : item.value }       
+//     })
+//     try {
+//         await setDoc(docRef, Object.assign({},...aDatas), {
+//             merge : true
+//         })
+//         return { result : true, content : ""};
+//     } catch(error) {
+//         return { result : false, value : error};
+//     }
 
-}
+// }
 
 export async function getUserListForSearch(keyword : string, sort : string) {
 
@@ -210,30 +210,30 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : 
     }
 }
 
-export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, avatarOpenYn?: boolean, action: 'set'|'delete'|'openYn'}) {
-    const currentUser = firebaseAuth.currentUser
-    if(!currentUser) {
-        return { result : false, value : "User not logined"};
-    }
-    const docRef = doc(firebaseStore, 'avatarImg', currentUser.uid);
+// export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, avatarOpenYn?: boolean, action: 'set'|'delete'|'openYn'}) {
+//     const currentUser = firebaseAuth.currentUser
+//     if(!currentUser) {
+//         return { result : false, value : "User not logined"};
+//     }
+//     const docRef = doc(firebaseStore, 'avatarImg', currentUser.uid);
     
-    try {
-        switch(action) {
-            case 'set' : 
-                const fileString = file ? await binaryEncode(file) : "";
-                const setResult = await updateDoc(docRef, { avatarImg : fileString})
-                return { result : true, value : setResult }; 
-            case 'delete' : 
-                const delResult = await updateDoc(docRef, { avatarImg : ""});
-                return { result : true, value : delResult };
-            case 'openYn' :
-                const openResult = await updateDoc(docRef, { avatarOpenYn : avatarOpenYn}) 
-                return { result : true, value : openResult}   
-        }
-    } catch (error) {
-        return { result: false, value : error };
-    }
-}
+//     try {
+//         switch(action) {
+//             case 'set' : 
+//                 const fileString = file ? await binaryEncode(file) : "";
+//                 const setResult = await updateDoc(docRef, { avatarImg : fileString})
+//                 return { result : true, value : setResult }; 
+//             case 'delete' : 
+//                 const delResult = await updateDoc(docRef, { avatarImg : ""});
+//                 return { result : true, value : delResult };
+//             case 'openYn' :
+//                 const openResult = await updateDoc(docRef, { avatarOpenYn : avatarOpenYn}) 
+//                 return { result : true, value : openResult}   
+//         }
+//     } catch (error) {
+//         return { result: false, value : error };
+//     }
+// }
 
 export async function setAvatarBinary(file : File) {
     const { email, uid } = firebaseAuth.currentUser;
