@@ -1,4 +1,4 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { binaryEncode } from "../controller/BinaryController";
 
@@ -26,5 +26,47 @@ export async function manageAvatar({file, avatarOpenYn, action} : {file?: File, 
         }
     } catch (error) {
         return { result: false, value : error };
+    }
+}
+
+export async function setAvatarBinary(file : File) {
+    const { email, uid } = currentUserAuth;
+    const binary = await binaryEncode(file)
+
+    const docRef = doc(firebaseStore, 'avatarImg', uid)
+    try {
+        const result = await setDoc(docRef, { email : email, avatarImg : binary })
+        return { result : true, value : result }
+        
+    } catch (error) {
+        return { result : false, value : error }
+    }
+}
+
+export async function delAvatarBinary() {
+    const { email, uid } = currentUserAuth;
+    const docRef = doc(firebaseStore,'avatarImg', uid);
+
+    try {
+        const result = await updateDoc(docRef, {
+            avatarImg : ""
+        })
+        return { result : true, value : result };
+    } catch(error) {
+        return { result : false, value : error };
+    }
+}
+
+export async function updateAvatarOpenYn(avatarOpenYn : boolean) {
+    const { email, uid } = currentUserAuth;
+    const docRef = doc(firebaseStore, 'avatarImg', uid);
+    try {
+        const result = await updateDoc(docRef, {
+            avatarOpenYn : avatarOpenYn
+        })
+        return { result : true, value : result };
+
+    } catch(error) {
+        return { result : false, value : error };
     }
 }
