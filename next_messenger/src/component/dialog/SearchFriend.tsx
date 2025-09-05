@@ -4,7 +4,7 @@ import React from 'react';
 import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch } from "../../redux/hooks";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { getUserListForSearch, updateFriendRequest } from '../../controller/FirebaseController';
+import { getUserListForSearch, updateFriendRequest } from '../../firebase/UserInfo';
 import { NoSymbolIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import UserListItem from '../UserListItem';
 import UserDetailInfo from '../UserDetail';

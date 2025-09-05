@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppSelector } from '../../redux/hooks';
-import { getSelectedUserInfo } from '../../controller/FirebaseController';
+import { getSelectedUserInfo } from '../../firebase/UserInfo';
 
 export default function ChatRoomArchive() {
     const chatStore = useAppSelector((state)=> state.chatStore);

@@ -1,7 +1,7 @@
 "use client"
 
 import AuthController from '../controller/AuthController'
-import { initUserInfo } from '../controller/FirebaseController';
+import { initUserInfo } from '../firebase/UserInfo';
 import { controlMessageToast } from '../redux/features';
 import { useAppDispatch } from '../redux/hooks'
 import { useRouter } from 'next/navigation';

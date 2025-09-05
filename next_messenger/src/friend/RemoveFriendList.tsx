@@ -3,9 +3,10 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserInfo } from '../../typeDef';
-import { getSelectedUserInfo } from '../controller/FirebaseController';
+
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
+import { getSelectedUserInfo } from '../firebase/UserInfo';
 
 export default function RemoveFriendList() {
     const dispatch = useAppDispatch();

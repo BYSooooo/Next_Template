@@ -1,7 +1,6 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { getCurrentUser } from '../firebase/UserInfo'; 
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, removeChatRoomMessage, setInitMessages, setUserInfo, updateChatRoomMessage } from '../redux/features';
 import { useRouter } from 'next/navigation';

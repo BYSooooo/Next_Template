@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { useAppDispatch } from '../../redux/hooks';
-import { getCurrentUser } from '../../controller/FirebaseController';
 import { controlMessageToast, setUserInfo } from '../../redux/features';
 import { firebaseAuth } from '../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import WelcomePage from '../../main/WelcomePage';
 import Spinner from '../../component/Spinner';
+import { getCurrentUser } from '../../firebase/UserInfo';
 
 export default function Page() {
     const [checkYn, setCheckYn] = React.useState(false);

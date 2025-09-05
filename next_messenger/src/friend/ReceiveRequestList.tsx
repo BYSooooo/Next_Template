@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { getSelectedUserInfo } from '../controller/FirebaseController';
+import { getSelectedUserInfo } from '../firebase/UserInfo';
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
 import { UserInfo } from '../../typeDef';

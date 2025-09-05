@@ -1,6 +1,6 @@
 // Firebase Function of User Information 
 
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, setDoc, writeBatch } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { UserInfo } from "../../typeDef";
 
@@ -229,3 +229,143 @@ export async function getSelectedUserInfo(friendInfo: {uuid : string, chatId? : 
         return { result : false, value : error}
     }
 }
+
+/**
+ * Handle of Sending friend Reqeust by add new 
+ * @param sort Add or Reject
+ * @param receiverUid Friend uuid sending request
+ * @returns 
+ */
+export async function updateFriendRequest(sort: "add"| "del", receiverUid : string) {
+    const { email, uid } = firebaseAuth.currentUser;
+    
+    try {
+        const receiverDocRef = doc(firebaseStore, 'userInfo', receiverUid)
+        const curUserDocRef = doc(firebaseStore, 'userInfo', uid);
+        switch(sort) {
+            case "add" : 
+                setDoc(receiverDocRef, 
+                    { received : arrayUnion(uid) },
+                    { merge : true } )
+                    .then(()=> {
+                        setDoc(curUserDocRef, 
+                            { requested : arrayUnion(receiverUid) },
+                            { merge : true } )
+                    }) 
+            break;
+            case "del" : 
+                setDoc(curUserDocRef,
+                    { requested : arrayRemove(receiverUid) },
+                    { merge : true } )  
+                    .then(()=> {
+                        setDoc(receiverDocRef,
+                            { received : arrayRemove(uid) },
+                            { merge : true })
+                    })  
+            break;
+        }
+        return { result : true, value : "success"};
+    } catch(error) {
+        return { result : false, value : error}
+    }
+}
+
+export async function updateFriendReceive(sort : "accept" | "decline", requestUid : string) {
+    const { uid } = firebaseAuth.currentUser;
+    
+    try {
+        const currentUserDoc = doc(firebaseStore, 'userInfo', uid);
+        const sendRequestUserDoc = doc(firebaseStore, 'userInfo', requestUid);
+
+        switch(sort) {
+            case 'accept':
+                setDoc(sendRequestUserDoc,
+                    {   requested : arrayRemove(uid),
+                        friend : arrayUnion({uuid : uid, chatId : ""})
+                    },
+                    { merge : true }
+                ).then(()=> {
+                    setDoc(currentUserDoc,
+                        {
+                            received : arrayRemove(requestUid),
+                            friend : arrayUnion({uuid : requestUid, chatId : ""})
+                        },
+                        { merge : true}
+                    )
+                })
+                
+            return { result : true, value : "Accept Success"};
+            case 'decline' :
+                setDoc(sendRequestUserDoc,
+                    { requested : arrayRemove(uid) },
+                    { merge : true }
+                ).then(()=> {
+                    setDoc(currentUserDoc,
+                        { received : arrayRemove(requestUid) },
+                        { merge : true }
+                    )
+                })
+            return {result : true, value : "Decline Success"};
+        }
+
+    } catch(error) {
+        return { result : false, value : error}
+    }
+};
+
+export async function deleteFriend(friendInfo : UserInfo) {
+    try {
+        // Process.1 - Search chatId in friend list array at current user document
+        const uuid = firebaseAuth.currentUser.uid;
+        const friendEntry = friendInfo.friend.find((item)=> item.uuid === uuid);
+        
+        // If cannot find friend in user Document, return error.
+        if(!friendEntry || !friendEntry.chatId) {
+            return { result : false, value : "Cannot find Chatting Information"}
+        } 
+        const chatId = friendEntry.chatId;
+        
+        // Process.2 - remove each friend info in current user and friend user
+        const currentUserDocRef = doc(firebaseStore, 'userInfo', uuid);
+        const friendUserDocRef = doc(firebaseStore, 'userInfo', friendInfo.uid);
+
+        const currentUserData = (await getDoc(currentUserDocRef)).data();
+        const friendUserData = (await getDoc(friendUserDocRef)).data();
+
+        const updateCurrentUserInfo = currentUserData.friend.filter((item)=> item.uuid !== friendInfo.uid);
+        const updateFriendUserInfo = friendUserData.friend.filter((item)=> item.uuid !== uuid);
+
+        const batch = writeBatch(firebaseStore);
+        batch.update(currentUserDocRef, { friend : updateCurrentUserInfo});
+        batch.update(friendUserDocRef, { friend : updateFriendUserInfo});
+        await batch.commit();
+
+        // Process.3 - remove sub collection in chat document.
+        const messagesCollectionRef = collection(firebaseStore, `chat/${chatId}/messages`);
+        const messagesSnapshot = await getDocs(messagesCollectionRef);
+
+        const messagesDeletionPromises = messagesSnapshot.docs.map((messageDoc) =>
+            deleteDoc(doc(messagesCollectionRef, messageDoc.id))
+        );
+
+        await Promise.all(messagesDeletionPromises);
+
+        const filesCollectionRef = collection(firebaseStore, `chat/${chatId}/files`);
+        const filesSnapshot = await getDocs(filesCollectionRef);
+
+        const filesDeletionPromises = filesSnapshot.docs.map((fileDoc) =>
+            deleteDoc(doc(filesCollectionRef, fileDoc.id))
+        );
+
+        await Promise.all(filesDeletionPromises);
+
+        // Process.4 - Remove Chat Document
+        const chatDocRef = doc(firebaseStore, "chat", chatId);
+        await deleteDoc(chatDocRef);
+
+        
+        return { result : true, value : "Success"}
+    } catch(error) {
+        return { result : false, value : error}
+    }
+};

@@ -1,13 +1,10 @@
 "use client";
 
 import React from "react";
-import { firebaseAuth, firebaseStore } from "../../firebase-config";
+import { firebaseAuth } from "../../firebase-config";
 import { useRouter } from "next/navigation";
 import Spinner from "../component/Spinner";
-import { useAppDispatch } from "../redux/hooks";
-import { doc, onSnapshot } from "firebase/firestore";
-import { getCurrentUser } from "../controller/FirebaseController";
-import { controlMessageToast, setUserInfo } from "../redux/features";
+
 import { UserInfoSnapshot } from "../controller/SnapshotController";
 
 export default function Page() {
@@ -16,7 +13,6 @@ export default function Page() {
   
   React.useEffect(() => {
       if (currentUser) {
-          //getCurUserInfo();
           router.push("/main");
       } else {
           router.push("/login");

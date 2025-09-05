@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react';
-import { updateUserInfo } from '../controller/FirebaseController';
+
+import { updateUserInfo } from '../firebase/UserInfo';
 import { controlMessageToast } from '../redux/features';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
