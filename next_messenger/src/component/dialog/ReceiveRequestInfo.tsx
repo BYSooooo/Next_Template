@@ -1,7 +1,6 @@
 "use client";
 
-import { firebaseAuth } from "../../../firebase-config";
-import { updateFriendReceive } from "../../controller/FirebaseController";
+import { updateFriendReceive } from "../../firebase/UserInfo";
 import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import UserDetailInfo from "../UserDetail";

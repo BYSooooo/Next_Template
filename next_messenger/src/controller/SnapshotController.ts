@@ -1,7 +1,6 @@
 import React from 'react';
 import { firebaseAuth, firebaseStore } from '../../firebase-config';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { getCurrentUser } from './FirebaseController';
 import { useAppDispatch } from '../redux/hooks';
 import { addChatRoomMessage, controlMessageToast, removeChatRoomMessage, setInitMessages, setUserInfo, updateChatRoomMessage } from '../redux/features';
 import { useRouter } from 'next/navigation';
@@ -13,6 +12,7 @@ export function UserInfoSnapshot() {
 
     const [ userInfoData, setUserInfoData ] = React.useState(null);
     const [ avatarImgData, setAvatarImgData ] = React.useState(null);
+    const [ profileImgData, setProfileImgData ] = React.useState(null);
 
     React.useEffect(()=> {
         const currentUser = firebaseAuth.currentUser;
@@ -28,10 +28,17 @@ export function UserInfoSnapshot() {
                 }
             })
             //Listener of Changing AvatarImg Document
-            const avatarDocRef = doc(firebaseStore, 'userInfo', firebaseAuth.currentUser.uid);
+            const avatarDocRef = doc(firebaseStore, 'avatarImg', firebaseAuth.currentUser.uid);
             const avatarImgSnapshot = onSnapshot(avatarDocRef,(snapshot)=> {
                 if(snapshot.exists()) {
                     setAvatarImgData(snapshot.data())
+                }
+            })
+
+            const profileImgDocRef = doc(firebaseStore, 'profileImg', firebaseAuth.currentUser.uid);
+            const profileImgSnapshot = onSnapshot(profileImgDocRef,(snapshot)=> {
+                if(snapshot.exists()) {
+                    setProfileImgData(snapshot.data())
                 }
             })
             console.log("UserInfoSnapshot Attached")
@@ -39,13 +46,14 @@ export function UserInfoSnapshot() {
                 console.log("UserInfoSnapshot Detached")
                 userInfoSnapshot();
                 avatarImgSnapshot();
+                profileImgSnapshot();
             }
         }
     },[router, dispatch])
 
     // Call Function when each Document Changed.
     React.useEffect(()=> {
-        if(userInfoData && avatarImgData) {
+        if(userInfoData && avatarImgData && profileImgData) {
             try { 
                 const data = {
                     uid : firebaseAuth.currentUser.uid,
@@ -54,6 +62,8 @@ export function UserInfoSnapshot() {
                     displayName : userInfoData.displayName,
                     avatarImg : avatarImgData.avatarImg,
                     avatarOpenYn : avatarImgData.avatarOpenYn,
+                    profileImg : profileImgData.profileImg,
+                    profileImgOpenYn : profileImgData.profileImgOpenYn,
                     requested : userInfoData.requested,
                     received : userInfoData.received,
                     friend : userInfoData.friend
@@ -70,60 +80,8 @@ export function UserInfoSnapshot() {
                 console.error("Failed to combine data and dispatch", error);
             }
         }
-    },[userInfoData, avatarImgData, dispatch])
+    },[userInfoData, avatarImgData, profileImgData, dispatch])
  };
-
-// export function UserInfoSnapshot_old() {
-//     const dispatch = useAppDispatch();
-//     const router = useRouter();
-
-//     React.useEffect(()=> {
-//         const currentUser = firebaseAuth.currentUser;
-//         if(!currentUser) {
-//             console.log("No Auth Information. Move to Login Page for get Auth")
-//             return router.push("/login");
-//         } else {
-//             // Snapshot of 'userinfo' Document
-//         const userDocRef = doc(firebaseStore,'userInfo', firebaseAuth.currentUser.uid);
-//         const userInfoSnapshot = onSnapshot(userDocRef, ()=> {
-//             getCurrentUser().then((response)=> {
-//                 const { result, value } = response;
-//                 result
-//                     ? dispatch(setUserInfo(value))
-//                     : dispatch(controlMessageToast({
-//                         openYn : true,
-//                         title : 'Error',
-//                         type : "error",
-//                         content : "Error Occured during Update"
-//                     }))
-//             })
-//         })
-
-//         // Snapshot of 'avatarImg' Document
-//         const avatarDocRef = doc(firebaseStore, 'avatarImg', firebaseAuth.currentUser.uid);
-//         const avatarImgSnapshot = onSnapshot(avatarDocRef,()=> {
-//             getCurrentUser().then((response)=> {
-//                 const { result , value } = response;
-//                 result
-//                     ? dispatch(setUserInfo(value))
-//                     : dispatch(controlMessageToast({
-//                         openYn : true,
-//                         title : 'Error',
-//                         type : 'error',
-//                         content : "Error Occured During Update"
-//                     }))
-//             })
-//         })
-//         console.log("UserInfoSnapshot Attached")
-//             return ()=> {
-//                 console.log("UserInfoSnapshot Detached")
-//                 userInfoSnapshot();
-//                 avatarImgSnapshot();
-//             } 
-
-//         }
-//     })
-// }
 
 export function ChatRoomSnapshot_old(chatId : string) {
     const dispatch = useAppDispatch();

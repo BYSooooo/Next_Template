@@ -1,10 +1,10 @@
 "use client";
 
 import React from 'react';
-import { delChatRoomFile, getChatRoomFile } from '../../controller/FirebaseController';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { controlDialog, controlMessageToast } from '../../redux/features';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { delChatRoomFile, getChatRoomFile } from '../../firebase/Chat';
 
 export default function ChatRoomPhoto() {
     const [ fileStrings, setFileStrings ] = React.useState([]); 

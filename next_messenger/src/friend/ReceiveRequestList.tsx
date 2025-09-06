@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { getSelectedUserInfo } from '../controller/FirebaseController';
+import { getSelectedUserInfo } from '../firebase/UserInfo';
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
 import { UserInfo } from '../../typeDef';
@@ -31,7 +31,7 @@ export default function ReceiveRequestList() {
     }
 
     const onClickList = (user: UserInfo)=> {
-        dispatch(controlDialog({openYn : true, title : "Receive Info", contentName : "ReceiveRequestInfo", size : "96", extraData : user}))
+        dispatch(controlDialog({openYn : true, title : "Receive Info", contentName : "ReceiveRequestInfo", size : "96", extraData : user, background : user.profileImg}))
     }
 
     return (
@@ -50,9 +50,18 @@ export default function ReceiveRequestList() {
                 </ul>
             </div>
             <div className="h-[85%] flex flex-col gap-2">
-                {receiveList.map((item)=>{
-                    return <UserListItem key={item.uid} user={item} selected={onClickList}/>
-                })}
+                { receiveList.length > 0
+                    ? 
+                        <ul role='list' className='flex flex-col gap-2'>
+                            {receiveList.map((item)=>{
+                                return <UserListItem key={item.uid} user={item} selected={onClickList}/>
+                            })}
+                        </ul>                
+                    :
+                        <p>
+                            No List
+                        </p>
+                }
             </div>
         </div>
     )

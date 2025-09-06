@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getSelectedUserInfo } from '../controller/FirebaseController';
+
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
 import { UserInfo } from '../../typeDef';
+import { getSelectedUserInfo } from '../firebase/UserInfo';
 
 export default function SendRequestList() {
     const [sendList, setSendList] = React.useState<UserInfo[]>([]);
@@ -51,11 +52,21 @@ export default function SendRequestList() {
 
             </div>
             <div className="h-[85%] flex flex-col gap-2">
-                {sendList.map((item)=> {
-                    return (
-                        <UserListItem key={item.uid} user={item} selected={onClickList}/>
-                    )
-                })}
+                { sendList.length > 0
+                    ?
+                        <ul role='list' className='flex flex-col gap-2'>
+                            {sendList.map((item)=> {
+                                return (
+                                    <UserListItem key={item.uid} user={item} selected={onClickList}/>
+                                )
+                            })}
+                        </ul>                    
+                    :
+                        <p>
+                            No List
+                        </p>
+
+                }
             </div>
         </div>
     )

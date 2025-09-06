@@ -11,7 +11,7 @@ export default function UserListItem({user, selected} : {user : UserInfo, select
     const showAvatar = ()=> {
         switch(user.avatarOpenYn) {
             case true :
-                return user.avatarImg
+                return user.avatarImg.length > 0
                     ? <img src={user.avatarImg} className="w-10 h-10 mx-auto object-cover rounded-full mr-2"/>
                     : <UserIcon className='w-10 h-10 mr-2' /> 
             default : 

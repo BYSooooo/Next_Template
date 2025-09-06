@@ -5,11 +5,11 @@ import FriendList from "../../chat/FriendList";
 import SideNavigation from "../../main/SideNaigation";
 import FriendChat from '../../chat/FriendChat';
 import { ChatRoomSnapshot, UserInfoSnapshot } from "../../controller/SnapshotController";
-import { getChatRoom } from '../../controller/FirebaseController';
 import { useAppDispatch } from '../../redux/hooks';
 import { controlMessageToast, setChatRoom } from '../../redux/features';
-import { Chat, UserInfo } from '../../../typeDef';
+import { UserInfo } from '../../../typeDef';
 import { FriendChatInput } from '../../chat/FriendChatInput';
+import { getChatRoom } from '../../firebase/Chat';
 
 export default function Page() {
     const dispatch = useAppDispatch();

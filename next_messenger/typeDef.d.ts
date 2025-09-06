@@ -6,7 +6,9 @@ type UserInfo = {
     emailVerified : string,
     displayName : string,
     avatarImg : string
-    avatarOpenYn : boolean
+    avatarOpenYn : boolean,
+    profileImg : string,
+    profileImgOpenYn : boolean,
     requested : [string],
     received : [string],
     friend : [{uuid : string, chatId : string}]

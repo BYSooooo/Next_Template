@@ -5,7 +5,7 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { firebaseAuth } from "../../../firebase-config";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { controlMessageToast } from "../../redux/features";
-import { updateUserInfo } from "../../controller/FirebaseController";
+import { updateUserInfo } from "../../firebase/UserInfo";
 import { useRouter } from "next/navigation";
 
 export default function Page() {

@@ -33,14 +33,16 @@ export const dialogSlice = createSlice({
         contentName : "",
         size : "",
         title : "",
+        background : "",
         extraData : null
     },
     reducers : {
-        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName? : string, size? : string, title?: string, extraData? : any}>)=> {
+        controlDialog : (state, action:PayloadAction<{openYn : boolean, contentName? : string, size? : string, background? :string, title?: string, extraData? : any}>)=> {
             state.openYn = action.payload.openYn
             state.contentName = action.payload.contentName
             state.size = action.payload.size
             state.title = action.payload.title
+            action.payload.background ? state.background = action.payload.background : state.background = ""
             if(action.payload.extraData) state.extraData = action.payload.extraData
         }
     }
@@ -72,6 +74,8 @@ export const userInfoSlice = createSlice({
         emailVerified : '',
         avatarImg : '',
         avatarOpenYn : false,
+        profileImg : '',
+        profileImgOpenYn : false,
         friend : [],
         requested : [],
         received : [],
@@ -83,6 +87,8 @@ export const userInfoSlice = createSlice({
             action.payload.emailVerified && (state.emailVerified = action.payload.emailVerified);
             action.payload.avatarImg && (state.avatarImg = action.payload.avatarImg);
             action.payload.avatarOpenYn && (state.avatarOpenYn = action.payload.avatarOpenYn);
+            action.payload.profileImg && (state.profileImg = action.payload.profileImg);
+            action.payload.profileImgOpenYn && (state.profileImgOpenYn = action.payload.profileImgOpenYn)
             action.payload.friend && (state.friend = action.payload.friend)
             action.payload.requested && (state.requested = action.payload.requested);
             action.payload.received && (state.received = action.payload.received);

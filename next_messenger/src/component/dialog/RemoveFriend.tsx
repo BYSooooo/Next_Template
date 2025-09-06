@@ -2,7 +2,7 @@ import React from 'react';
 import UserDetailInfo from '../UserDetail';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { controlDialog, controlMessageToast } from '../../redux/features';
-import { deleteFriend } from '../../controller/FirebaseController';
+import { deleteFriend } from '../../firebase/UserInfo';
 
 export default function RemoveFriend() {
     const selectedUserInfo = useAppSelector((state)=> state.dialogStore).extraData;
@@ -20,7 +20,7 @@ export default function RemoveFriend() {
 
     return (
         <div className='flex flex-col items-center'>
-            <UserDetailInfo userInfo={selectedUserInfo}/>
+            
             <ul className='text-sm list-inside list-disc text-start text-pretty'>
                 <li>
                     Once deleted, it cannot be undone.
@@ -29,6 +29,7 @@ export default function RemoveFriend() {
                     If you remove a friend from your list, all chats and attachments will also be deleted.
                 </li>
             </ul>
+            <UserDetailInfo userInfo={selectedUserInfo}/>
             <div className='w-full flex flex-row mt-3 justify-end gap-x-2'>
                 <button
                     className='default-button text-center p-1

@@ -15,9 +15,10 @@ export default function UserDetailInfo({userInfo} : {userInfo : UserInfo}) {
                     return  <UserCircleIcon className="w-28 h-28"/>
         }            
     }
-
+    
     return (
-        <div className='flex flex-col h-full items-center justify-center'>
+        <div 
+            className='flex flex-col h-full items-center justify-center'>
             {avatarHandler()}
             {userInfo.displayName
                 ?   <p className="font-bold text-lg">

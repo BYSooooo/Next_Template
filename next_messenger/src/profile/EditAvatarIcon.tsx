@@ -5,7 +5,8 @@ import React from 'react'
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { manageAvatar, updateAvatarOpenYn } from "../controller/FirebaseController";
+import { manageAvatar, updateAvatarOpenYn } from '../firebase/AvatarImg';
+
 
 export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);
@@ -39,7 +40,7 @@ export default function EditAvatarIcon() {
         if(result) {
             value && controlMessageToast({ openYn : true, type : 'confirm', title : "Success", content : 'Avatar Image Deleted'})  
         } else {
-            controlMessageToast({ openYn : true, type : 'error', title : 'Error Occured', content : value})
+            controlMessageToast({ openYn : true, type : 'error', title : 'Error occured', content : value})
         }
     }
 
@@ -94,7 +95,7 @@ export default function EditAvatarIcon() {
                     <div 
                         onClick={toggleAvatarOpenYn}
                         className="w-11 h-6 bg-red-500 rounded-full
-                        peer  
+                            peer  
                             peer-focus:ring-green-300  
                             peer-checked:after:translate-x-full 
                             peer-checked:after:border-white 
