@@ -3,8 +3,8 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { controlMessageToast } from '../redux/features';
-import { manageProfileImage } from '../controller/FirebaseController';
 import { PhotoIcon } from '@heroicons/react/24/solid';
+import { manageProfileImage } from '../firebase/ProfileImg';
 
 export default function EditProfileImg() {
     const [ publicYn, setPublicYn ] = React.useState(false);

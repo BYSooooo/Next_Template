@@ -5,7 +5,8 @@ import React from 'react'
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlMessageToast } from "../redux/features";
-import { manageAvatar, updateAvatarOpenYn } from "../controller/FirebaseController";
+import { manageAvatar, updateAvatarOpenYn } from '../firebase/AvatarImg';
+
 
 export default function EditAvatarIcon() {
     const [publicYn, setPublicYn] = React.useState(false);

@@ -47,9 +47,6 @@ export default function SideNavigation() {
                 className={`${hoverStyle}`}>
                 <IdentificationIcon className="w-7 h-7" />
             </button>
-            <button className={`${hoverStyle}`}>
-                <Cog6ToothIcon className="w-7 h-7"/>           
-            </button>
         </div>
     )
 }

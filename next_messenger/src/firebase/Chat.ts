@@ -2,12 +2,12 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, se
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { Chat, ChatMessage } from "../../typeDef";
 
-const currentUid = firebaseAuth.currentUser.uid;
+const currentUserAuth = firebaseAuth.currentUser
 
 export async function createChatRoom(friendUUID : string) {
     try {
         const chatUUID = crypto.randomUUID();
-        const curDocRef = doc(firebaseStore, "userInfo", currentUid);
+        const curDocRef = doc(firebaseStore, "userInfo", currentUserAuth.uid);
         const friendDocRef = doc(firebaseStore, "userInfo", friendUUID);
         
         // Update Current User Document for Update ChatRoom ID
@@ -22,7 +22,7 @@ export async function createChatRoom(friendUUID : string) {
         // Update Friend User Document for Update ChatRoom ID
         const frdDocData = (await getDoc(friendDocRef)).data();
         const updateFreFriend = frdDocData.friend.map((item : { chatId : string, uuid : string})=> {
-            return item.uuid === currentUid
+            return item.uuid === currentUserAuth.uid
                 ? { chatId : chatUUID, uuid : item.uuid}
                 : item
         });
@@ -32,7 +32,7 @@ export async function createChatRoom(friendUUID : string) {
         // create Chat Document
         const chatDocRef = doc(firebaseStore, "chat", chatUUID);
         await setDoc(chatDocRef, { 
-            member : [friendUUID, currentUid],
+            member : [friendUUID, currentUserAuth.uid],
         })
 
         const messageCol = collection(chatDocRef, "messages");

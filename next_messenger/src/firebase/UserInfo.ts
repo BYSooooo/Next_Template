@@ -1,17 +1,16 @@
 // Firebase Function of User Information 
 
-import { arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, setDoc, writeBatch } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { firebaseAuth, firebaseStore } from "../../firebase-config";
 import { UserInfo } from "../../typeDef";
-
-// current user authentication
-const currentUserAuth = firebaseAuth.currentUser;
 
 /**
  * Initialize of Collection for First Time Login User
  * @returns 
  */
 export async function initUserInfo() {
+    const currentUserAuth = firebaseAuth.currentUser;
+
     if(currentUserAuth) {
         const currentUid = currentUserAuth.uid
 
@@ -67,7 +66,8 @@ export async function initUserInfo() {
  * @returns 
  */
 export async function getCurrentUser() {
-    
+    const currentUserAuth = firebaseAuth.currentUser;
+
     if(currentUserAuth) {
         const currentUid = currentUserAuth.uid
         // UserInfo Document
@@ -114,7 +114,8 @@ export async function getCurrentUser() {
  * @returns 
  */
 export async function updateUserInfo(content? : [{key : string, value : any}]) {
-    
+    const currentUserAuth = firebaseAuth.currentUser;
+
     const docRef = doc(firebaseStore, 'userInfo', currentUserAuth.uid);
     const aDatas = content.map((item)=> {
         return { [item.key] : item.value }       
@@ -130,7 +131,7 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
 };
 
 /**
- * get UserList by Sorting and Keyword
+ * get UserList by filtering sorting and keyword
  * @param keyword search keyword
  * @param sort Sorting
  * @returns 
@@ -138,7 +139,7 @@ export async function updateUserInfo(content? : [{key : string, value : any}]) {
 export async function getUserListForSearch(keyword : string, sort : string) {
 
     const infoColRef = collection(firebaseStore,"userInfo");
-    const imgColRef = collection(firebaseStore, "avatarImg");
+    const avatarColRef = collection(firebaseStore, "avatarImg");
     const profileImgColRef = collection(firebaseStore, "profileImg");
     
     try {
@@ -147,7 +148,8 @@ export async function getUserListForSearch(keyword : string, sort : string) {
             // Get Documents Datas
             const currentUid = firebaseAuth.currentUser.uid;
             const userInfos = await getDocs(infoColRef);
-            const avatarImgs = await getDocs(imgColRef);
+            
+            const avatarImgs = await getDocs(avatarColRef);
             
             const friendList = (await getDoc(doc(firebaseStore, "userInfo", currentUid))).data().friend;
             let avatarList = [];
@@ -157,12 +159,14 @@ export async function getUserListForSearch(keyword : string, sort : string) {
                 avatarList.push(data)
             })
             
-            userInfos.forEach((doc)=> { 
+            userInfos.forEach(async(doc)=> { 
                 const docData = doc.data();
                 const friendYn = friendList.includes(docData.uid)
                 const currenYn = docData.uid !== currentUid
 
                 if(!friendYn && currenYn) {
+                    // const avatarQuery = query(avatarColRef, where('uid','==',docData.uid))
+                    // const avatarDocData = (await getDocs(avatarQuery)).docs[0].data as any;
                     const findAvatarDoc = avatarList.find((item)=> item.email === docData.email);
                     const data : UserInfo = {
                         uid : docData.uid,

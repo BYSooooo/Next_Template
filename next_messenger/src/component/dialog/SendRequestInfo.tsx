@@ -1,6 +1,6 @@
 "use client";
 
-import { updateFriendRequest } from "../../controller/FirebaseController";
+import { updateFriendRequest } from "../../firebase/UserInfo";
 import { controlDialog, controlMessageToast } from "../../redux/features";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import UserDetailInfo from "../UserDetail";

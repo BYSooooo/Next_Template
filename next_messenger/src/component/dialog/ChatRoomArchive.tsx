@@ -1,11 +1,15 @@
 "use client";
 
 import React from 'react';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getSelectedUserInfo } from '../../firebase/UserInfo';
+import { controlDialog } from '../../redux/features';
 
 export default function ChatRoomArchive() {
+    
     const chatStore = useAppSelector((state)=> state.chatStore);
+    const dispatch = useAppDispatch();
+
     React.useEffect(()=> {
         
     },[])
@@ -69,9 +73,13 @@ export default function ChatRoomArchive() {
         messageDown(csvRows.join('\n'), `export_msg_${new Date().toLocaleDateString()}.csv`, 'text/csv')
     }
 
+    const onClickClose = ()=> {
+        dispatch(controlDialog({ openYn : false}))
+    }
+
     return (
         <div className='flex flex-col gap-2'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col gap-2'>
                 <h1 className='font-bold text-sm mb-1'>
                     Messages Export
                 </h1>
@@ -80,7 +88,7 @@ export default function ChatRoomArchive() {
                         You can export Messages.
                     </li>
                     <li className='text-xs'>
-                        Attachments Files are not export.
+                        Attachments Files are not exported.
                     </li>
                 </ul>
                 <button 
@@ -95,7 +103,8 @@ export default function ChatRoomArchive() {
                 </button>
             </div>
             <div className='flex flex-row-reverse'>
-                <button>
+                <button
+                    onClick={onClickClose}>
                     Close
                 </button>
             </div>

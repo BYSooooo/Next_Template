@@ -154,10 +154,10 @@ export default function SearchFriend() {
                     {
                         selUser && 
                             <div className='flex flex-row-reverse'>
-                                { (selUser.profileImgOpenYn === true && selUser.profileImg.length > 0)
+                                {/* { (selUser.profileImgOpenYn === true && selUser.profileImg.length > 0)
                                     ? "Profile Image"
                                     : "No Profile Image"
-                                } 
+                                }  */}
                                 { !relationYn 
                                     ?   ( friendYn
                                             ?   <button className='bg-blue-500 dark:bg-blue-500 rounded-md px-1' disabled>
