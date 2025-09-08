@@ -1,12 +1,9 @@
 "use client"
 
 import { ChatBubbleBottomCenterIcon, Cog6ToothIcon, HomeIcon, IdentificationIcon, UsersIcon } from "@heroicons/react/24/outline";
-import { useAppDispatch } from "../redux/hooks";
-import { controlPageLayout } from "../redux/features";
 import { useRouter } from "next/navigation";
 
 export default function SideNavigation() {
-    const dispatch = useAppDispatch()
     const router = useRouter();
     const hoverStyle = "p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500"
 
@@ -29,8 +26,11 @@ export default function SideNavigation() {
             mr-1 py-2 gap-3">
             <button
                 onClick={()=>onClickHandler('welcome')} 
-                className={`${hoverStyle}`}>
+                className={`${hoverStyle} flex flex-row items-center gap-2`}>
                 <HomeIcon className="w-7 h-7"/>
+                <p>
+                    Home
+                </p>
             </button>
             <button 
                 onClick={()=>onClickHandler('chatting')}
