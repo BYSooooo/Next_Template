@@ -26,26 +26,43 @@ export default function SideNavigation() {
             mr-1 py-2 gap-3">
             <button
                 onClick={()=>onClickHandler('welcome')} 
-                className={`${hoverStyle} flex flex-row items-center gap-2`}>
-                <HomeIcon className="w-7 h-7"/>
-                <p>
+                className={`${hoverStyle}`}>
+                <div className="flex w-full justify-center">
+                    <HomeIcon className="w-7 h-7 self-center"/>
+                </div>  
+                <p className="text-sm">
                     Home
                 </p>
             </button>
             <button 
                 onClick={()=>onClickHandler('chatting')}
                 className={`${hoverStyle}`}>
-                <ChatBubbleBottomCenterIcon className="w-7 h-7" />
+                <div className="flex w-full justify-center">
+                    <ChatBubbleBottomCenterIcon className="w-7 h-7" />
+                </div>    
+                <p className="text-sm">
+                    Chat
+                </p>
             </button>
             <button
                 onClick={()=>onClickHandler('friendHandler')} 
                 className={`${hoverStyle}`}>
-                <UsersIcon className="w-7 h-7" />
+                <div className="flex w-full justify-center">
+                    <UsersIcon className="w-7 h-7" />
+                </div>
+                <p className="text-sm">
+                    Friend
+                </p>
             </button>
             <button 
                 onClick={()=>onClickHandler('infoDetail')}
                 className={`${hoverStyle}`}>
-                <IdentificationIcon className="w-7 h-7" />
+                <div className="flex w-full justify-center">
+                    <IdentificationIcon className="w-7 h-7" />
+                </div>    
+                <p className="text-sm">
+                    Profile
+                </p>
             </button>
         </div>
     )
