@@ -57,13 +57,15 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             attachFile : fileUid ? fileUid : "",
             deleteYn : false
         }
-        
-        const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.deleteYn);
-        if(result){
-            setInputValue("");
-        } else {
-            dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+        if(inputValue.length > 0 || fileUid) {
+            const { result, value } = await setChatRoomMessage(data.chatId, data.content, data.attachYn, data.attachFile, data.deleteYn);
+            if(result){
+                setInputValue("");
+            } else {
+                dispatch(controlMessageToast({openYn : true, type : 'error', title : 'Error', content : value}))
+            }
         }
+        
     }
 
     const previewHandler = ()=> {

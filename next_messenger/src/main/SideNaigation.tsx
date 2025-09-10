@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function SideNavigation() {
     const router = useRouter();
-    const hoverStyle = "p-[0.2rem] hover:bg-slate-300 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500"
+    const hoverStyle = "p-[0.2rem] hover:bg-slate-400 hover:dark:bg-slate-700 rounded-md dark:hover:bg-slate-500"
 
     const onClickHandler = (navTo: string)=> {
         switch(navTo) {
@@ -23,7 +23,7 @@ export default function SideNavigation() {
     return (
         <div className="default-box
             flex flex-col min-w-12 relative max-w-[10vw] items-center 
-            mr-1 py-2 gap-3">
+            mr-1 p-2 gap-3">
             <button
                 onClick={()=>onClickHandler('welcome')} 
                 className={`${hoverStyle}`}>

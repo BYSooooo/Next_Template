@@ -52,7 +52,7 @@ export default function WelcomePage() {
                     </div>
                     <button 
                         className="default-button px-3 h-10 w-full
-                                hover:bg-green-400 
+                                hover:bg-green-600 
                                 dark:hover:bg-green-600"
                         onClick={()=>handleClick('chatting')}>
                         <ChatBubbleBottomCenterIcon className="w-5 h-5 mr-2"/>
@@ -60,7 +60,7 @@ export default function WelcomePage() {
                     </button>
                     <button
                         className="default-button px-3 h-10 w-full
-                                hover:bg-purple-400 
+                                hover:bg-purple-600 
                                 dark:hover:bg-purple-600"
                         onClick={()=>handleClick('friendMng')}>
                         <UsersIcon className="w-5 h-5 mr-2"/>
@@ -69,7 +69,7 @@ export default function WelcomePage() {
                     <button
                         onClick={()=>handleClick('profile')}
                         className="default-button px-3 h-10 w-full
-                                hover:bg-orange-400
+                                hover:bg-orange-600
                                 dark:hover:bg-orange-600">
                         <IdentificationIcon className="w-5 h-5 mr-2" />
                         Profile

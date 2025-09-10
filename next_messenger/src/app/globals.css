@@ -21,7 +21,7 @@ html {
 
     .default-box {
         @apply 
-        bg-slate-200 dark:bg-slate-800
+        bg-slate-300 dark:bg-slate-800
         rounded-md overflow-hidden
         shadow-sm
     }
