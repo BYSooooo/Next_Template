@@ -7,9 +7,7 @@ import React from "react";
 export default function SideNavigation() {
     const router = useRouter();
     const [selectedIdx, setSelectedIdx] = React.useState(1); 
-    const hoverBg = {
-        selected : ""
-    }
+    
 
     const onClickHandler = (navTo: string)=> {
         switch(navTo) {
@@ -45,7 +43,7 @@ export default function SideNavigation() {
             </button>
             <button 
                 onClick={()=>onClickHandler('chatting')}
-                className={`py-[0.2rem] px-[0.5rem] w-full hover:bg-green-500 hover:dark:bg-green-600 rounded-md ${selectedIdx === 2 && "bg-green-500"}`}>
+                className={"py-[0.2rem] px-[0.5rem] w-full hover:bg-green-500 hover:dark:bg-green-600 rounded-md"}>
                 <div className="flex w-full justify-center">
                     <ChatBubbleBottomCenterIcon className="w-7 h-7" />
                 </div>    

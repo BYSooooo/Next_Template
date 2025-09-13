@@ -23,7 +23,7 @@ export default function WelcomePage() {
     }
 
     return (
-        <div className="default-box flex flex-col p-5 gap-5">
+        <div className="default-box flex flex-col p-5 gap-5 min-w-[20rem]">
             <p className="font-bold text-start text-5xl">
                 Welcome
             </p>
