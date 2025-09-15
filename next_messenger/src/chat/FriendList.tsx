@@ -62,7 +62,8 @@ export default function FriendList({selectFn} : {selectFn : Function}) {
                 </p>
                 <UserPlusIcon
                     onClick={onClickAddFriend} 
-                    className="w-6 h-6  
+                    className="w-6 h-6 m-2
+                        hover:text-white 
                         hover:bg-slate-800
                         hover:rounded-full 
                         hover:cursor-pointer"
