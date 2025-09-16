@@ -127,14 +127,14 @@ export function FriendChatInput({chatId} : {chatId : string}) {
             <button
                 disabled={chatId === ""}
                 onClick={()=> document.getElementById('tempAttach').click()} 
-                className="default-button w-[10%] justify-center dark:bg-green-700">
+                className="default-button w-[10%] justify-center dark:hover:bg-green-600 bg-slate-300 dark:bg-slate-500 hover:bg-green-400 ">
                 Image
             </button>
             <input type="file" id="tempAttach" accept='image/*' onChange={(e)=>attachFileHandler(e)} style={{display : 'none'}}/>
             <button 
                 disabled={chatId === ""}
                 onClick={onClickSendMessage}
-                className="default-button w-[7%] justify-center dark:bg-blue-500">
+                className="default-button w-[7%] justify-center bg-slate-300 dark:bg-slate-500 hover:bg-purple-400 hover:dark:bg-purple-600">
                 Send
             </button>
             </div>
