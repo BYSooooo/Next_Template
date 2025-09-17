@@ -6,6 +6,7 @@ import { getSelectedUserInfo } from '../firebase/UserInfo';
 import UserListItem from '../component/UserListItem';
 import { controlDialog } from '../redux/features';
 import { UserInfo } from '../../typeDef';
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 
 export default function ReceiveRequestList() {
     const [receiveList, setReceiveList] = React.useState<UserInfo[]>([]);
@@ -58,9 +59,12 @@ export default function ReceiveRequestList() {
                             })}
                         </ul>                
                     :
-                        <p>
-                            No List
-                        </p>
+                        <div className='flex flex-col w-full h-full justify-center items-center'>
+                            <ExclamationCircleIcon className='w-10 h-10'/>
+                            <p>
+                                No List
+                            </p>
+                        </div>    
                 }
             </div>
         </div>
