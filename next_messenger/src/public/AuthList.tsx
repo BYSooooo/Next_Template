@@ -37,7 +37,9 @@ export default function AuthList() {
                 transition">
                 Sign in using Google
             </button>
-            <button className="rounded-full py-2 px-10 m-2
+            <button
+                onClick={()=> authHandler("Github","")} 
+                className="rounded-full py-2 px-10 m-2
                 hover:cursor-pointer
                 border-2
                 border-slate-500
@@ -46,7 +48,9 @@ export default function AuthList() {
                 transition">
                 Sign in using GitHub
             </button>
-            <button className="rounded-full py-2 px-10 m-2
+            <button
+                onClick={()=>authHandler("Email", "")} 
+                className="rounded-full py-2 px-10 m-2
                 hover:cursor-pointer
                 border-2
                 border-gray-300
