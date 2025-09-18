@@ -41,9 +41,9 @@ export default function ChatItem({currentUid, chatId, chat} : {currentUid: strin
 
     // Set Text CSS Setting for message
     const textCSS = {
-        me : "bg-blue-500 dark:bg-blue-600 self-end",
-        other : "bg-gray-500 dark:bg-gray-600",
-        sys : "bg-purple-500 dark:bg-purple-600"
+        me : "bg-blue-400 dark:bg-blue-600 self-end",
+        other : "bg-gray-400 dark:bg-gray-600",
+        sys : "bg-purple-400 dark:bg-purple-600"
     }
 
     const imageCSS = {

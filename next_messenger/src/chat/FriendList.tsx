@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { UserPlusIcon } from "@heroicons/react/24/solid";
+import { ExclamationCircleIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { controlDialog, controlMessageToast } from "../redux/features";
 import { getSelectedUserInfo } from '../firebase/UserInfo';
@@ -62,8 +62,9 @@ export default function FriendList({selectFn} : {selectFn : Function}) {
                 </p>
                 <UserPlusIcon
                     onClick={onClickAddFriend} 
-                    className="w-6 h-6  
-                        hover:bg-slate-800
+                    className="w-10 h-10 m-2 p-1.5
+                        hover:text-white 
+                        hover:bg-slate-500
                         hover:rounded-full 
                         hover:cursor-pointer"
                 />
@@ -87,9 +88,12 @@ export default function FriendList({selectFn} : {selectFn : Function}) {
                         </ul>
 
                     : 
-                        <p>
-                            No List
-                        </p>
+                        <div className='flex flex-col w-full h-full justify-center items-center'>
+                            <ExclamationCircleIcon className='w-10 h-10'/>
+                            <p>
+                                No List
+                            </p>
+                        </div>  
                 }
             </div>
         </div>

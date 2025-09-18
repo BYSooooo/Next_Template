@@ -123,7 +123,7 @@ export default function FriendChat({chatId, selUserInfo} : {chatId : string, sel
                             className={`w-7 h-7 ${hoverStyle} hover:cursor-pointer`}
                             onClick={menuToggle} />
                         { isMenuOpen &&
-                            (   <div className='absolute flex flex-col gap-2 top-5 right-0 w-48 mt-2 origin-top-right bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50'>
+                            (   <div className='absolute p-2 flex flex-col gap-2 top-5 right-0 w-48 mt-2 origin-top-right bg-slate-400 dark:bg-gray-800 border border-slate-400 dark:border-gray-700 rounded-md shadow-lg z-50'>
                                     <button
                                         onClick={onClickPhoto}
                                         className={`${hoverStyle}`}>

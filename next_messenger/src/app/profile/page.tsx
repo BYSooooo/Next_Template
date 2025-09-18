@@ -23,9 +23,6 @@ export default function Page() {
                     <EditAvatarIcon />
                     <EditDisplayName />
                     <EditProfileImg />
-                    <div>
-                        Part 4
-                    </div>
                 </div>
             </div>
         </div>

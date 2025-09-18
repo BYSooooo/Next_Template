@@ -64,6 +64,16 @@ export default function ChatRoomPhoto() {
 
     return (
         <div className='flex flex-col gap-3'>
+            { fileStrings.length > 0 &&
+                <ul className='list-disc px-2'>
+                    <li className='text-xs'>
+                        You can remove attached file uploaded this chat.
+                    </li>
+                    <li className='text-xs'>
+                        Deleted files cannot be recovered.
+                    </li>
+                </ul>
+            }
             { fileStrings.length > 0 
                 ? 
                     <div className='grid grid-flow-row grid-cols-3 gap-2 '>
@@ -104,7 +114,7 @@ export default function ChatRoomPhoto() {
                 <div className='flex flex-row gap-2 justify-end'>
                 <button
                     onClick={onClickDelete} 
-                    className='default-button p-1 w-[50%] justify-center'>
+                    className='default-button p-1 w-[50%] justify-center bg-red-400 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-600'>
                     Delete
                 </button>
             </div>
