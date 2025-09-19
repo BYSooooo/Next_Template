@@ -37,3 +37,20 @@ Messenger Web Application that communicate with other users through chat <br>
 > - File Management - User can check the files uploaded to the chat room and download and delete them. <br>
 > - Export - Export Chat Message history (txt, csv) <br>
 > - Freeze - User can freeze a chat room to stop the conversation. <br>
+
+- 0.3.0 <br>
+Re-factoring and Deploy 'Messenger Page' <br>
+ReDesign Layout, Improve Logic and Fix some bug <br>
+> Reason for Refactoring
+> - Decided to create and manage projects as separate units to prevent layout settings and other conflicts caused by MUI-based Next_Template and Tailwind-based Next_Messenger coexisting in one package at the same time.
+
+> Changed : Login <br>
+> - Change Layout <br>
+>> - Previous : Automatically use the user's email as an alias on the first login after authentication.<br>
+>> - Improvement : Direct to the window to set an alias on the first login after authentication.<br>
+
+> Changed : Chatting <br>
+> - Change Layout
+> - Reflect changes to live chat with Firebase's snapshot component.<br>
+> - 
+ 
