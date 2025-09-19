@@ -42,15 +42,11 @@ Messenger Web Application that communicate with other users through chat <br>
 Re-factoring and Deploy 'Messenger Page' <br>
 ReDesign Layout, Improve Logic and Fix some bug <br>
 > Reason for Refactoring
-> - Decided to create and manage projects as separate units to prevent layout settings and other conflicts caused by MUI-based Next_Template and Tailwind-based Next_Messenger coexisting in one package at the same time.
+> - Decided to create and manage projects as separate units to prevent layout settings and other conflicts caused by MUI-based Next_Template and Tailwind-based Next_Messenger coexisting in one package at the same time.<br>
 
-> Changed : Login <br>
-> - Change Layout <br>
->> - Previous : Automatically use the user's email as an alias on the first login after authentication.<br>
->> - Improvement : Direct to the window to set an alias on the first login after authentication.<br>
-
-> Changed : Chatting <br>
-> - Change Layout
-> - Reflect changes to live chat with Firebase's snapshot component.<br>
-> - 
- 
+> Major changes <br>
+> - Modify and improve layouts across projects<br>
+> - Improving real-time reflection in chat with the use of the Firebase Snapshot Component<br>
+> - Apply the profile background image setting feature<br>
+> - Changed the feature to set whether profiles and background images are visible to the public instead of blocking each users<br>
+> - Changed the storage location for uploaded files such as images from Google Cloud to Firebase Document<br>
