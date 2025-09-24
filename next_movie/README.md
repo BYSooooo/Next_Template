@@ -11,5 +11,17 @@ Web application toy project that search information of movie
 ![TMDB](https://img.shields.io/badge/themoviedatabase-%2301B4E4?style=for-the-badge&logo=themoviedatabase&logoColor=white)
 
 ## Features
+
 ### Main
 - Summary most popular movie in TMDB
+- Show list of popular movie list and detail
+
+### Search ⚠️
+> Notice - Search Feature has some problem by TMDB API Change.
+- Search movie by using keyword
+- Filtered by adult, released year...
+
+### Information
+- View detailed information of selected movies
+- Detailed inquiry into the casting list of selected films
+- View media such as PV and posters of selected movies 
