@@ -17,6 +17,8 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
 
     React.useEffect(()=> {
         setPage(1)
+        const queries = params.query;
+        console.log(queries)
         getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
             .then((result : {
                 movie : MovieOverview, 
