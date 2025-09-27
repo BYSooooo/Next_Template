@@ -17,7 +17,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
     React.useEffect(()=> {
         switch(sort) {
             case "popular" : 
-                getPopular().then((result)=> setSelMovie(result[0]))
+                //getPopular().then((result)=> setSelMovie(result[0]))
                 break;
             case "topRate" :
                 getTopRate().then((result)=> setSelMovie(result[0])) 
@@ -26,6 +26,19 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                 getUpcoming().then((result)=> setSelMovie(result[0]))
                 break;
         }
+    },[])
+
+    React.useEffect(()=> {
+        const fetchPopular = async()=> {
+            try {
+                const response = await fetch("/api/popular?language=en&page=1")
+                
+                console.log(response)
+            } catch(error) {
+                console.log(error)
+            }
+        }
+        fetchPopular()
     },[])
 
     const DetailBox = ({title,value} : {title : string, value : string})=> {
