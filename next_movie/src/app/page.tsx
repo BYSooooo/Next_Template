@@ -2,7 +2,6 @@ import { Container, Typography } from "@mui/material";
 import TopRankView from "../main/TopRankView";
 import OverviewList from "../main/OverviewList";
 
-
 export default function Page() {
     return (
         <Container 
@@ -14,10 +13,8 @@ export default function Page() {
                 noWrap>
                 What is your Movie?
             </Typography>
-            <TopRankView sort={"popular"}/>
-            <OverviewList sort={"popular"}/>
-            {/* <OverviewList sort={"topRate"}/>
-            <OverviewList sort={"upcomming"} /> */}
+            <TopRankView />
+            <OverviewList />
         </Container>
     )
 }

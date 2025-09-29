@@ -6,7 +6,7 @@ export async function GET(request : Request) {
         const { searchParams } = new URL(request.url);
         const queryString = searchParams.toString();
 
-        const data = await fetcher('movie/popular',queryString);
+        const data = await fetcher('genre/movie/list', queryString);
 
         return NextResponse.json(data);
 
