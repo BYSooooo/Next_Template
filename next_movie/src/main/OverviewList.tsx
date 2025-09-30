@@ -8,26 +8,25 @@ import {
     Typography 
 } from '@mui/material';
 import React from 'react';
-import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
 
-export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcomming"}) {
+export default function OverviewList() {
     const [list, setList] = React.useState<MovieOverview[]>([]);
     const dispatch = useAppDispatch()
 
+    // get Popular Movie List
     React.useEffect(()=> {
-        switch(sort) {
-            case "popular" : 
-                getPopular().then((result)=> setList(result) )
-                break;
-            case "topRate" : 
-                getTopRate().then((result)=> setList(result) )
-                break;
-            case "upcomming" : 
-                getUpcoming().then((result)=> setList(result) )
-                break;
+        const fetchPopular = async() => {
+            try {
+                const response = await fetch("/api/popular?language=en&page=1");
+                const data = await response.json();
+                setList(data.results)
+            } catch(error) {
+                throw new Error(error);
+            }
         }
+        fetchPopular()
     },[])
 
     const onClick = (overviewInfo : MovieOverview)=> {
@@ -38,16 +37,7 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
         }))
     }
 
-    const titleText = ()=> {
-        switch(sort) {
-            case "popular" :
-                return 'Popular List'
-            case "topRate" : 
-                return 'Top Rate List'
-            case "upcomming" :
-                return 'Upcoming List'
-        }        
-    }
+    
     return (
         <Box textAlign={'start'} >
             <Typography 
@@ -55,7 +45,7 @@ export default function OverviewList({sort}:{sort : "popular"|"topRate"|"upcommi
                 fontWeight='bold' 
                 sx={{ textDecoration : 'underline'}}
                 display={'inline'}>
-                {titleText()}
+                Popular List
             </Typography>
             <Box 
                 width="100%"

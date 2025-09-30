@@ -29,7 +29,7 @@ export async function getTopRate() {
 
 export async function getGenre() {
     try {
-        const response = await (await fetch('/api/movies/genre')).json();
+        const response = await (await fetch('/api/genre')).json();
         return response.results        
     }catch(err) {
         console.error(err)

@@ -5,7 +5,6 @@ import { Box, Button, Divider, Skeleton, Typography } from '@mui/material';
 import { useAppSelector } from '../redux/hooks';
 import { grey, yellow } from '@mui/material/colors';
 import { Star } from '@mui/icons-material';
-import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
 import { useRouter } from 'next/navigation';
 
 export default function TopRankView() {
@@ -19,7 +18,7 @@ export default function TopRankView() {
                 const data = await response.json()
                 setTopMovie(data.results[0])
             } catch(error) {
-                console.log(error)
+                throw new Error(error);
             }
         }
         fetchPopular()
