@@ -18,17 +18,18 @@ export default function ModeProvider({children} : {children  : React.ReactNode})
         }),[appSelector.theme]
     )
     
+    // Get genre List in Movie
     React.useEffect(()=> {
-        const fetchPopular = async()=> {
+        const fetchGenre = async()=> {
             try {
                 const response = await fetch("/api/genre")
                 const data = await response.json();
-                console.log(data)
+                dispatch(initGenreList(data.genres));
             } catch(error) {
                 throw new Error(error);
             }
         }
-        getGenre().then((result)=> dispatch(initGenreList(result)) )
+        fetchGenre()
     },[])
 
     
