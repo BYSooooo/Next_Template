@@ -22,8 +22,19 @@ export default function DetailPage() {
 
     const themeYn = useAppSelector((state)=> state.themeReducer);
     
+    const detailFetch = async()=> {
+        try {
+            const response = await fetch("/api/detail")
+            const data = await response.json();
+            console.log(data)
+            //setDetail(data.results)
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
+
     React.useEffect(()=> {
-        getDetail(param.id).then((result)=> setDetail(result))
+        detailFetch()
     },[])
 
 

@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
+import { fetcher } from "../../../lib/fetcher";
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const queryString = searchParams.toString();
 
-        // const data = await fetcher("/");
+        const data = await fetcher("movie",queryString);
 
-        // {
-        //         source : "/api/movies/detail/:query",
-        //         destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}&append_to_response=videos,images,credits`
-        //     },
+        return NextResponse.json(data);
+        
 
     } catch(error) {
         if(error instanceof Error) {
