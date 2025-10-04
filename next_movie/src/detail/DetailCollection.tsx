@@ -7,10 +7,17 @@ import { controlDialog } from "../redux/features";
 
 export default function DetailCollection({theme,path} : {theme : boolean, path : MovieDetail}) {
     const dispatch = useAppDispatch();
+
+    const collectionFetch = async(colId : number)=> {
+        const response = await fetch(`/api/movie/detail/collection?id=${colId}`);
+        const data = await response.json();
+        dispatch(controlDialog({openYn : true, name : "Collection", extraInfo : data}))
+    }
+
     const onClickCollection =()=> {
-        getCollection(path.belongs_to_collection.id).then((result)=> {
-            dispatch(controlDialog({openYn : true, name : "Collection", extraInfo : result}))
-        })
+        if(path.belongs_to_collection) {
+            collectionFetch(path.belongs_to_collection.id);
+        }
     }
 
 

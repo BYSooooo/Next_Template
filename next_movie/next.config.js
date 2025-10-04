@@ -7,32 +7,12 @@ const nextConfig= {
     async rewrites() {
         return [
             {
-                source : "/api/movies/detail/:query",
-                destination : `https://api.themoviedb.org/3/movie/:query?api_key=${API_KEY}&append_to_response=videos,images,credits`
-            },
-            {
                 source : "/api/movies/person/:query",
                 destination : `https://api.themoviedb.org/3/person/:query?api_key=${API_KEY}&append_to_response=combined_credits`
             },
             {
-                source : "/api/movies/collection/:query",
-                destination : `https://api.themoviedb.org/3/collection/:query?api_key=${API_KEY}`
-            },
-            {
-                source : "/api/movies/company/:query",
-                destination : `https://api.themoviedb.org/3/company/:query?api_key=${API_KEY}`
-            },
-            {
                 source : "/api/movies/search/movie/:query",
                 destination : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}:query`
-            },
-            {
-                source : "/api/movies/search/collection/:query",
-                destination : `https://api.themoviedb.org/3/search/collection?api_key=${API_KEY}:query`
-            },
-            {
-                source : "/api/movies/search/company/:query",
-                destination : `https://api.themoviedb.org/3/search/company?api_key=${API_KEY}:query`
             },
             {
                 source : "/api/movies/search/person/:query",

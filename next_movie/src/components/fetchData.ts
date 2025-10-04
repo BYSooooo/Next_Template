@@ -83,7 +83,6 @@ export async function getCollection(id : number) {
 export async function getCompany(id: number) {
     try {
         const response = await (await fetch(`/api/movies/company/${id}`)).json();
-        console.log(response);
         return response
     } catch(error) {
         console.log(error)

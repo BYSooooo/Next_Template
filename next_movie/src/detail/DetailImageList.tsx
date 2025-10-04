@@ -17,10 +17,11 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
             <Box width="100%" overflow="scroll" display="flex" flexDirection="row">
                 <ImageList cols={20}>
                     {initImageArr.length > 0 ? (
-                        initImageArr.map((img)=> {
+                        initImageArr.map((img, idx)=> {
                             return (
                                 img && (
-                                    <Link 
+                                    <Link
+                                        key={idx}
                                         href={`https://image.tmdb.org/t/p/original${img.file_path}`}
                                         target='_blank'
                                         rel='noreferrer'>

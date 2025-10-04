@@ -17,17 +17,38 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
 
     React.useEffect(()=> {
         setPage(1)
-        const queries = params.query;
-        console.log(queries)
-        getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
-            .then((result : {
-                movie : MovieOverview, 
-                collection : CollectionInfo, 
-                company : CompanyInfo, 
-                person : PersonOverview })=> {
-                dispatch(setSearchResult(result))
-            })
+        searchFetch(params);
+        //const queries = params.query;
+        //console.log(queries)
+
+        // getSearchResult(`&query=${params.query[0]}&page=${params.query[1]}`)
+        //     .then((result : {
+        //         movie : MovieOverview, 
+        //         collection : CollectionInfo, 
+        //         company : CompanyInfo, 
+        //         person : PersonOverview })=> {
+        //         dispatch(setSearchResult(result))
+        //     })
     },[selected])
+
+    const searchFetch = async(params : { query : string[]})=> {
+        const { query } = params;
+        const keyword = query[0];
+        const page = query[1] || '1';
+
+        try {
+            const response = await fetch(`/api/search/${keyword}/${page}`);
+            if(!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Fail to search by Keyword!");
+            }
+            const data = await response.json();
+            dispatch(setSearchResult(data))
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
 
     const onChangeSort = (selectedSort : string)=> {
         setSelected(selectedSort);

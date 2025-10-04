@@ -1,22 +1,15 @@
 import { NextResponse } from "next/server";
 import { fetcher } from "../../../../../lib/fetcher";
 
-interface routeParams {
-    params : {
-        id : string
-    }
-}
-
-export async function GET(request: Request, { params } : routeParams) {
+export async function GET(request : Request) {
     try {
-        const { id : movieId } = await params
         const { searchParams } = new URL(request.url);
         const queryString = searchParams.toString();
+        const colId = searchParams.get("id");
 
-        const data = await fetcher(`movie/${movieId}`,queryString);
+        const data = await fetcher(`collection/${colId}`, queryString);
 
         return NextResponse.json(data);
-        
 
     } catch(error) {
         if(error instanceof Error) {

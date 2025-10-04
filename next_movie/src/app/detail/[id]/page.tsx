@@ -24,10 +24,9 @@ export default function DetailPage() {
     
     const detailFetch = async()=> {
         try {
-            const response = await fetch("/api/detail")
+            const response = await fetch(`/api/movie/detail/${param.id}?language=en&append_to_response=videos,images,credits`)
             const data = await response.json();
-            console.log(data)
-            //setDetail(data.results)
+            setDetail(data)
         } catch(error) {
             throw new Error(error)
         }
@@ -63,7 +62,7 @@ export default function DetailPage() {
                             {detail ? detail.tagline : <Skeleton variant='text' width={'50%'}/>}
                         </Typography>
                     </Box>
-                    <DetailExternalLink theme={themeYn.theme} detail={detail && detail} />
+                    <DetailExternalLink theme={themeYn.theme} detail={detail} />
                 </Box>
                 <Box 
                     display="flex" 
@@ -78,10 +77,10 @@ export default function DetailPage() {
                 </Box>
                 <DetailOverview theme={themeYn.theme} path={detail && detail.overview}/>
                 <DetailCredit theme={themeYn.theme} path={detail && detail.credits} sort="Cast"/>
-                <DetailMedia theme={themeYn.theme} path={detail && detail} />
+                <DetailMedia theme={themeYn.theme} path={detail} />
                 <Box display='flex' flexDirection='row' justifyContent={'space-between'} sx={{ px : 2, mb : 10}}>
-                    <DetailCompany theme={themeYn.theme} path={detail && detail} />
-                    <DetailCollection theme={themeYn.theme} path={detail && detail} />
+                    <DetailCompany theme={themeYn.theme} path={detail} />
+                    <DetailCollection theme={themeYn.theme} path={detail} />
                 </Box>
         </Container>
     )
