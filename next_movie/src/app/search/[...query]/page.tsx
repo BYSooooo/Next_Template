@@ -31,14 +31,22 @@ export default  function SearchPage({params} : { params : {query : string[]}}) {
         //     })
     },[selected])
 
-    const searchFetch = React.useCallback(()=> {
+    const searchFetch = React.useCallback(async()=> {
+            const { query } = params;
+            const keyword = query[0];
+            const page = query[1] || '1';
 
+            const response = await fetch(`/api/search/${keyword}/${page}`);
+            if(!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Fail to search by Keyword!");
+            }
+            const data = await response.json();
+            dispatch(setSearchResult(data))
     },[])
 
     // const searchFetch = async(params : { query : string[]})=> {
-    //     const { query } = params;
-    //     const keyword = query[0];
-    //     const page = query[1] || '1';
+    
 
     //     try {
     //         const response = await fetch(`/api/search/${keyword}/${page}`);
