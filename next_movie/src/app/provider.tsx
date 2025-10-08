@@ -10,6 +10,7 @@ export default function ModeProvider({children} : {children  : React.ReactNode})
     const dispatch = useAppDispatch()
     const appSelector = useAppSelector((state)=> state.themeReducer);
     
+    // Handle Theme
     const themeSelect = React.useMemo(()=> 
         createTheme({
             palette : {
@@ -31,8 +32,6 @@ export default function ModeProvider({children} : {children  : React.ReactNode})
         }
         fetchGenre()
     },[])
-
-    
 
     return (
         <ThemeProvider theme={themeSelect}>
