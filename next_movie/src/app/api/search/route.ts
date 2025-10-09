@@ -7,6 +7,7 @@ export async function GET(request: Request, { params } : {params : { query : str
         const keyword = params.query[0];
         const page = params.query[1] || '1';
 
+        console.log(keyword)
         if(!keyword) {
             return new NextResponse(JSON.stringify({ message : "Search keyword is required"}), { status : 400});
         }
@@ -17,7 +18,7 @@ export async function GET(request: Request, { params } : {params : { query : str
         const queryString = `query=${keyword}&page=${page}&language=${language}`;
 
         const data = await fetcher('search/multi', queryString);
-
+        
         return NextResponse.json(data);
 
     } catch(error) {

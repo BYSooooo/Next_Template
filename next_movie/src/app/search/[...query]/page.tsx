@@ -20,11 +20,6 @@ export default function SearchPage() {
     const [page, setPage] = React.useState(initPage);
     const [selected, setSelected] = React.useState<string>();
 
-    useEffect(()=> {
-        console.log(initKeyword)
-        console.log(initPage)
-    },[])
-
     const searchFetch = React.useCallback(async (keyword : string, pageNum : number)=> {
         const queryParams = { query: [keyword, String(pageNum)] };
 
@@ -51,18 +46,19 @@ export default function SearchPage() {
         setSelected(selectedSort);
     }
 
-    const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
-        setPage(value)
-        searchFetch(initKeyword,value);
-        // getSearchResult(`&query=${params.query[0]}&page=${value}`)
-        //     .then((result : {
-        //         movie : MovieOverview, 
-        //         collection : CollectionInfo, 
-        //         company : CompanyInfo, 
-        //         person : PersonOverview })=> {
-        //         dispatch(setSearchResult(result))
-        //     })
-    }
+    // const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
+    //     setPage(value)
+    //     searchFetch(initKeyword,value);
+        
+    //     // getSearchResult(`&query=${params.query[0]}&page=${value}`)
+    //     //     .then((result : {
+    //     //         movie : MovieOverview, 
+    //     //         collection : CollectionInfo, 
+    //     //         company : CompanyInfo, 
+    //     //         person : PersonOverview })=> {
+    //     //         dispatch(setSearchResult(result))
+    //     //     })
+    // }
     return (
         <Container fixed
             sx={{
