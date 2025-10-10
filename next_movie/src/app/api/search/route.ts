@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { fetcher } from "../../../lib/fetcher";
 
 export async function GET(request: Request, { params } : {params : { query : string[]}}) {
-
     try {
         const keyword = params.query[0];
         const page = params.query[1] || '1';

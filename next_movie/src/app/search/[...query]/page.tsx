@@ -24,6 +24,7 @@ export default function SearchPage() {
         const queryParams = { query: [keyword, String(pageNum)] };
 
         try {
+            debugger;
             const response = await fetch(`/api/search/${queryParams.query.join('/')}`);
 
             if(!response.ok) {
@@ -40,25 +41,25 @@ export default function SearchPage() {
 
     React.useEffect(()=> {
         searchFetch(initKeyword, page)
-    },[initKeyword, initPage])
+    },[initKeyword, page, searchFetch])
 
     const onChangeSort = (selectedSort : string)=> {
         setSelected(selectedSort);
     }
 
-    // const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
-    //     setPage(value)
-    //     searchFetch(initKeyword,value);
+    const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
+        setPage(value)
+        searchFetch(initKeyword,value);
         
-    //     // getSearchResult(`&query=${params.query[0]}&page=${value}`)
-    //     //     .then((result : {
-    //     //         movie : MovieOverview, 
-    //     //         collection : CollectionInfo, 
-    //     //         company : CompanyInfo, 
-    //     //         person : PersonOverview })=> {
-    //     //         dispatch(setSearchResult(result))
-    //     //     })
-    // }
+        // getSearchResult(`&query=${params.query[0]}&page=${value}`)
+        //     .then((result : {
+        //         movie : MovieOverview, 
+        //         collection : CollectionInfo, 
+        //         company : CompanyInfo, 
+        //         person : PersonOverview })=> {
+        //         dispatch(setSearchResult(result))
+        //     })
+    }
     return (
         <Container fixed
             sx={{
