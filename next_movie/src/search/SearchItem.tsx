@@ -13,7 +13,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
     const router = useRouter();
     React.useEffect(()=> {
         posterHandler()
-    },[])
+    },[sort, item])
 
     const posterHandler = ()=> {
         switch(sort) {

@@ -18,12 +18,16 @@ export default function CastInfo({theme} : {theme : boolean}) {
     const router = useRouter();
 
     React.useEffect(()=> {
-        getPerson(staffId)
-            .then((result)=> {
-                setPerson(result)
-                setSelection(result.combined_credits.cast)
-            })
-    },[])
+        getPerson()
+    },[staffId])
+
+    const getPerson = async()=> {
+        const result = await (await fetch(`/api/person/${staffId}?append_to_response=combined_credits`)).json();
+        if(result) {
+            setPerson(result);
+            setSelection(result.combined_credits.cast)
+        }
+    }
     
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}))

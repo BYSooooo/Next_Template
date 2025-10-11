@@ -1,18 +1,35 @@
+"use client";
+
 import { Box, Button, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { controlDialog } from "../../../redux/features";
 import { grey } from "@mui/material/colors";
 import { Movie } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function CollectionInfo({theme} : {theme : boolean}) {
-    const dispatch = useAppDispatch();
-    const dialogReducer = useAppSelector((state)=> state.dialogReducer.extraInfo)
+    const [collection, setCollection] = React.useState<CollectionInfo>();
+    const dispatch = useAppDispatch();    
+    const collectionId = useAppSelector((state)=> state.dialogReducer.extraInfo);
     const router = useRouter();
 
     const onClickMovie = (id : number)=> {
         dispatch(controlDialog({ openYn : false, name : ""}));
         router.push(`/detail/${id}`)
+    }
+
+    React.useEffect(()=> {
+        getCollection()
+    },[collectionId])
+
+    const getCollection = async()=> {
+        const response = await ( await fetch(`/api/collection/${collectionId}`)).json();
+        if(response) {
+            const data = await response.json();
+            setCollection(data);
+
+        }
     }
 
     return (
@@ -32,7 +49,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                         </Box>
                         <Box display='flex' flexDirection='column' mx={2}>
                             <Typography variant="h6" fontWeight="bold" noWrap>
-                                {dialogReducer.name}
+                                {collection.name}
                             </Typography>
                             <Typography 
                                 variant='subtitle2'
@@ -47,7 +64,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                                 bgcolor={theme ? grey[700] : grey[300]}
                                 sx={{ p : 2 }}>
                                 <Typography >
-                                    {dialogReducer.overview}
+                                    {collection.overview}
                                 </Typography>
                             </Box>
                         </Box>
@@ -58,7 +75,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                         Movie List
                     </Typography>
                     <ImageList cols={10}>
-                        {dialogReducer.parts.map((item : MovieOverview)=> {
+                        {collection.parts.map((item : MovieOverview)=> {
                             return (
                                 <ImageListItem
                                     sx={{

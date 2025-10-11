@@ -1,7 +1,6 @@
 import { SentimentDissatisfied } from "@mui/icons-material";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { getCollection } from "../components/fetchData";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 
@@ -9,9 +8,7 @@ export default function DetailCollection({theme,path} : {theme : boolean, path :
     const dispatch = useAppDispatch();
 
     const collectionFetch = async(colId : number)=> {
-        const response = await fetch(`/api/movie/detail/collection?id=${colId}`);
-        const data = await response.json();
-        dispatch(controlDialog({openYn : true, name : "Collection", extraInfo : data}))
+        dispatch(controlDialog({openYn : true, name : "Collection", extraInfo : colId}))
     }
 
     const onClickCollection =()=> {

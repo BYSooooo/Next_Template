@@ -6,10 +6,11 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setSearchResult } from '../../../redux/features';
 import SearchItem from '../../../search/SearchItem';
 import ResultOverview from '../../../search/ResultOverview';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function SearchPage() {
     const { query } = useParams();
+    const router = useRouter();
 
     const initKeyword = query[0];
     const initPage = parseInt(query[1]) || 1;
@@ -24,7 +25,6 @@ export default function SearchPage() {
         const queryParams = { query: [keyword, String(pageNum)] };
 
         try {
-            debugger;
             const response = await fetch(`/api/search/${queryParams.query.join('/')}`);
 
             if(!response.ok) {
@@ -48,17 +48,7 @@ export default function SearchPage() {
     }
 
     const onChangePagination = (event : React.ChangeEvent<unknown>, value: number)=> {
-        setPage(value)
-        searchFetch(initKeyword,value);
-        
-        // getSearchResult(`&query=${params.query[0]}&page=${value}`)
-        //     .then((result : {
-        //         movie : MovieOverview, 
-        //         collection : CollectionInfo, 
-        //         company : CompanyInfo, 
-        //         person : PersonOverview })=> {
-        //         dispatch(setSearchResult(result))
-        //     })
+        router.push(`/search/${initKeyword.trim()}/${value}`)
     }
     return (
         <Container fixed

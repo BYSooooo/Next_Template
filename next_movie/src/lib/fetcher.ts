@@ -7,7 +7,8 @@ if(!API_KEY) {
 
 export async function fetcher<T>(path : string, queryString : string) : Promise<T> {
     const TMDB_URL = `${BASE_URL}/${path}?api_key=${API_KEY}&${queryString}`;
-
+    
+    console.log("Request URL : "+TMDB_URL);
     const response = await fetch(TMDB_URL);
 
     if(!response.ok) {

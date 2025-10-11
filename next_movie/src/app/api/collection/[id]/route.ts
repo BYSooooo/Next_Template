@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetcher } from "../../../../../lib/fetcher";
+import { fetcher } from "../../../../lib/fetcher";
 
 interface routeParams {
     params : {
@@ -7,16 +7,16 @@ interface routeParams {
     }
 }
 
-export async function GET(request: Request, { params } : routeParams) {
+export async function GET(request: Request, {params} : routeParams) {
     try {
-        const { id : movieId } = await params
+        const { id : collectionId } = await params;
         const { searchParams } = new URL(request.url);
         const queryString = searchParams.toString();
 
-        const data = await fetcher(`movie/${movieId}`,queryString);
+        const data = await fetcher(`collection/${collectionId}`, queryString);
 
         return NextResponse.json(data);
-        
+
     } catch(error) {
         if(error instanceof Error) {
             try {
