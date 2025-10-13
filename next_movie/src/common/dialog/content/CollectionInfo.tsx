@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, DialogContent, DialogTitle, ImageList, ImageListItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { controlDialog } from "../../../redux/features";
 import { grey } from "@mui/material/colors";
@@ -26,6 +26,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
     const getCollection = async()=> {
         const response = await ( await fetch(`/api/collection/${collectionId}`)).json();
         if(response) {
+            debugger;
             const data = await response.json();
             setCollection(data);
 
@@ -74,7 +75,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                     <Typography variant='subtitle1' fontWeight='bold'> 
                         Movie List
                     </Typography>
-                    <ImageList cols={10}>
+                    {/* <ImageList cols={10}>
                         {collection.parts.map((item : MovieOverview)=> {
                             return (
                                 <ImageListItem
@@ -111,7 +112,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                             )
                         })}
 
-                    </ImageList>
+                    </ImageList> */}
                 </Box>
             </DialogContent>
         </>
