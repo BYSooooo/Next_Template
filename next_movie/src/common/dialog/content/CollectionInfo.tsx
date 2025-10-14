@@ -11,7 +11,7 @@ import React from "react";
 export default function CollectionInfo({theme} : {theme : boolean}) {
     const [collection, setCollection] = React.useState<CollectionInfo>();
     const dispatch = useAppDispatch();    
-    const collectionId = useAppSelector((state)=> state.dialogReducer.extraInfo);
+    const collectionId = useAppSelector((state)=> state.dialogReducer).extraInfo;
     const router = useRouter();
 
     const onClickMovie = (id : number)=> {
@@ -21,10 +21,11 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
 
     React.useEffect(()=> {
         getCollection()
-    },[collectionId])
+    },[])
 
     const getCollection = async()=> {
         const response = await ( await fetch(`/api/collection/${collectionId}`)).json();
+        
         if(response) {
             debugger;
             const data = await response.json();
@@ -41,13 +42,13 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
             <DialogContent>
                 <Box display="flex" flexDirection="column" mb={1}>
                     <Box display="flex" flexDirection="row" >
-                        <Box
+                        {/* <Box
                             component="img"
                             borderRadius={4}
                             src={`https://image.tmdb.org/t/p/w780${dialogReducer.poster_path}`}
                             width={"10rem"}>
                             
-                        </Box>
+                        </Box> */}
                         <Box display='flex' flexDirection='column' mx={2}>
                             <Typography variant="h6" fontWeight="bold" noWrap>
                                 {collection.name}

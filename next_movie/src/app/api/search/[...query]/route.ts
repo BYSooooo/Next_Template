@@ -36,13 +36,13 @@ export async function GET(request: Request, { params } : {params : { query : str
 
     } catch(error) {
         if(error instanceof Error) {
-                    try {
-                        const errorDetail = JSON.parse(error.message);
-                        return new NextResponse(JSON.stringify(errorDetail),  { status: errorDetail.status || 500 })
-                    } catch {
-                        return new NextResponse(JSON.stringify({ message : "Internal server error"}), { status : 500})
-                    }
-                }
+            try {
+                const errorDetail = JSON.parse(error.message);
+                return new NextResponse(JSON.stringify(errorDetail),  { status: errorDetail.status || 500 })
+            } catch {
+                return new NextResponse(JSON.stringify({ message : "Internal server error"}), { status : 500})
+            }
+        }
     }
     
 }

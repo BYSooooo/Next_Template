@@ -88,9 +88,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                 dispatch(controlDialog({ openYn : true, name : "Cast", extraInfo : item.id}))
                 break;
             case "collection" : 
-                getCollection(item.id).then((result)=> {
-                    dispatch(controlDialog({ openYn : true, name : "Collection", extraInfo : result}))
-                })
+                dispatch(controlDialog({ openYn : true, name : "Collection", extraInfo : item.id}))
                 break;
             case "company" :
                 dispatch(controlDialog({ openYn : true, name : "Company", extraInfo : item.id}))
