@@ -9,10 +9,10 @@ export default function DetailCompany({theme, path} : {theme: boolean, path : Mo
     
     const companyFetch = async(companyId : number)=> {
         try {
-            const response = await fetch(`/api/company/${companyId}`);
-            const data = await response.json()
+            // const response = await fetch(`/api/company/${companyId}`);
+            // const data = await response.json()
             
-            dispatch(controlDialog({ openYn : true, name : 'Company', extraInfo : data}))
+            dispatch(controlDialog({ openYn : true, name : 'Company', extraInfo : companyId}))
         } catch (error) {
             throw new Error(error)
         }
