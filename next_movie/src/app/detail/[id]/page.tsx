@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Box, Container, Link, Skeleton, Typography } from "@mui/material"
-import { getDetail } from "../../../components/fetchData"
 import DetailPoster from '../../../detail/DetailPoster';
 import { useAppSelector } from '../../../redux/hooks';
 import DetailInfo from '../../../detail/DetailInfo';
@@ -24,7 +23,7 @@ export default function DetailPage() {
     
     const detailFetch = async()=> {
         try {
-            const response = await fetch(`/api/movie/detail/${param.id}?language=en&append_to_response=videos,images,credits`)
+            const response = await fetch(`/api/detail/${param.id}?language=en&append_to_response=videos,images,credits`)
             const data = await response.json();
             setDetail(data)
         } catch(error) {

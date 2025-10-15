@@ -9,7 +9,7 @@ export default function DetailCompany({theme, path} : {theme: boolean, path : Mo
     
     const companyFetch = async(companyId : number)=> {
         try {
-            const response = await fetch(`/api/movie/detail/company?id=${companyId}`);
+            const response = await fetch(`/api/company/${companyId}`);
             const data = await response.json()
             
             dispatch(controlDialog({ openYn : true, name : 'Company', extraInfo : data}))

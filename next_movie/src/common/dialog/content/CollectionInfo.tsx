@@ -24,13 +24,12 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
     },[])
 
     const getCollection = async()=> {
-        const response = await ( await fetch(`/api/collection/${collectionId}`)).json();
-        
-        if(response) {
-            debugger;
+        try {
+            const response = await fetch(`/api/collection/${collectionId}`);
             const data = await response.json();
             setCollection(data);
-
+        } catch(error) {
+            throw new Error(error)
         }
     }
 
@@ -42,16 +41,16 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
             <DialogContent>
                 <Box display="flex" flexDirection="column" mb={1}>
                     <Box display="flex" flexDirection="row" >
-                        {/* <Box
+                        <Box
                             component="img"
                             borderRadius={4}
-                            src={`https://image.tmdb.org/t/p/w780${dialogReducer.poster_path}`}
+                            src={`https://image.tmdb.org/t/p/w780${collection?.poster_path}`}
                             width={"10rem"}>
                             
-                        </Box> */}
+                        </Box>
                         <Box display='flex' flexDirection='column' mx={2}>
                             <Typography variant="h6" fontWeight="bold" noWrap>
-                                {collection.name}
+                                {collection?.name}
                             </Typography>
                             <Typography 
                                 variant='subtitle2'
@@ -66,7 +65,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                                 bgcolor={theme ? grey[700] : grey[300]}
                                 sx={{ p : 2 }}>
                                 <Typography >
-                                    {collection.overview}
+                                    {collection?.overview}
                                 </Typography>
                             </Box>
                         </Box>
@@ -76,10 +75,11 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                     <Typography variant='subtitle1' fontWeight='bold'> 
                         Movie List
                     </Typography>
-                    {/* <ImageList cols={10}>
-                        {collection.parts.map((item : MovieOverview)=> {
+                    <ImageList cols={10} >
+                        {collection?.parts.map((item : any)=> {
                             return (
                                 <ImageListItem
+                                    key={item.id}
                                     sx={{
                                         width : 60,
                                         borderRadius : 4,
@@ -112,8 +112,7 @@ export default function CollectionInfo({theme} : {theme : boolean}) {
                                 </ImageListItem>
                             )
                         })}
-
-                    </ImageList> */}
+                    </ImageList>
                 </Box>
             </DialogContent>
         </>
