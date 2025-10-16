@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { useRouter } from 'next/navigation';
-import { Avatar, Box, Button, Chip, DialogActions, DialogContent, DialogTitle, Link, Skeleton, Typography } from '@mui/material';
-import { getCompany } from '../../../components/fetchData';
-import { controlDialog } from '../../../redux/features';
+import { Box, Button, Chip, DialogContent, DialogTitle, Link, Skeleton, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { Business, Public } from '@mui/icons-material';
 

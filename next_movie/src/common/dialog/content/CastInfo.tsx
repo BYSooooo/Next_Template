@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { getPerson } from '../../../components/fetchData';
-import { Box, Button, Chip, DialogActions, DialogContent, DialogTitle, ImageList, ImageListItem, Link, Skeleton, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Chip, DialogContent, DialogTitle, ImageList, ImageListItem, Link, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { controlDialog } from '../../../redux/features';
 import { CalendarMonth, Groups3, Home, InsertLink, Movie, Public } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
