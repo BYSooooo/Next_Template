@@ -7,9 +7,9 @@ interface routeParams {
     }
 }
 
-export async function GET(request: Request, {params} :routeParams) {
+export async function GET(request: Request, context :routeParams) {
     try {
-        
+        const { params } = context;
         const { id : companyId } = await params;
         const { searchParams} = new URL(request.url);
         const queryString = searchParams.toString();

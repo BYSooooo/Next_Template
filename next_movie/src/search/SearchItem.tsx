@@ -5,7 +5,6 @@ import { AssignmentInd, CalendarMonth, Photo } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
-import { getCollection } from '../components/fetchData';
 
 export default function SearchItem({theme, sort, item} : {theme : boolean, sort : string, item : any}) {
     const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : string}>()
