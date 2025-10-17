@@ -2,7 +2,6 @@ import { Avatar, Box, ImageList, ImageListItem, Stack, Typography } from "@mui/m
 import { grey } from "@mui/material/colors"
 import { useAppDispatch } from "../redux/hooks"
 import { controlDialog } from "../redux/features";
-import { getCompany } from "../components/fetchData";
 
 export default function DetailCompany({theme, path} : {theme: boolean, path : MovieDetail}) {
     const dispatch = useAppDispatch();

@@ -1,6 +1,5 @@
-import { Add, ImageNotSupported } from "@mui/icons-material";
+import { ImageNotSupported } from "@mui/icons-material";
 import { Box, Card, ImageList, ImageListItem, Link, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 

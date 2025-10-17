@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { fetcher } from "../../../../lib/fetcher";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, {params}) {
     try {
         
-        const { id : collectionId } = params;
+        const { id : collectionId } = await params;
         const { searchParams } = new URL(request.url);
         const queryString = searchParams.toString();
 

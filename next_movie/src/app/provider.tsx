@@ -3,7 +3,6 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import React from "react";
-import { getGenre } from "../components/fetchData";
 import { initGenreList } from "../redux/features";
 
 export default function ModeProvider({children} : {children  : React.ReactNode}) {
