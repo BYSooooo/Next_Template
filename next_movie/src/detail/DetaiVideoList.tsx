@@ -1,6 +1,5 @@
-import { Add, VideocamOff } from "@mui/icons-material";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { VideocamOff } from "@mui/icons-material";
+import { Box, Card, CardMedia, Typography } from "@mui/material";
 import ReactPlayer from "react-player";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";

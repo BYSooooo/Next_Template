@@ -1,6 +1,5 @@
-import { Add, ImageNotSupported } from "@mui/icons-material";
+import { ImageNotSupported } from "@mui/icons-material";
 import { Box, Card, ImageList, ImageListItem, Link, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { useAppDispatch } from "../redux/hooks";
 import { controlDialog } from "../redux/features";
 
@@ -17,10 +16,11 @@ export default function DetailImageList({theme,path} : {theme: boolean, path : M
             <Box width="100%" overflow="scroll" display="flex" flexDirection="row">
                 <ImageList cols={20}>
                     {initImageArr.length > 0 ? (
-                        initImageArr.map((img)=> {
+                        initImageArr.map((img, idx)=> {
                             return (
                                 img && (
-                                    <Link 
+                                    <Link
+                                        key={idx}
                                         href={`https://image.tmdb.org/t/p/original${img.file_path}`}
                                         target='_blank'
                                         rel='noreferrer'>

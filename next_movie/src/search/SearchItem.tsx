@@ -5,7 +5,6 @@ import { AssignmentInd, CalendarMonth, Photo } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '../redux/hooks';
 import { controlDialog } from '../redux/features';
-import { getCollection } from '../components/fetchData';
 
 export default function SearchItem({theme, sort, item} : {theme : boolean, sort : string, item : any}) {
     const [itemContent, setItemContent] = React.useState<{poster : string, title : string, overview : string, chips? : string}>()
@@ -13,7 +12,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
     const router = useRouter();
     React.useEffect(()=> {
         posterHandler()
-    },[])
+    },[sort, item])
 
     const posterHandler = ()=> {
         switch(sort) {
@@ -88,9 +87,7 @@ export default function SearchItem({theme, sort, item} : {theme : boolean, sort 
                 dispatch(controlDialog({ openYn : true, name : "Cast", extraInfo : item.id}))
                 break;
             case "collection" : 
-                getCollection(item.id).then((result)=> {
-                    dispatch(controlDialog({ openYn : true, name : "Collection", extraInfo : result}))
-                })
+                dispatch(controlDialog({ openYn : true, name : "Collection", extraInfo : item.id}))
                 break;
             case "company" :
                 dispatch(controlDialog({ openYn : true, name : "Company", extraInfo : item.id}))

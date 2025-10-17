@@ -1,8 +1,7 @@
 "use client"
 
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, List, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs, Typography } from "@mui/material"
+import { Box, DialogContent, DialogTitle, Link, List, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs, Typography } from "@mui/material"
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { controlDialog } from "../../../redux/features";
 import React from "react";
 import { Image, ImageNotSupported, NotStarted, SmartDisplay } from "@mui/icons-material";
 import ReactPlayer from "react-player";

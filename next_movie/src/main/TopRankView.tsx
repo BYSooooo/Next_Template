@@ -5,29 +5,29 @@ import { Box, Button, Divider, Skeleton, Typography } from '@mui/material';
 import { useAppSelector } from '../redux/hooks';
 import { grey, yellow } from '@mui/material/colors';
 import { Star } from '@mui/icons-material';
-import { getPopular, getTopRate, getUpcoming } from '../components/fetchData';
 import { useRouter } from 'next/navigation';
 
-export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upComming"}) {
-    const themeYn = useAppSelector((state)=> state.themeReducer);
-    const genreSlice = useAppSelector((state)=> state.genreReducer);
-    const [selMovie, setSelMovie] = React.useState<MovieOverview>();
-    const router = useRouter();
-    
+export default function TopRankView() {
+    const [topMovie, setTopMovie] = React.useState<MovieOverview>();
+
+    // get Popular Movie List
     React.useEffect(()=> {
-        switch(sort) {
-            case "popular" : 
-                getPopular().then((result)=> setSelMovie(result[0]))
-                break;
-            case "topRate" :
-                getTopRate().then((result)=> setSelMovie(result[0])) 
-                break;
-            case "upComming" : 
-                getUpcoming().then((result)=> setSelMovie(result[0]))
-                break;
+        const fetchPopular = async()=> {
+            try {
+                const response = await fetch("/api/popular?language=en&page=1")
+                const data = await response.json()
+                setTopMovie(data.results[0])
+            } catch(error) {
+                throw new Error(error);
+            }
         }
+        fetchPopular()
     },[])
 
+    const themeYn = useAppSelector((state)=> state.themeReducer);
+    const genreSlice = useAppSelector((state)=> state.genreReducer);
+    const router = useRouter();
+    
     const DetailBox = ({title,value} : {title : string, value : string})=> {
         return (
             <Box
@@ -79,7 +79,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                 <Star sx={{color : yellow[600]}}/>
                 Most Popular
             </Typography>
-            {selMovie 
+            {topMovie 
                 ? 
                     <Box 
                         sx={{ 
@@ -92,12 +92,12 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                                 borderRadius : 4,
                                 height : "35vh"
                             }} 
-                            alt={selMovie.original_title}
-                            src={`https://image.tmdb.org/t/p/w500${selMovie.poster_path}`} 
+                            alt={topMovie.original_title}
+                            src={`https://image.tmdb.org/t/p/w500${topMovie.poster_path}`} 
                         />
                         <Box sx={{ px : 2, display : 'inline-block'}}>
                             <Typography variant='h3' fontWeight='bold'>
-                                {selMovie.title}
+                                {topMovie.title}
                             </Typography>
                             <Box 
                                 sx={{ 
@@ -106,9 +106,9 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                                     columnGap : 3,
                                     width : '100%',
                                     flexDirection : 'row'}}>
-                                <DetailBox title='Release Date' value={selMovie.release_date}/>
-                                <DetailBox title='Original Language' value={selMovie.original_language} />
-                                <DetailBox title='Genre' value={getGenre(selMovie.genre_ids)} />
+                                <DetailBox title='Release Date' value={topMovie.release_date}/>
+                                <DetailBox title='Original Language' value={topMovie.original_language} />
+                                <DetailBox title='Genre' value={getGenre(topMovie.genre_ids)} />
                             </Box>
                             <Box 
                                 sx={{ 
@@ -126,7 +126,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                                         display : '-webkit-box',
                                         WebkitLineClamp : '4',
                                         WebkitBoxOrient : 'vertical'}}>
-                                    {selMovie.overview}
+                                    {topMovie.overview}
                                 </Typography>
                             </Box>
                         </Box>
@@ -141,7 +141,7 @@ export default function TopRankView({sort} : {sort : "popular" | "topRate"|"upCo
                 display={'flex'}
                 flexDirection={'row-reverse'}>
                 <Button
-                    onClick={()=>router.push(`/detail/${selMovie.id}`)}
+                    onClick={()=>router.push(`/detail/${topMovie.id}`)}
                     variant='contained'>
                     More
                 </Button>
