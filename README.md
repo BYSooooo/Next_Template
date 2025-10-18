@@ -50,3 +50,7 @@ ReDesign Layout, Improve Logic and Fix some bug <br>
 > - Apply the profile background image setting feature<br>
 > - Changed the feature to set whether profiles and background images are visible to the public instead of blocking each users<br>
 > - Changed the storage location for uploaded files such as images from Google Cloud to Firebase Document<br>
+
+- 0.3.5 <br>
+> Fix API-related issues in Next Movie project<br>
+> - Request/Response process from using rewrite() to NextJS's API Routes method
