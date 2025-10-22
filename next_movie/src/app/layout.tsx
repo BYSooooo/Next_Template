@@ -4,7 +4,7 @@ import StoreProvider from '../redux/StoreProvider';
 import TopBar from '../menu/TopBar';
 import ModeProvider from './provider';
 import MovieDialog from '../common/dialog/MovieDialog';
-
+import './globals.css';
 
 
 export const metadata = {
