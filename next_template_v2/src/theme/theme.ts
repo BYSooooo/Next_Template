@@ -1,11 +1,22 @@
 "use client"
 import { createTheme } from "@mui/material"
 
-const theme = createTheme({
+export const lightTheme = createTheme({
     cssVariables : true,
     typography : {
         fontFamily : 'var(--font-roboto)'
+    },
+    palette : {
+        mode : 'light'
     }
 })
 
-export default theme;
+export const darkTheme = createTheme({
+    cssVariables : true,
+    typography : {
+        fontFamily : 'var(--font-roboto)'
+    },
+    palette : {
+        mode : 'dark'
+    }
+})
