@@ -1,10 +1,13 @@
 'use client';
 
-import { Switch } from "@mui/material";
+import { Switch, useMediaQuery } from "@mui/material";
 import React from "react";
 
 export default function ThemeSwitcher() {
-    const [theme, setTheme] = React.useState();
+    
+    React.useEffect(()=> {
+        const savedTheme = localStorage.getItem('theme');
+    },[])
     
     const onChangeTheme = ()=> {
 
