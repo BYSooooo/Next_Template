@@ -2,6 +2,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import MainBar from '../bar/MainBar';
+import ThemeRegister from '../theme/ThemeProvider';
+import { InitColorSchemeScript } from '@mui/material';
 
 const roboto = Roboto({
     weight : ['300', '400', '500', '700'],
@@ -15,13 +17,14 @@ export default function RootLayout({children} : {
 }) {
 
     return (
-        <html lang="en" className={roboto.variable}> 
+        <html lang="en" className={roboto.variable} suppressHydrationWarning> 
             <body>
                 <AppRouterCacheProvider>
-                    <ThemeProvider theme={null}>
+                   <InitColorSchemeScript attribute="class" />
+                    <ThemeRegister>
                         <MainBar />
-                       {children}
-                    </ThemeProvider>
+                        {children}
+                    </ThemeRegister>
                 </AppRouterCacheProvider>
             </body>
         </html>
