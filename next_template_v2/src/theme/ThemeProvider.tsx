@@ -1,6 +1,7 @@
 'use client';
 
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { theme }from './theme';
 import React from "react";
 
 export const ThemeContext = React.createContext({
@@ -19,6 +20,7 @@ export default function ThemeRegister({ children } : { children : React.ReactNod
         }
     },[]);
 
+    // onChange Event in Switcher Component
     const toggleTheme = ()=> {
         setMode(prev => {
             const next = prev === "light" ? "dark" : "light";
@@ -27,9 +29,8 @@ export default function ThemeRegister({ children } : { children : React.ReactNod
         })
     }
 
-    const theme = createTheme({
-        palette : { mode }
-    })
+
+    
 
     return (
         <ThemeContext.Provider value={ {mode, toggleTheme} }>
