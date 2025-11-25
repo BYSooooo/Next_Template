@@ -3,6 +3,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { GitHub } from "@mui/icons-material";
 
 export default function MainBar() {
+    
 
     return (
         <AppBar position="sticky">
