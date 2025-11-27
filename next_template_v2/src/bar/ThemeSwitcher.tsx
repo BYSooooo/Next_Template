@@ -7,7 +7,8 @@ export default function ThemeSwitcher() {
     const { mode, systemMode, setMode } = useColorScheme();
 
     const onClickSwitchMode = React.useCallback(()=> {
-        console.log(mode)
+        console.log("onClicked")
+        console.log(systemMode)
         if(mode) {
             const curMode = mode === 'dark' ? 'light' : 'dark';
             setMode(curMode);
