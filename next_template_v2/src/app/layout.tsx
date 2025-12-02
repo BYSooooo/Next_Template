@@ -22,13 +22,10 @@ export default function RootLayout({children} : {
         <html lang="en" suppressHydrationWarning> 
             <body>
                 <InitColorSchemeScript attribute='data'/>
-                
                 <AppRouterCacheProvider options={{ enableCssLayer : false}}>
                     <MainBar />
-                    {children}                    
+                    {children}    
                 </AppRouterCacheProvider>
-
-                
             </body>
         </html>
     )
