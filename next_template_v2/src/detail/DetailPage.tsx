@@ -34,7 +34,7 @@ export default function DetailPage() {
         ? {
             '$ .MuiDrawer-paper' : {
                 width : '100vw',
-                height : '100vh',
+                height : '100vh'
             }
         } : {
             '$ .MuiDrawer-paper' : {
@@ -58,8 +58,8 @@ export default function DetailPage() {
                 </Box>
             </Stack>
             <Box sx={{ pt : 2}}>
-                <Button fullWidth>
-                    Go!
+                <Button fullWidth variant="contained">
+                    Move
                 </Button>
             </Box>
         </Drawer>

@@ -1,4 +1,6 @@
-import { Box, Button, Divider, List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
+import { AttachFile, Chat, Login, Person } from "@mui/icons-material";
+import { Box, List, Paper, Typography } from "@mui/material";
+import DetailListItem from "./DetailListItem";
 
 
 export default function MessengerDetail() {
@@ -8,15 +10,20 @@ export default function MessengerDetail() {
             <Typography variant="subtitle1" fontWeight={'bold'}>
                 Description
             </Typography>
-            <Paper sx={{ p : 2}}>
-                <Typography 
-                    sx={{ wordBreak : 'break-word', overflowWrap : 'break-word'}}>
-                    Search for users
-                </Typography>
+            <Paper sx={{ px : 2, mb : 2, rowGap : 1 }}>
+                <List>
+                    <DetailListItem icon={<Chat />} text="Chatting with Other Users"/>
+                    <DetailListItem icon={<AttachFile />} text="Attach File in Chatting" />
+                    <DetailListItem icon={<Person />} text="Manage User Information" />
+                    <DetailListItem icon={<Login />} text="Login by External Account" />
+                </List>
             </Paper>
-            <Button >
-                Hello
-            </Button>
+            <Typography variant="subtitle1" fontWeight={'bold'}>
+                Architecture
+            </Typography>
+            <Paper sx={{ px : 2, rowGap : 1}}>
+                ...
+            </Paper>
         </Box>
         
         
