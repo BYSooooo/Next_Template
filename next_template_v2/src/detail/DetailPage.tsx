@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Drawer, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Container, Drawer, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { onCloseDetail } from "../redux/features/detailSlice";
 import MessengerDetail from "./component/MessengerDetail";
@@ -34,11 +34,12 @@ export default function DetailPage() {
         ? {
             '$ .MuiDrawer-paper' : {
                 width : '100vw',
-                height : '100vh'
+                height : '100vh',
             }
         } : {
             '$ .MuiDrawer-paper' : {
-                width : { xs : 300, sm : 400, md : 500}
+                width : { xs : 300, sm : 400, md : 500 },
+                height : '100vh'
             }
         }
 
@@ -48,12 +49,19 @@ export default function DetailPage() {
             open={detailSlice.openYn} 
             onClose={onCloseDrawer}
             sx={drawerStyle}>
-            <Container>
+            <Stack sx={{ height : '100%', p : 2}}>
                 <Typography fontWeight={'bold'} variant="h4">
                     {detailSlice.component}
                 </Typography>
-                {switchPage()}
-            </Container>
+                <Box sx={{ flexGrow : 1, overflowY : 'auto'}}>
+                    {switchPage()}
+                </Box>
+            </Stack>
+            <Box sx={{ pt : 2}}>
+                <Button fullWidth>
+                    Go!
+                </Button>
+            </Box>
         </Drawer>
     )
 }
