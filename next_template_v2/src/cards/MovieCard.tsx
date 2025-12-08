@@ -10,11 +10,13 @@ const ICON_MUI="https://avatars.githubusercontent.com/u/33663932?s=200&v=4";
 const ICON_TYPESCRIPT="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png";
 const ICON_REDUX="https://redux-toolkit.js.org/img/redux.svg";
 
+const MOVIE_URL="https://next-movie-5fosnx1p9-bysooooos-projects.vercel.app";
+
 export default function MovieCard() {
     const dispatch = useAppDispatch();
 
     const onClickMovie = ()=> {
-        dispatch(onOpenDetail({ component : "Movie"}))
+        dispatch(onOpenDetail({ component : "Movie", url : MOVIE_URL}))
     }
 
     return (

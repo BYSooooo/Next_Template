@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Container, Drawer, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Drawer, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { onCloseDetail } from "../redux/features/detailSlice";
 import MessengerDetail from "./component/MessengerDetail";
@@ -58,7 +58,9 @@ export default function DetailPage() {
                 </Box>
             </Stack>
             <Box sx={{ pt : 2}}>
-                <Button fullWidth variant="contained">
+                <Button
+                    href={detailSlice.url}
+                    fullWidth variant="contained">
                     Move
                 </Button>
             </Box>
