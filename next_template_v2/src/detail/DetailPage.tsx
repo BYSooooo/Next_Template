@@ -51,16 +51,18 @@ export default function DetailPage() {
             sx={drawerStyle}>
             <Stack sx={{ height : '100%', p : 2}}>
                 <Typography fontWeight={'bold'} variant="h4">
-                    {detailSlice.component}
+                    {"Next " + detailSlice.component}
                 </Typography>
                 <Box sx={{ flexGrow : 1, overflowY : 'auto'}}>
                     {switchPage()}
                 </Box>
             </Stack>
-            <Box sx={{ pt : 2}}>
+            <Box sx={{ p : 1}}>
                 <Button
                     href={detailSlice.url}
-                    fullWidth variant="contained">
+                    fullWidth 
+                    variant="contained"
+                    target="_blank">
                     Move
                 </Button>
             </Box>
