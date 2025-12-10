@@ -1,9 +1,15 @@
 import { AttachFile, Chat, Login, Person } from "@mui/icons-material";
 import { Box, List, Paper, Typography } from "@mui/material";
 import DetailListItem from "./DetailListItem";
-
+import main from '../../../public/asset/main.png';
+import { Swiper } from 'swiper';
 
 export default function MessengerDetail() {
+
+
+    const swiper = new Swiper({
+        
+    })
 
     return (
         <Box>
@@ -23,6 +29,12 @@ export default function MessengerDetail() {
             </Typography>
             <Paper sx={{ px : 2, rowGap : 1}}>
                 ...
+            </Paper>
+            <Typography variant="subtitle2" fontWeight={'bold'}>
+                Preview
+            </Typography>
+            <Paper sx={{ px : 2, rowGap : 1}}>
+                
             </Paper>
         </Box>
         

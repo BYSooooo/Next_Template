@@ -20,8 +20,11 @@ export default function MovieDetail() {
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, mb : 2, rowGap : 1 }}>
-            
+                ...
             </Paper>
+            <Typography variant="subtitle2" fontWeight={'bold'}>
+                Preview
+            </Typography>
         </Box>
     )
 }
