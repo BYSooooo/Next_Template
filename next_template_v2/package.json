@@ -10,8 +10,7 @@
     "next": "16.0.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-redux": "^9.2.0",
-    "swiper": "^12.0.3"
+    "react-redux": "^9.2.0"
   },
   "scripts": {
     "dev": "next dev",
