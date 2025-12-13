@@ -2,15 +2,6 @@ import { AttachFile, Chat, Login, Person } from "@mui/icons-material";
 import { Box, List, Paper, Stack, Typography } from "@mui/material";
 import DetailListItem from "./DetailListItem";
 
-/* Static Image */
-import image01 from '../../../public/asset/movie01.png';
-import image02 from '../../../public/asset/movie02.png';
-import image03 from '../../../public/asset/movie03.png';
-import image04 from '../../../public/asset/movie04.png';
-
-import Image from "next/image";
-
-
 export default function MessengerDetail() {
 
     
@@ -38,22 +29,7 @@ export default function MessengerDetail() {
                 Preview
             </Typography>
             <Paper sx={{ px : 2, rowGap : 1}}>
-                {/* <Swiper 
-                    direction="vertical"
-                    navigation={true} modules={[Navigation]}>
-                    <SwiperSlide>
-                        <Image src={image01} alt="Preview01" height={100}  /> 
-                    </SwiperSlide>
-                     <SwiperSlide>
-                        <Image src={image02} alt="Preview02"  height={100}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image src={image03} alt="Preview03"  /> 
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Image src={image04} alt="Preview04"/>
-                    </SwiperSlide>
-                </Swiper> */}
+                
             </Paper>
         </Box>
         
