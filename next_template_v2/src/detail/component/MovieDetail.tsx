@@ -24,17 +24,17 @@ export default function MovieDetail() {
                     <DetailListItem icon={<Info />} text="Display summary and detail of movies" />
                 </List>
             </Paper>
+            <Typography variant="subtitle2" fontWeight={'bold'}>
+                Preview
+            </Typography>
+            <Paper sx={{ p : 1, rowGap : 1}}>
+                <Carousel data={[image01,image02, image03, image04]} />
+            </Paper>
             <Typography variant="subtitle2" fontWeight="bold">
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, mb : 2, rowGap : 1 }}>
                 ...
-            </Paper>
-            <Typography variant="subtitle2" fontWeight={'bold'}>
-                Preview
-            </Typography>
-            <Paper sx={{ px : 2, rowGap : 1}}>
-                <Carousel data={[image01,image02, image03, image04]} width={300} height={200}/>
             </Paper>
         </Box>
     )
