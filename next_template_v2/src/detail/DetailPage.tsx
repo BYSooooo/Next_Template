@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { onCloseDetail } from "../redux/features/detailSlice";
 import MessengerDetail from "./component/MessengerDetail";
 import MovieDetail from "./component/MovieDetail";
+import { Close } from "@mui/icons-material";
 
 export default function DetailPage() {
     const detailSlice = useAppSelector((state)=> state.detailSlice);
@@ -50,9 +51,19 @@ export default function DetailPage() {
             onClose={onCloseDrawer}
             sx={drawerStyle}>
             <Stack sx={{ height : '100%', p : 2}}>
-                <Typography fontWeight={'bold'} variant="h4">
-                    {"Next " + detailSlice.component}
-                </Typography>
+                { screenSmYn 
+                    ? <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}> 
+                        <Typography fontWeight={'bold'} variant="h4">
+                            {"Next " + detailSlice.component}
+                        </Typography>
+                        { screenSmYn && <Close />}
+                        </Stack>
+                    
+                    :   <Typography fontWeight={'bold'} variant="h4">
+                            {"Next " + detailSlice.component}
+                        </Typography>
+                }
+                
                 <Box sx={{ flexGrow : 1, overflowY : 'auto'}}>
                     {switchPage()}
                 </Box>
