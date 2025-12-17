@@ -19,6 +19,10 @@ export default function DetailPage() {
         dispatch(onCloseDetail())
     }
 
+    const onClickClose = ()=> {
+        dispatch(onCloseDetail())
+    }
+
     const switchPage = ()=> {
         switch(detailSlice.component) {
             case "Messenger" : 
@@ -52,13 +56,23 @@ export default function DetailPage() {
             sx={drawerStyle}>
             <Stack sx={{ height : '100%', p : 2}}>
                 { screenSmYn 
-                    ? <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}> 
+                    ? <Stack 
+                        direction={'row'} 
+                        justifyContent={'space-between'} 
+                        alignItems={'center'}> 
                         <Typography fontWeight={'bold'} variant="h4">
                             {"Next " + detailSlice.component}
                         </Typography>
-                        { screenSmYn && <Close />}
+                        { screenSmYn && 
+                            <Button 
+                                onClick={onClickClose}
+                                variant="text" 
+                                color="inherit" 
+                                sx={{ borderRadius : 100}}>
+                                <Close/>
+                            </Button>
+                        }
                         </Stack>
-                    
                     :   <Typography fontWeight={'bold'} variant="h4">
                             {"Next " + detailSlice.component}
                         </Typography>
