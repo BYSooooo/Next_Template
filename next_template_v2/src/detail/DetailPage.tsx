@@ -6,6 +6,7 @@ import { onCloseDetail } from "../redux/features/detailSlice";
 import MessengerDetail from "./component/MessengerDetail";
 import MovieDetail from "./component/MovieDetail";
 import { Close } from "@mui/icons-material";
+import ShoppingDetail from "./component/ShoppingDetail";
 
 export default function DetailPage() {
     const detailSlice = useAppSelector((state)=> state.detailSlice);
@@ -29,6 +30,8 @@ export default function DetailPage() {
                 return <MessengerDetail />
             case "Movie" : 
                 return <MovieDetail />
+            case "Shopping" : 
+                return <ShoppingDetail />
             default : 
                 return null;
         }
