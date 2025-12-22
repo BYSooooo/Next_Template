@@ -20,7 +20,7 @@ export default function ShoppingCard() {
             disabled
             onClick={onClickShopping}>
             <Card sx={{ p: 2, borderRadius : 1}}>
-                <Stack direction={'row'} rowGap={1} alignItems={'center'}>
+                <Stack direction={'row'} rowGap={1} columnGap={1} alignItems={'center'}>
                     <Warning sx={{ color : 'gray'}}/>
                     <Typography 
                         variant="h5"
