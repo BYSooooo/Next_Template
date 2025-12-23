@@ -2,9 +2,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { Roboto } from 'next/font/google';
 
 import MainBar from '../bar/MainBar';
-import { ThemeProvider } from '@mui/material/styles';
+
 import { InitColorSchemeScript } from '@mui/material';
-import theme from '../theme/theme';
 import StoreProvider from './StoreProvider';
 import DetailPage from '../detail/DetailPage';
 
@@ -24,7 +23,7 @@ export default function RootLayout({children} : {
         <html lang="en" suppressHydrationWarning> 
             <body>
                 <StoreProvider>
-                    <InitColorSchemeScript attribute='data'/>
+                    <InitColorSchemeScript attribute='class' defaultMode='system' />
                     <AppRouterCacheProvider options={{ enableCssLayer : false}}>
                         <MainBar />
                         {children}
