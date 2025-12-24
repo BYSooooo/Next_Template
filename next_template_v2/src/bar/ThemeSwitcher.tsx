@@ -6,7 +6,7 @@ import React from "react";
 export default function ThemeSwitcher() {
     const { mode, setMode } = useColorScheme()
     const [ mounted, setMounted ] = React.useState(false);
-    
+    console.log(mode)
     React.useEffect(()=> {
         setMounted(true);
     },[])
@@ -15,15 +15,17 @@ export default function ThemeSwitcher() {
         return <div style={{ width: 62, height: 38 }} />;
     }
 
-    const isDark = mode === 'dark';
+    const isDark = mode === 'dark' || 
+                        (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);;
 
     const handleToggle = ()=> {
-        se
+        setMode(isDark ? 'light' : 'dark')
     }
 
     return (
         <Switch
-            checked={darkYn}
-            onClick={()=>onClickSwitchMode()}/>
+            checked={isDark}
+            onChange={handleToggle}
+            inputProps={{ 'aria-label' : 'theme-toggle'}}/>
     )
 }
