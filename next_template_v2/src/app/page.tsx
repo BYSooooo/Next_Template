@@ -8,7 +8,7 @@ import ShoppingCard from "../cards/ShoppingCard";
 
 export default function Page() {
     return (
-        <Grid container sx={{ mt : 3}} spacing={2}>
+        <Grid container sx={{ p : 2}} spacing={2}>
             <Grid size={{ xs : 12, sm : 6, md : 4}}>
                 <MessengerCard />
             </Grid>

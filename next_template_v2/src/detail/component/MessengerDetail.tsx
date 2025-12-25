@@ -9,11 +9,7 @@ import image04 from '../../../public/asset/msg04.png';
 import image05 from '../../../public/asset/msg05.png';
 import Carousel from "./Crousel";
 
-
-
 export default function MessengerDetail() {
-
-    
 
     return (
         <Box>

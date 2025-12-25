@@ -1,10 +1,12 @@
-import { createTheme } from '@mui/material/styles'
+'use client';
 
-const theme = createTheme({
+import { extendTheme } from '@mui/material/styles'
+
+const theme = extendTheme({
     colorSchemes : {
-        light : true,
-        dark : true
-    }
+        light : true, dark : true
+    },
+    colorSchemeSelector : 'class'
 })
 
 export default theme;
