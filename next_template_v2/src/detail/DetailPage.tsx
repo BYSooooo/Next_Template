@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { onCloseDetail } from "../redux/features/detailSlice";
 import MessengerDetail from "./component/MessengerDetail";
 import MovieDetail from "./component/MovieDetail";
+import { Close } from "@mui/icons-material";
+import ShoppingDetail from "./component/ShoppingDetail";
 
 export default function DetailPage() {
     const detailSlice = useAppSelector((state)=> state.detailSlice);
@@ -18,12 +20,18 @@ export default function DetailPage() {
         dispatch(onCloseDetail())
     }
 
+    const onClickClose = ()=> {
+        dispatch(onCloseDetail())
+    }
+
     const switchPage = ()=> {
         switch(detailSlice.component) {
             case "Messenger" : 
                 return <MessengerDetail />
             case "Movie" : 
                 return <MovieDetail />
+            case "Shopping" : 
+                return <ShoppingDetail />
             default : 
                 return null;
         }
@@ -50,17 +58,39 @@ export default function DetailPage() {
             onClose={onCloseDrawer}
             sx={drawerStyle}>
             <Stack sx={{ height : '100%', p : 2}}>
-                <Typography fontWeight={'bold'} variant="h4">
-                    {detailSlice.component}
-                </Typography>
+                { screenSmYn 
+                    ? <Stack 
+                        direction={'row'} 
+                        justifyContent={'space-between'} 
+                        alignItems={'center'}> 
+                        <Typography fontWeight={'bold'} variant="h4">
+                            {"Next " + detailSlice.component}
+                        </Typography>
+                        { screenSmYn && 
+                            <Button 
+                                onClick={onClickClose}
+                                variant="text" 
+                                color="inherit" 
+                                sx={{ borderRadius : 100}}>
+                                <Close/>
+                            </Button>
+                        }
+                        </Stack>
+                    :   <Typography fontWeight={'bold'} variant="h4">
+                            {"Next " + detailSlice.component}
+                        </Typography>
+                }
+                
                 <Box sx={{ flexGrow : 1, overflowY : 'auto'}}>
                     {switchPage()}
                 </Box>
             </Stack>
-            <Box sx={{ pt : 2}}>
+            <Box sx={{ p : 1}}>
                 <Button
                     href={detailSlice.url}
-                    fullWidth variant="contained">
+                    fullWidth 
+                    variant="contained"
+                    target="_blank">
                     Move
                 </Button>
             </Box>

@@ -4,18 +4,28 @@ import { Switch, useColorScheme } from "@mui/material";
 import React from "react";
 
 export default function ThemeSwitcher() {
-    const { mode, systemMode, setMode } = useColorScheme();
+    const { mode, setMode } = useColorScheme()
+    const [ mounted, setMounted ] = React.useState(false);
+    console.log(mode)
+    React.useEffect(()=> {
+        setMounted(true);
+    },[])
 
-    const onClickSwitchMode = React.useCallback(()=> {
-        if(mode) {
-            const curMode = mode === 'dark' ? 'light' : 'dark';
-            setMode(curMode);
-        }
-    },[mode, systemMode])
+    if(!mounted) {
+        return <div style={{ width: 62, height: 38 }} />;
+    }
+
+    const isDark = mode === 'dark' || 
+                        (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);;
+
+    const handleToggle = ()=> {
+        setMode(isDark ? 'light' : 'dark')
+    }
 
     return (
         <Switch
-            checked={mode === 'dark'}
-            onClick={()=>onClickSwitchMode()}/>
+            checked={isDark}
+            onChange={handleToggle}
+            inputProps={{ 'aria-label' : 'theme-toggle'}}/>
     )
 }

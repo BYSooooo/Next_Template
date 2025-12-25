@@ -11,7 +11,7 @@ const ICON_NEXTJS="https://camo.githubusercontent.com/26d06a6572aa5d9ecdb699add7
 const ICON_TYPESCRIPT="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png";
 const ICON_REDUX="https://redux-toolkit.js.org/img/redux.svg";
 
-const MESSENGER_URL = 'https://next-messenger-6d354e8c1-bysooooos-projects.vercel.app'
+const MESSENGER_URL = 'https://next-messenger-nine.vercel.app'
 
 export default function MessengerCard() {
     const dispatch = useAppDispatch()
