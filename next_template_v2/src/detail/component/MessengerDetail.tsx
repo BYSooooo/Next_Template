@@ -1,5 +1,5 @@
 import { AttachFile, Chat, Login, Person } from "@mui/icons-material";
-import { Box, List, Paper, Stack, Typography } from "@mui/material";
+import { Box, List, Paper, Typography } from "@mui/material";
 import DetailListItem from "./DetailListItem";
 
 //Static image
@@ -30,12 +30,12 @@ export default function MessengerDetail() {
             <Paper sx={{ p: 1, rowGap: 1}}>
                 <Carousel data={[image02, image03, image04, image05]} />
             </Paper>
-            <Typography variant="subtitle1" fontWeight={'bold'}>
+            {/* <Typography variant="subtitle1" fontWeight={'bold'}>
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, rowGap : 1}}>
                 
-            </Paper>
+            </Paper> */}
         </Box>
         
         

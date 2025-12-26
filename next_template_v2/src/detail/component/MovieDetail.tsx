@@ -30,12 +30,12 @@ export default function MovieDetail() {
             <Paper sx={{ p : 1, rowGap : 1}}>
                 <Carousel data={[image01,image02, image03, image04]} />
             </Paper>
-            <Typography variant="subtitle2" fontWeight="bold">
+            {/* <Typography variant="subtitle2" fontWeight="bold">
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, mb : 2, rowGap : 1 }}>
                 
-            </Paper>
+            </Paper> */}
         </Box>
     )
 }
