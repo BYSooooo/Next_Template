@@ -9,7 +9,17 @@ import image04 from '../../../public/asset/msg04.png';
 import image05 from '../../../public/asset/msg05.png';
 import Carousel from "./Crousel";
 
+import Mermaid from '../../mermaid/Mermaid';
+
 export default function MessengerDetail() {
+
+    const messengerArch = `
+        architecture-beta
+            service db(database)[Firebase]
+            service disk1(disk)[Storage]
+
+            db:L -- R:disk1
+    `;
 
     return (
         <Box>
@@ -34,7 +44,7 @@ export default function MessengerDetail() {
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, rowGap : 1}}>
-                
+                <Mermaid chart={messengerArch} />
             </Paper>
         </Box>
         
