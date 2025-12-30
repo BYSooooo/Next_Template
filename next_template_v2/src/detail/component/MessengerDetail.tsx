@@ -15,6 +15,9 @@ export default function MessengerDetail() {
 
     const messengerArch = `
         architecture-beta
+            groups Nextjs(server)[Nextjs]
+                service 
+
             service db(database)[Firebase]
             service disk1(disk)[Storage]
 
