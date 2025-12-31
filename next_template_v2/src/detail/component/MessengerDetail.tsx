@@ -15,13 +15,20 @@ export default function MessengerDetail() {
 
     const messengerArch = `
         architecture-beta
-            groups Nextjs(server)[Nextjs]
-                service 
+            group server(material:database)[Server]
+            group next(material:next)[Next]            
 
-            service db(database)[Firebase]
-            service disk1(disk)[Storage]
+            service redux(material:redux-action)[Redux Toolkit] in next
+            service tail(material:tailwindcss)[Tailwind CSS] in next
+            service fire(material:firebase)[Firebase] in server
+            service react(material:react)[React] in next
+            service node(material:nodejs)[Nodejs] in next
 
-            db:L -- R:disk1
+            fire:R -- L:node
+            node:T -- B:redux
+            redux:R -- T:react
+            node:R -- L:react
+            react:R -- L:tail
     `;
 
     return (

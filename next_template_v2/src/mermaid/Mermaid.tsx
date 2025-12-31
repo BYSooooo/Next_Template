@@ -8,6 +8,17 @@ mermaid.initialize({
     
 })
 
+mermaid.registerIconPacks([
+    {
+        name : 'material',
+        loader: ()=> import('@iconify-json/material-icon-theme').then((module)=> module.icons)
+    },
+    {
+        name : 'icon',
+        loader : ()=> import('@iconify-json/skill-icons').then((module)=> module.icons)
+    }
+])
+
 const Mermaid = ({ chart }) => {
     const ref = useRef(null);
 
