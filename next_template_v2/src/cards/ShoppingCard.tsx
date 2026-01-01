@@ -12,12 +12,11 @@ export default function ShoppingCard() {
     const dispatch = useAppDispatch()
 
     const onClickShopping = ()=> {
-        dispatch(onOpenDetail({ component : "Shopping", url : ""}))
+        dispatch(onOpenDetail({ component : "Shopping", url : "none"}))
     }
 
     return (
         <CardActionArea
-            disabled
             onClick={onClickShopping}>
             <Card sx={{ p: 2, borderRadius : 1}}>
                 <Stack direction={'row'} rowGap={1} columnGap={1} alignItems={'center'}>

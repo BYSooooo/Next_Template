@@ -1,5 +1,5 @@
 import { AttachFile, Chat, Login, Person } from "@mui/icons-material";
-import { Box, List, Paper, Stack, Typography } from "@mui/material";
+import { Box, List, Paper, Typography } from "@mui/material";
 import DetailListItem from "./DetailListItem";
 
 //Static image
@@ -9,7 +9,27 @@ import image04 from '../../../public/asset/msg04.png';
 import image05 from '../../../public/asset/msg05.png';
 import Carousel from "./Crousel";
 
+import Mermaid from '../../mermaid/Mermaid';
+
 export default function MessengerDetail() {
+
+    const messengerArch = `
+        architecture-beta
+            group server(material:database)[Server]
+            group next(material:next)[Next]            
+
+            service redux(material:redux-action)[Redux Toolkit] in next
+            service tail(material:tailwindcss)[Tailwind CSS] in next
+            service fire(material:firebase)[Firebase] in server
+            service react(material:react)[React] in next
+            service node(material:nodejs)[Nodejs] in next
+
+            fire:R -- L:node
+            node:T -- B:redux
+            redux:R -- T:react
+            node:R -- L:react
+            react:R -- L:tail
+    `;
 
     return (
         <Box>
@@ -34,7 +54,7 @@ export default function MessengerDetail() {
                 Architecture
             </Typography>
             <Paper sx={{ px : 2, rowGap : 1}}>
-                
+                <Mermaid chart={messengerArch} />
             </Paper>
         </Box>
         
