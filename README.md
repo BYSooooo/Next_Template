@@ -54,8 +54,8 @@ ReDesign Layout, Improve Logic and Fix some bug <br>
 - 0.3.5 <br>
 > Fix API-related issues in Next Movie project<br>
 > - Request/Response process from using rewrite() to NextJS's API Routes method
-<!-- 
+
 - 0.4.0 <br>
 ReDesign Next Template Page
 > - Add Card Action for display detail each project and architecture map
-> - Fix Dark Mode Flicker at first time Rendering  -->
+> - Fix Dark Mode Flicker at first time Rendering 
