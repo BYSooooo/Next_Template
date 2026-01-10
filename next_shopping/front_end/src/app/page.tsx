@@ -1,10 +1,11 @@
+import { Button } from "@heroui/react";
 
 
 export default function Page() {
     
     return (
-        <h1>
-            Shopping Page
-        </h1>
+        <Button>
+            Hero UI Test
+        </Button>
     )
 }
