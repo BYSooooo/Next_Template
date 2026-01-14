@@ -7,7 +7,10 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     AuthModule,
-    ConfigModule.forRoot({ isGlobal : true})],
+    ConfigModule.forRoot({ 
+      isGlobal : true,
+      envFilePath : '.env'}
+    )],
   controllers: [AppController],
   providers: [AppService],
 })
