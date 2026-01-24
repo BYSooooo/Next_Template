@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "@heroui/react": "^3.0.0-beta.3",
-    "@heroui/styles": "^3.0.0-beta.3",
+    "@heroicons/react": "^2.2.0",
+    "@heroui/react": "^3.0.0-beta.5",
+    "@heroui/styles": "^3.0.0-beta.5",
     "@supabase/ssr": "^0.8.0",
     "axios": "^1.13.2",
     "next": "^16.1.1",

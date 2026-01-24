@@ -1,7 +1,8 @@
 import './globals.css';
 
 import Footer from './footer';
-import HeaderBar from '@/header/HeaderBar';
+import HeaderBar from '@/component/header/HeaderBar';
+import SearchBar from '@/component/search/SearchBar';
 
 
 export default function RootLayout({children} : {children : React.ReactNode}) {
@@ -9,6 +10,7 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
         <html lang="en">
             <body>
                 <HeaderBar />
+                <SearchBar />
                 {children}
                 <Footer/>
             </body>
