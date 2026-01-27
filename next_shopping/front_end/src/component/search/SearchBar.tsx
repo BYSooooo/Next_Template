@@ -1,12 +1,18 @@
+import SearchButton from "./item/SearchButton";
 import SearchField from "./item/SearchField";
 
 export default function SearchBar() {
     return (
-        <div className="flex w-full bg-yellow-300 justify-between">
-            <p>
-                Logo
-            </p>
+        <div className="grid grid-cols-5 py-4 w-full bg-yellow-300 items-center">
+            <div className="flex justify-center col-span-1">
+                <p>
+                    Logo
+                </p>
+            </div>
             <SearchField />
+            <div className="flex col-span-1 justify-center">
+                <SearchButton />
+            </div>
         </div>
     )
 }

@@ -9,7 +9,7 @@ export default function HeaderBar() {
                 {/* Logo */}
                 <div
                     className="text-xl font-extrabold hover:cursor-pointer">
-                    NShopping
+                    Next Shopping
                 </div>
                 {/* Icon */}
                 <div className="flex flex-row h-full gap-2">
