@@ -1,11 +1,10 @@
+import MainCard from "@/component/main/MainCard";
 import { Button } from "@heroui/react";
 
 
 export default function Page() {
     
     return (
-        <div className="items-center">
-            Hello
-        </div>
+        <MainCard title="Card Header"/>
     )
 }

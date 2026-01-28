@@ -1,9 +1,16 @@
-import { Button } from "@heroui/react";
+"use client";
+
+import { Alert, Button } from "@heroui/react";
 
 export default function SearchButton() {
+    const onClickSearch = ()=> {
+        alert("Hello")
+    }
 
     return (
-        <Button size="lg" className="bg-black">
+        <Button 
+            onPress={onClickSearch}
+            size="lg" className="bg-black hover:bg-gray-800">
             Search
         </Button>
     )
