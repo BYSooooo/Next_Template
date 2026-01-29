@@ -3,7 +3,7 @@ import { Card } from "@heroui/react";
 export default function MainCard({title} :{title : string}) {
 
     return (
-        <Card>
+        <Card className="min-w-100">
             <Card.Title className="font-bold text-xl">
                 {title}
             </Card.Title>
