@@ -1,18 +1,13 @@
-import MainCard from "@/component/main/MainCard";
-import { Button, ScrollShadow } from "@heroui/react";
+import MainCardSlider from "@/component/main/MainCardContainer";
+
 
 
 export default function Page() {
     
     return (
-        <div className="w-full overflow-scroll" >
-            <ScrollShadow orientation="horizontal" className="flex w-full">
-                <MainCard title="Card One"/>
-                <MainCard title="Card Two" />
-                <MainCard title="Card Three"/>
-                <MainCard title="Card Four" />
-            </ScrollShadow>
-
+        <div className="p-2">
+            <MainCardSlider />
         </div>
+        
     )
 }
