@@ -8,20 +8,20 @@ import useEmblaCarousel from "embla-carousel-react";
 export default function MainCardSlider() {
 
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"start", dragFree : true })
-    const [scrollSnap, setScrollSnaps] = React.useState([]);
+    // const [scrollSnap, setScrollSnaps] = React.useState([]);
 
     const onClickPrev = ()=> emblaApi?.scrollPrev();
     const onClickNext = ()=> emblaApi.scrollNext();    
 
-    const goTo = (index) => emblaApi.scrollTo(index)
-    const setupSnaps = (emblaApi) => setScrollSnaps(emblaApi.snapList())
+    // const goTo = (index) => emblaApi.scrollTo(index)
+    // const setupSnaps = (emblaApi) => setScrollSnaps(emblaApi.snapList())
 
-    useEffect(()=> {
-        if (!emblaApi) return
+    // useEffect(()=> {
+    //     if (!emblaApi) return
 
-        setupSnaps(emblaApi)
-        emblaApi.on('reInit', setupSnaps)
-    },[emblaApi])
+    //     setupSnaps(emblaApi)
+    //     emblaApi.on('reInit', setupSnaps)
+    // },[emblaApi])
 
     return (
         <div className="embla" >
@@ -40,6 +40,7 @@ export default function MainCardSlider() {
                 <Button className="embla__prev" onClick={onClickPrev}>
                     Prev
                 </Button>
+                
                 <Button className="embla__next" onClick={onClickNext}>
                     Next
                 </Button>

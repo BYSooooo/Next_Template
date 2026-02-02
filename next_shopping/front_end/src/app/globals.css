@@ -2,6 +2,10 @@
 @import "@heroui/styles";
 
 /* CSS for Embla */
+.embla {
+    --slide-size : 100%
+}
+
 .embla__viewport {
     overflow: hidden;
 }
@@ -11,6 +15,6 @@
 }
 
 .embla__slide {
-    flex : 0 0 100%;
+    flex : 0 0 var(--slide-size);
     min-width: 0;
 }
