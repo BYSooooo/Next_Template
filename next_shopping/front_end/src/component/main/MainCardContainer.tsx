@@ -7,11 +7,12 @@ import useEmblaCarousel from "embla-carousel-react";
 
 export default function MainCardSlider() {
 
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"start", dragFree : true })
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"start", dragFree : false, containScroll : 'trimSnaps' })
     // const [scrollSnap, setScrollSnaps] = React.useState([]);
 
     const onClickPrev = ()=> emblaApi?.scrollPrev();
-    const onClickNext = ()=> emblaApi.scrollNext();    
+    const onClickNext = ()=> emblaApi.scrollNext();
+    
 
     // const goTo = (index) => emblaApi.scrollTo(index)
     // const setupSnaps = (emblaApi) => setScrollSnaps(emblaApi.snapList())
@@ -31,6 +32,7 @@ export default function MainCardSlider() {
                     <MainCard title="Card Two" />
                     <MainCard title="Card Three"/>
                     <MainCard title="Card Four" />
+                    <MainCard title="Card Five" />
                 </div>
             </div>
             <div className='embla__dots'>
