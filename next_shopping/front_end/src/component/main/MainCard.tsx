@@ -1,6 +1,12 @@
-import { Card } from "@heroui/react";
+import { Button, Card } from "@heroui/react";
 
-export default function MainCard({title} :{title : string}) {
+interface CardProp {
+    title : string,
+    footer? : string,
+    desc? : string
+}
+
+export default function MainCard({title, footer, desc} : CardProp) {
     
 
     return (
@@ -9,14 +15,18 @@ export default function MainCard({title} :{title : string}) {
                 {title}
             </Card.Title>
             <Card.Footer className="z-10 mt-auto">
-                <div>
-                    <div className="text-base font-bold">
-                        This is Card Footer
+                <div className="w-full flex flex-row justify-between">
+                    <div className="flex flex-col">
+                        <div className="text-base font-bold ">
+                            {footer ? footer : ''}
+                        </div>
+                        <div className="text-xs">
+                            {desc}
+                        </div>
                     </div>
-                    <div className="text-xs">
-                        Buy Now!
-                    </div>
-
+                    <Button variant="outline">
+                        More
+                    </Button>
                 </div>
             </Card.Footer>
         </Card>
