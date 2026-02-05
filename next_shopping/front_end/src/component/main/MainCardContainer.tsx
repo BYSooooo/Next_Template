@@ -10,12 +10,14 @@ export default function MainCardSlider() {
     const aCards = [
         { title : 'Spcecial Sales', footer : 'Get a Change!'},
         { title : 'Happy new Year!', footer : 'New year sales!', desc : 'up to 20% sale'},
-        { title : 'Result of Event', footer : 'Check List', desc : ''}
+        { title : 'Result of Event', footer : 'Check List', desc : ''},
+        { title : 'Daily Event', footer : 'Up to 30% discount', desc : 'click More now'},
+        { title : 'Last Chance!', footer : 'Sale for Season off Goods', desc: 'click More now!'}
     ]
 
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"start", dragFree : false, containScroll : "trimSnaps" })
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"center", dragFree : false, containScroll : false })
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [scrollSnap, setScrollSnaps] = React.useState([]);
+    const [scrollSnaps, setScrollSnaps] = React.useState([]);
 
     const scrollTo = React.useCallback((index: number)=> {
         if(emblaApi) emblaApi.scrollTo(index)
@@ -48,9 +50,14 @@ export default function MainCardSlider() {
                 </div>
             </div>
             <div className='embla__dots'>
-                
+                {scrollSnaps.map((_, index)=> (
+                    <button key={index}
+                        className={`embla__dot ${index === selectedIndex ? 'active' : ''}`}
+                        onClick={()=> scrollTo(index)}
+                    />
+                ))}
             </div>
-            <div className="max-w-full justify-between">
+            {/* <div className="max-w-full justify-between">
                 <Button className="embla__prev" onClick={onClickPrev}>
                     Prev
                 </Button>
@@ -59,7 +66,7 @@ export default function MainCardSlider() {
                     Next
                 </Button>
 
-            </div>
+            </div> */}
         </div>
     )
 }
