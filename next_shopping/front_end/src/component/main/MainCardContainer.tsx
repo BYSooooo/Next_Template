@@ -15,7 +15,9 @@ export default function MainCardSlider() {
         { title : 'Last Chance!', footer : 'Sale for Season off Goods', desc: 'click More now!'}
     ]
 
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"center", dragFree : false, containScroll : false })
+    const aRepeatCard = [...aCards, ...aCards]
+
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"center", dragFree : false, containScroll : false, watchSlides : true })
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [scrollSnaps, setScrollSnaps] = React.useState([]);
 
@@ -41,32 +43,25 @@ export default function MainCardSlider() {
     
 
     return (
-        <div className="embla" >
-            <div className="embla__viewport" ref={emblaRef}>
-                <div className="embla__container">
-                    { aCards.map((card)=> {
-                        return <MainCard key={card.title} title={card.title} footer={card.footer} desc={card?.desc} />
-                    })}
+        <div className='relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]'>
+
+            <div className="embla" >
+                <div className="embla__viewport" ref={emblaRef}>
+                    <div className="embla__container">
+                        { aRepeatCard.map((card, index)=> {
+                            return <MainCard key={index} title={card.title} footer={card.footer} desc={card?.desc} />
+                        })}
+                    </div>
+                </div>
+                <div className='embla__dots'>
+                    {scrollSnaps.map((_, index)=> (
+                        <button key={index}
+                            className={`embla__dot ${index === selectedIndex ? 'active' : ''}`}
+                            onClick={()=> scrollTo(index)}
+                        />
+                    ))}
                 </div>
             </div>
-            <div className='embla__dots'>
-                {scrollSnaps.map((_, index)=> (
-                    <button key={index}
-                        className={`embla__dot ${index === selectedIndex ? 'active' : ''}`}
-                        onClick={()=> scrollTo(index)}
-                    />
-                ))}
-            </div>
-            {/* <div className="max-w-full justify-between">
-                <Button className="embla__prev" onClick={onClickPrev}>
-                    Prev
-                </Button>
-                
-                <Button className="embla__next" onClick={onClickNext}>
-                    Next
-                </Button>
-
-            </div> */}
         </div>
     )
 }

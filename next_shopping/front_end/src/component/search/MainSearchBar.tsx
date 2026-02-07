@@ -1,7 +1,7 @@
 import SearchButton from "./item/SearchButton";
 import SearchField from "./item/SearchField";
 
-export default function SearchBar() {
+export default function MainSearchBar() {
     return (
         <section className="w-full bg-yellow-400">
             <div className="mx-auto max-w-7xl px-6 py-4">

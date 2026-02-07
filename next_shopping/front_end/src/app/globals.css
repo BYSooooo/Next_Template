@@ -3,10 +3,12 @@
 
 /* CSS for Embla */
 .embla {
-    --slide-size : 70%
+    --slide-size : 100%;
+    width : 100%;
 }
 .embla__viewport {
     overflow: hidden;
+    width : 100%
 }
 .embla__container {
     display: flex;
