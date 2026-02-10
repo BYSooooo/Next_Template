@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/app/page.tsx"],"sourcesContent":["import { Button } from \"@heroui/react\";\n\n\nexport default function Page() {\n    \n    return (\n        <div className=\"items-center\">\n            Hello\n        </div>\n    )\n}"],"names":[],"mappings":"8LAGe,SAAS,IAEpB,MACI,CAAA,EAAA,EAAA,GAAA,EAAC,MAAA,CAAI,UAAU,wBAAe,SAItC"}

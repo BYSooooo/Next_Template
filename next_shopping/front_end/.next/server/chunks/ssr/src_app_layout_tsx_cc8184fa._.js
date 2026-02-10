@@ -1,3 +1,0 @@
-module.exports=[27572,a=>{"use strict";var b=a.i(7997);function c(){return(0,b.jsx)("div",{className:"w-full self-end",children:"This is Footer"})}function d(){return(0,b.jsx)("nav",{className:"sticky top-0 z-40 w-full border-b bg-background/60 backdrop-blur-md justify-between",children:(0,b.jsx)("div",{className:"mx-auto flex h-7 max-w-7xl items-center justify-between px-6",children:(0,b.jsx)("div",{className:"text-xl font-extrabold",children:"NShopping"})})})}function e({children:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsxs)("body",{children:[(0,b.jsx)(d,{}),a,(0,b.jsx)(c,{})]})})}a.s(["default",()=>e],27572)}];
-
-//# sourceMappingURL=src_app_layout_tsx_cc8184fa._.js.map
