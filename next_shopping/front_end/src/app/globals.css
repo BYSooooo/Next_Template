@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* CSS for Embla */
+.embla {
+    --slide-size : 100%;
+    width : 100%;
+}
+.embla__viewport {
+    overflow: hidden;
+    width : 100%
+}
+.embla__container {
+    display: flex;
+}
+.embla__slide {
+    flex : 0 0 var(--slide-size);
+    min-width: 0;
+
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.embla__dots {
+    display: flex;
+    justify-content: center;
+    gap : 8px;
+    margin-top: 15px;
+}
+.embla__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.3s;
+}
+.embla__dot.active {
+    background-color: #333;
+}
