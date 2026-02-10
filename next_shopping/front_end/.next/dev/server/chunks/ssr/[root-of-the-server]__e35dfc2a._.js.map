@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///Users/bys/Documents/Programming/Portfolio/Next_Template/next_shopping/front_end/src/app/page.tsx"],"sourcesContent":["import { Button } from \"@heroui/react\";\n\n\nexport default function Page() {\n    \n    return (\n        <div className=\"items-center\">\n            Hello\n        </div>\n    )\n}"],"names":[],"mappings":";;;;;;AAGe,SAAS;IAEpB,qBACI,8OAAC;QAAI,WAAU;kBAAe;;;;;;AAItC"}}]
+}
