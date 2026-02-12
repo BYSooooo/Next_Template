@@ -1,10 +1,12 @@
 "use client";
 
+import LoginModal from '@/component/common/LoginModal';
 import { UserIcon } from '@heroicons/react/24/outline'
-import { Button, Popover } from '@heroui/react';
+import { Button, Modal, Popover } from '@heroui/react';
+import React from 'react';
 
 export default function InfoButton() {
-
+    
     return (
         <Popover>
             <Button variant='outline' isIconOnly >
@@ -17,9 +19,12 @@ export default function InfoButton() {
                         User Profile    
                     </Popover.Heading>
                     <div className='flex flex-row gap-2 mt-2'>
-                        <Button variant='outline' size='sm' fullWidth >
-                            <p className='text-xs'>Sign In</p>
-                        </Button>
+                        <Modal>
+                            <Button variant='outline' size='sm' fullWidth>
+                                <p className='text-xs'>Sign In</p>
+                                <LoginModal />
+                            </Button>
+                        </Modal>
                         <Button variant='outline' size='sm' fullWidth>
                             <p className='text-xs'>Sign Up</p>
                         </Button>
