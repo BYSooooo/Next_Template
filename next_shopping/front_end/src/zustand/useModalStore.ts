@@ -9,7 +9,6 @@ interface ModalState {
     closeModal : () => void;
 }
 
-
 export const useModalStore = create<ModalState>((set)=> ({
     isOpen : false,
     content : null,

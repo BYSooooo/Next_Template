@@ -10,7 +10,7 @@ export default function ModalMain() {
 
     console.log(isOpen)
     return (
-        <Modal>
+        <Modal isOpen={isOpen}>
             <ModalBackdrop>
                 <ModalContainer>
                     {content}
