@@ -3,6 +3,7 @@
 import { useModalStore } from "@/zustand/useModalStore";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Button, FieldError, Form, Input, Label, Modal, TextField } from "@heroui/react";
+import GoogleLogin from "../login/GoogleLogin";
 
 export default function LoginModal() {
     const { closeModal } = useModalStore();
@@ -37,7 +38,12 @@ export default function LoginModal() {
                     </Modal.Heading>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={onSubmitForm} className="flex flex-col p-2 gap-4">
+                    <p>
+                        Select for Sign In
+                    </p>
+                    <GoogleLogin />
+                    
+                    {/* <Form onSubmit={onSubmitForm} className="flex flex-col p-2 gap-4">
                         <TextField
                             isRequired
                             name="email"
@@ -62,7 +68,7 @@ export default function LoginModal() {
                                 Login
                             </Button>
                         </div>
-                    </Form>
+                    </Form> */}
                 </Modal.Body>
             
         </Modal.Dialog>       
