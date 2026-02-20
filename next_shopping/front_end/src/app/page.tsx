@@ -19,15 +19,22 @@ async function getBackendStatus() {
     }
 }
 
-export default function Page() {
-    
+export default async function Page() {
+    // Check Back End Connection
+    const data = await getBackendStatus();
+
     return (
-        <div className="flex flex-col gap-6">
-            <MainSearchBar />
-            <MainCardSlider />
-            <MainMiddleBanner />
-            <MainTab />
-        </div>
+        <>
+            { data.status === 'ok' && 
+                <div className="flex flex-col gap-6">
+                    <MainSearchBar />
+                    <MainCardSlider />
+                    <MainMiddleBanner />
+                    <MainTab />
+                </div>
+            }
+        
+        </>
         
     )
 }
