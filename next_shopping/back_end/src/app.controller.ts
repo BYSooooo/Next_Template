@@ -1,6 +1,7 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { JwtAuthGuard } from './auth/guards/jwt.auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AppController {
@@ -17,6 +18,15 @@ export class AppController {
     return {
       "message" : "AuthGuard Working",
       "authenticatd_user" : req.user
+    }
+  }
+
+  @Get('/profile')
+  @UseGuards(AuthGuard('jwt'))
+  getProfile(@Request() req) {
+    return {
+      message : 'This information is available auth user',
+      user : req.user
     }
   }
 }

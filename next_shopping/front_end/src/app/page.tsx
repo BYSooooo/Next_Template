@@ -19,6 +19,7 @@ async function getBackendStatus() {
     }
 }
 
+
 export default async function Page() {
     // Check Back End Connection
     const data = await getBackendStatus();
