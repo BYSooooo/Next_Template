@@ -1,6 +1,5 @@
 import { Controller, Get, Req, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './auth/guards/jwt.auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
@@ -10,15 +9,6 @@ export class AppController {
   @Get('/health')
   checkHealth() {
     return { status : 'ok' }
-  }
-
-  @Get('/protected')
-  @UseGuards(JwtAuthGuard)
-  async protected(@Req() req) {
-    return {
-      "message" : "AuthGuard Working",
-      "authenticatd_user" : req.user
-    }
   }
 
   @Get('/profile')

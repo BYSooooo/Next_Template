@@ -1,28 +1,25 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable()
-export class SupabaseService implements OnModuleInit {
-    private supabase : SupabaseClient;
+export class SupabaseService {
+    public client : SupabaseClient;
 
-    onModuleInit() {
-        const supabaseUrl = process.env.SUPABASE_URL;
-        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    constructor(private configService : ConfigService) {
+        const url = this.configService.get<string>('SUPABASE_URL');
+        const key = this.configService.get<string>('SUPABASE_SERVICE_ROLE_KEY');
 
-        if(!supabaseUrl || !supabaseKey) {
-            throw new Error(`NestJS : Supabase URL or Role Key is undefined`)
+        if(!url || !key) {
+            throw new Error('Error : Can not find Supabase URL or Role Key')
         }
 
-        this.supabase = createClient(supabaseUrl, supabaseKey, {
+        this.client = createClient(url, key, {
             auth : {
                 autoRefreshToken : false,
                 persistSession : false
             }
-        });
-        console.log("NestJS - Supabase Admin Sign in")
+        })
     }
 
-    getClient() {
-        return this.supabase
-    }
 }
