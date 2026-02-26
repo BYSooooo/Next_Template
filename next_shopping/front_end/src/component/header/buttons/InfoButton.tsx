@@ -1,6 +1,6 @@
 "use client";
 
-import LoginModal from '@/component/modal/LoginModel';
+import LoginModal from '@/component/modal/LoginModal';
 import { useModalStore } from '@/zustand/useModalStore';
 import { UserIcon } from '@heroicons/react/24/outline'
 import { Button, Popover } from '@heroui/react';
