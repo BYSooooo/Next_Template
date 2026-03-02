@@ -1,14 +1,19 @@
 "use client";
 
 import { useModalStore } from "@/zustand/useModalStore";
-import { CheckIcon } from "@heroicons/react/24/outline";
-import { Button, FieldError, Form, Input, Label, Modal, Separator, TextField } from "@heroui/react";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { Button, Modal, Separator, } from "@heroui/react";
 import GoogleLogin from "../login/GoogleLogin";
-import ManualLogin from "../login/ManualLogin";
-
+import { useRouter } from "next/navigation";
 
 export default function LoginModal() {
     const { closeModal } = useModalStore();
+    const router = useRouter();
+    
+    const onPressSignInEmail = ()=> {
+        closeModal();
+        router.push('/login')
+    }
 
     return (
         <Modal.Dialog>
@@ -24,7 +29,12 @@ export default function LoginModal() {
                     </p>
                     <GoogleLogin />
                     <Separator />
-                    <ManualLogin />
+                    <Button
+                        onPress={onPressSignInEmail}
+                        className="w-full flex flex-row">
+                        <EnvelopeIcon />
+                        Sign in with Email
+                    </Button>
                 </Modal.Body>
             
         </Modal.Dialog>       
