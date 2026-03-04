@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, Input, Label, Separator, TextField } from "@heroui/react";
+import { Button, Card, Input, Label, Separator, TextField } from "@heroui/react";
 import { useState } from "react"
 
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
             <p className="font-bold text-xl">
                 Login
             </p>
-            <div className="flex flex-row border-2 border-red-500 rounded-md">
+            <div className="flex flex-row gap-2 w-fit">
                 <Card className="bg-gray-50 w-65">
                     <Card.Title className="font-bold shadow-accent-soft">
                         Select Service
@@ -32,12 +32,31 @@ export default function Page() {
                             <Label>Email</Label>
                             <Input
                                 fullWidth
-                                placeholder="input Email..."
+                                onChange={(e)=> setEmail(e.target.value)}
+                                value={email}
+                                type="email"
+                                placeholder="Input Email..."
                                 className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                             />
-                            
+                            <Label>Password</Label>
+                            <Input
+                                fullWidth
+                                onChange={(e)=> setPassword(e.target.value)}
+                                value={password}
+                                type="password"
+                                placeholder="Input Password..."
+                                className="border-2 border-solid border-black focus:outlin-0 focus:ring-0"
+                            />
                         </TextField>
                     </Card.Content>
+                    <Card.Footer className="flex flex-col gap-2">
+                        <Button className="w-full">
+                            Login
+                        </Button>
+                        <Button className="w-full" variant="secondary">
+                            Sign In
+                        </Button>
+                    </Card.Footer>
                 </Card>
             </div>
         </div>
