@@ -1,12 +1,16 @@
 "use client"
 
+import GoogleLogin from "@/component/login/GoogleLogin";
 import { Button, Card, Input, Label, Separator, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 
 export default function Page() {
     const [ email, setEmail] = useState("");
     const [ password, setPassword] = useState("");
     const [ validYn, setValidYn ] = useState(false);
+
+    const router = useRouter()
 
     return (
         <div className="flex flex-col items-center justify-center h-[80vh]">
@@ -19,7 +23,7 @@ export default function Page() {
                         Select Service
                     </Card.Title>
                     <Card.Content>
-
+                        <GoogleLogin />
                     </Card.Content>
                 </Card>
                 <Separator orientation="vertical"/>
@@ -53,7 +57,9 @@ export default function Page() {
                         <Button className="w-full">
                             Login
                         </Button>
-                        <Button className="w-full" variant="secondary">
+                        <Button 
+                            onPress={()=>router.push("/login/signin")}
+                            className="w-full" variant="secondary">
                             Sign In
                         </Button>
                     </Card.Footer>
