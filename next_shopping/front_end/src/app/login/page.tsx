@@ -18,16 +18,7 @@ export default function Page() {
                 Login
             </p>
             <div className="flex flex-row gap-2 w-fit">
-                <Card className="bg-gray-50 w-65">
-                    <Card.Title className="font-bold shadow-accent-soft">
-                        Select Service
-                    </Card.Title>
-                    <Card.Content>
-                        <GoogleLogin />
-                    </Card.Content>
-                </Card>
-                <Separator orientation="vertical"/>
-                <Card className="bg-gray-50 w-65">
+                <Card className="bg-gray-50 w-72">
                     <Card.Title className="font-bold shadow-accent-soft">
                         Input Email/Password
                     </Card.Title>
@@ -63,6 +54,15 @@ export default function Page() {
                             Sign In
                         </Button>
                     </Card.Footer>
+                </Card>
+                <Separator orientation="vertical"/>
+                <Card className="bg-gray-50 w-72">
+                    <Card.Title className="font-bold shadow-accent-soft">
+                        Select Service
+                    </Card.Title>
+                    <Card.Content>
+                        <GoogleLogin />
+                    </Card.Content>
                 </Card>
             </div>
         </div>

@@ -4,7 +4,7 @@ import { useModalStore } from "@/zustand/useModalStore";
 import { Modal, ModalBackdrop, ModalContainer } from "@heroui/react";
 
 export default function ModalMain() {
-    const { isOpen, content, openModal, closeModal } = useModalStore()
+    const { isOpen, content, size, openModal, closeModal } = useModalStore()
 
     if(!isOpen) return null;
 
@@ -12,7 +12,7 @@ export default function ModalMain() {
     return (
         <Modal isOpen={isOpen}>
             <ModalBackdrop>
-                <ModalContainer>
+                <ModalContainer size={size}>
                     {content}
                 </ModalContainer>
             </ModalBackdrop>

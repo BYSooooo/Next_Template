@@ -12,7 +12,7 @@ export default function InfoButton() {
 
     const onPressSignIn = ()=> {
         setOpenYn(false)
-        openModal(<LoginModal />)   
+        openModal(<LoginModal />, "lg")   
     }
     
     return (
