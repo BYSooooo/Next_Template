@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useModalStore } from "@/zustand/useModalStore";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { Button, Card, Input, Label, Modal, Separator, TextField, } from "@heroui/react";
 import GoogleLogin from "../login/GoogleLogin";
 import { useRouter } from "next/navigation";
@@ -16,9 +16,9 @@ export default function LoginModal() {
     const [ password, setPassword] = React.useState("");
         
     
-    const onPressSignInEmail = ()=> {
+    const onPressSignUp = ()=> {
         closeModal();
-        router.push('/login')
+        router.push("/signup")
     }
 
     const onPressSignIn = ()=> {
@@ -34,7 +34,7 @@ export default function LoginModal() {
                     </Modal.Heading>
                 </Modal.Header>
                 <Modal.Body className="flex flex-row gap-3">
-                    <div className='flex flex-col gap-3'>
+                    <div className='flex flex-col gap-3 w-[50%]'>
                         <TextField>
                             <Label>Email</Label>
                             <Input
@@ -61,14 +61,19 @@ export default function LoginModal() {
                             <EnvelopeIcon />
                             Sign in with Email
                         </Button>
+                        <Button
+                            className="w-full flex bg-green-500 hover:bg-green-400"
+                            onPress={onPressSignUp}>
+                            <UserPlusIcon />
+                            Sign Up
+                        </Button>
                     </div>
                     <Separator orientation="vertical"/>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col text-center w-[50%]'>
                         <p>
                             Select for Sign In
                         </p>
                         <GoogleLogin />
-
                     </div>
                 </Modal.Body>
             
