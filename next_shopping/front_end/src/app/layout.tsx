@@ -14,7 +14,9 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
                     <header className='w-full'>
                         <HeaderBar />
                     </header>
-                    {children}
+                    <main className='grow'>
+                        {children}
+                    </main>
                     <ModalMain />
                     <Footer/>
                 </div>

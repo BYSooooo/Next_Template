@@ -18,7 +18,7 @@ export default function LoginModal() {
     
     const onPressSignUp = ()=> {
         closeModal();
-        router.push("/signup")
+        router.push("member/signup")
     }
 
     const onPressSignIn = ()=> {
