@@ -1,14 +1,37 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, Form, Input, Label, Separator, TextField } from "@heroui/react";
 
 export default function Page() {
 
     const [email, setEmail] = React.useState("");
     const [sendYn, setSendYn] = React.useState(true);
-    const [verifyYn, setVerifyYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
+    const [timer, setTimer] = React.useState(300) // 5 Minute
+    const [loading, setLoading] = React.useState(false)
+
+    // Timer 
+    useEffect(()=> {
+        let interval: number;
+
+        if(sendYn && timer > 0) {
+            interval = window.setInterval(()=> {
+                setTimer((prev)=>  prev -1)
+            }, 1000)
+        }
+
+        return () => window.clearInterval(interval)
+    },[sendYn, timer])
+
+    // Change Time Format such as '05:00'
+    const formatTime = React.useCallback((seconds : number)=> {
+        
+    })
+
+    const onPressVerifyCode = ()=> {
+        
+    }
 
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
@@ -42,13 +65,15 @@ export default function Page() {
                                     placeholder='Input Email...'
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
-                                <Button className="w-full">
-                                    {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
+                                <Button 
+                                    onPress={onPressVerifyCode}
+                                    className="w-full">
+                                    {sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
                                 </Button>
                                 <Label>Code</Label>
                                 <Input
                                     fullWidth
-                                    disabled={verifyYn}
+                                    disabled={!sendYn}
                                     onChange={(e)=> setVerifyCode(e.target.validationMessage)}
                                     value={verifyCode}
                                     placeholder='Input Verify Code...'
