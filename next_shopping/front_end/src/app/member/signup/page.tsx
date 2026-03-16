@@ -7,7 +7,7 @@ import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 export default function Page() {
 
     const [email, setEmail] = React.useState("");
-    const [sendYn, setSendYn] = React.useState(true);
+    const [sendYn, setSendYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
     const [loading, setLoading] = React.useState(false)
@@ -52,16 +52,19 @@ export default function Page() {
     const onPressConfimVerifyCode = async()=> {
         setLoading(true);
         try {
-            await confirmOTP(email, verifyCode);
+            const { data, error } = await confirmOTP(email, verifyCode);
+            console.log(data, error)
             
         } catch(error) {
-
+            console.log(error)
+        } finally{
+            setLoading(false)
         }
     }
 
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
-            <div className="grid grid-cols-12 gap-10">
+            <div className="grid grid-cols-12 gap-10 items-center">
                 <div className="flex flex-col col-span-6">
                     <p className="text-5xl">
                         Wellcome to 
@@ -81,7 +84,7 @@ export default function Page() {
                             Information
                         </Card.Header>
                         <Card.Content>
-                            <TextField>
+                            <TextField className="gap-2">
                                 <Label>Email</Label>
                                 <Input
                                     fullWidth
@@ -94,21 +97,22 @@ export default function Page() {
                                 <Button 
                                     onPress={onPressVerifyCode}
                                     className="w-full">
-                                    {sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
+                                    {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
                                 </Button>
                                 <Label>Code</Label>
                                 <Input
                                     fullWidth
                                     disabled={!sendYn}
-                                    onChange={(e)=> setVerifyCode(e.target.validationMessage)}
+                                    onChange={(e)=> setVerifyCode(e.target.value)}
                                     value={verifyCode}
                                     placeholder='Input Verify Code...'
+                                    maxLength={6}
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
                                 <Button 
                                     fullWidth
-                                    isDisabled={sendYn}
-                                    variant={sendYn ? 'ghost' : 'secondary' }
+                                    isDisabled={!sendYn}
+                                    variant={!sendYn ? 'ghost' : 'secondary' }
                                     onPress={onPressConfimVerifyCode}>
                                     Verify
                                 </Button>

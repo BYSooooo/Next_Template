@@ -17,6 +17,6 @@ export const confirmOTP = async(email : string, token : string)=> {
     return await supabase.auth.verifyOtp({
         email,
         token,
-        type : 'email'
+        type : 'signup'
     })
 }
