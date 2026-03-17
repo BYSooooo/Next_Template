@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { Button, Card, Form, Input, Label, Separator, TextField } from "@heroui/react";
+import { Button, Card, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
 import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 
 export default function Page() {
 
     const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
     const [sendYn, setSendYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
     const [loading, setLoading] = React.useState(false)
-
-    
 
     // Timer 
     useEffect(()=> {
@@ -27,7 +26,7 @@ export default function Page() {
         return () => window.clearInterval(interval)
     },[sendYn, timer])
 
-    // Change Time Format such as '05:00'
+    
     const formatTime = React.useCallback((seconds : number)=> {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -48,13 +47,26 @@ export default function Page() {
             setLoading(false);
         }
     }
+
+    const validations = {
+        length : password.length >= 12,
+        hasUpperCase : /[A-Z]/.test(password),
+        hasLowerCase : /[a-z]/.test(password),
+        hasNumber : /[0-9]/.test(password),
+        hasSpecial : /[!@#$%^&*()]/.test(password)
+    };
+    const isAllValid = Object.values(validations).every(Boolean);
     
     const onPressConfimVerifyCode = async()=> {
         setLoading(true);
         try {
             const { data, error } = await confirmOTP(email, verifyCode);
-            console.log(data, error)
-            
+            if(!error) {
+
+            } else {
+                throw new Error(error.message);
+            }
+            // data.user.em
         } catch(error) {
             console.log(error)
         } finally{
@@ -92,6 +104,14 @@ export default function Page() {
                                     value={email}
                                     type='email'
                                     placeholder='Input Email...'
+                                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
+                                />
+                                <Label>Password</Label>
+                                
+                                <Input
+                                    fullWidth
+                                    // onChange={(e)=>onChangePassword(e.target.value)}
+                                    type='password'
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
                                 <Button 
