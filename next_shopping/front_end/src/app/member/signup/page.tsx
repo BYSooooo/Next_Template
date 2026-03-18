@@ -3,11 +3,22 @@
 import React, { useEffect } from 'react';
 import { Button, Card, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
 import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 export default function Page() {
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const [condition, setCondition] = React.useState({
+        length : false,
+        hasUpperCase : false,
+        hasLowerCase : false,
+        hasNumber : false,
+        hasSpecial : false
+    })
+    const [popOpen, setPopOpen] = React.useState(false);
+
     const [sendYn, setSendYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
@@ -33,6 +44,16 @@ export default function Page() {
         return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
     },[])
 
+    const onChangePassword = (value: string)=> {
+        setCondition({
+            length : value.length >= 12 ? true : false,
+            hasUpperCase : /[A-Z]/.test(value) ? true : false,
+            hasLowerCase : /[a-z]/.test(value) ? true : false,
+            hasNumber : /[0-9]/.test(value) ? true : false,
+            hasSpecial : /[!@#$%^&*()]/.test(value) ? true : false      
+        })
+    };
+
     const onPressVerifyCode = async()=> {
         setLoading(true);
         try {
@@ -47,16 +68,7 @@ export default function Page() {
             setLoading(false);
         }
     }
-
-    const validations = {
-        length : password.length >= 12,
-        hasUpperCase : /[A-Z]/.test(password),
-        hasLowerCase : /[a-z]/.test(password),
-        hasNumber : /[0-9]/.test(password),
-        hasSpecial : /[!@#$%^&*()]/.test(password)
-    };
-    const isAllValid = Object.values(validations).every(Boolean);
-    
+  
     const onPressConfimVerifyCode = async()=> {
         setLoading(true);
         try {
@@ -107,13 +119,33 @@ export default function Page() {
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
                                 <Label>Password</Label>
-                                
-                                <Input
-                                    fullWidth
-                                    // onChange={(e)=>onChangePassword(e.target.value)}
-                                    type='password'
-                                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                />
+                                <Popover isOpen={popOpen}>
+                                    <Popover.Trigger>
+                                        <Input
+                                            fullWidth
+                                            onFocus={()=>setPopOpen(true)}
+                                            onChange={(e)=>onChangePassword(e.target.value)}
+                                            type='password'
+                                            className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
+                                        />
+                                    </Popover.Trigger>
+                                    <Popover.Content>
+                                        <Popover.Dialog>
+                                            <Popover.Heading className='flex flex-col gap-2'>
+                                                <p className='font-semibold'>
+                                                    The Password must meet the following condition.
+                                                </p>
+                                                <div className='flex flex-row gap-2'>
+                                                    { condition.length ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> : <XCircleIcon className='text-red-500 w-5 h-5'/> }
+                                                    <p>
+                                                        12 characters or more
+                                                    </p>
+                                                </div>
+                                            </Popover.Heading>
+                                        </Popover.Dialog>
+                                    </Popover.Content>
+
+                                </Popover>
                                 <Button 
                                     onPress={onPressVerifyCode}
                                     className="w-full">
