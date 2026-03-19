@@ -52,6 +52,7 @@ export default function Page() {
             hasNumber : /[0-9]/.test(value) ? true : false,
             hasSpecial : /[!@#$%^&*()]/.test(value) ? true : false      
         })
+        setPassword(value)
     };
 
     const onPressVerifyCode = async()=> {
@@ -119,33 +120,55 @@ export default function Page() {
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
                                 <Label>Password</Label>
-                                <Popover isOpen={popOpen}>
-                                    <Popover.Trigger>
-                                        <Input
-                                            fullWidth
-                                            onFocus={()=>setPopOpen(true)}
-                                            onChange={(e)=>onChangePassword(e.target.value)}
-                                            type='password'
-                                            className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                        />
-                                    </Popover.Trigger>
-                                    <Popover.Content>
-                                        <Popover.Dialog>
-                                            <Popover.Heading className='flex flex-col gap-2'>
-                                                <p className='font-semibold'>
-                                                    The Password must meet the following condition.
-                                                </p>
-                                                <div className='flex flex-row gap-2'>
-                                                    { condition.length ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> : <XCircleIcon className='text-red-500 w-5 h-5'/> }
-                                                    <p>
-                                                        12 characters or more
-                                                    </p>
-                                                </div>
-                                            </Popover.Heading>
-                                        </Popover.Dialog>
-                                    </Popover.Content>
+                                <div className='relative'>
+                                    <Input
+                                        fullWidth
+                                        onChange={(e)=>onChangePassword(e.target.value)}
+                                        value={password}
+                                        onFocus={()=> setPopOpen(true)}
+                                        onBlur={(e)=> {
+                                            if(e.relatedTarget?.closest('[data-popover]')) return;
+                                            setPopOpen(false)
+                                        }}
+                                        type='password'
+                                        className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
+                                    />
 
-                                </Popover>
+                                    <Popover isOpen={popOpen}>
+                                        <Popover.Content>
+                                            <div data-popover tabIndex={-1}>
+                                                <Popover.Dialog>
+                                                    <Popover.Heading className='flex flex-col gap-2'>
+                                                        <p className='font-semibold'>
+                                                            The Password must meet the following condition.
+                                                        </p>
+                                                        <div className='flex flex-row gap-2'>
+                                                            { condition.length 
+                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
+                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/> 
+                                                            }
+                                                            <p>
+                                                                12 characters or more
+                                                            </p>
+                                                        </div>
+                                                        <div className='flex flex-row gap-2'>
+                                                            { condition.hasLowerCase 
+                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
+                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>
+                                                            }
+                                                            <p>
+                                                                Contain at least one English upper case     
+                                                            </p>
+                                                        </div>
+                                                        <div>
+
+                                                        </div>
+                                                    </Popover.Heading>
+                                                </Popover.Dialog>
+                                            </div>
+                                        </Popover.Content>
+                                    </Popover>
+                                </div>
                                 <Button 
                                     onPress={onPressVerifyCode}
                                     className="w-full">
