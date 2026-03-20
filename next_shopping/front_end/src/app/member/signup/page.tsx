@@ -50,7 +50,7 @@ export default function Page() {
             hasUpperCase : /[A-Z]/.test(value) ? true : false,
             hasLowerCase : /[a-z]/.test(value) ? true : false,
             hasNumber : /[0-9]/.test(value) ? true : false,
-            hasSpecial : /[!@#$%^&*()]/.test(value) ? true : false      
+            hasSpecial : /[!@#$%^&*]/.test(value) ? true : false      
         })
         setPassword(value)
     };
@@ -160,8 +160,23 @@ export default function Page() {
                                                                 Contain at least one English upper case     
                                                             </p>
                                                         </div>
-                                                        <div>
-
+                                                        <div className='flex flex-row gap-2'>
+                                                            {condition.hasLowerCase
+                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
+                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>    
+                                                            }
+                                                            <p>
+                                                                Contain at least one English lower case
+                                                            </p>
+                                                        </div>
+                                                        <div className='flex flex-row gap-2'>
+                                                            { condition.hasSpecial
+                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
+                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>    
+                                                            }
+                                                            <p>
+                                                                One or more special character 
+                                                            </p>
                                                         </div>
                                                     </Popover.Heading>
                                                 </Popover.Dialog>
