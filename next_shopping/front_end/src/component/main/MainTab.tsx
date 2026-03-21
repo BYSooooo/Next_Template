@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Description, Label, Tabs, Text } from "@heroui/react";
+import { Card, Description, Label, Tabs, Text } from "@heroui/react";
 
 interface TabType {
     key : string;
@@ -52,7 +52,16 @@ export default function MainTab() {
                             {tabPanel.map((panel)=> {
                                 return (
                                     <Tabs.Panel key={panel.title} id={panel.title}>
-                                        {panel.content}
+                                        <Card className="rounded-sm max-w-70 min-h-70 bg-gray-100 shadow-accent-soft">
+                                            <Card.Footer className="z-10 mt-auto flex items-end justify-between">
+                                                
+                                            </Card.Footer>
+                                        </Card>
+                                        <div>
+                                            <p>
+                                                Hello
+                                            </p>
+                                        </div>
                                     </Tabs.Panel>
                                 )
                             })}

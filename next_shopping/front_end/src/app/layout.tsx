@@ -2,6 +2,7 @@ import './globals.css';
 
 import Footer from './footer';
 import HeaderBar from '@/component/header/HeaderBar';
+import ModalMain from '@/component/modal/ModalMain';
 
 
 export default function RootLayout({children} : {children : React.ReactNode}) {
@@ -13,7 +14,10 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
                     <header className='w-full'>
                         <HeaderBar />
                     </header>
-                    {children}
+                    <main className='grow'>
+                        {children}
+                    </main>
+                    <ModalMain />
                     <Footer/>
                 </div>
             </body>
