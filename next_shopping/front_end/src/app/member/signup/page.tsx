@@ -6,10 +6,11 @@ import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 export default function Page() {
-
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [popOpen, setPopOpen] = React.useState(false);
 
+    // Check Condition of Password
     const [condition, setCondition] = React.useState({
         length : false,
         hasUpperCase : false,
@@ -17,12 +18,23 @@ export default function Page() {
         hasNumber : false,
         hasSpecial : false
     })
-    const [popOpen, setPopOpen] = React.useState(false);
 
     const [sendYn, setSendYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
     const [loading, setLoading] = React.useState(false)
+
+    const onChangePassword = (value: string)=> {
+        setPassword(value);
+
+        setCondition({
+            length : value.length >= 12 ,
+            hasUpperCase : /[A-Z]/.test(value),
+            hasLowerCase : /[a-z]/.test(value),
+            hasNumber : /[0-9]/.test(value),
+            hasSpecial : /[!@#$%^&*]/.test(value)
+        })
+    };
 
     // Timer 
     useEffect(()=> {
@@ -37,23 +49,13 @@ export default function Page() {
         return () => window.clearInterval(interval)
     },[sendYn, timer])
 
-    
     const formatTime = React.useCallback((seconds : number)=> {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
     },[])
 
-    const onChangePassword = (value: string)=> {
-        setCondition({
-            length : value.length >= 12 ? true : false,
-            hasUpperCase : /[A-Z]/.test(value) ? true : false,
-            hasLowerCase : /[a-z]/.test(value) ? true : false,
-            hasNumber : /[0-9]/.test(value) ? true : false,
-            hasSpecial : /[!@#$%^&*]/.test(value) ? true : false      
-        })
-        setPassword(value)
-    };
+    
 
     const onPressVerifyCode = async()=> {
         setLoading(true);
@@ -90,21 +92,17 @@ export default function Page() {
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
             <div className="grid grid-cols-12 gap-10 items-center">
+                {/* Left Part : Message */}
                 <div className="flex flex-col col-span-6">
-                    <p className="text-5xl">
-                        Wellcome to 
-                    </p>
-                    <div className="flex flex-row">
-                        <p className="text-5xl font-extrabold text-yellow-400">
-                            Next
-                        </p>
-                        <p className="text-5xl font-extrabold">
-                            Shopping!
-                        </p>
+                    <p className="text-6xl font-light">Wellcome to </p>
+                    <div className="flex flex-row gap-2">
+                        <span className='text-6xl font-extrabold text-yellow-400'>Next</span>
+                        <span className='text-6xl font-extrabold'>Shopping!</span>
                     </div>
                 </div>
+                {/* Right Part : Sign up Form */}
                 <div className="col-span-6">
-                    <Card>
+                    <Card className='border-2 border-black shadow-none p-2'>
                         <Card.Header className="text-lg font-bold">
                             Information
                         </Card.Header>
