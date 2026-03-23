@@ -55,9 +55,18 @@ export default function Page() {
         return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
     },[])
 
-    
+    const isEmailValid = React.useMemo(()=> {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return pattern.test(email);
+    },[email])
+
+    const isPasswordValid = React.useMemo(()=> {
+
+    },[])
 
     const onPressVerifyCode = async()=> {
+        const emailTest = //
+        
         setLoading(true);
         try {
             await sendVerificationCode(email)
@@ -102,7 +111,7 @@ export default function Page() {
                 </div>
                 {/* Right Part : Sign up Form */}
                 <div className="col-span-6">
-                    <Card className='border-2 border-black shadow-none p-2'>
+                    <Card>
                         <Card.Header className="text-lg font-bold">
                             Information
                         </Card.Header>
@@ -128,6 +137,7 @@ export default function Page() {
                                             if(e.relatedTarget?.closest('[data-popover]')) return;
                                             setPopOpen(false)
                                         }}
+                                        placeholder='Input Password...'
                                         type='password'
                                         className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                     />
