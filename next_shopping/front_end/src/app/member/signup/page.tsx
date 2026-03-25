@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { Button, Card, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
+import { Button, Card, Description, FieldError, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
 import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 export default function Page() {
     const [email, setEmail] = React.useState("");
     const [submitYn, setSubmitYn] = React.useState(false);
+    
     const [sendYn, setSendYn] = React.useState(false);
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
@@ -26,7 +27,6 @@ export default function Page() {
         if(!isEmailValid) return "Invalid Email Address";
         return ""
     },[submitYn, email, isEmailValid])
-
 
     // Timer 
     useEffect(()=> {
@@ -101,21 +101,31 @@ export default function Page() {
                             Information
                         </Card.Header>
                         <Card.Content>
-                            <TextField className="gap-2">
+                            <TextField isRequired type='email'
+                                onChange={(e)=>{
+                                    setEmail(e)
+                                    if(!submitYn) setSubmitYn(false)    // Init Input Validation
+                                }}
+                                isInvalid={submitYn && isEmailValid}>
                                 <Label>Email</Label>
                                 <Input
                                     fullWidth
-                                    onChange={(e)=>setEmail(e.target.value)}
                                     value={email}
-                                    type='email'
                                     placeholder='Input Email...'
                                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                                 />
-                                <Button 
-                                    onPress={onPressVerifyCode}
-                                    className="w-full">
-                                    {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
-                                </Button>
+                                { isEmailValid 
+                                    ? <FieldError>{emailErrorMessage}</FieldError>
+                                    : <Description>{emailErrorMessage}</Description>
+                                }
+                                
+                            </TextField>
+                            <Button 
+                                onPress={onPressVerifyCode}
+                                className="w-full">
+                                {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
+                            </Button>
+                            <TextField>
                                 <Label>Code</Label>
                                 <Input
                                     fullWidth
