@@ -14,6 +14,7 @@ export default function Page() {
     const [timer, setTimer] = React.useState(300) // 5 Minute
     const [loading, setLoading] = React.useState(false)
 
+
     // Test for Email Format Validation
     const isEmailValid = React.useMemo(()=> {
         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,11 +40,11 @@ export default function Page() {
         return () => window.clearInterval(interval)
     },[sendYn, timer])
 
-    const formatTime = React.useCallback((seconds : number)=> {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
-    },[])
+    // const formatTime = React.useCallback((seconds : number)=> {
+    //     const mins = Math.floor(seconds / 60);
+    //     const secs = seconds % 60;
+    //     return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
+    // },[])
 
     // Send Verify Code 
     const onPressVerifyCode = async()=> {
