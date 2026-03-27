@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Button, Card, Description, FieldError, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
 import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
     const [email, setEmail] = React.useState("");
@@ -13,6 +14,10 @@ export default function Page() {
     const [verifyCode, setVerifyCode] = React.useState("");
     const [timer, setTimer] = React.useState(300) // 5 Minute
     const [loading, setLoading] = React.useState(false)
+
+    const [otpError, setOtpError] = React.useState(""); 
+
+    const router = useRouter();
 
 
     // Test for Email Format Validation
@@ -29,6 +34,12 @@ export default function Page() {
         return ""
     },[submitYn, email, isEmailValid])
 
+    const formatTime = React.useCallback((seconds : number)=> {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
+    },[])
+    
     // Timer 
     useEffect(()=> {
         let interval: number;
@@ -40,11 +51,6 @@ export default function Page() {
         return () => window.clearInterval(interval)
     },[sendYn, timer])
 
-    // const formatTime = React.useCallback((seconds : number)=> {
-    //     const mins = Math.floor(seconds / 60);
-    //     const secs = seconds % 60;
-    //     return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
-    // },[])
 
     // Send Verify Code 
     const onPressVerifyCode = async()=> {
@@ -54,7 +60,7 @@ export default function Page() {
         } else {
             setLoading(true);
             try {
-                await sendVerificationCode(email)
+                // await sendVerificationCode(email)
                 setSendYn(true);
                 setTimer(300);
                 setVerifyCode("");
@@ -68,17 +74,21 @@ export default function Page() {
     
     // Confirm For Email send Verified Code
     const onPressConfimVerifyCode = async()=> {
+        if(verifyCode.length < 6) return;
+
         setLoading(true);
+        setOtpError("") // 
         try {
             const { data, error } = await confirmOTP(email, verifyCode);
             if(!error) {
-                //....
+                // ..
+                //router.push('')
             } else {
-                throw new Error(error.message);
+                setOtpError("Not Matched Verify Code")
             }
             
         } catch(error) {
-            console.log(error)
+            setOtpError("Network Error")
         } finally{
             setLoading(false)
         }
@@ -102,12 +112,15 @@ export default function Page() {
                             Information
                         </Card.Header>
                         <Card.Content>
-                            <TextField isRequired type='email'
+                            <TextField 
+                                isRequired 
+                                type='email'
+                                isDisabled={sendYn}
                                 onChange={(e)=>{
                                     setEmail(e)
                                     if(!submitYn) setSubmitYn(false)    // Init Input Validation
                                 }}
-                                isInvalid={submitYn && isEmailValid}>
+                                isInvalid={!(submitYn && isEmailValid)}>
                                 <Label>Email</Label>
                                 <Input
                                     fullWidth
@@ -126,12 +139,18 @@ export default function Page() {
                                 className="w-full">
                                 {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
                             </Button>
-                            <TextField>
-                                <Label>Code</Label>
+                            <TextField 
+                                type='password'
+                                onChange={(e)=> setVerifyCode(e)}>
+                                <div className='flex flex-row'>
+                                    <Label>Code</Label>
+                                    { sendYn && 
+                                        
+                                    }
+                                </div>
                                 <Input
                                     fullWidth
                                     disabled={!sendYn}
-                                    onChange={(e)=> setVerifyCode(e.target.value)}
                                     value={verifyCode}
                                     placeholder='Input Verify Code...'
                                     maxLength={6}
