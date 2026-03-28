@@ -79,10 +79,10 @@ export default function Page() {
         setLoading(true);
         setOtpError("") // 
         try {
-            const { data, error } = await confirmOTP(email, verifyCode);
+            //const { data, error } = await confirmOTP(email, verifyCode);
+            const error = false
             if(!error) {
-                // ..
-                //router.push('')
+                router.push('/member/userinfo')
             } else {
                 setOtpError("Not Matched Verify Code")
             }
@@ -109,7 +109,7 @@ export default function Page() {
                 <div className="col-span-6">
                     <Card>
                         <Card.Header className="text-lg font-bold">
-                            Information
+                            Verify Email Address
                         </Card.Header>
                         <Card.Content>
                             <TextField 
@@ -141,11 +141,14 @@ export default function Page() {
                             </Button>
                             <TextField 
                                 type='password'
+                                className='gap-1'
                                 onChange={(e)=> setVerifyCode(e)}>
                                 <div className='flex flex-row'>
                                     <Label>Code</Label>
                                     { sendYn && 
-                                        
+                                        <div className='flex flex-row gap-2 text-sm text-red-500'>
+                                            [{formatTime(timer)}]
+                                        </div>
                                     }
                                 </div>
                                 <Input
