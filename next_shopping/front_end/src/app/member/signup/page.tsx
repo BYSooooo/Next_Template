@@ -5,6 +5,7 @@ import { Button, Card, Description, FieldError, Form, Input, Label, Popover, Sep
 import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import EmailField from '@/component/signup/EmailField';
 
 export default function Page() {
     const [email, setEmail] = React.useState("");
@@ -74,7 +75,7 @@ export default function Page() {
     
     // Confirm For Email send Verified Code
     const onPressConfimVerifyCode = async()=> {
-        if(verifyCode.length < 6) return;
+        // if(verifyCode.length < 6) return;
 
         setLoading(true);
         setOtpError("") // 
@@ -112,7 +113,8 @@ export default function Page() {
                             Verify Email Address
                         </Card.Header>
                         <Card.Content>
-                            <TextField 
+                            <EmailField />
+                            {/* <TextField 
                                 isRequired 
                                 type='email'
                                 isDisabled={sendYn}
@@ -133,12 +135,12 @@ export default function Page() {
                                     : <Description>{emailErrorMessage}</Description>
                                 }
                                 
-                            </TextField>
+                            </TextField> 
                             <Button 
                                 onPress={onPressVerifyCode}
                                 className="w-full">
                                 {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
-                            </Button>
+                            </Button> */}
                             <TextField 
                                 type='password'
                                 className='gap-1'
