@@ -10,6 +10,7 @@ export const sendVerificationCode = async(email : string)=> {
             shouldCreateUser : true
         }
     });
+    return {data, error}
 };
 
 // Confirm OTP Serial
