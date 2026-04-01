@@ -114,33 +114,6 @@ export default function Page() {
                         </Card.Header>
                         <Card.Content>
                             <EmailField />
-                            {/* <TextField 
-                                isRequired 
-                                type='email'
-                                isDisabled={sendYn}
-                                onChange={(e)=>{
-                                    setEmail(e)
-                                    if(!submitYn) setSubmitYn(false)    // Init Input Validation
-                                }}
-                                isInvalid={!(submitYn && isEmailValid)}>
-                                <Label>Email</Label>
-                                <Input
-                                    fullWidth
-                                    value={email}
-                                    placeholder='Input Email...'
-                                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                />
-                                { isEmailValid 
-                                    ? <FieldError>{emailErrorMessage}</FieldError>
-                                    : <Description>{emailErrorMessage}</Description>
-                                }
-                                
-                            </TextField> 
-                            <Button 
-                                onPress={onPressVerifyCode}
-                                className="w-full">
-                                {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
-                            </Button> */}
                             <TextField 
                                 type='password'
                                 className='gap-1'

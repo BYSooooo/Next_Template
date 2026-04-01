@@ -12,9 +12,11 @@ export default function EmailField() {
     
     const [inputEmail, setInputEmail] = React.useState("");
     const [emailDisable, setEmailDislable] = React.useState(false)
+    const [emailValid, setEmailValid] = React.useState(true)
 
     const onPressVerifyCode = async()=> {
         const validYn = isEmailValid
+
         if(validYn) {
             const { data, error } = await sendVerificationCode(email)
                 if(!error) {
@@ -22,26 +24,36 @@ export default function EmailField() {
                     setOTPSendYn(true)
                     setEmailDislable(true) 
                 } else {
-                    console.log(error.message)
+                    setEmailValid(false)
                 }
         } else {
-
+            setEmailValid(false)
+            //...
         }
+    }
+
+    const onPressRetryVerify =()=> {
+        setEmail("");
+        setInputEmail("")
+        setOTPSendYn(false)
+        setEmailDislable(false)
     }
 
     const isEmailValid = React.useMemo(()=>{
         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return pattern.test(email);
     },[inputEmail])
-    
 
+    
     return (
         <>
             <TextField 
-                isReadOnly
                 type="email"
                 isDisabled={emailDisable}
-                onChange={setInputEmail}>
+                onChange={(e)=> {
+                    setInputEmail(e)
+                }}
+                isInvalid={!emailValid}>
                 <Label>Email</Label>
                 <Input
                     fullWidth
@@ -50,11 +62,18 @@ export default function EmailField() {
                     className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
                 />
             </TextField>
-            <Button
-                onPress={onPressVerifyCode}
-                className="w-full">
-                {!sendOTPCodeYn ? "Send Verify Code" : "Re-Send Verify Code"}
-            </Button>            
+            { !sendOTPCodeYn 
+                ?   <Button
+                        onPress={onPressVerifyCode}
+                        className="w-full">
+                        Send Verify Code
+                    </Button>            
+                :   <Button
+                        onPress={onPressRetryVerify}
+                        className="w-full">
+                        Retry Verify Email
+                    </Button>
+            }
         </>
 
     )
