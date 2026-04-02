@@ -16,9 +16,10 @@ export default function EmailField() {
 
     const onPressVerifyCode = async()=> {
         const validYn = isEmailValid
-
+        console.log(validYn)
         if(validYn) {
-            const { data, error } = await sendVerificationCode(email)
+            //const { data, error } = await sendVerificationCode(email)
+            const error = false; 
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)

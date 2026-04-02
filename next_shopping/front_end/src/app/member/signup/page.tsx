@@ -6,6 +6,7 @@ import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import EmailField from '@/component/signup/EmailField';
+import VeriftCodeField from '@/component/signup/VerifyCodeField';
 
 export default function Page() {
     const [email, setEmail] = React.useState("");
@@ -114,7 +115,8 @@ export default function Page() {
                         </Card.Header>
                         <Card.Content>
                             <EmailField />
-                            <TextField 
+                            <VeriftCodeField />
+                            {/* <TextField 
                                 type='password'
                                 className='gap-1'
                                 onChange={(e)=> setVerifyCode(e)}>
@@ -141,7 +143,7 @@ export default function Page() {
                                     onPress={onPressConfimVerifyCode}>
                                     Verify
                                 </Button>
-                            </TextField>
+                            </TextField> */}
                         </Card.Content>
                     </Card>
 
