@@ -9,7 +9,7 @@ export default function VeriftCodeField() {
             setEmail, setFormatYn, setOTPSendYn } = useSignUpStore();
     
     const [timer, setTimer] = React.useState(300);
-
+    const [ inputCode, setInputCode] = React.useState("")
 
     // Timer Control
     React.useEffect(()=> {
@@ -20,6 +20,10 @@ export default function VeriftCodeField() {
             }, 1000)
         }
     },[sendOTPCodeYn, timer])
+
+    const onChangeVerifyCode = (value:string) => {
+        
+    }
 
     // Formatting Time String
     const formatTime = React.useCallback((seconds : number)=> {
@@ -32,7 +36,8 @@ export default function VeriftCodeField() {
         <>
             <TextField
                 type="password"
-                className="gap-1">
+                className="gap-1"
+                onChange={(e)=> onChangeVerifyCode(e)}>
                     <div className='flex flex-row'>
                         <Label>Code</Label>
                         {sendOTPCodeYn &&
@@ -43,7 +48,8 @@ export default function VeriftCodeField() {
                     </div>
                     <Input
                         fullWidth
-
+                        disabled={!sendOTPCodeYn}
+                        value={inputCode}
                     />
                     <Button
                         fullWidth>
