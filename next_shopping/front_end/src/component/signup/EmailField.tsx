@@ -42,7 +42,7 @@ export default function EmailField() {
 
     const isEmailValid = React.useMemo(()=>{
         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return pattern.test(email);
+        return pattern.test(inputEmail);
     },[inputEmail])
 
     

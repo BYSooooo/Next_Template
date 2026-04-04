@@ -29,29 +29,29 @@ export default function Page() {
     },[email])
 
     // Error Message for Email Input
-    const emailErrorMessage = React.useMemo(()=> {
-        if(!submitYn) return "";
-        if(email.length === 0) return "Please Input Email";
-        if(!isEmailValid) return "Invalid Email Address";
-        return ""
-    },[submitYn, email, isEmailValid])
+    // const emailErrorMessage = React.useMemo(()=> {
+    //     if(!submitYn) return "";
+    //     if(email.length === 0) return "Please Input Email";
+    //     if(!isEmailValid) return "Invalid Email Address";
+    //     return ""
+    // },[submitYn, email, isEmailValid])
 
-    const formatTime = React.useCallback((seconds : number)=> {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
-    },[])
+    // const formatTime = React.useCallback((seconds : number)=> {
+    //     const mins = Math.floor(seconds / 60);
+    //     const secs = seconds % 60;
+    //     return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
+    // },[])
     
     // Timer 
-    useEffect(()=> {
-        let interval: number;
-        if(sendYn && timer > 0) {
-            interval = window.setInterval(()=> {
-                setTimer((prev)=>  prev -1)
-            }, 1000)
-        }
-        return () => window.clearInterval(interval)
-    },[sendYn, timer])
+    // useEffect(()=> {
+    //     let interval: number;
+    //     if(sendYn && timer > 0) {
+    //         interval = window.setInterval(()=> {
+    //             setTimer((prev)=>  prev -1)
+    //         }, 1000)
+    //     }
+    //     return () => window.clearInterval(interval)
+    // },[sendYn, timer])
 
 
     // Send Verify Code 
