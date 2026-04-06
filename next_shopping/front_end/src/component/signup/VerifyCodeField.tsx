@@ -8,7 +8,7 @@ export default function VeriftCodeField() {
     const { email, formatYn, sendOTPCodeYn, 
             setEmail, setFormatYn, setOTPSendYn } = useSignUpStore();
     
-    const [timer, setTimer] = React.useState(300);
+    const [ timer, setTimer] = React.useState(300);
     const [ inputCode, setInputCode] = React.useState("")
 
     // Timer Control
@@ -19,10 +19,13 @@ export default function VeriftCodeField() {
                 setTimer((prev)=>  prev -1)
             }, 1000)
         }
+        return ()=> {
+            if(interval) window.clearInterval(interval)
+        }
     },[sendOTPCodeYn, timer])
 
     const onChangeVerifyCode = (value:string) => {
-        
+        setInputCode(value)
     }
 
     // Formatting Time String
@@ -32,24 +35,36 @@ export default function VeriftCodeField() {
         return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
     },[])
 
+    // Check OTP Code expired
+    const isExpired = sendOTPCodeYn && timer === 0;
+
     return (
         <>
             <TextField
                 type="password"
                 className="gap-1"
                 onChange={(e)=> onChangeVerifyCode(e)}>
-                    <div className='flex flex-row'>
+                    <div className='flex flex-row items-center gap-2'>
                         <Label>Code</Label>
                         {sendOTPCodeYn &&
-                            <div className='flex flex-row gap-2 text-xs text-red-500'>
-                                [{formatTime(timer)}]
-                            </div>
+                            isExpired ? (
+                                <div className='flex text-xs text-red-500'>
+                                    Verification code expired
+                                </div>
+                            ):(
+                                <div className='flex flex-row gap-2 text-xs text-red-500'>
+                                    [{formatTime(timer)}]
+                                </div>
+                            ) 
                         }
                     </div>
                     <Input
                         fullWidth
-                        disabled={!sendOTPCodeYn}
+                        disabled={!sendOTPCodeYn || isExpired }
                         value={inputCode}
+                        maxLength={6}
+                        className={`border-2 border-solid border-black
+                            outline-none ring-0 ring-offset-0 focus:outlin-none`}
                     />
                     <Button
                         fullWidth>

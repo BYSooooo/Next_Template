@@ -53,14 +53,19 @@ export default function EmailField() {
                 isDisabled={emailDisable}
                 onChange={(e)=> {
                     setInputEmail(e)
+                    if(!emailValid) setEmailValid(true)
                 }}
-                isInvalid={!emailValid}>
+                isInvalid={!emailValid}
+                className="flex flex-col gap-2">
                 <Label>Email</Label>
                 <Input
                     fullWidth
                     value={inputEmail}
                     placeholder='Input Email...'
-                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
+                    className={`border-2 border-solid transition-colors
+                        ${emailValid ? "border-black" : "border-red-500"}
+                        outline-none ring-0 ring-offset-0 focus:outlin-none`}
+                    
                 />
             </TextField>
             { !sendOTPCodeYn 
