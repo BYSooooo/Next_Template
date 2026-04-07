@@ -28,6 +28,10 @@ export default function VeriftCodeField() {
         setInputCode(value)
     }
 
+    const onPressVerifyButton = () => {
+        console.log(inputCode);
+    }
+
     // Formatting Time String
     const formatTime = React.useCallback((seconds : number)=> {
         const mins = Math.floor(seconds / 60);
@@ -41,21 +45,22 @@ export default function VeriftCodeField() {
     return (
         <>
             <TextField
-                type="password"
                 className="gap-1"
                 onChange={(e)=> onChangeVerifyCode(e)}>
                     <div className='flex flex-row items-center gap-2'>
                         <Label>Code</Label>
-                        {sendOTPCodeYn &&
-                            isExpired ? (
-                                <div className='flex text-xs text-red-500'>
-                                    Verification code expired
-                                </div>
-                            ):(
-                                <div className='flex flex-row gap-2 text-xs text-red-500'>
-                                    [{formatTime(timer)}]
-                                </div>
-                            ) 
+                        {sendOTPCodeYn && (
+                            <div className='flex text-xs text-red-500'>
+                                {isExpired 
+                                    ? "Verification code expired" 
+                                    : (
+                                        <div className='flex flex-row gap-2 text-xs text-red-500'>
+                                            [{formatTime(timer)}]
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        )
                         }
                     </div>
                     <Input
@@ -67,6 +72,8 @@ export default function VeriftCodeField() {
                             outline-none ring-0 ring-offset-0 focus:outlin-none`}
                     />
                     <Button
+                        isDisabled={!sendOTPCodeYn || isExpired}
+                        onPress={onPressVerifyButton}
                         fullWidth>
                         Verify
                     </Button>

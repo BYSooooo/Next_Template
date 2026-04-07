@@ -5,25 +5,30 @@ import React from 'react';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { sendVerificationCode } from '@/lib/supabase/authAction';
+import { useRouter } from 'next/navigation';
 
 export default function EmailField() {
-    const { email, formatYn, sendOTPCodeYn, 
-            setEmail, setFormatYn, setOTPSendYn } = useSignUpStore();
+    const { email, formatYn, sendOTPCodeYn, OTPCode,
+            setEmail, setFormatYn, setOTPSendYn, setOTPCode } = useSignUpStore();
     
     const [inputEmail, setInputEmail] = React.useState("");
     const [emailDisable, setEmailDislable] = React.useState(false)
     const [emailValid, setEmailValid] = React.useState(true)
 
+    const router = useRouter();
+
     const onPressVerifyCode = async()=> {
         const validYn = isEmailValid
         console.log(validYn)
         if(validYn) {
-            //const { data, error } = await sendVerificationCode(email)
+            // const { data, error } = await sendVerificationCode(email)
             const error = false; 
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)
                     setEmailDislable(true) 
+                    router.push("/member/userInfo")
+
                 } else {
                     setEmailValid(false)
                 }
