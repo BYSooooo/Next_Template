@@ -3,9 +3,10 @@
 import React from 'react';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
+import { confirmOTP } from '@/lib/supabase/authAction';
 
 export default function VeriftCodeField() {
-    const { email, formatYn, sendOTPCodeYn, 
+    const { email, formatYn, OTPSendYn, 
             setEmail, setFormatYn, setOTPSendYn } = useSignUpStore();
     
     const [ timer, setTimer] = React.useState(300);
@@ -14,7 +15,7 @@ export default function VeriftCodeField() {
     // Timer Control
     React.useEffect(()=> {
         let interval: number;
-        if(sendOTPCodeYn && timer > 0) {
+        if(OTPSendYn && timer > 0) {
             interval = window.setInterval(()=> {
                 setTimer((prev)=>  prev -1)
             }, 1000)
@@ -22,14 +23,19 @@ export default function VeriftCodeField() {
         return ()=> {
             if(interval) window.clearInterval(interval)
         }
-    },[sendOTPCodeYn, timer])
+    },[OTPSendYn, timer])
 
     const onChangeVerifyCode = (value:string) => {
         setInputCode(value)
     }
 
-    const onPressVerifyButton = () => {
-        console.log(inputCode);
+    const onPressVerifyButton = async() => {
+        const { data, error } = await confirmOTP(email, inputCode);
+        if(!error) {
+
+        } else {
+                        
+        }
     }
 
     // Formatting Time String
@@ -40,7 +46,7 @@ export default function VeriftCodeField() {
     },[])
 
     // Check OTP Code expired
-    const isExpired = sendOTPCodeYn && timer === 0;
+    const isExpired = OTPSendYn && timer === 0;
 
     return (
         <>
@@ -49,7 +55,7 @@ export default function VeriftCodeField() {
                 onChange={(e)=> onChangeVerifyCode(e)}>
                     <div className='flex flex-row items-center gap-2'>
                         <Label>Code</Label>
-                        {sendOTPCodeYn && (
+                        {OTPSendYn && (
                             <div className='flex text-xs text-red-500'>
                                 {isExpired 
                                     ? "Verification code expired" 
@@ -65,14 +71,14 @@ export default function VeriftCodeField() {
                     </div>
                     <Input
                         fullWidth
-                        disabled={!sendOTPCodeYn || isExpired }
+                        disabled={!OTPSendYn || isExpired }
                         value={inputCode}
                         maxLength={6}
                         className={`border-2 border-solid border-black
                             outline-none ring-0 ring-offset-0 focus:outlin-none`}
                     />
                     <Button
-                        isDisabled={!sendOTPCodeYn || isExpired}
+                        isDisabled={!OTPSendYn || isExpired}
                         onPress={onPressVerifyButton}
                         fullWidth>
                         Verify

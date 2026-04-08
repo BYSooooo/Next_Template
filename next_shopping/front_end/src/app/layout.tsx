@@ -3,6 +3,7 @@ import './globals.css';
 import Footer from './footer';
 import HeaderBar from '@/component/header/HeaderBar';
 import ModalMain from '@/component/modal/ModalMain';
+import AlertMain from '@/component/alert/AlertMain';
 
 
 export default function RootLayout({children} : {children : React.ReactNode}) {
@@ -18,6 +19,7 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
                         {children}
                     </main>
                     <ModalMain />
+                    <AlertMain />
                     <Footer/>
                 </div>
             </body>

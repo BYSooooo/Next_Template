@@ -4,7 +4,7 @@ import { create } from "zustand";
 interface SignUpState {
     email : string;
     formatYn : boolean;
-    sendOTPCodeYn : boolean;
+    OTPSendYn : boolean;
     OTPCode : string;
 
     setEmail : (email : string) => void
@@ -17,12 +17,12 @@ interface SignUpState {
 export const useSignUpStore = create<SignUpState>((set)=> ({
     email : "",
     formatYn : false,
-    sendOTPCodeYn : false,
+    OTPSendYn : false,
     OTPCode : "",
 
     setEmail : (email) => set({ email : email}),
     setFormatYn : (validYn) => set({ formatYn : validYn }),
-    setOTPSendYn : (sendYn) => set({ sendOTPCodeYn : sendYn}),
+    setOTPSendYn : (sendYn) => set({ OTPSendYn : sendYn}),
     setOTPCode : (otpCode) => set({ OTPCode : otpCode})
 
 }))
