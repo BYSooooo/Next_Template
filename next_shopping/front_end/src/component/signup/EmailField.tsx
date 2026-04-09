@@ -27,7 +27,6 @@ export default function EmailField() {
                     setEmail(inputEmail)
                     setOTPSendYn(true)
                     setEmailDislable(true) 
-                    router.push("/member/userInfo")
 
                 } else {
                     setEmailValid(false)

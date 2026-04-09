@@ -4,10 +4,12 @@ import React from 'react';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { confirmOTP } from '@/lib/supabase/authAction';
+import { useAlertStore } from '@/zustand/useAlertStore';
 
 export default function VeriftCodeField() {
     const { email, formatYn, OTPSendYn, 
             setEmail, setFormatYn, setOTPSendYn } = useSignUpStore();
+    const { openAlert, closeAlert } = useAlertStore()
     
     const [ timer, setTimer] = React.useState(300);
     const [ inputCode, setInputCode] = React.useState("")
@@ -30,9 +32,10 @@ export default function VeriftCodeField() {
     }
 
     const onPressVerifyButton = async() => {
-        const { data, error } = await confirmOTP(email, inputCode);
-        if(!error) {
-
+        // const { data, error } = await confirmOTP(email, inputCode);
+        const error = false
+        if(!error) {   
+            openAlert("danger","Test","Description");
         } else {
                         
         }
