@@ -8,7 +8,7 @@ import { sendVerificationCode } from '@/lib/supabase/authAction';
 import { useRouter } from 'next/navigation';
 
 export default function EmailField() {
-    const { email, formatYn, sendOTPCodeYn, OTPCode,
+    const { email, formatYn, OTPSendYn, OTPCode,
             setEmail, setFormatYn, setOTPSendYn, setOTPCode } = useSignUpStore();
     
     const [inputEmail, setInputEmail] = React.useState("");
@@ -21,8 +21,8 @@ export default function EmailField() {
         const validYn = isEmailValid
         console.log(validYn)
         if(validYn) {
-            // const { data, error } = await sendVerificationCode(email)
-            const error = false; 
+            const { data, error } = await sendVerificationCode(email)
+            // const error = false; 
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)
@@ -72,7 +72,7 @@ export default function EmailField() {
                     
                 />
             </TextField>
-            { !sendOTPCodeYn 
+            { !OTPSendYn 
                 ?   <Button
                         onPress={onPressVerifyCode}
                         className="w-full">

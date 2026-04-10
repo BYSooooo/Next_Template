@@ -32,12 +32,12 @@ export default function VeriftCodeField() {
     }
 
     const onPressVerifyButton = async() => {
-        // const { data, error } = await confirmOTP(email, inputCode);
-        const error = false
+        const { data, error } = await confirmOTP(email, inputCode);
+        // const error = false
         if(!error) {   
             openAlert("danger","Test","Description");
         } else {
-                        
+                //...        
         }
     }
 
