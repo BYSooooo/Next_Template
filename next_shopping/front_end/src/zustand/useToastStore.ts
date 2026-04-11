@@ -41,7 +41,7 @@ export const useToastStore = create<ToastState>((set)=> ({
             title : options.title,
             description : options.description,
             variant : options.variant,
-            closeButtonYn : options.closeButtonYn,
+            closeButtonYn : options.closeButtonYn || true,
             timeOut : timeout
         }, {
             timeout : timeout
