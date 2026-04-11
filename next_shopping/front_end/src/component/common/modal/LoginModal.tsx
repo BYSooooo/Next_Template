@@ -5,7 +5,7 @@ import React from 'react';
 import { useModalStore } from "@/zustand/useModalStore";
 import { EnvelopeIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { Button, Card, Input, Label, Modal, Separator, TextField, } from "@heroui/react";
-import GoogleLogin from "../login/GoogleLogin";
+import GoogleLogin from '@/component/login/GoogleLogin';
 import { useRouter } from "next/navigation";
 
 export default function LoginModal() {

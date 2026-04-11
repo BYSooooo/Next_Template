@@ -21,8 +21,8 @@ export default function EmailField() {
         const validYn = isEmailValid
         console.log(validYn)
         if(validYn) {
-            const { data, error } = await sendVerificationCode(email)
-            // const error = false; 
+            // const { data, error } = await sendVerificationCode(email)
+            const error = false; 
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)

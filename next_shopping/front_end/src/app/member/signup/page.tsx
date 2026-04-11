@@ -5,6 +5,13 @@ import { useRouter } from 'next/navigation';
 import EmailField from '@/component/signup/EmailField';
 import VeriftCodeField from '@/component/signup/VerifyCodeField';
 
+// For Handling Hydration Problem, off SSR 
+import dynamic from "next/dynamic";
+const NoSSRVerifyCodeField = dynamic(()=> 
+    import('@/component/signup/VerifyCodeField'), { 
+        ssr : false
+    })
+
 export default function Page() {
 
     const router = useRouter();
@@ -28,7 +35,7 @@ export default function Page() {
                         </Card.Header>
                         <Card.Content>
                             <EmailField />
-                            <VeriftCodeField />
+                            <NoSSRVerifyCodeField />
                         </Card.Content>
                     </Card>
 

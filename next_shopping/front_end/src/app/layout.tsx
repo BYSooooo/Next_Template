@@ -2,8 +2,9 @@ import './globals.css';
 
 import Footer from './footer';
 import HeaderBar from '@/component/header/HeaderBar';
-import ModalMain from '@/component/modal/ModalMain';
-import AlertMain from '@/component/alert/AlertMain';
+import ModalMain from '@/component/common/modal/ModalMain';
+import AlertMain from '@/component/common/alert/AlertMain';
+import ToastMain from '@/component/common/toast/ToastMain';
 
 
 export default function RootLayout({children} : {children : React.ReactNode}) {
@@ -20,7 +21,8 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
                     </main>
                     <ModalMain />
                     <AlertMain />
-                    <Footer/>
+                    <ToastMain />
+                    {/* <Footer/> */}
                 </div>
             </body>
         </html>
