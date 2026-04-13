@@ -4,15 +4,13 @@ const supabase = createClient();
 
 // Send Verify Code to Email
 export const sendVerificationCode = async(email : string)=> {
-    // Temporary Password.
-    // Password setting will be finish next page.
-    const tempPwd = Math.random().toString(36).slice(-12);
 
-    const { data, error } = await supabase.auth.signUp({
+    // 
+    const { data, error } = await supabase.auth.signInWithOtp({
         email,
-        password : tempPwd,
+        // Just Send Confirm OTP Code, not Sign Up User
         options : {
-            emailRedirectTo : `${window.location.origin}/auth/callback`
+            shouldCreateUser : false
         }
     });
     return { data, error }
@@ -25,6 +23,14 @@ export const confirmOTP = async(email : string, token : string)=> {
         token,
         type : 'signup'
     })
+    return { data, error };
+}
 
+// Complete Sign Up Step 
+export const completeSignUp = async(email : string, password : string, metadata : any) => {
+    const { data, error } = await supabase.auth.updateUser({
+        password : password,
+        data : metadata
+    });
     return { data, error };
 }

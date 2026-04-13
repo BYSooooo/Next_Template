@@ -33,14 +33,14 @@ export default function VeriftCodeField() {
     }
 
     const onPressVerifyButton = async() => {
-        // const { data, error } = await confirmOTP(email, inputCode);
-        const error = false
-        if(!error) {   
+        const { data, error } = await confirmOTP(email, inputCode);
+        // const error = false
+        if(error) {   
             openToast({
-                title : "Test",
+                title : error.name,
                 variant : "danger",
                 placement : "bottom",
-                description : "Hello"
+                description : error.message
             })
         } else {    
                 //...        

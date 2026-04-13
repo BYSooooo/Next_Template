@@ -6,14 +6,17 @@ import { Button, Input, Label, TextField } from '@heroui/react';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { sendVerificationCode } from '@/lib/supabase/authAction';
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function EmailField() {
     const { email, formatYn, OTPSendYn, OTPCode,
             setEmail, setFormatYn, setOTPSendYn, setOTPCode } = useSignUpStore();
-    
+    const { openToast } = useToastStore()
+            
     const [inputEmail, setInputEmail] = React.useState("");
     const [emailDisable, setEmailDislable] = React.useState(false)
     const [emailValid, setEmailValid] = React.useState(true)
+
 
     const router = useRouter();
 
@@ -21,19 +24,29 @@ export default function EmailField() {
         const validYn = isEmailValid
         console.log(validYn)
         if(validYn) {
-            // const { data, error } = await sendVerificationCode(email)
-            const error = false; 
+            const { data, error } = await sendVerificationCode(email)
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)
                     setEmailDislable(true) 
-
                 } else {
                     setEmailValid(false)
+                    openToast({
+                        title : error.name,
+                        description : error.message,
+                        placement : "bottom",
+                        variant : "danger"
+                    })
+                    
                 }
         } else {
             setEmailValid(false)
-            //...
+            openToast({
+                title : "Email Invalid",
+                description : "Check Email Address",
+                placement : "bottom",
+                variant : "danger"
+            })
         }
     }
 
