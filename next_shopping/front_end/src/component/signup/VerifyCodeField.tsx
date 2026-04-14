@@ -86,6 +86,7 @@ export default function VeriftCodeField() {
                             outline-none ring-0 ring-offset-0 focus:outlin-none`}
                     />
                     <Button
+                        className='w-full bg-yellow-500 text-black'
                         isDisabled={!OTPSendYn || isExpired}
                         onPress={onPressVerifyButton}
                         fullWidth>

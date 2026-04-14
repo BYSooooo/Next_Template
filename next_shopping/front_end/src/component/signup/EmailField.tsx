@@ -88,12 +88,12 @@ export default function EmailField() {
             { !OTPSendYn 
                 ?   <Button
                         onPress={onPressVerifyCode}
-                        className="w-full">
+                        className="w-full bg-yellow-400 text-black">
                         Send Verify Code
                     </Button>            
                 :   <Button
                         onPress={onPressRetryVerify}
-                        className="w-full">
+                        className="w-full bg-yellow-400 text-black">
                         Retry Verify Email
                     </Button>
             }

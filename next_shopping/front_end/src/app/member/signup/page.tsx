@@ -3,7 +3,6 @@
 import { Card } from "@heroui/react";
 import { useRouter } from 'next/navigation';
 import EmailField from '@/component/signup/EmailField';
-import VeriftCodeField from '@/component/signup/VerifyCodeField';
 
 // For Handling Hydration Problem, off SSR 
 import dynamic from "next/dynamic";
