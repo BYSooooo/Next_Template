@@ -38,12 +38,24 @@ export default function Page() {
                             <EmailField />
                             <NoSSRVerifyCodeField />
                         </Card.Content>
-                        <Card.Footer className="flex flex-col gap-4 p-6 bg-gray-50 border-t-2 border-black">
+                        <Card.Footer className="flex flex-col gap-4 p-6 border-t-2 border-black">
                             <div className="flex w-full items-center justify-center">
-                                {/* Step Text*/}
-                                <span className="text-sm font-black text-black">
-                                    STEP {step === 'VERIFY' ? '1' : '2' } of 2
-                                </span>
+                                { /* Step Dot */}
+                                <div className="flex gap-3">
+                                    { ['VERIFY','INFO'].map((number)=> (
+                                        <div
+                                            key={number}
+                                            className={`
+                                                h-3 w-3 rounded-full boder-none transition-all duration-500
+                                                ${step === number
+                                                    ? " bg-yellow-400"
+                                                    : "bg-black"
+                                                }   
+                                            `}
+                                        />
+
+                                    ))}
+                                </div>
                             </div>
                         </Card.Footer>
                     </Card>
