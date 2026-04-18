@@ -1,18 +1,25 @@
 "use client";
 
-import LoginModal from '@/component/modal/LoginModal';
+import LoginModal from '@/component/common/modal/LoginModal';
 import { useModalStore } from '@/zustand/useModalStore';
 import { UserIcon } from '@heroicons/react/24/outline'
 import { Button, Popover } from '@heroui/react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function InfoButton() {
     const [ openYn, setOpenYn ] = React.useState(false)
     const { openModal } = useModalStore();
+    const router = useRouter();
 
     const onPressSignIn = ()=> {
         setOpenYn(false)
         openModal(<LoginModal />, "lg")   
+    }
+
+    const onPressSignUp = ()=> {
+        setOpenYn(false)
+        router.push("/member/signup")
     }
     
     return (
@@ -31,7 +38,7 @@ export default function InfoButton() {
                             <Button variant='outline' size='sm' fullWidth onPress={()=>onPressSignIn()}>
                                 <p className='text-xs'>Sign In</p>
                             </Button>
-                            <Button variant='outline' size='sm' fullWidth>
+                            <Button variant='outline' size='sm' fullWidth onPress={()=> onPressSignUp()}>
                                 <p className='text-xs'>Sign Up</p>
                             </Button>
                         </div>

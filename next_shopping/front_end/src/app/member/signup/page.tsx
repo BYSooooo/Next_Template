@@ -1,92 +1,43 @@
-"use client";
+"use client"
 
-import React, { useEffect } from 'react';
-import { Button, Card, Form, Input, Label, Popover, Separator, TextField } from "@heroui/react";
-import { confirmOTP, sendVerificationCode } from '@/lib/supabase/authAction';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import React from 'react';
 
-export default function Page() {
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [popOpen, setPopOpen] = React.useState(false);
+import { Card, Description, Input, Label, Link, Text, TextField } from "@heroui/react";
+import { useRouter } from 'next/navigation';
+import EmailField from '@/component/signup/EmailField';
 
-    // Check Condition of Password
-    const [condition, setCondition] = React.useState({
-        length : false,
-        hasUpperCase : false,
-        hasLowerCase : false,
-        hasNumber : false,
-        hasSpecial : false
+// For Handling Hydration Problem, off SSR 
+import dynamic from "next/dynamic";
+import { useSignUpStore } from "@/zustand/useSignUpStore";
+import { AnimatePresence, motion } from "motion/react";
+import PasswordField from '@/component/signup/PasswordField';
+import NicknameField from '@/component/signup/NicknameField';
+
+const NoSSRVerifyCodeField = dynamic(()=> 
+    import('@/component/signup/VerifyCodeField'), { 
+        ssr : false
     })
 
-    const [sendYn, setSendYn] = React.useState(false);
-    const [verifyCode, setVerifyCode] = React.useState("");
-    const [timer, setTimer] = React.useState(300) // 5 Minute
-    const [loading, setLoading] = React.useState(false)
+export default function Page() {
+    const { email, step, initStore } = useSignUpStore();
 
-    const onChangePassword = (value: string)=> {
-        setPassword(value);
+    const router = useRouter();
 
-        setCondition({
-            length : value.length >= 12 ,
-            hasUpperCase : /[A-Z]/.test(value),
-            hasLowerCase : /[a-z]/.test(value),
-            hasNumber : /[0-9]/.test(value),
-            hasSpecial : /[!@#$%^&*]/.test(value)
-        })
-    };
-
-    // Timer 
-    useEffect(()=> {
-        let interval: number;
-
-        if(sendYn && timer > 0) {
-            interval = window.setInterval(()=> {
-                setTimer((prev)=>  prev -1)
-            }, 1000)
-        }
-
-        return () => window.clearInterval(interval)
-    },[sendYn, timer])
-
-    const formatTime = React.useCallback((seconds : number)=> {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`
+    React.useEffect(()=> {
+        // TODO
+        // Need to process for Checking User Login Session
+        // Prevent access this page directly when user has session
+        initStore()
     },[])
 
-    
-
-    const onPressVerifyCode = async()=> {
-        setLoading(true);
-        try {
-            await sendVerificationCode(email)
-            
-            setSendYn(true);
-            setTimer(300);
-            setVerifyCode("");
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false);
-        }
+    const onPressVerifyAgain = ()=> {
+        initStore()
     }
-  
-    const onPressConfimVerifyCode = async()=> {
-        setLoading(true);
-        try {
-            const { data, error } = await confirmOTP(email, verifyCode);
-            if(!error) {
 
-            } else {
-                throw new Error(error.message);
-            }
-            // data.user.em
-        } catch(error) {
-            console.log(error)
-        } finally{
-            setLoading(false)
-        }
+    const slideVariants = {
+        initial: { x: "100%", opacity: 0 },
+        animate: { x: 0, opacity: 1 },
+        exit: { x: "-100%", opacity: 0 }
     }
 
     return (
@@ -101,113 +52,86 @@ export default function Page() {
                     </div>
                 </div>
                 {/* Right Part : Sign up Form */}
-                <div className="col-span-6">
-                    <Card className='border-2 border-black shadow-none p-2'>
-                        <Card.Header className="text-lg font-bold">
-                            Information
-                        </Card.Header>
-                        <Card.Content>
-                            <TextField className="gap-2">
-                                <Label>Email</Label>
-                                <Input
-                                    fullWidth
-                                    onChange={(e)=>setEmail(e.target.value)}
-                                    value={email}
-                                    type='email'
-                                    placeholder='Input Email...'
-                                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                />
-                                <Label>Password</Label>
-                                <div className='relative'>
-                                    <Input
-                                        fullWidth
-                                        onChange={(e)=>onChangePassword(e.target.value)}
-                                        value={password}
-                                        onFocus={()=> setPopOpen(true)}
-                                        onBlur={(e)=> {
-                                            if(e.relatedTarget?.closest('[data-popover]')) return;
-                                            setPopOpen(false)
+                <div className="col-span-6 overflow-hidden">
+                    <motion.div
+                        layout 
+                        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                        className='w-full'>  
+                        <Card 
+                            variant="secondary"
+                            className='relative overflow-hidden'>
+                            <motion.div  layout className='flex flex-col'>
+                                <AnimatePresence mode="popLayout" initial={false}>
+                                    <motion.div
+                                        key={step}
+                                        variants={slideVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
+                                        transition={{ 
+                                            x: { type: "spring", stiffness: 300, damping: 30 },
+                                            opacity: { duration: 0.2 }
                                         }}
-                                        type='password'
-                                        className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                    />
+                                        className="w-full">
+                                        <Card.Header className="text-lg font-bold">
+                                            {step === 'VERIFY' 
+                                                ? "Verify Email Address "
+                                                : "Information"
+                                            }
+                                        </Card.Header>
+                                        <Card.Content>
+                                            { step === 'VERIFY'
+                                                ?   <div>
+                                                        <EmailField />
+                                                        <NoSSRVerifyCodeField />
+                                                    </div>
+                                                :   <div>
+                                                        <TextField>
+                                                            <Label isRequired>Email</Label>
+                                                            <Input
+                                                                disabled={true}   
+                                                                className="form-input"
+                                                                value={email}
+                                                            />
+                                                            <Description>
+                                                                If you want to change Email, please verify email again.
+                                                                <Link 
+                                                                    className="text-xs"
+                                                                    onPress={onPressVerifyAgain}>
+                                                                    Verify again
+                                                                </Link>
+                                                            </Description>
+                                                        </TextField>
+                                                        <PasswordField />
+                                                        <NicknameField />
+                                                    </div>
+                                            }
+                                        </Card.Content>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </motion.div>
+                            <Card.Footer className="flex flex-col gap-4 p-6 border-t-2 border-black">
+                                <div className="flex w-full items-center justify-center">
+                                    { /* Step Dot */}
+                                    <div className="flex gap-3">
+                                        { ['VERIFY','INFO'].map((number)=> (
+                                            <div
+                                                key={number}
+                                                className={`
+                                                    h-3 w-3 rounded-full boder-none transition-all duration-500
+                                                    ${step === number
+                                                        ? " bg-yellow-400"
+                                                        : "bg-black"
+                                                    }   
+                                                `}
+                                            />
 
-                                    <Popover isOpen={popOpen}>
-                                        <Popover.Content>
-                                            <div data-popover tabIndex={-1}>
-                                                <Popover.Dialog>
-                                                    <Popover.Heading className='flex flex-col gap-2'>
-                                                        <p className='font-semibold'>
-                                                            The Password must meet the following condition.
-                                                        </p>
-                                                        <div className='flex flex-row gap-2'>
-                                                            { condition.length 
-                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
-                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/> 
-                                                            }
-                                                            <p>
-                                                                12 characters or more
-                                                            </p>
-                                                        </div>
-                                                        <div className='flex flex-row gap-2'>
-                                                            { condition.hasLowerCase 
-                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
-                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>
-                                                            }
-                                                            <p>
-                                                                Contain at least one English upper case     
-                                                            </p>
-                                                        </div>
-                                                        <div className='flex flex-row gap-2'>
-                                                            {condition.hasLowerCase
-                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
-                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>    
-                                                            }
-                                                            <p>
-                                                                Contain at least one English lower case
-                                                            </p>
-                                                        </div>
-                                                        <div className='flex flex-row gap-2'>
-                                                            { condition.hasSpecial
-                                                                ? <CheckCircleIcon className='text-green-500 w-5 h-5'/> 
-                                                                : <XCircleIcon className='text-red-500 w-5 h-5'/>    
-                                                            }
-                                                            <p>
-                                                                One or more special character 
-                                                            </p>
-                                                        </div>
-                                                    </Popover.Heading>
-                                                </Popover.Dialog>
-                                            </div>
-                                        </Popover.Content>
-                                    </Popover>
+                                        ))}
+                                    </div>
                                 </div>
-                                <Button 
-                                    onPress={onPressVerifyCode}
-                                    className="w-full">
-                                    {!sendYn ? "Send Verify Code" : "Re-Send Verify Code" }
-                                </Button>
-                                <Label>Code</Label>
-                                <Input
-                                    fullWidth
-                                    disabled={!sendYn}
-                                    onChange={(e)=> setVerifyCode(e.target.value)}
-                                    value={verifyCode}
-                                    placeholder='Input Verify Code...'
-                                    maxLength={6}
-                                    className="border-2 border-solid border-black focus:outline-0 focus:ring-0"
-                                />
-                                <Button 
-                                    fullWidth
-                                    isDisabled={!sendYn}
-                                    variant={!sendYn ? 'ghost' : 'secondary' }
-                                    onPress={onPressConfimVerifyCode}>
-                                    Verify
-                                </Button>
-                            </TextField>
-                        </Card.Content>
-                    </Card>
-
+                            </Card.Footer>
+                        </Card>
+                    </motion.div>
                 </div>
 
             </div>
