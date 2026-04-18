@@ -1,21 +1,43 @@
 "use client"
 
-import { Card } from "@heroui/react";
+import React from 'react';
+
+import { Card, Description, Input, Label, Link, Text, TextField } from "@heroui/react";
 import { useRouter } from 'next/navigation';
 import EmailField from '@/component/signup/EmailField';
 
 // For Handling Hydration Problem, off SSR 
 import dynamic from "next/dynamic";
 import { useSignUpStore } from "@/zustand/useSignUpStore";
+import { AnimatePresence, motion } from "motion/react";
+import PasswordField from '@/component/signup/PasswordField';
+
 const NoSSRVerifyCodeField = dynamic(()=> 
     import('@/component/signup/VerifyCodeField'), { 
         ssr : false
     })
 
 export default function Page() {
-    const { step } = useSignUpStore();
+    const { email, step, initStore } = useSignUpStore();
 
     const router = useRouter();
+
+    React.useEffect(()=> {
+        // TODO
+        // Need to process for Checking User Login Session
+        // Prevent access this page directly when user has session
+        initStore()
+    },[])
+
+    const onPressVerifyAgain = ()=> {
+        initStore()
+    }
+
+    const slideVariants = {
+        initial : { x : "100%"},
+        animate : { x : 0  },
+        exit    : { x : -100 } 
+    }
 
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
@@ -30,36 +52,87 @@ export default function Page() {
                 </div>
                 {/* Right Part : Sign up Form */}
                 <div className="col-span-6 overflow-hidden">
-                    <Card>
-                        <Card.Header className="text-lg font-bold">
-                            Verify Email Address
-                        </Card.Header>
-                        <Card.Content>
-                            <EmailField />
-                            <NoSSRVerifyCodeField />
-                        </Card.Content>
-                        <Card.Footer className="flex flex-col gap-4 p-6 border-t-2 border-black">
-                            <div className="flex w-full items-center justify-center">
-                                { /* Step Dot */}
-                                <div className="flex gap-3">
-                                    { ['VERIFY','INFO'].map((number)=> (
-                                        <div
-                                            key={number}
-                                            className={`
-                                                h-3 w-3 rounded-full boder-none transition-all duration-500
-                                                ${step === number
-                                                    ? " bg-yellow-400"
-                                                    : "bg-black"
-                                                }   
-                                            `}
-                                        />
+                    <motion.div
+                        layout 
+                        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                        className='w-full'>  
+                        <Card 
+                            variant="secondary"
+                            className='relative'>
+                            <AnimatePresence mode="popLayout" initial={false}>
+                                {step === "VERIFY"
+                                    ?   <motion.div
+                                            key="VERIFY_STEP"
+                                            layout
+                                            variants={slideVariants}
+                                            initial="initial"
+                                            animate="animate"
+                                            exit="exit"
+                                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                                            >
+                                            <Card.Header className="text-lg font-bold">
+                                                Verify Email Address
+                                            </Card.Header>
+                                            <Card.Content>
+                                                <EmailField />
+                                                <NoSSRVerifyCodeField />
+                                            </Card.Content>
+                                        </motion.div>
+                                    :   <motion.div
+                                            key="INFO_STEP"
+                                            layout
+                                            variants={slideVariants}
+                                            initial="initial"
+                                            animate="animate"
+                                            exit="exit"
+                                            transition={{ duration: 0.4, ease: "easeInOut" }}>
+                                            <Card.Header className="text-lg font-bold">
+                                                Information 
+                                            </Card.Header>
+                                            <Card.Content>
+                                                <TextField>
+                                                    <Label isRequired>Email</Label>
+                                                    <Input
+                                                        disabled={true}   
+                                                        className="form-input"
+                                                        value={email}
+                                                    />
+                                                    <Description>
+                                                        If you want to change Email, need to verify email again.
+                                                        <Link 
+                                                            className="text-xs"
+                                                            onPress={onPressVerifyAgain}>
+                                                            Verify again
+                                                        </Link>
+                                                    </Description>
+                                                </TextField>
+                                                <PasswordField />
+                                            </Card.Content>
+                                        </motion.div>
+                                }
+                            </AnimatePresence>
+                            <Card.Footer className="flex flex-col gap-4 p-6 border-t-2 border-black">
+                                <div className="flex w-full items-center justify-center">
+                                    { /* Step Dot */}
+                                    <div className="flex gap-3">
+                                        { ['VERIFY','INFO'].map((number)=> (
+                                            <div
+                                                key={number}
+                                                className={`
+                                                    h-3 w-3 rounded-full boder-none transition-all duration-500
+                                                    ${step === number
+                                                        ? " bg-yellow-400"
+                                                        : "bg-black"
+                                                    }   
+                                                `}
+                                            />
 
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        </Card.Footer>
-                    </Card>
-
+                            </Card.Footer>
+                        </Card>
+                    </motion.div>
                 </div>
 
             </div>

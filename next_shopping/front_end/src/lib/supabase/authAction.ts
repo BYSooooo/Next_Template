@@ -5,12 +5,11 @@ const supabase = createClient();
 // Send Verify Code to Email
 export const sendVerificationCode = async(email : string)=> {
 
-    // 
     const { data, error } = await supabase.auth.signInWithOtp({
         email,
         // Just Send Confirm OTP Code, not Sign Up User
         options : {
-            shouldCreateUser : false
+            shouldCreateUser : true
         }
     });
     return { data, error }

@@ -82,8 +82,7 @@ export default function VeriftCodeField() {
                         fullWidth
                         value={inputCode}
                         maxLength={6}
-                        className={`border-2 border-solid border-black
-                            outline-none ring-0 ring-offset-0 focus:outlin-none`}
+                        className="form-input"
                     />
                     <Button
                         className='w-full bg-yellow-500 text-black'

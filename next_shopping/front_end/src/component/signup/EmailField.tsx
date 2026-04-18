@@ -5,26 +5,22 @@ import React from 'react';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { sendVerificationCode } from '@/lib/supabase/authAction';
-import { useRouter } from 'next/navigation';
 import { useToastStore } from '@/zustand/useToastStore';
 
 export default function EmailField() {
     const { email, formatYn, OTPSendYn, OTPCode,
-            setEmail, setFormatYn, setOTPSendYn, setOTPCode } = useSignUpStore();
+            setEmail, setFormatYn, setOTPSendYn, setOTPCode, setStep } = useSignUpStore();
     const { openToast } = useToastStore()
             
     const [inputEmail, setInputEmail] = React.useState("");
     const [emailDisable, setEmailDislable] = React.useState(false)
     const [emailValid, setEmailValid] = React.useState(true)
 
-
-    const router = useRouter();
-
     const onPressVerifyCode = async()=> {
         const validYn = isEmailValid
         console.log(validYn)
         if(validYn) {
-            const { data, error } = await sendVerificationCode(email)
+            const { data, error } = await sendVerificationCode(inputEmail)
                 if(!error) {
                     setEmail(inputEmail)
                     setOTPSendYn(true)
@@ -48,6 +44,11 @@ export default function EmailField() {
                 variant : "danger"
             })
         }
+    }
+
+    const onPressTest = ()=>{
+        setEmail(inputEmail)
+        setStep('INFO')
     }
 
     const onPressRetryVerify =()=> {
@@ -87,7 +88,7 @@ export default function EmailField() {
             </TextField>
             { !OTPSendYn 
                 ?   <Button
-                        onPress={onPressVerifyCode}
+                        onPress={onPressTest}
                         className="w-full bg-yellow-400 text-black">
                         Send Verify Code
                     </Button>            
