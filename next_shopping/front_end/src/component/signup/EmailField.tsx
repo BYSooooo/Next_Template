@@ -65,7 +65,7 @@ export default function EmailField() {
 
     
     return (
-        <>
+        <div className='flex flex-col gap-2'>
             <TextField 
                 type="email"
                 isDisabled={emailDisable}
@@ -73,9 +73,8 @@ export default function EmailField() {
                     setInputEmail(e)
                     if(!emailValid) setEmailValid(true)
                 }}
-                isInvalid={!emailValid}
-                className="flex flex-col gap-2">
-                <Label>Email</Label>
+                isInvalid={!emailValid}>
+                <Label isRequired>Email</Label>
                 <Input
                     fullWidth
                     value={inputEmail}
@@ -98,7 +97,7 @@ export default function EmailField() {
                         Retry Verify Email
                     </Button>
             }
-        </>
+        </div>
 
     )
 }

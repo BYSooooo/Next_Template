@@ -3,8 +3,8 @@ This is a personal project based on Reactjs and Nextjs.<br>
 Project internal services will be added on an ongoing basis.<br>
 Please refer to the link below for development records and details
 ### Link
-Deploy : [Vercel](https://next-template-alpha-ten.vercel.app) <br>
-Blog : [Notion](https://nervous-piper-af7.notion.site/39217964f90746028a396f2829fed6a2?v=ee8667e0578548e4b05ed1fbe4af0bd8&p=631cae7ca1084844b5405a4bc3230baf&pm=c)
+Deploy : [Vercel](https://next-template-coral-iota.vercel.app) <br>
+Blog : [Notion](https://nervous-piper-af7.notion.site/39217964f90746028a396f2829fed6a2?v=ee8667e0578548e4b05ed1fbe4af0bd8&p=631cae7ca1084844b5405a4bc3230baf&pm=c) (KR)
 ### Version
 - 0.1.0 <br>
 Develop and Deploy 'MoviePage' <br>

@@ -57,13 +57,12 @@ export default function VeriftCodeField() {
     const isExpired = OTPSendYn && timer === 0;
 
     return (
-        <>
+        <div className='flex flex-col gap-2'>
             <TextField
-                className="gap-1"
                 isDisabled={!OTPSendYn || isExpired }
                 onChange={(e)=> onChangeVerifyCode(e)}>
                     <div className='flex flex-row items-center gap-2'>
-                        <Label>Code</Label>
+                        <Label isRequired>Code</Label>
                         {OTPSendYn && (
                             <div className='flex text-xs text-red-500'>
                                 {isExpired 
@@ -84,14 +83,14 @@ export default function VeriftCodeField() {
                         maxLength={6}
                         className="form-input"
                     />
-                    <Button
-                        className='w-full bg-yellow-500 text-black'
-                        isDisabled={!OTPSendYn || isExpired}
-                        onPress={onPressVerifyButton}
-                        fullWidth>
-                        Verify
-                    </Button>
             </TextField>
-        </>
+            <Button
+                className='w-full bg-yellow-500 text-black'
+                isDisabled={!OTPSendYn || isExpired}
+                onPress={onPressVerifyButton}
+                fullWidth>
+                Verify
+            </Button>
+        </div>
     )
 }

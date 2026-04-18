@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useSignUpStore } from "@/zustand/useSignUpStore";
 import { AnimatePresence, motion } from "motion/react";
 import PasswordField from '@/component/signup/PasswordField';
+import NicknameField from '@/component/signup/NicknameField';
 
 const NoSSRVerifyCodeField = dynamic(()=> 
     import('@/component/signup/VerifyCodeField'), { 
@@ -34,9 +35,9 @@ export default function Page() {
     }
 
     const slideVariants = {
-        initial : { x : "100%"},
-        animate : { x : 0  },
-        exit    : { x : -100 } 
+        initial: { x: "100%", opacity: 0 },
+        animate: { x: 0, opacity: 1 },
+        exit: { x: "-100%", opacity: 0 }
     }
 
     return (
@@ -58,59 +59,57 @@ export default function Page() {
                         className='w-full'>  
                         <Card 
                             variant="secondary"
-                            className='relative'>
-                            <AnimatePresence mode="popLayout" initial={false}>
-                                {step === "VERIFY"
-                                    ?   <motion.div
-                                            key="VERIFY_STEP"
-                                            layout
-                                            variants={slideVariants}
-                                            initial="initial"
-                                            animate="animate"
-                                            exit="exit"
-                                            transition={{ duration: 0.4, ease: "easeInOut" }}
-                                            >
-                                            <Card.Header className="text-lg font-bold">
-                                                Verify Email Address
-                                            </Card.Header>
-                                            <Card.Content>
-                                                <EmailField />
-                                                <NoSSRVerifyCodeField />
-                                            </Card.Content>
-                                        </motion.div>
-                                    :   <motion.div
-                                            key="INFO_STEP"
-                                            layout
-                                            variants={slideVariants}
-                                            initial="initial"
-                                            animate="animate"
-                                            exit="exit"
-                                            transition={{ duration: 0.4, ease: "easeInOut" }}>
-                                            <Card.Header className="text-lg font-bold">
-                                                Information 
-                                            </Card.Header>
-                                            <Card.Content>
-                                                <TextField>
-                                                    <Label isRequired>Email</Label>
-                                                    <Input
-                                                        disabled={true}   
-                                                        className="form-input"
-                                                        value={email}
-                                                    />
-                                                    <Description>
-                                                        If you want to change Email, need to verify email again.
-                                                        <Link 
-                                                            className="text-xs"
-                                                            onPress={onPressVerifyAgain}>
-                                                            Verify again
-                                                        </Link>
-                                                    </Description>
-                                                </TextField>
-                                                <PasswordField />
-                                            </Card.Content>
-                                        </motion.div>
-                                }
-                            </AnimatePresence>
+                            className='relative overflow-hidden'>
+                            <motion.div  layout className='flex flex-col'>
+                                <AnimatePresence mode="popLayout" initial={false}>
+                                    <motion.div
+                                        key={step}
+                                        variants={slideVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
+                                        transition={{ 
+                                            x: { type: "spring", stiffness: 300, damping: 30 },
+                                            opacity: { duration: 0.2 }
+                                        }}
+                                        className="w-full">
+                                        <Card.Header className="text-lg font-bold">
+                                            {step === 'VERIFY' 
+                                                ? "Verify Email Address "
+                                                : "Information"
+                                            }
+                                        </Card.Header>
+                                        <Card.Content>
+                                            { step === 'VERIFY'
+                                                ?   <div>
+                                                        <EmailField />
+                                                        <NoSSRVerifyCodeField />
+                                                    </div>
+                                                :   <div>
+                                                        <TextField>
+                                                            <Label isRequired>Email</Label>
+                                                            <Input
+                                                                disabled={true}   
+                                                                className="form-input"
+                                                                value={email}
+                                                            />
+                                                            <Description>
+                                                                If you want to change Email, please verify email again.
+                                                                <Link 
+                                                                    className="text-xs"
+                                                                    onPress={onPressVerifyAgain}>
+                                                                    Verify again
+                                                                </Link>
+                                                            </Description>
+                                                        </TextField>
+                                                        <PasswordField />
+                                                        <NicknameField />
+                                                    </div>
+                                            }
+                                        </Card.Content>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </motion.div>
                             <Card.Footer className="flex flex-col gap-4 p-6 border-t-2 border-black">
                                 <div className="flex w-full items-center justify-center">
                                     { /* Step Dot */}

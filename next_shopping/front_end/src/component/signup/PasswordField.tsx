@@ -4,10 +4,16 @@ export default function PasswordField() {
     
 
     return (
-        <TextField>
-            <Label isRequired>Password</Label>
-            <Input className="form-input"/>
-        </TextField>
+        <div>
+            <TextField>
+                <Label isRequired>Password</Label>
+                <Input className="form-input"/>
+            </TextField>
+            <TextField>
+                <Label isRequired>Password Confirm</Label>
+                <Input className="form-input"/>
+            </TextField>
+        </div>
 
     )
 }
