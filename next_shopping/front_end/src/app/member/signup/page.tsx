@@ -12,6 +12,7 @@ import { useSignUpStore } from "@/zustand/useSignUpStore";
 import { AnimatePresence, motion } from "motion/react";
 import PasswordField from '@/component/signup/PasswordField';
 import NicknameField from '@/component/signup/NicknameField';
+import AddressField from '@/component/signup/AddressField';
 
 const NoSSRVerifyCodeField = dynamic(()=> 
     import('@/component/signup/VerifyCodeField'), { 
@@ -104,6 +105,8 @@ export default function Page() {
                                                         </TextField>
                                                         <PasswordField />
                                                         <NicknameField />
+                                                        <AddressField />
+                                                        
                                                     </div>
                                             }
                                         </Card.Content>
