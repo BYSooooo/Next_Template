@@ -32,10 +32,7 @@ export default function PasswordField() {
                 }}
                 isInvalid={passwordErr}>
                 <Label isRequired>Password</Label>
-                <Input 
-                    className="form-input"
-                
-                />
+                <Input className="form-input"/>
             </TextField>    
             <Description className={`${passwordErr ? 'text-red-500' : isRegexPwd ? 'text-green-600' : 'text-gray-500'}`}>
                 {passwordErr
@@ -43,15 +40,6 @@ export default function PasswordField() {
                     : (isRegexPwd ? "✓ Strong password" : "Min 12 chars, Upper/Lower, Special char")
                 }
             </Description>
-            {/* {passwordErr
-                ?   <Description className='text-xs text-red-500'>
-                        require : 12 characters, upper/lowercase, special character
-                    </Description>
-                
-                :   <Description className='text-xs text-green-600'>
-                        Meet password requirement
-                    </Description>
-            } */}
             <TextField
                 type="password"
                 onChange={(e)=> {
