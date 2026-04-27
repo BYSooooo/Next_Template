@@ -46,14 +46,25 @@ export default function AccountStep() {
         return regex.test(inputNick)
     },[inputNick]);
 
-    const hasNickError = isNickTouched && (!isRegexPwd || isNickUsed === true);
+    const hasNickError = isNickTouched && (!isRegexNick || isNickUsed === true);
 
     const onPressNext = () => {
+        const isPasswordValid = isRegexPwd && isMatched;
+        const isNicknameValid = isRegexNick && isNickUsed === false;
+
+        if(!isPasswordValid || !isNicknameValid) {
+            setIsPwdTouched(true);
+            setIsComfirmTouched(true);
+            setIsNickTouched(true)
+            return;
+        } 
+
         setInfo({
             password : inputPwd,
             nickname : inputNick
         })
         setStep('INFO02')
+        
     }
 
 

@@ -23,7 +23,7 @@ export default function Page() {
             case 'INFO01' : 
                 return 'Account Information'
             case 'INFO02' : 
-                return 'Delivery Information'
+                return 'Contact Information'
             
         }
     }
