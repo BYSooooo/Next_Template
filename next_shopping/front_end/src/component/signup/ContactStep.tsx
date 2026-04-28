@@ -14,6 +14,10 @@ export default function ContactStep() {
 
     }
 
+    const onPressSearchAddress = () => {
+        
+    }
+
     return (
         <div className='flex flex-col gap-2'>
             { /* Phone Part */}
@@ -34,7 +38,9 @@ export default function ContactStep() {
                 <Label>Address 1</Label>
                 <div className='flex flex-row gap-2'>
                     <Input className="w-[75%] form-input"/>
-                    <Button className="w-[25%] bg-yellow-500 text-black">
+                    <Button
+                        onPress={onPressSearchAddress} 
+                        className="w-[25%] bg-yellow-500 text-black">
                         Search
                     </Button>
                 </div>  

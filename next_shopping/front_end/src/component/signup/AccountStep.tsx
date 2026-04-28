@@ -165,7 +165,7 @@ export default function AccountStep() {
                                 </Description>
                             ):( 
                                 <Description className='text-green-600'>
-                                    ✓ This nickname is available.
+                                    ✓ This Nickname is available.
                                 </Description>
                             ) 
             }
