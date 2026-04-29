@@ -1,9 +1,12 @@
 "use client";
 
+import { useModalStore } from '@/zustand/useModalStore';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import React from 'react';
+import PhotonModal from '../common/modal/PhotonModal';
 
 export default function ContactStep() {
+    const { openModal } = useModalStore()
 
     const [inputTel, setInputTel] = React.useState("");
 
@@ -15,12 +18,12 @@ export default function ContactStep() {
     }
 
     const onPressSearchAddress = () => {
-        
+        openModal(<PhotonModal />, "sm")
     }
 
     return (
         <div className='flex flex-col gap-2'>
-            { /* Phone Part */}
+            { /* Phone Part */ }
             <TextField
                 type='tel'
                 onChange={(e)=> {
