@@ -4,17 +4,20 @@ import { useModalStore } from '@/zustand/useModalStore';
 import { Button, Input, Label, TextField } from '@heroui/react';
 import React from 'react';
 import PhotonModal from '../common/modal/PhotonModal';
+import { useSignUpStore } from '@/zustand/useSignUpStore';
 
 export default function ContactStep() {
     const { openModal } = useModalStore()
+    const { address1 } = useSignUpStore();
+    const allStat = useSignUpStore()
 
     const [inputTel, setInputTel] = React.useState("");
 
-    const [address1, setAddress1] = React.useState("");
+    // Address1 Handled by Zustand
     const [address2, setAddress2] = React.useState("");
 
     const onPressSignUp = () => {
-
+        console.log(allStat)
     }
 
     const onPressSearchAddress = () => {
@@ -37,10 +40,12 @@ export default function ContactStep() {
             
             {/* Address 1 Part*/}
             <TextField
-                isReadOnly={true}>
+                isReadOnly>
                 <Label>Address 1</Label>
                 <div className='flex flex-row gap-2'>
-                    <Input className="w-[75%] form-input"/>
+                    <Input
+                        value={address1} 
+                        className="w-[75%] form-input"/>
                     <Button
                         onPress={onPressSearchAddress} 
                         className="w-[25%] bg-yellow-500 text-black">

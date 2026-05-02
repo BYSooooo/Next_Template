@@ -10,7 +10,9 @@ const initialState = {
     nickname : '',
     
     phone : '',
-    address1 : '',
+    countryCode : '',
+    postCode : '',
+    address1 : '',  // name
     address2 : ''
 }
 
@@ -29,7 +31,7 @@ export const useSignUpStore = create<SignUpState>((set)=> ({
 
     setEmail : (email) => set({ email : email}),
 
-    setInfo : (info) => set((state)=> ({ ...state, info})),
+    setInfo : (info) => set((state)=> ({ ...state, ...info})),
     
     setStep : (step) => set({ step }),
 

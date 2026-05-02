@@ -6,10 +6,12 @@ import { useModalStore } from '@/zustand/useModalStore';
 import { Avatar, Button, Description, Input, Label, ListBox, Modal, ScrollShadow, TextField } from '@heroui/react';
 import { useToastStore } from '@/zustand/useToastStore';
 import { BuildingOffice2Icon } from '@heroicons/react/24/outline';
+import { useSignUpStore } from '@/zustand/useSignUpStore';
 
 export default function PhotonModal() {
     const { closeModal } = useModalStore()
     const { openToast } = useToastStore()
+    const { setInfo } = useSignUpStore()
 
     const [inputAddr, setInputAddr] = React.useState("");
     const [resultList, setResultList] = React.useState([]);
@@ -19,11 +21,32 @@ export default function PhotonModal() {
         try {
             const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(inputAddr)}&limit=20`)
             const result = await res.json();
-            console.log(result)
+            
             setResultList(result.features)
         } catch(error) {
-            console.log(error)
+            openToast({
+                title : 'Error : Address Search',
+                variant: 'warning',
+                description : error.toString()
+            })
         } 
+    }
+
+    const onClickListItem = (item)=> {
+        const result = item.properties;
+
+        const countryCode = result.countrycode;
+        const postCode = result.postcode;
+        const address1 = result.name;
+
+        setInfo({
+            countryCode : countryCode,
+            postCode : postCode,
+            address1 : address1
+        })
+        console.log(countryCode, postCode, address1)
+
+        closeModal()
     }
 
     return (
@@ -35,6 +58,11 @@ export default function PhotonModal() {
                 <Modal.Body className="flex flex-col gap-3">
                     <div className='flex-none'>
                         <TextField
+                            onKeyDown={(e)=> {
+                              if(e.key === 'Enter') {
+                                onPressSearchAddr()
+                              }  
+                            }}
                             onChange={(e)=> setInputAddr(e)}>
                             <Label>keyword</Label>
                             <div className='flex flex-row gap-2'>
@@ -46,19 +74,23 @@ export default function PhotonModal() {
                                     Search
                                 </Button>
                             </div>
+                            <Description className='text-xs text-gray-600'>
+                                - Up to 20 Addresses are displayed.
+                            </Description>
+                            <Description>
+                                - If you cannot find address, Please enter more detailed Address.
+                            </Description>
                         </TextField>
                     </div>
-                    <div className='flex-1 overflow-hidden flex flex-col mt-2'>
-                        <Label className='text-xs text-gray-500'>Results</Label>
-                    </div>
                     <ScrollShadow>
-
                         <ListBox 
                             selectionMode='single' >
                             { resultList.map((item)=> {
                                 const itemKey = item.properties.osm_id;
                                 return (
-                                    <ListBox.Item key={itemKey}>
+                                    <ListBox.Item
+                                        onClick={()=>onClickListItem(item)} 
+                                        key={itemKey}>
                                         <Avatar size="sm">
                                             <BuildingOffice2Icon className='w-5 h-5'/>
                                         </Avatar>
