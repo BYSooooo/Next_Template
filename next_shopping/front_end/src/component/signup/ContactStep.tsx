@@ -8,7 +8,7 @@ import { useSignUpStore } from '@/zustand/useSignUpStore';
 
 export default function ContactStep() {
     const { openModal } = useModalStore()
-    const { address1 } = useSignUpStore();
+    const { address1, setInfo } = useSignUpStore();
     const allStat = useSignUpStore()
 
     const [inputTel, setInputTel] = React.useState("");
@@ -21,6 +21,9 @@ export default function ContactStep() {
     }
 
     const onPressSearchAddress = () => {
+        // Init Previous Info
+        setInfo({ postCode : "", countryCode : "", address1 : "" })
+        setAddress2("");
         openModal(<PhotonModal />, "sm")
     }
 

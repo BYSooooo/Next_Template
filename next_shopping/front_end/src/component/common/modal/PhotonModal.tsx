@@ -34,7 +34,6 @@ export default function PhotonModal() {
 
     const onClickListItem = (item)=> {
         const result = item.properties;
-
         const countryCode = result.countrycode;
         const postCode = result.postcode;
         const address1 = result.name;
@@ -44,7 +43,6 @@ export default function PhotonModal() {
             postCode : postCode,
             address1 : address1
         })
-        console.log(countryCode, postCode, address1)
 
         closeModal()
     }
