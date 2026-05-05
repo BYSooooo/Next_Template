@@ -5,25 +5,55 @@ import { Button, Input, Label, TextField } from '@heroui/react';
 import React from 'react';
 import PhotonModal from '../common/modal/PhotonModal';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
+import { useAlertStore } from '@/zustand/useAlertStore';
 
 export default function ContactStep() {
     const { openModal } = useModalStore()
+    const { openAlert } = useAlertStore()
     const { address1, setInfo } = useSignUpStore();
     const allStat = useSignUpStore()
 
     const [inputTel, setInputTel] = React.useState("");
 
     // Address1 Handled by Zustand
-    const [address2, setAddress2] = React.useState("");
+    const [inputAddress2, setInputAddress2] = React.useState("");
 
-    const onPressSignUp = () => {
-        console.log(allStat)
+    const onPressSignUp = async() => {
+        setInfo({
+            phone : inputTel,
+            // address1, postCost, countryCode is controll with zustand directly
+            address2 : inputAddress2
+        })
+
+        const state = useSignUpStore.getState();
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
+                method : 'POST',
+                headers : { 
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(state)
+            })
+
+            const result = await res.json();
+            if(res.ok) {
+                // TOBE...
+                state.initStore()
+
+            } else {
+
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     const onPressSearchAddress = () => {
         // Init Previous Info
         setInfo({ postCode : "", countryCode : "", address1 : "" })
-        setAddress2("");
+        setInputAddress2("");
         openModal(<PhotonModal />, "sm")
     }
 
@@ -58,9 +88,12 @@ export default function ContactStep() {
             </TextField>
             
             {/* Address 2 Part */}
-            <TextField>
+            <TextField
+                onChange={(e)=> setInputAddress2(e)}>
                 <Label>Address 2(Optional)</Label>
-                <Input className="form-input" />
+                <Input
+                    value={inputAddress2} 
+                    className="form-input" />
             </TextField>
             <Button 
                 className="w-full bg-yellow-500 text-black"
