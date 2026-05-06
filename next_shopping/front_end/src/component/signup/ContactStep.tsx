@@ -6,12 +6,15 @@ import React from 'react';
 import PhotonModal from '../common/modal/PhotonModal';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { useAlertStore } from '@/zustand/useAlertStore';
+import { useRouter } from 'next/navigation';
 
 export default function ContactStep() {
     const { openModal } = useModalStore()
     const { openAlert } = useAlertStore()
     const { address1, setInfo } = useSignUpStore();
     const allStat = useSignUpStore()
+
+    const router = useRouter();
 
     const [inputTel, setInputTel] = React.useState("");
 
@@ -39,9 +42,13 @@ export default function ContactStep() {
             if(res.ok) {
                 // TOBE...
                 state.initStore()
+                router.push("/");
+                // openModal({
+                ///
+                // })
 
             } else {
-
+                // openAlert("danger", "Error", result)
             }
 
         } catch (error) {
