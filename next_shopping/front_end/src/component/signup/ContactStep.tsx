@@ -43,16 +43,13 @@ export default function ContactStep() {
                 // TOBE...
                 state.initStore()
                 router.push("/");
-                // openModal({
-                ///
-                // })
-
+            
             } else {
-                // openAlert("danger", "Error", result)
+                openAlert("danger", "Error", result)
             }
 
         } catch (error) {
-            console.log(error)
+            openAlert("danger", "Error", error.message);
         }
 
     }
