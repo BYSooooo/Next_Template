@@ -7,10 +7,11 @@ import PhotonModal from '../common/modal/PhotonModal';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
 import { useAlertStore } from '@/zustand/useAlertStore';
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function ContactStep() {
     const { openModal } = useModalStore()
-    const { openAlert } = useAlertStore()
+    const { openToast } = useToastStore();
     const { address1, setInfo } = useSignUpStore();
     const allStat = useSignUpStore()
 
@@ -29,6 +30,7 @@ export default function ContactStep() {
         })
 
         const state = useSignUpStore.getState();
+
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
                 method : 'POST',
@@ -42,14 +44,24 @@ export default function ContactStep() {
             if(res.ok) {
                 // TOBE...
                 state.initStore()
-                router.push("/");
+                // router.push("/");
             
             } else {
-                openAlert("danger", "Error", result)
+                openToast({
+                    title : result.error,
+                    description : result.message,
+                    variant : 'danger'
+                })
+                console.log(result)
             }
 
         } catch (error) {
-            openAlert("danger", "Error", error.message);
+            openToast({
+                title : error.error,
+                description : error.message,
+                variant : 'danger'
+            })
+            console.log(error)
         }
 
     }
