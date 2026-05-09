@@ -52,15 +52,13 @@ export default function AccountStep() {
         const isPasswordValid = isRegexPwd && isMatched;
         const isNicknameValid = isRegexNick && isNickUsed === false;
 
-        /*
         if(!isPasswordValid || !isNicknameValid) {
             setIsPwdTouched(true);
             setIsComfirmTouched(true);
             setIsNickTouched(true)
             return;
         } 
-        */
-
+        
         setInfo({
             password : inputPwd,
             nickname : inputNick

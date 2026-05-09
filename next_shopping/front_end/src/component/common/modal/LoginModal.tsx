@@ -18,10 +18,15 @@ export default function LoginModal() {
     
     const onPressSignUp = ()=> {
         closeModal();
-        router.push("member/signup")
+        // TODO
+        router.push("/member/signup")
     }
 
     const onPressSignIn = ()=> {
+
+    }
+
+    const onPressSignInTestAccount = ()=> {
 
     }
 
@@ -30,7 +35,7 @@ export default function LoginModal() {
             <Modal.CloseTrigger onPress={()=>closeModal()}/>
                 <Modal.Header >
                     <Modal.Heading className="text-lg font-bold">
-                        Login
+                        Sign In
                     </Modal.Heading>
                 </Modal.Header>
                 <Modal.Body className="flex flex-row gap-3">
@@ -60,6 +65,12 @@ export default function LoginModal() {
                             className="w-full flex flex-row">
                             <EnvelopeIcon />
                             Sign in with Email
+                        </Button>
+                        <Button
+                            variant='tertiary'
+                            className="w-full flex flex-row"
+                            onPress={onPressSignInTestAccount}>
+                            Sign In with Test Account
                         </Button>
                         <Button
                             className="w-full flex bg-green-500 hover:bg-green-400"

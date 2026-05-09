@@ -181,7 +181,7 @@ export default function EmailStep() {
             </TextField>
             <Button 
                 className='w-full bg-yellow-500 text-black mt-2'
-                // isDisabled={!isOTPSend || !isCodeConfirm}
+                isDisabled={!isOTPSend || !isCodeConfirm}
                 onPress={onPressNext}>
                 Next
             </Button>

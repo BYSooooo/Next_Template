@@ -44,7 +44,7 @@ export default function ContactStep() {
             if(res.ok) {
                 // TOBE...
                 state.initStore()
-                // router.push("/");
+                router.push("/member/signup/submit");
             
             } else {
                 openToast({

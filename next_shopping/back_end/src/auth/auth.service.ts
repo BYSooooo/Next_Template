@@ -5,13 +5,13 @@ import { SupabaseService } from "src/supabase/supabase.service";
 export class AuthService {
     constructor(private readonly supabaseService : SupabaseService) {}
 
+    // Sign Up to Supabase
     async register(signUpData : any) {
         const { 
             email, password, nickname, 
             phone, countryCode, postCode, address1, address2 
         } = signUpData;
 
-        console.log(signUpData)
         // STEP 1: Sign Up Account to Supabase Auth
         const { data : authData, error : authError} = await this.supabaseService.client.auth.signUp({
             email,
@@ -32,8 +32,7 @@ export class AuthService {
         const { error : profileError } = await this.supabaseService.client
             .from('Profiles')
             .insert([
-                {
-                    id : userId,
+                {   id : userId,
                     nickname,
                     phone,
                     country_code : countryCode,
@@ -48,7 +47,20 @@ export class AuthService {
             throw new BadRequestException(`Authorize Error : ${profileError.message}`)
         }
 
-        return { message : "Success : Sign Up", userId};
+        return { message : "Success : register", userId};
+    }
 
+    async checkNick(nickname : string) {
+        const {count, error } = await this.supabaseService.client
+            .from('Profiles')
+            .select('nickname', {
+                head : true,
+                count : "exact",
+            })
+            .eq('nickname',nickname)
+        if(error) {
+            throw new BadRequestException(`Authorization Error : ${error.message}`)
+        }
+        return { message : 'Success : checkNick', count}
     }
 }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Card, Description, Input, Label, Link, Text, TextField } from "@heroui/react";
+import { Card } from "@heroui/react";
 import { useRouter } from 'next/navigation';
 
 import { useSignUpStore } from "@/zustand/useSignUpStore";
