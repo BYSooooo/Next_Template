@@ -15,7 +15,6 @@ export default function LoginModal() {
     const [ email, setEmail] = React.useState("");
     const [ password, setPassword] = React.useState("");
         
-    
     const onPressSignUp = ()=> {
         closeModal();
         // TODO

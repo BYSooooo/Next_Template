@@ -32,13 +32,28 @@ export default function AccountStep() {
     const [isNickUsed, setIsNickUsed] = React.useState<boolean|null>(null);
     const [isNickTouched, setIsNickTouched] = React.useState(false);
         
-    const onPressCheckNickName = ()=> {
+    const onPressCheckNickName = async ()=> {
         if(!isRegexPwd) return;
 
         // TODO: Check Logic with Supabase
-        // ...
-        const isDuplicate = true
-        setIsNickUsed(isDuplicate);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/checkNick`, {
+                method : 'GET',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    nickname : inputNick
+                })
+            })
+            const result = await res.json();
+
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+        // const isDuplicate = true
+        // setIsNickUsed(isDuplicate);
     }
 
     const isRegexNick = React.useMemo(()=> {
