@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 
 @Controller('auth')
@@ -11,7 +11,7 @@ export class AuthController {
     }
 
     @Get('checkNick')
-    async checkNick(@Body() nickname : string) {
+    async checkNick(@Query('nickname') nickname : string) {
         return await this.authService.checkNick(nickname);
     }
 

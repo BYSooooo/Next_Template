@@ -58,9 +58,15 @@ export class AuthService {
                 count : "exact",
             })
             .eq('nickname',nickname)
+            
+            const isDuplicated = (count ?? 0) > 0;
         if(error) {
             throw new BadRequestException(`Authorization Error : ${error.message}`)
         }
-        return { message : 'Success : checkNick', count}
+        return { 
+            message : 'Success : checkNick', 
+            isDuplicated : isDuplicated,
+            count : count 
+        }
     }
 }

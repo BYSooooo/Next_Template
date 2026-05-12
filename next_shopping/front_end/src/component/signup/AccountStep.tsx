@@ -31,23 +31,26 @@ export default function AccountStep() {
     // null = not yet check, boolean = check result
     const [isNickUsed, setIsNickUsed] = React.useState<boolean|null>(null);
     const [isNickTouched, setIsNickTouched] = React.useState(false);
+
+    const isRegexNick = React.useMemo(()=> {
+        const regex = /^[a-zA-Z0-9]{5,12}$/;
+        return regex.test(inputNick)
+    },[inputNick]);
         
     const onPressCheckNickName = async ()=> {
-        if(!isRegexPwd) return;
+        if(!isRegexNick) return;
 
         // TODO: Check Logic with Supabase
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/checkNick`, {
+            const query = new URLSearchParams({ nickname : inputNick}).toString();
+            
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/checkNick?${query}`, {
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json'
-                },
-                body : JSON.stringify({
-                    nickname : inputNick
-                })
+                }
             })
             const result = await res.json();
-
             console.log(result)
         } catch (error) {
             console.log(error)
@@ -56,10 +59,7 @@ export default function AccountStep() {
         // setIsNickUsed(isDuplicate);
     }
 
-    const isRegexNick = React.useMemo(()=> {
-        const regex = /^[a-zA-Z0-9]{5,12}$/;
-        return regex.test(inputNick)
-    },[inputNick]);
+    
 
     const hasNickError = isNickTouched && (!isRegexNick || isNickUsed === true);
 
