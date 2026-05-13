@@ -1,11 +1,13 @@
 "use client";
 
 import { useSignUpStore } from '@/zustand/useSignUpStore';
+import { useToastStore } from '@/zustand/useToastStore';
 import { Button, Description, Input, Label, Link, TextField } from '@heroui/react';
 import React from 'react';
 
 export default function AccountStep() {
-    const {email, setInfo, setStep, initStore } = useSignUpStore();
+    const { email, setInfo, setStep, initStore } = useSignUpStore();
+    const { openToast } = useToastStore()
 
     /* Password Part */
     const [inputPwd, setInputPwd] = React.useState("");
@@ -50,10 +52,24 @@ export default function AccountStep() {
                     'Content-Type' : 'application/json'
                 }
             })
-            const result = await res.json();
-            console.log(result)
+            const {message, isDuplicated, count } = await res.json();
+            
+            if(isDuplicated) {
+                openToast({
+                    title : "Error",
+                    variant : 'warning',
+                    description : "Nickname already used"
+                })
+            } else {
+                setIsNickUsed(false)
+            }
+            
         } catch (error) {
-            console.log(error)
+            openToast({
+                title : "Error",
+                variant : 'danger',
+                description : error.toString()
+            })
         }
         // const isDuplicate = true
         // setIsNickUsed(isDuplicate);
