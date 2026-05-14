@@ -3,7 +3,7 @@
 import React from "react";
 
 
-import { Button, Card, Description, Text } from "@heroui/react";
+import { Button, Card, Text } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/zustand/useModalStore";
 import LoginModal from "@/component/common/modal/LoginModal";
@@ -25,6 +25,11 @@ export default function Page() {
                 <Card.Content>
                     <Text className="text-sm">Welcome to join Next Shopping!</Text>
                     <Text className="text-sm">The sign up has been completed successfully.</Text>
+                    <Button 
+                        className='w-full bg-yellow-500 text-black mt-2'
+                        onPress={()=> router.push("/")}>
+                        Edit User Info
+                    </Button>
                     <Button 
                         className='w-full bg-yellow-500 text-black mt-2'
                         onPress={()=>openModal(<LoginModal/>, "lg")}>

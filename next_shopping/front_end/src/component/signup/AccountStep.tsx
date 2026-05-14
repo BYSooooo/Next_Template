@@ -61,7 +61,7 @@ export default function AccountStep() {
                     description : "Nickname already used"
                 })
             } else {
-                setIsNickUsed(false)
+                setIsNickUsed(isDuplicated)
             }
             
         } catch (error) {
@@ -71,11 +71,7 @@ export default function AccountStep() {
                 description : error.toString()
             })
         }
-        // const isDuplicate = true
-        // setIsNickUsed(isDuplicate);
     }
-
-    
 
     const hasNickError = isNickTouched && (!isRegexNick || isNickUsed === true);
 

@@ -1,11 +1,11 @@
 "use client";
 
+import React from 'react';
+
 import { useModalStore } from '@/zustand/useModalStore';
 import { Button, Input, Label, TextField } from '@heroui/react';
-import React from 'react';
 import PhotonModal from '../common/modal/PhotonModal';
 import { useSignUpStore } from '@/zustand/useSignUpStore';
-import { useAlertStore } from '@/zustand/useAlertStore';
 import { useRouter } from 'next/navigation';
 import { useToastStore } from '@/zustand/useToastStore';
 
@@ -52,7 +52,6 @@ export default function ContactStep() {
                     description : result.message,
                     variant : 'danger'
                 })
-                console.log(result)
             }
 
         } catch (error) {
@@ -61,7 +60,6 @@ export default function ContactStep() {
                 description : error.message,
                 variant : 'danger'
             })
-            console.log(error)
         }
 
     }
