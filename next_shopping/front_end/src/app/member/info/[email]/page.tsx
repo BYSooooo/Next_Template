@@ -1,3 +1,7 @@
+"use client";
+
+import React from 'react';
+
 import { Card } from "@heroui/react";
 
 
@@ -12,7 +16,6 @@ export default function Page() {
                     This is Info Page
                 </Card.Header>
             </Card>
-
         </div>
     )
 }

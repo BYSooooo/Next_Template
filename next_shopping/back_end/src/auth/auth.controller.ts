@@ -15,4 +15,9 @@ export class AuthController {
         return await this.authService.checkNick(nickname);
     }
 
+    @Post('signInWithEmail')
+    async signInWithEmail(@Body() signInData : {email : string, password : string}) {
+        return await this.authService.signInWithEmail(signInData);
+    }
+
 }

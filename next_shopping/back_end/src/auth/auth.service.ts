@@ -69,4 +69,12 @@ export class AuthService {
             count : count 
         }
     }
+
+    async signInWithEmail(signInInfo : {email : string, password : string}) {
+        const { data, error } = await this.supabaseService.client
+            .auth.signInWithPassword({
+                email : signInInfo.email,
+                password : signInInfo.password
+            })
+    }
 }
