@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { session } from "passport";
 import { SupabaseService } from "src/supabase/supabase.service";
 
 @Injectable()
@@ -76,5 +77,13 @@ export class AuthService {
                 email : signInInfo.email,
                 password : signInInfo.password
             })
+        if(error) {
+            throw new UnauthorizedException(error.message)
+        }
+
+        return {
+            message : 'Success : signInWithEmail',
+            session : data.session
+        }
     }
 }
