@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Post, Query, Res } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { Response } from 'express';
+import { type Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +25,28 @@ export class AuthController {
         const accessToken = result?.session.access_token;
         const refreshToken = result?.session.refresh_token;
 
-        res.cookie()
+        // Add Access Token to Cookie
+        res.cookie('sb-access-token', accessToken, {
+            httpOnly : true,
+            secure : process.env.NODE_ENV === 'production',
+            sameSite : 'lax',
+            maxAge : 60 * 60 * 1000,
+            path : '/'
+        });
+
+        // Add Refresh Token to Cookie
+        res.cookie('sb-refresh-token', refreshToken, {
+            httpOnly : true,
+            secure : process.env.NODE_ENV === 'production',
+            sameSite : 'lax',
+            maxAge : 7 * 24 * 60 * 60 * 1000,
+            path : '/'
+        })
+
+        return res.status(HttpStatus.OK).json({
+            message : result.message,
+            user : result.session?.user
+        });
     }
 
 }

@@ -17,8 +17,13 @@ export default function ManualLogin() {
             : setValidYn(true)
     }
 
-    const onSignIn = ()=> {
+    const onSignIn = async()=> {
+        try {
+            //...
+            const res = await fetch(`...`)
+        } catch(error) {
 
+        }
     }
 
 
