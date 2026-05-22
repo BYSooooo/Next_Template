@@ -21,8 +21,28 @@ export default function LoginModal() {
         router.push("/member/signup")
     }
 
-    const onPressSignIn = ()=> {
+    const onPressSignIn = async ()=> {
+        try {
+            //...
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signInWithEmail`, {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({ email : email, password : password}),
+                credentials : 'include'
+            })
 
+            const result = await res.json()
+
+            if(res.ok){
+                console.log(result.user)
+            } else {
+                console.log(result.message)
+            }
+        } catch(error) {
+            console.error(error)
+        }
     }
 
     const onPressSignInTestAccount = ()=> {

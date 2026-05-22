@@ -18,12 +18,7 @@ export default function ManualLogin() {
     }
 
     const onSignIn = async()=> {
-        try {
-            //...
-            const res = await fetch(`...`)
-        } catch(error) {
-
-        }
+        
     }
 
 
