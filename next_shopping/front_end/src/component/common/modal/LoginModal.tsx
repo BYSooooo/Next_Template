@@ -7,42 +7,36 @@ import { EnvelopeIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { Button, Card, Input, Label, Modal, Separator, TextField, } from "@heroui/react";
 import GoogleLogin from '@/component/login/GoogleLogin';
 import { useRouter } from "next/navigation";
+import { useAuth } from '@/hooks/useAuth';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function LoginModal() {
     const { closeModal } = useModalStore();
+    const { openToast } = useToastStore()
     const router = useRouter();
+
+    const { signInWithEmail, isLoading } = useAuth();
 
     const [ email, setEmail] = React.useState("");
     const [ password, setPassword] = React.useState("");
         
     const onPressSignUp = ()=> {
         closeModal();
-        // TODO
         router.push("/member/signup")
     }
 
     const onPressSignIn = async ()=> {
-        try {
-            //...
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signInWithEmail`, {
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({ email : email, password : password}),
-                credentials : 'include'
+        if(!email || !password) {
+            return openToast({
+                title : 'Required Field is Empty',
+                description : 'Please Email, Password input',
+                variant : 'warning'
             })
-
-            const result = await res.json()
-
-            if(res.ok){
-                console.log(result.user)
-            } else {
-                console.log(result.message)
-            }
-        } catch(error) {
-            console.error(error)
+        } else {
+            const result = await signInWithEmail(email, password)
+            //....
         }
+        
     }
 
     const onPressSignInTestAccount = ()=> {
