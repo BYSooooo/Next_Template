@@ -34,7 +34,15 @@ export default function LoginModal() {
             })
         } else {
             const result = await signInWithEmail(email, password)
-            //....
+            if(result.result) {
+                closeModal()
+            } else {
+                openToast({
+                    title : 'Sign In Error',
+                    description : result.message,
+                    variant : 'danger'
+                })
+            }
         }
         
     }

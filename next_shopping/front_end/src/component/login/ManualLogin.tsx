@@ -3,11 +3,15 @@
 import React from 'react';
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { Button, FieldError, Input, Label, TextField } from "@heroui/react";
+import { useAuth } from '@/hooks/useAuth';
 
 export default function ManualLogin() {
     const [ signInEmail, setSignInEmail] = React.useState("");
     const [ signInPassword, setSignInPassword] = React.useState("");
     const [ validYn, setValidYn] = React.useState(false);
+
+    const { signInWithEmail, isLoading } = useAuth();
+    
 
     const onPressSignIn = ()=> {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -18,7 +22,16 @@ export default function ManualLogin() {
     }
 
     const onSignIn = async()=> {
-        
+        try {
+            const result = await signInWithEmail(signInEmail, signInPassword);
+            if(result.result) {
+                //...
+            } else {
+                //...
+            }
+        } catch(error) {
+
+        }
     }
 
 

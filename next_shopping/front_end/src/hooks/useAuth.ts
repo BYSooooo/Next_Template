@@ -6,7 +6,7 @@ export const useAuth = ()=> {
     const signOutStore = useAuthStore((state)=> state.signOut);
     const [ isLoading, setIsLoading] = useState(false);
 
-    const signInwithEmail = async(email: string, password: string) => {
+    const signInWithEmail = async(email: string, password: string) => {
         setIsLoading(true);
 
         try {
@@ -40,5 +40,5 @@ export const useAuth = ()=> {
         signOutStore()
     }
 
-    return { signInwithEmail, signout };
+    return { signInWithEmail, signout, isLoading};
 }
