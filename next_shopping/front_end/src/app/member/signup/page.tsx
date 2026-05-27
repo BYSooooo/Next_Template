@@ -2,26 +2,39 @@
 
 import React from 'react';
 
-import { Card, Description, Input, Label, Link, Text, TextField } from "@heroui/react";
+import { Card } from "@heroui/react";
 import { useRouter } from 'next/navigation';
-import EmailField from '@/component/signup/EmailField';
 
-// For Handling Hydration Problem, off SSR 
-import dynamic from "next/dynamic";
 import { useSignUpStore } from "@/zustand/useSignUpStore";
 import { AnimatePresence, motion } from "motion/react";
-import PasswordField from '@/component/signup/PasswordField';
-import NicknameField from '@/component/signup/NicknameField';
-
-const NoSSRVerifyCodeField = dynamic(()=> 
-    import('@/component/signup/VerifyCodeField'), { 
-        ssr : false
-    })
+import EmailStep from '@/component/signup/EmailStep';
+import AccountStep from '@/component/signup/AccountStep';
+import ContactStep from '@/component/signup/ContactStep';
 
 export default function Page() {
     const { email, step, initStore } = useSignUpStore();
 
     const router = useRouter();
+
+    const headerSteper = ()=> {
+        switch(step) {
+            case 'VERIFY' : 
+                return 'Verify Email address'
+            case 'INFO01' : 
+                return 'Account Information'
+            case 'INFO02' : 
+                return 'Contact Information'
+            
+        }
+    }
+
+    const contentSteper = ()=> {
+        switch(step) {
+            case 'VERIFY' : return <EmailStep />
+            case 'INFO01' : return <AccountStep />
+            case 'INFO02' : return <ContactStep />
+        }
+    }
 
     React.useEffect(()=> {
         // TODO
@@ -74,38 +87,10 @@ export default function Page() {
                                         }}
                                         className="w-full">
                                         <Card.Header className="text-lg font-bold">
-                                            {step === 'VERIFY' 
-                                                ? "Verify Email Address "
-                                                : "Information"
-                                            }
+                                            {headerSteper()}
                                         </Card.Header>
                                         <Card.Content>
-                                            { step === 'VERIFY'
-                                                ?   <div>
-                                                        <EmailField />
-                                                        <NoSSRVerifyCodeField />
-                                                    </div>
-                                                :   <div>
-                                                        <TextField>
-                                                            <Label isRequired>Email</Label>
-                                                            <Input
-                                                                disabled={true}   
-                                                                className="form-input"
-                                                                value={email}
-                                                            />
-                                                            <Description>
-                                                                If you want to change Email, please verify email again.
-                                                                <Link 
-                                                                    className="text-xs"
-                                                                    onPress={onPressVerifyAgain}>
-                                                                    Verify again
-                                                                </Link>
-                                                            </Description>
-                                                        </TextField>
-                                                        <PasswordField />
-                                                        <NicknameField />
-                                                    </div>
-                                            }
+                                            {contentSteper()}
                                         </Card.Content>
                                     </motion.div>
                                 </AnimatePresence>
@@ -114,7 +99,7 @@ export default function Page() {
                                 <div className="flex w-full items-center justify-center">
                                     { /* Step Dot */}
                                     <div className="flex gap-3">
-                                        { ['VERIFY','INFO'].map((number)=> (
+                                        { ['VERIFY','INFO01', 'INFO02'].map((number)=> (
                                             <div
                                                 key={number}
                                                 className={`

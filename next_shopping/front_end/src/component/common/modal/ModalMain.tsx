@@ -8,7 +8,6 @@ export default function ModalMain() {
 
     if(!isOpen) return null;
 
-    console.log(isOpen)
     return (
         <Modal isOpen={isOpen}>
             <ModalBackdrop>

@@ -46,12 +46,12 @@ export default function Page() {
                     </Card.Content>
                     <Card.Footer className="flex flex-col gap-2">
                         <Button className="w-full">
-                            Login
+                            Sign In
                         </Button>
                         <Button 
-                            onPress={()=>router.push("/login/signin")}
+                            onPress={()=>router.push("/member/signup")}
                             className="w-full" variant="secondary">
-                            Sign In
+                            Sign Up
                         </Button>
                     </Card.Footer>
                 </Card>

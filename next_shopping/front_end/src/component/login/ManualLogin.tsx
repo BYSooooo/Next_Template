@@ -3,11 +3,19 @@
 import React from 'react';
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { Button, FieldError, Input, Label, TextField } from "@heroui/react";
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function ManualLogin() {
     const [ signInEmail, setSignInEmail] = React.useState("");
     const [ signInPassword, setSignInPassword] = React.useState("");
     const [ validYn, setValidYn] = React.useState(false);
+
+    const { signInWithEmail, isLoading } = useAuth();
+    const { openToast } = useToastStore()
+    const router = useRouter();
+    
 
     const onPressSignIn = ()=> {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -17,8 +25,25 @@ export default function ManualLogin() {
             : setValidYn(true)
     }
 
-    const onSignIn = ()=> {
-
+    const onSignIn = async()=> {
+        try {
+            const result = await signInWithEmail(signInEmail, signInPassword);
+            if(result.result) {
+                router.push("/")
+            } else {
+                openToast({
+                    title : 'Sign In Error',
+                    description : result.message,
+                    variant : 'danger'
+                })
+            }
+        } catch(error) {
+            openToast({
+                    title : 'Sign In Error',
+                    description : error.message,
+                    variant : 'danger'
+                })
+        }
     }
 
 

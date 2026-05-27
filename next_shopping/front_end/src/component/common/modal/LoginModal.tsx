@@ -7,21 +7,47 @@ import { EnvelopeIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { Button, Card, Input, Label, Modal, Separator, TextField, } from "@heroui/react";
 import GoogleLogin from '@/component/login/GoogleLogin';
 import { useRouter } from "next/navigation";
+import { useAuth } from '@/hooks/useAuth';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function LoginModal() {
     const { closeModal } = useModalStore();
+    const { openToast } = useToastStore()
     const router = useRouter();
+
+    const { signInWithEmail, isLoading } = useAuth();
 
     const [ email, setEmail] = React.useState("");
     const [ password, setPassword] = React.useState("");
         
-    
     const onPressSignUp = ()=> {
         closeModal();
-        router.push("member/signup")
+        router.push("/member/signup")
     }
 
-    const onPressSignIn = ()=> {
+    const onPressSignIn = async ()=> {
+        if(!email || !password) {
+            return openToast({
+                title : 'Required Field is Empty',
+                description : 'Please Email, Password input',
+                variant : 'warning'
+            })
+        } else {
+            const result = await signInWithEmail(email, password)
+            if(result.result) {
+                closeModal()
+            } else {
+                openToast({
+                    title : 'Sign In Error',
+                    description : result.message,
+                    variant : 'danger'
+                })
+            }
+        }
+        
+    }
+
+    const onPressSignInTestAccount = ()=> {
 
     }
 
@@ -30,7 +56,7 @@ export default function LoginModal() {
             <Modal.CloseTrigger onPress={()=>closeModal()}/>
                 <Modal.Header >
                     <Modal.Heading className="text-lg font-bold">
-                        Login
+                        Sign In
                     </Modal.Heading>
                 </Modal.Header>
                 <Modal.Body className="flex flex-row gap-3">
@@ -60,6 +86,12 @@ export default function LoginModal() {
                             className="w-full flex flex-row">
                             <EnvelopeIcon />
                             Sign in with Email
+                        </Button>
+                        <Button
+                            variant='tertiary'
+                            className="w-full flex flex-row"
+                            onPress={onPressSignInTestAccount}>
+                            Sign In with Test Account
                         </Button>
                         <Button
                             className="w-full flex bg-green-500 hover:bg-green-400"
