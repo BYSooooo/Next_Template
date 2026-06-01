@@ -30,10 +30,12 @@ export default function InfoButton() {
     
     return (
         <>
-            <Popover isOpen={openYn}>
-                <Button variant='outline' isIconOnly onPress={()=>setOpenYn(true)}>
-                    <UserIcon />
-                </Button>
+            <Popover isOpen={openYn} onOpenChange={setOpenYn}>
+                <Popover.Trigger>
+                    <Button variant='outline' isIconOnly onPress={()=>setOpenYn(true)}>
+                        <UserIcon />
+                    </Button>
+                </Popover.Trigger>
                 <Popover.Content className="max-w-64">
                     <Popover.Arrow />
                     { isSignIn 
@@ -41,6 +43,9 @@ export default function InfoButton() {
                                 <Popover.Heading>
                                     { user?.nickname }, Hello!
                                 </Popover.Heading>
+                                <Button variant='outline' size='sm' fullWidth onPress={()=>signout()}>
+                                    <p className='text-xs'>Sign Out</p>
+                                </Button>
                             </Popover.Dialog>
                         : <Popover.Dialog>
                                 <Popover.Heading className='text-center'>
