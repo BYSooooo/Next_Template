@@ -27,6 +27,10 @@ export default function InfoButton() {
         setOpenYn(false)
         router.push("/member/signup")
     }
+
+    const onPressUserInfo = ()=> {
+        
+    }
     
     return (
         <>
@@ -43,7 +47,10 @@ export default function InfoButton() {
                                 <Popover.Heading>
                                     { user?.nickname }, Hello!
                                 </Popover.Heading>
-                                <Button variant='outline' size='sm' fullWidth onPress={()=>signout()}>
+                                <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
+                                    <p className='text-xs'>User Info</p>
+                                </Button>
+                                <Button variant='danger-soft' size='sm' fullWidth onPress={()=>signout()}>
                                     <p className='text-xs'>Sign Out</p>
                                 </Button>
                             </Popover.Dialog>
