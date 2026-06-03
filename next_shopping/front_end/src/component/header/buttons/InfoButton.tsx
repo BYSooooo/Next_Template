@@ -18,6 +18,24 @@ export default function InfoButton() {
     const { isSignIn, user } = useAuthStore()
     const { signout } = useAuth();
 
+    const [isHydrated, setIsHydrated] = React.useState(false)
+
+    React.useEffect(()=> {
+        // Check useAuthStore's persist system Ready
+        const unsubHydrate = useAuthStore.persist.onHydrate(()=> setIsHydrated(false));
+        const unsubFinishHydrate = useAuthStore.persist.onFinishHydration(()=> setIsHydrated(true))
+
+        // already Finished Hydrated, change state 'true'
+        if(useAuthStore.persist.hasHydrated()){
+            setIsHydrated(true)
+        }
+
+        return ()=> {
+            unsubHydrate(),
+            unsubFinishHydrate()
+        }
+    },[])
+
     const onPressSignIn = ()=> {
         setOpenYn(false)
         openModal(<LoginModal />, "lg")   
@@ -26,6 +44,14 @@ export default function InfoButton() {
     const onPressSignUp = ()=> {
         setOpenYn(false)
         router.push("/member/signup")
+    }
+
+    if(!isHydrated) {
+        return (
+            <Button>
+                ...
+            </Button>
+        )
     }
 
     const onPressUserInfo = ()=> {
