@@ -4,6 +4,7 @@ import LoginModal from '@/component/common/modal/LoginModal';
 import { useAuth } from '@/hooks/useAuth';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useModalStore } from '@/zustand/useModalStore';
+import { useToastStore } from '@/zustand/useToastStore';
 import { UserIcon } from '@heroicons/react/24/outline'
 import { Button, Popover } from '@heroui/react';
 import { useRouter } from 'next/navigation';
@@ -12,6 +13,7 @@ import React from 'react';
 export default function InfoButton() {
     const [ openYn, setOpenYn ] = React.useState(false)
     const { openModal } = useModalStore();
+    const { openToast } = useToastStore()
     const router = useRouter();
 
     // Check for Sign In or not
@@ -46,10 +48,11 @@ export default function InfoButton() {
         router.push("/member/signup")
     }
 
+    //...
     if(!isHydrated) {
         return (
             <Button>
-                ...
+                
             </Button>
         )
     }
@@ -68,11 +71,12 @@ export default function InfoButton() {
                 </Popover.Trigger>
                 <Popover.Content className="max-w-64">
                     <Popover.Arrow />
-                    { isSignIn 
+                    { isSignIn && isHydrated
                         ?   <Popover.Dialog>
                                 <Popover.Heading>
                                     { user?.nickname }, Hello!
                                 </Popover.Heading>
+                                
                                 <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
                                     <p className='text-xs'>User Info</p>
                                 </Button>
