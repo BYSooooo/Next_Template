@@ -1,6 +1,7 @@
 import { useAuthStore } from "@/zustand/useAuthStore";
 import CartButton from "./buttons/CartButton";
 import InfoButton from "./buttons/InfoButton";
+import WelcomeText from "./WelcomeText";
 
 export default function HeaderBar() {
 
