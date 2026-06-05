@@ -13,7 +13,7 @@ export default function CartButton() {
     }
 
     return (
-        <Button variant='outline' isIconOnly onPress={}>
+        <Button variant='outline' isIconOnly>
             <ShoppingCartIcon />
         </Button>
     )
