@@ -73,8 +73,8 @@ export default function InfoButton() {
                     <Popover.Arrow />
                     { isSignIn && isHydrated
                         ?   <Popover.Dialog>
-                                <Popover.Heading>
-                                    { user?.nickname }, Hello!
+                                <Popover.Heading className='text-left'>
+                                    Hello { user?.nickname }!
                                 </Popover.Heading>
                                 
                                 <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
@@ -85,8 +85,8 @@ export default function InfoButton() {
                                 </Button>
                             </Popover.Dialog>
                         : <Popover.Dialog>
-                                <Popover.Heading className='text-center'>
-                                    User Profile    
+                                <Popover.Heading className='text-left'>
+                                    Hello Guest!    
                                 </Popover.Heading>
                                 <div className='flex flex-row gap-2 mt-2'>
                                     <Button variant='outline' size='sm' fullWidth onPress={()=>onPressSignIn()}>

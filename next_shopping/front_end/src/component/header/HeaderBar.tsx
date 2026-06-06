@@ -1,7 +1,6 @@
 import { useAuthStore } from "@/zustand/useAuthStore";
 import CartButton from "./buttons/CartButton";
 import InfoButton from "./buttons/InfoButton";
-import WelcomeText from "./WelcomeText";
 
 export default function HeaderBar() {
 
@@ -16,7 +15,6 @@ export default function HeaderBar() {
                 </a>
                 {/* Icon */}
                 <div className="flex flex-row h-full gap-2">
-                    <WelcomeText />
                     <CartButton/>
                     <InfoButton />
                 </div>
