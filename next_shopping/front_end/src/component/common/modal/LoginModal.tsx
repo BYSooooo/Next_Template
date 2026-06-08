@@ -33,13 +33,13 @@ export default function LoginModal() {
                 variant : 'warning'
             })
         } else {
-            const result = await signInWithEmail(email, password)
-            if(result.result) {
+            const response = await signInWithEmail(email, password)
+            if(response.result) {
                 closeModal()
             } else {
                 openToast({
                     title : 'Sign In Error',
-                    description : result.message,
+                    description : response.message,
                     variant : 'danger'
                 })
             }

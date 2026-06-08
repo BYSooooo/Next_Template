@@ -51,8 +51,8 @@ export default function InfoButton() {
     //...
     if(!isHydrated) {
         return (
-            <Button>
-                
+            <Button variant='outline' isIconOnly isDisabled>
+                <span className='animate-pulse'>...</span>
             </Button>
         )
     }
@@ -76,13 +76,14 @@ export default function InfoButton() {
                                 <Popover.Heading className='text-left'>
                                     Hello { user?.nickname }!
                                 </Popover.Heading>
-                                
-                                <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
-                                    <p className='text-xs'>User Info</p>
-                                </Button>
-                                <Button variant='danger-soft' size='sm' fullWidth onPress={()=>signout()}>
-                                    <p className='text-xs'>Sign Out</p>
-                                </Button>
+                                <div className='flex flex-col gap-2 mt-2'>
+                                    <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
+                                        <p className='text-xs'>User Info</p>
+                                    </Button>
+                                    <Button variant='danger-soft' size='sm' fullWidth onPress={()=>signout()}>
+                                        <p className='text-xs'>Sign Out</p>
+                                    </Button>
+                                </div>
                             </Popover.Dialog>
                         : <Popover.Dialog>
                                 <Popover.Heading className='text-left'>

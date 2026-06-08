@@ -19,7 +19,7 @@ export class AuthController {
     @Post('signInWithEmail')
     async signInWithEmail(
             @Body() signInData : {email : string, password : string},
-            @Res() res: Response ) {
+            @Res({ passthrough : true }) res: Response ) {
         const result = await this.authService.signInWithEmail(signInData);
 
         const accessToken = result?.session.access_token;
