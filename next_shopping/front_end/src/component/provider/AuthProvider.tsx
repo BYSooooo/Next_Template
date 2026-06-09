@@ -21,6 +21,17 @@ export default function AuthProvider({ children } : {children : React.ReactNode}
     const [ isInitialized, setIsInitialized ] = React.useState(false)
 
     React.useEffect(()=> {
+
+        // Check Zustand persist middleware 
+        if(useAuthStore.persist.hasHydrated()) {
+            setIsInitialized(true)
+        } else {
+            const unSub = useAuthStore.persist.onFinishHydration(()=> {
+                setIsInitialized(true);
+            })
+            return ()=> unSub()
+        }
+
         const verifySessionWithServer = async()=> {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {

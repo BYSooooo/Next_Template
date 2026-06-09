@@ -43,10 +43,10 @@ export class AuthController {
             path : '/'
         })
 
-        return res.status(HttpStatus.OK).json({
+        return {
             message : result.message,
             user : result.session?.user
-        });
+        }
     }
 
 }
