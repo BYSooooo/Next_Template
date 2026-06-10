@@ -12,7 +12,7 @@ import React from 'react';
 
 export default function InfoButton() {
     const [ openYn, setOpenYn ] = React.useState(false)
-    const { openModal } = useModalStore();
+    const { openModal, closeModal } = useModalStore();
     const { openToast } = useToastStore()
     const router = useRouter();
 
@@ -58,7 +58,8 @@ export default function InfoButton() {
     }
 
     const onPressUserInfo = ()=> {
-        
+        closeModal()
+        router.push("/member/info")
     }
     
     return (

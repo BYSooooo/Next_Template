@@ -9,12 +9,13 @@ import { useRouter } from 'next/navigation';
 
 export default function Page() {
     const router = useRouter();
+    const { user } = useAuthStore();
     
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
             <Card>
                 <Card.Header>
-                    This is Info Page
+                    {user.nickname}
                 </Card.Header>
             </Card>
         </div>
