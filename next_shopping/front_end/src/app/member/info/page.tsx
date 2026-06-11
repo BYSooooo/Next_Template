@@ -13,8 +13,11 @@ export default function Page() {
     
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
-            <Card>
+            <Card className='bg-yellow-400 rounded-lg w-2/3'>
                 <Card.Header>
+                    <p className='font-bold text-3xl'>
+                        Information
+                    </p>
                     {user.nickname}
                 </Card.Header>
             </Card>
