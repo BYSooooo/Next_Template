@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Card } from "@heroui/react";
+import { Avatar, Card, Separator } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 
@@ -18,8 +18,19 @@ export default function Page() {
                     <p className='font-bold text-3xl'>
                         Information
                     </p>
-                    {user.nickname}
                 </Card.Header>
+                <Card.Content>
+                    <div className='flex flex-row'>
+                        <Separator orientation='vertical' className='text-black' />
+                    </div>
+                    <Avatar size='lg'>
+                        <Avatar.Image />
+                    </Avatar>
+
+                </Card.Content>
+                <Card.Footer>
+                    
+                </Card.Footer>
             </Card>
         </div>
     )
