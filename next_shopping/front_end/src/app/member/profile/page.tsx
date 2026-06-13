@@ -5,6 +5,7 @@ import React from 'react';
 import { Avatar, Card, Separator } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
+import AvatarCard from '@/component/profile/AvatarCard';
 
 
 export default function Page() {
@@ -13,20 +14,15 @@ export default function Page() {
     
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
-            <Card className='bg-yellow-400 rounded-lg w-2/3'>
+            <Card className='bg-gray-100 rounded-lg w-2/3'>
                 <Card.Header>
                     <p className='font-bold text-3xl'>
                         Information
                     </p>
                 </Card.Header>
-                <Card.Content>
-                    <div className='flex flex-row'>
-                        <Separator orientation='vertical' className='text-black' />
-                    </div>
-                    <Avatar size='lg'>
-                        <Avatar.Image />
-                    </Avatar>
-
+                <Card.Content className='flex flex-row'>
+                    <AvatarCard />
+                    
                 </Card.Content>
                 <Card.Footer>
                     

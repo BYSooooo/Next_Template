@@ -59,7 +59,7 @@ export default function InfoButton() {
 
     const onPressUserInfo = ()=> {
         closeModal()
-        router.push("/member/info")
+        router.push("/member/profile")
     }
     
     return (
@@ -79,7 +79,7 @@ export default function InfoButton() {
                                 </Popover.Heading>
                                 <div className='flex flex-col gap-2 mt-2'>
                                     <Button variant='outline' size='sm' fullWidth onPress={onPressUserInfo}>
-                                        <p className='text-xs'>User Info</p>
+                                        <p className='text-xs'>Profile</p>
                                     </Button>
                                     <Button variant='danger-soft' size='sm' fullWidth onPress={()=>signout()}>
                                         <p className='text-xs'>Sign Out</p>
