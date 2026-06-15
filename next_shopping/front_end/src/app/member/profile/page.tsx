@@ -6,6 +6,7 @@ import { Avatar, Card, Separator } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AvatarCard from '@/component/profile/AvatarCard';
+import InfoOneCard from '@/component/profile/InfoOneCard';
 
 
 export default function Page() {
@@ -17,12 +18,12 @@ export default function Page() {
             <Card className='bg-gray-100 rounded-lg w-2/3'>
                 <Card.Header>
                     <p className='font-bold text-3xl'>
-                        Information
+                        Profile
                     </p>
                 </Card.Header>
-                <Card.Content className='flex flex-row'>
+                <Card.Content className='flex flex-row gap-4'>
                     <AvatarCard />
-                    
+                    <InfoOneCard />
                 </Card.Content>
                 <Card.Footer>
                     
