@@ -7,6 +7,7 @@ import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AvatarCard from '@/component/profile/AvatarCard';
 import InfoOneCard from '@/component/profile/InfoOneCard';
+import AddressCard from '@/component/profile/AddressCard';
 
 
 export default function Page() {
@@ -24,6 +25,7 @@ export default function Page() {
                 <Card.Content className='flex flex-row gap-4'>
                     <AvatarCard />
                     <InfoOneCard />
+                    <AddressCard />
                 </Card.Content>
                 <Card.Footer>
                     

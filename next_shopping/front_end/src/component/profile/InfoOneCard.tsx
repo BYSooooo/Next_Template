@@ -7,7 +7,7 @@ import { Card, Input, Label, TextField } from '@heroui/react';
 export default function InfoOneCard() {
 
     return (
-        <Card className='bg-yellow-400 rounded-xl w-full'>
+        <Card className='bg-yellow-400 rounded-xl w-fit'>
             <Card.Header className='font-bold'>
                 Account
             </Card.Header>
@@ -22,8 +22,6 @@ export default function InfoOneCard() {
                         <Label>Nickname</Label>
                         <Input className="form-input" />
                     </TextField>
-                </div>
-                <div className='flex flex-col gap-2'>
                     <TextField>
                         <Label>Password</Label>
                         <Input className="form-input">
@@ -31,9 +29,7 @@ export default function InfoOneCard() {
                         <Label>Password Again</Label>
                         <Input className="form-input"/>
                     </TextField>
-
                 </div>
-                
             </Card.Content>
         </Card>
     )
