@@ -15,6 +15,12 @@ export default function Page() {
     const router = useRouter();
     const { user } = useAuthStore();
 
+    const [selectCard, setSelectCard] = React.useState('Avatar');
+
+    const onPressProfileMenu = (selected:string)=> {
+        setSelectCard(selected);
+    }
+
 
     return (
         <div className="inner-container flex items-center h-screen justify-center flex-row">
@@ -29,7 +35,7 @@ export default function Page() {
                         variant='transparent'
                         className='rounded-xl'>
                         <ListBox selectionMode='single' className='w-fit'>
-                            <ListBox.Item>
+                            <ListBox.Item onPress={()=>onPressProfileMenu('Avatar')}>
                                 <Avatar className='p-1'>
                                     <UserCircleIcon className='w-full'/>
                                 </Avatar>
@@ -40,7 +46,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item>
+                            <ListBox.Item onPress={()=>onPressProfileMenu('Email')}>
                                 <Avatar className='p-1'>
                                     <EnvelopeIcon className='w-full'/>
                                 </Avatar>
@@ -51,7 +57,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item>
+                            <ListBox.Item onPress={()=>onPressProfileMenu('Nickname')}>
                                 <Avatar className='p-1'>
                                     <HashtagIcon className='w-full'/>
                                 </Avatar>
@@ -62,7 +68,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item>
+                            <ListBox.Item onPress={()=>onPressProfileMenu('Password')}>
                                 <Avatar className='p-1'>
                                     <KeyIcon className='w-full'/>
                                 </Avatar>
@@ -74,8 +80,11 @@ export default function Page() {
                                 </div>
                             </ListBox.Item>
                         </ListBox>
-
                     </Surface>
+                    <div>
+                        {selectCard === 'Avatar' && <AvatarCard />}
+
+                    </div>
                 </Card.Content>
                 <Card.Footer>
                     
