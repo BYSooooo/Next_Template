@@ -50,7 +50,7 @@ export class AuthService {
 
         return { message : "Success : register", userId};
     }
-
+    
     async checkNick(nickname : string) {
         const {count, error } = await this.supabaseService.client
             .from('Profiles')
@@ -72,18 +72,47 @@ export class AuthService {
     }
 
     async signInWithEmail(signInInfo : {email : string, password : string}) {
-        const { data, error } = await this.supabaseService.client
+        const { data : authData,  error : authError } = await this.supabaseService.client
             .auth.signInWithPassword({
                 email : signInInfo.email,
                 password : signInInfo.password
             })
-        if(error) {
-            throw new UnauthorizedException(error.message)
+        
+        if(authError) {
+            throw new UnauthorizedException(authError.message)
+        }
+
+        const userId = authData.user.id;
+
+        const { data : profileData, error : profileError} = await this.supabaseService.client
+            .from('Profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+        
+        console.log(profileData)
+        
+        if(profileError) {
+            throw new BadRequestException(profileError.message)
+        }
+
+        const userInform = {
+            id : authData.user.id,
+            email : authData.user.email,
+            nickname : profileData.nickname,
+            phone : profileData.phone,
+            countryCode : profileData.country_code,
+            postCode : profileData.post_code,
+            address1 : profileData.address1,
+            address2 : profileData.address2
         }
 
         return {
             message : 'Success : signInWithEmail',
-            session : data.session
+            session : {
+                ...authData.session,
+                user : userInform
+            }
         }
     }
 }
