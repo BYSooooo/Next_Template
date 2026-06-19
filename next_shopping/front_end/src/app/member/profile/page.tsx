@@ -9,6 +9,7 @@ import AvatarCard from '@/component/profile/AvatarCard';
 import InfoOneCard from '@/component/profile/InfoOneCard';
 import AddressCard from '@/component/profile/AddressCard';
 import { EnvelopeIcon, HashtagIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import EmailCard from '@/component/profile/EmailCard';
 
 
 export default function Page() {
@@ -19,6 +20,15 @@ export default function Page() {
 
     const onPressProfileMenu = (selected:string)=> {
         setSelectCard(selected);
+    }
+
+    const cardHandler = ()=> {
+        switch(selectCard) {
+            case 'Avatar' : return <AvatarCard />
+            case 'Email' : return <EmailCard />
+            case 'Address' : return <AddressCard />
+            
+        }
     }
 
 
@@ -81,9 +91,8 @@ export default function Page() {
                             </ListBox.Item>
                         </ListBox>
                     </Surface>
-                    <div>
-                        {selectCard === 'Avatar' && <AvatarCard />}
-
+                    <div className='w-full'>
+                        {cardHandler()}
                     </div>
                 </Card.Content>
                 <Card.Footer>

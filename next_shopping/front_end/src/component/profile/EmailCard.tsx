@@ -1,1 +1,7 @@
-export default function
+export default function EmailCard() {
+    return (
+        <div>
+            
+        </div>
+    )
+}
