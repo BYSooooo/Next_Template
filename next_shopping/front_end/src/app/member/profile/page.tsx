@@ -2,11 +2,10 @@
 
 import React from 'react';
 
-import { Avatar, Card, Description, Label, ListBox, Separator, Surface } from "@heroui/react";
+import { Avatar, Card, Description, Label, ListBox, Surface } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AvatarCard from '@/component/profile/AvatarCard';
-import InfoOneCard from '@/component/profile/InfoOneCard';
 import AddressCard from '@/component/profile/AddressCard';
 import { EnvelopeIcon, HashtagIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import EmailCard from '@/component/profile/EmailCard';
@@ -43,7 +42,7 @@ export default function Page() {
                 <Card.Content className='flex flex-row gap-4'>
                     <Surface 
                         variant='transparent'
-                        className='rounded-xl'>
+                        className='rounded-xl w-full'>
                         <ListBox selectionMode='single' className='w-fit'>
                             <ListBox.Item onPress={()=>onPressProfileMenu('Avatar')}>
                                 <Avatar className='p-1'>
