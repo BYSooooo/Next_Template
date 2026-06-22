@@ -55,7 +55,8 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item onPress={()=>onPressProfileMenu('Email')}>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Email')}>
                                 <Avatar className='p-1'>
                                     <EnvelopeIcon className='w-full'/>
                                 </Avatar>
