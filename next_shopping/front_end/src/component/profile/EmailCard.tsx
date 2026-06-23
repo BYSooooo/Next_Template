@@ -7,15 +7,20 @@ import { Button, Card, Input, Label, TextField } from "@heroui/react";
 export default function EmailCard() {
 
     const [inputEmail, setInputEmail] = React.useState("");
+    const [isModify, setIsModify] = React.useState(false)
     const [isOTPSend, setIsOTPSend] = React.useState(false)
     const [inputCode, setInputCode] = React.useState("")
 
     const onPressVerifyCode = ()=> {
-
+        setIsOTPSend(true)
     }
 
     const onPressRetryVerify = ()=> {
 
+    }
+
+    const onPressModify = ()=> {
+        setIsModify(true)
     }
 
     return (
@@ -28,19 +33,31 @@ export default function EmailCard() {
                     <Label isRequired>Email</Label>
                     <div className="flex flex-row gap-2">
                         <Input
+                            disabled={!isModify}
                             fullWidth
                             value={inputEmail}
                             className='form-input'
                         />
-                        {!isOTPSend 
-                            ? <Button 
-                                onPress={onPressVerifyCode}
-                                className='bg-black w-fit'>
-                                Send Code
-                            </Button>
-                            : <Button onPress={onPressRetryVerify}>
-                                Retry
-                            </Button>
+                        { !isModify 
+                            ?
+                                <Button
+                                    className="bg-black w-fit" 
+                                    onPress={onPressModify}>
+                                    Modify
+                                </Button>
+                            : (!isOTPSend) 
+                                ? 
+                                    <Button 
+                                        onPress={onPressVerifyCode}
+                                        className='bg-black w-fit'>
+                                        Send Code
+                                    </Button>
+                                : 
+                                    <Button 
+                                        className="bg-black w-fit"
+                                        onPress={onPressRetryVerify}>
+                                        Retry
+                                    </Button>
                         }
                     </div>
                 </TextField>
