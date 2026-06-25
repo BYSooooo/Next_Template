@@ -10,6 +10,7 @@ import AddressCard from '@/component/profile/AddressCard';
 import { EnvelopeIcon, HashtagIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import EmailCard from '@/component/profile/EmailCard';
 import NicknameCard from '@/component/profile/NicknameCard';
+import PasswordCard from '@/component/profile/PasswordCard';
 
 
 export default function Page() {
@@ -28,6 +29,7 @@ export default function Page() {
             case 'Email' : return <EmailCard />
             case 'Address' : return <AddressCard />
             case 'Nickname' : return <NicknameCard />
+            case 'Password' : return <PasswordCard />
         }
     }
 
