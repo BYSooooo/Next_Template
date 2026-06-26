@@ -15,8 +15,7 @@ import PasswordCard from '@/component/profile/PasswordCard';
 
 export default function Page() {
     const router = useRouter();
-    const { user } = useAuthStore();
-
+    
     const [selectCard, setSelectCard] = React.useState('Avatar');
 
     const onPressProfileMenu = (selected:string)=> {
