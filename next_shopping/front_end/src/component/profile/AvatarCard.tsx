@@ -17,6 +17,14 @@ export default function AvatarCard() {
         
     }
 
+    const onPressChange = ()=> {
+
+    }
+
+    const onPressReset = ()=> {
+        
+    }
+
     return (
         <Card className='bg-yellow-400 rounded-xl h-full'>
             <Card.Header className='font-bold'>
@@ -33,11 +41,13 @@ export default function AvatarCard() {
                         className='hidden'  
                     />
                     <Button
-                        
+                        onPress={onPressChange}
                         className="w-full bg-black hover:bg-gray-800">
                         Change
                     </Button>
-                    <Button className='w-full bg-white hover:bg-gray-100 text-black'>
+                    <Button 
+                        onPress={onPressReset}
+                        className='w-full bg-white hover:bg-gray-100 text-black'>
                         Reset
                     </Button>
                 </div>
