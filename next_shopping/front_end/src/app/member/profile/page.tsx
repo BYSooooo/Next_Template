@@ -2,23 +2,34 @@
 
 import React from 'react';
 
-import { Avatar, Card, Description, Label, ListBox, Separator, Surface } from "@heroui/react";
+import { Avatar, Card, Description, Label, ListBox, Surface } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AvatarCard from '@/component/profile/AvatarCard';
-import InfoOneCard from '@/component/profile/InfoOneCard';
 import AddressCard from '@/component/profile/AddressCard';
 import { EnvelopeIcon, HashtagIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import EmailCard from '@/component/profile/EmailCard';
+import NicknameCard from '@/component/profile/NicknameCard';
+import PasswordCard from '@/component/profile/PasswordCard';
 
 
 export default function Page() {
     const router = useRouter();
-    const { user } = useAuthStore();
-
+    
     const [selectCard, setSelectCard] = React.useState('Avatar');
 
     const onPressProfileMenu = (selected:string)=> {
         setSelectCard(selected);
+    }
+
+    const cardHandler = ()=> {
+        switch(selectCard) {
+            case 'Avatar' : return <AvatarCard />
+            case 'Email' : return <EmailCard />
+            case 'Address' : return <AddressCard />
+            case 'Nickname' : return <NicknameCard />
+            case 'Password' : return <PasswordCard />
+        }
     }
 
 
@@ -33,7 +44,7 @@ export default function Page() {
                 <Card.Content className='flex flex-row gap-4'>
                     <Surface 
                         variant='transparent'
-                        className='rounded-xl'>
+                        className='rounded-xl w-full'>
                         <ListBox selectionMode='single' className='w-fit'>
                             <ListBox.Item onPress={()=>onPressProfileMenu('Avatar')}>
                                 <Avatar className='p-1'>
@@ -46,7 +57,8 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item onPress={()=>onPressProfileMenu('Email')}>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Email')}>
                                 <Avatar className='p-1'>
                                     <EnvelopeIcon className='w-full'/>
                                 </Avatar>
@@ -81,9 +93,8 @@ export default function Page() {
                             </ListBox.Item>
                         </ListBox>
                     </Surface>
-                    <div>
-                        {selectCard === 'Avatar' && <AvatarCard />}
-
+                    <div className='w-full'>
+                        {cardHandler()}
                     </div>
                 </Card.Content>
                 <Card.Footer>
