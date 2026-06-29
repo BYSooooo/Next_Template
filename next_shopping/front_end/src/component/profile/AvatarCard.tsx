@@ -13,12 +13,36 @@ export default function AvatarCard() {
     const [isUploading, setIsUploading ] = React.useState(false);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    const onChangeFile = ()=> {
-        
-    }
+    const onChangeFile = (e : React.ChangeEvent<HTMLInputElement>)=> {
+        const file = e.target.files?.[0];
+        if(!file) return;
 
-    const onPressChange = ()=> {
+        const maxFileSize = 3 * 1024 * 1024;
+        if(file.size > maxFileSize) {
+            openToast({
+                title : "Upload Failed",
+                description : 'File Size exceed.',
+                variant : 'danger'
+            });
+            return;
+        }
 
+        if(!file.type.startsWith("image/")) {
+            openToast({
+                title : "Upload Failed",
+                description : "Only image files can be uploaded.",
+                variant : 'danger'
+            });
+            return;
+        }
+
+        setIsUploading(true)
+
+        try {
+            //...
+        } catch (error) {
+
+        }
     }
 
     const onPressReset = ()=> {
@@ -41,7 +65,7 @@ export default function AvatarCard() {
                         className='hidden'  
                     />
                     <Button
-                        onPress={onPressChange}
+                        onPress={()=> fileInputRef.current?.click()}
                         className="w-full bg-black hover:bg-gray-800">
                         Change
                     </Button>
