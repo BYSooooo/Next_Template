@@ -5,6 +5,7 @@ import { Avatar, Button, Card } from '@heroui/react';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useToastStore } from '@/zustand/useToastStore';
 
+
 export default function AvatarCard() {
 
     const { user, setUser } = useAuthStore();
@@ -13,7 +14,7 @@ export default function AvatarCard() {
     const [isUploading, setIsUploading ] = React.useState(false);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    const onChangeFile = (e : React.ChangeEvent<HTMLInputElement>)=> {
+    const onChangeFile = async (e : React.ChangeEvent<HTMLInputElement>)=> {
         const file = e.target.files?.[0];
         if(!file) return;
 
@@ -39,7 +40,12 @@ export default function AvatarCard() {
         setIsUploading(true)
 
         try {
-            //...
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${user?.nickname}_${Date.now()}.${fileExt}`;
+            const filePath = `profile_subs/${fileName}`;
+
+            const { error : uploadError } = await supa
+
         } catch (error) {
 
         }
