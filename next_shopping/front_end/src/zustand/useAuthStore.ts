@@ -2,13 +2,15 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface UserInfo {
+    id : string,
     email : string,
     nickname : string,
-    phone : '',
-    countryCode : '',
-    postCode : '',
-    address1 : '', 
-    address2 : ''
+    phone : string,
+    countryCode : string,
+    postCode : string,
+    address1 : string, 
+    address2 : string,
+    avatarUrl? : string | null
 }
 
 interface AuthState {

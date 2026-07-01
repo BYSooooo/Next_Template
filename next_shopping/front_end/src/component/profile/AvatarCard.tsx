@@ -40,11 +40,9 @@ export default function AvatarCard() {
         setIsUploading(true)
 
         try {
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${user?.nickname}_${Date.now()}.${fileExt}`;
-            const filePath = `profile_subs/${fileName}`;
-
-            const { error : uploadError } = await supa
+            const formData = new FormData();
+            formData.append('avatar', file);
+            formData.append()
 
         } catch (error) {
 
