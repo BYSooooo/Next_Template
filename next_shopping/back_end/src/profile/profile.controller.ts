@@ -1,5 +1,7 @@
 import { BadRequestException, Body, Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { Multer } from "multer";
+import { ProfileService } from "./profile.service";
 
 @Controller('profile')
 export class ProfileController {
@@ -17,5 +19,12 @@ export class ProfileController {
         if(!id) {
             throw new BadRequestException('No User ID');
         }
+
+        const maxFileSize = 3 * 1024 * 1024;
+        if(file.size > maxFileSize) {
+            throw new BadRequestException('File Size Exceed.');
+        }
+
+        return await this.profileService.uploadAvatar(file, id);
     }
 }
