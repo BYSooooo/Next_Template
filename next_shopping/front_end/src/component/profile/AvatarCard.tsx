@@ -12,6 +12,7 @@ export default function AvatarCard() {
     const { openToast } = useToastStore();
 
     const [isUploading, setIsUploading ] = React.useState(false);
+    
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     const onChangeFile = async (e : React.ChangeEvent<HTMLInputElement>)=> {
@@ -42,10 +43,38 @@ export default function AvatarCard() {
         try {
             const formData = new FormData();
             formData.append('avatar', file);
-            formData.append()
+            formData.append('id', user?.id || '');
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/avatar`, {
+                method : 'POST',
+                body : formData
+            });
+
+            const result = await res.json();
+            if(res.ok) {
+                setUser({
+                    ...user,
+                    avatarUrl : result.avatarUrl
+                })
+                openToast({
+                    title : "Success",
+                    description : 'Profile Avatar Updated',
+                    variant : 'success'
+                });
+            } else {
+
+            };
+
+            
 
         } catch (error) {
-
+            openToast({
+                title : "Error",
+                description : error.message || "Error Occured",
+                variant : 'danger'
+            })
+        } finally {
+            setIsUploading(false);
         }
     }
 
