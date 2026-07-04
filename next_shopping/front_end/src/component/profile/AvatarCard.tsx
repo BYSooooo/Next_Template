@@ -88,13 +88,16 @@ export default function AvatarCard() {
                 Avatar
             </Card.Header>
             <Card.Content className='flex flex-row gap-6 justify-between'>
-                <Avatar className='w-36 h-36'/>
+                <Avatar 
+                    src={user?.avatarUrl || undefined}
+                    className='w-36 h-36 border-4 border-white object-cover shadow-sm'
+                />
                 <div className='flex flex-col gap-2 w-[2/3] justify-end'>
                     <input 
                         type='file'
                         ref={fileInputRef}
                         onChange={onChangeFile}
-                        accept='image/jpeg,image/png'
+                        accept='image/*'
                         className='hidden'  
                     />
                     <Button
