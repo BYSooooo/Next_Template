@@ -11,7 +11,7 @@ export class ProfileService{
         const filePath = `profile_subs/${fileName}`;
 
         const { error : uploadError } = await this.supabaseService.client.storage
-            .from('Avatar')
+            .from('avatars')
             .upload(filePath, file.buffer, {
                 contentType : file.mimetype,
                 cacheControl : '3600',
@@ -23,7 +23,7 @@ export class ProfileService{
         }
 
         const { data : { publicUrl } } = await this.supabaseService.client.storage
-            .from('Avatar')
+            .from('avatars')
             .getPublicUrl(filePath);
         
         const { error : profileError } = await this.supabaseService.client

@@ -4,6 +4,7 @@ import React from 'react';
 import { Avatar, Button, Card } from '@heroui/react';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useToastStore } from '@/zustand/useToastStore';
+import { UserIcon } from '@heroicons/react/24/solid';
 
 
 export default function AvatarCard() {
@@ -88,10 +89,13 @@ export default function AvatarCard() {
                 Avatar
             </Card.Header>
             <Card.Content className='flex flex-row gap-6 justify-between'>
-                <Avatar 
-                    src={user?.avatarUrl || undefined}
-                    className='w-36 h-36 border-4 border-white object-cover shadow-sm'
-                />
+                <Avatar className='w-36 h-36 border-4 border-black object-cover shadow-sm bg-white'>
+                    { user.avatarUrl 
+                        ? <Avatar.Image src={user?.avatarUrl || undefined} />
+                        : <UserIcon className='p-5'/>   
+                    }
+                    
+                </Avatar>
                 <div className='flex flex-col gap-2 w-[2/3] justify-end'>
                     <input 
                         type='file'
