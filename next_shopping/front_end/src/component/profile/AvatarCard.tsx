@@ -12,6 +12,10 @@ export default function AvatarCard() {
     const { user, setUser } = useAuthStore();
     const { openToast } = useToastStore();
 
+    React.useEffect(()=> {
+        console.log(user)
+    },[])
+
     const [isUploading, setIsUploading ] = React.useState(false);
     
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -89,8 +93,8 @@ export default function AvatarCard() {
                 Avatar
             </Card.Header>
             <Card.Content className='flex flex-row gap-6 justify-between'>
-                <Avatar className='w-36 h-36 border-4 border-black object-cover shadow-sm bg-white'>
-                    { user.avatarUrl 
+                <Avatar className='w-36 h-36 border-4 border-black object-cover shadow-sm bg-white rounded-full'>
+                    { user?.avatarUrl 
                         ? <Avatar.Image src={user?.avatarUrl || undefined} />
                         : <UserIcon className='p-5'/>   
                     }

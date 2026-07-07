@@ -39,7 +39,5 @@ export class ProfileService{
             message : 'Success',
             avatarUrl : publicUrl
         }
-            
-
-    }
+    };
 }

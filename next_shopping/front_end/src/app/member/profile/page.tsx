@@ -45,8 +45,9 @@ export default function Page() {
                     <Surface 
                         variant='transparent'
                         className='rounded-xl w-full'>
-                        <ListBox selectionMode='single' className='w-fit'>
-                            <ListBox.Item onPress={()=>onPressProfileMenu('Avatar')}>
+                        <ListBox 
+                            selectionMode='single' className='w-fit'>
+                            <ListBox.Item textValue='Avatar'>
                                 <Avatar className='p-1'>
                                     <UserCircleIcon className='w-full'/>
                                 </Avatar>
@@ -57,8 +58,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item 
-                                onPress={()=>onPressProfileMenu('Email')}>
+                            <ListBox.Item textValue='Email'>
                                 <Avatar className='p-1'>
                                     <EnvelopeIcon className='w-full'/>
                                 </Avatar>
@@ -69,7 +69,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item onPress={()=>onPressProfileMenu('Nickname')}>
+                            <ListBox.Item textValue='Nickname'>
                                 <Avatar className='p-1'>
                                     <HashtagIcon className='w-full'/>
                                 </Avatar>
@@ -80,7 +80,7 @@ export default function Page() {
                                     </Description>
                                 </div>
                             </ListBox.Item>
-                            <ListBox.Item onPress={()=>onPressProfileMenu('Password')}>
+                            <ListBox.Item textValue='Password'>
                                 <Avatar className='p-1'>
                                     <KeyIcon className='w-full'/>
                                 </Avatar>
