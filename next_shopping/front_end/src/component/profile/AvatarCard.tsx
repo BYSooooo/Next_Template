@@ -83,8 +83,44 @@ export default function AvatarCard() {
         }
     }
 
-    const onPressReset = ()=> {
-        
+    const onPressReset = async ()=> {
+        if(!user?.avatarUrl) return;
+
+        setIsUploading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/avatar/reset`,{
+                method : 'PATCH',
+                headers : {
+                    'Content-Type' : 'application/json',   
+                },
+                body : JSON.stringify({ id : user?.id})
+            })
+
+            const result = await res.json();
+
+            if(res.ok) {
+                setUser({
+                    ...user,
+                    avatarUrl : null
+                });
+
+                openToast({
+                    title : "Success",
+                    description : "Avatar Image Reset",
+                    variant : "success"
+                })
+            } else {
+                throw new Error(result.message)
+            }
+        } catch (error) {
+            console.error(error);
+            openToast({
+                title : "Error",
+                description : error.message,
+                variant : "danger"
+            })
+        }
     }
 
     return (

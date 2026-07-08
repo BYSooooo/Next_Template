@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Multer } from "multer";
 import { ProfileService } from "./profile.service";
@@ -26,5 +26,15 @@ export class ProfileController {
         }
 
         return await this.profileService.uploadAvatar(file, id);
+    };
+
+    @Patch('avatar/reset')
+    async resetAvatar(
+        @Body('id') id : string
+    ) {
+        if(!id) {
+            throw new BadRequestException('required data is empty.');
+        }
+        return await this.profileService.resetAvatar(id);
     }
 }

@@ -36,8 +36,24 @@ export class ProfileService{
         }
 
         return {
-            message : 'Success',
+            message : 'Success : uploadAvatar',
             avatarUrl : publicUrl
         }
     };
+
+    async resetAvatar(id : string) {
+        const { error } = await this.supabaseService.client
+            .from('profile')
+            .update({ avatar_url : null})
+            .eq('id', id);
+        
+        if(error) {
+            throw new BadRequestException(error.message);
+        }
+
+        return {
+            message : 'Success : resetAvatar',
+            avatarUrl : null
+        }
+    }
 }
