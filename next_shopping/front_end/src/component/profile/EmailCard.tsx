@@ -3,13 +3,22 @@
 import React from 'react';
 
 import { Button, Card, Input, Label, TextField } from "@heroui/react";
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 export default function EmailCard() {
+
+    const { user, setUser } = useAuthStore();
 
     const [inputEmail, setInputEmail] = React.useState("");
     const [isModify, setIsModify] = React.useState(false)
     const [isOTPSend, setIsOTPSend] = React.useState(false)
     const [inputCode, setInputCode] = React.useState("")
+
+    React.useEffect(()=> {
+        if(user) {
+            setInputEmail(user.email)
+        }
+    },[])
 
     const onPressVerifyCode = ()=> {
         setIsOTPSend(true)

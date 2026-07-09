@@ -47,7 +47,9 @@ export default function Page() {
                         className='rounded-xl w-full'>
                         <ListBox 
                             selectionMode='single' className='w-fit'>
-                            <ListBox.Item textValue='Avatar'>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Avatar')}
+                                textValue='Avatar'>
                                 <Avatar className='p-1'>
                                     <UserCircleIcon className='w-full'/>
                                 </Avatar>
@@ -57,8 +59,11 @@ export default function Page() {
                                         Change, Remove Avatar
                                     </Description>
                                 </div>
+                                <ListBox.ItemIndicator />
                             </ListBox.Item>
-                            <ListBox.Item textValue='Email'>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Email')}
+                                textValue='Email'>
                                 <Avatar className='p-1'>
                                     <EnvelopeIcon className='w-full'/>
                                 </Avatar>
@@ -68,8 +73,11 @@ export default function Page() {
                                         Change, Verify Email Address
                                     </Description>
                                 </div>
+                                <ListBox.ItemIndicator />
                             </ListBox.Item>
-                            <ListBox.Item textValue='Nickname'>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Nickname')}
+                                textValue='Nickname'>
                                 <Avatar className='p-1'>
                                     <HashtagIcon className='w-full'/>
                                 </Avatar>
@@ -79,8 +87,11 @@ export default function Page() {
                                         Check Nickname
                                     </Description>
                                 </div>
+                                <ListBox.ItemIndicator />
                             </ListBox.Item>
-                            <ListBox.Item textValue='Password'>
+                            <ListBox.Item 
+                                onPress={()=>onPressProfileMenu('Password')}
+                                textValue='Password'>
                                 <Avatar className='p-1'>
                                     <KeyIcon className='w-full'/>
                                 </Avatar>
@@ -90,6 +101,7 @@ export default function Page() {
                                         Change Password
                                     </Description>
                                 </div>
+                                <ListBox.ItemIndicator />
                             </ListBox.Item>
                         </ListBox>
                     </Surface>

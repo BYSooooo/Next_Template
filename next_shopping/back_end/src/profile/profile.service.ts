@@ -43,7 +43,7 @@ export class ProfileService{
 
     async resetAvatar(id : string) {
         const { error } = await this.supabaseService.client
-            .from('profile')
+            .from('Profiles')
             .update({ avatar_url : null})
             .eq('id', id);
         
