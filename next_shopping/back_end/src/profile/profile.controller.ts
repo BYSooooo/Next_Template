@@ -37,4 +37,28 @@ export class ProfileController {
         }
         return await this.profileService.resetAvatar(id);
     }
+
+    @Post('email/sendcode')
+    async sendEmailcode(
+        @Body('id') id : string,
+        @Body('newEmail') newEmail : string
+    ) {
+        if(!id || !newEmail) {
+            throw new BadRequestException('Required Field is Empty.')
+        }
+        return await this.profileService.sendEmailCode(id, newEmail);
+    }
+
+    @Post('email/verify')
+    async verifyEmailCode(
+        @Body('id') id : string,
+        @Body('newEmail') newEmail : string,
+        @Body('code') code : string
+    ) {
+        if(!id || !newEmail || !code ) {
+            throw new BadRequestException('All Field is Required.');
+        }
+
+        return await this.profileService.verifyEmailCode(id, newEmail, code);
+    }
 }

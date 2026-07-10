@@ -56,4 +56,23 @@ export class ProfileService{
             avatarUrl : null
         }
     }
+
+    private otpStorage = new Map<string, { code: string, expiry : number}>();
+
+    async sendEmailCode(id : string, newEmail: string) {
+        // 1. Create Random Number
+        const verificationcode = Math.floor(100000 + Math.random() * 900000).toString();
+
+        const expiry = Date.now() + 5 * 60 * 1000;
+        this.otpStorage.set(`${id}_${newEmail}`, { code : verificationcode, expiry });
+
+        return {
+            
+        }
+
+    }
+
+    async verifyEmailCode(id: string, newEmail : string, code : string) {
+
+    }
 }

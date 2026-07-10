@@ -25,7 +25,7 @@ export default function EmailCard() {
     }
 
     const onPressRetryVerify = ()=> {
-
+        
     }
 
     const onPressModify = ()=> {
@@ -73,6 +73,7 @@ export default function EmailCard() {
                 <TextField>
                     <Label>Code</Label>
                     <Input
+                        disabled={!isModify}
                         fullWidth
                         value={inputCode}
                         maxLength={6}
