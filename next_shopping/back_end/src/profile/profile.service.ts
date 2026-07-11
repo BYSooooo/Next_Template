@@ -57,22 +57,28 @@ export class ProfileService{
         }
     }
 
-    private otpStorage = new Map<string, { code: string, expiry : number}>();
+    // private otpStorage = new Map<string, { code: string, expiry : number}>();
 
     async sendEmailCode(id : string, newEmail: string) {
-        // 1. Create Random Number
-        const verificationcode = Math.floor(100000 + Math.random() * 900000).toString();
-
-        const expiry = Date.now() + 5 * 60 * 1000;
-        this.otpStorage.set(`${id}_${newEmail}`, { code : verificationcode, expiry });
+        
+        const { data, error } = await this.supabaseService.client.auth.admin
+            .updateUserById(id, { email : newEmail})
+        
+        if(error) {
+            throw new BadRequestException(error.message);
+        }
 
         return {
+            message : 'Success : sendEmailCode'
             
         }
+            
 
     }
 
     async verifyEmailCode(id: string, newEmail : string, code : string) {
-
+        const otpKey = `${id}_${newEmail}`;
+        
+        //...
     }
 }
