@@ -2,25 +2,36 @@
 
 import React from 'react';
 
-import { Button, Card, Input, Label, TextField } from "@heroui/react";
+import { Button, Card, Description, Input, Label, TextField } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
+import { useToastStore } from '@/zustand/useToastStore';
 
 export default function EmailCard() {
 
     const { user, setUser } = useAuthStore();
+    const { openToast } = useToastStore();
 
     const [inputEmail, setInputEmail] = React.useState("");
     const [isModify, setIsModify] = React.useState(false)
     const [isOTPSend, setIsOTPSend] = React.useState(false)
     const [inputCode, setInputCode] = React.useState("")
+    const [isLoading, setIsLoading] = React.useState(false);
 
     React.useEffect(()=> {
         if(user) {
             setInputEmail(user.email)
         }
-    },[])
+    },[user])
+    
+    const onPressModify = ()=> {
+        setIsModify(true)
+    }
 
-    const onPressVerifyCode = ()=> {
+    const onPressSendVerifyCode = ()=> {
+        if(!inputEmail || inputEmail === user?.email) {
+            
+        }
+        
         setIsOTPSend(true)
     }
 
@@ -28,9 +39,6 @@ export default function EmailCard() {
         
     }
 
-    const onPressModify = ()=> {
-        setIsModify(true)
-    }
 
     return (
         <Card className='bg-yellow-400 rounded-xl h-full min-w-60'>
@@ -57,7 +65,7 @@ export default function EmailCard() {
                             : (!isOTPSend) 
                                 ? 
                                     <Button 
-                                        onPress={onPressVerifyCode}
+                                        onPress={onPressSendVerifyCode}
                                         className='bg-black w-fit'>
                                         Send Code
                                     </Button>

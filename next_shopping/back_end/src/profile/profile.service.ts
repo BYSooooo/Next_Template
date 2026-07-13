@@ -68,17 +68,36 @@ export class ProfileService{
             throw new BadRequestException(error.message);
         }
 
-        return {
-            message : 'Success : sendEmailCode'
-            
-        }
+        return { message : 'Success : sendEmailCode' }
             
 
     }
 
     async verifyEmailCode(id: string, newEmail : string, code : string) {
-        const otpKey = `${id}_${newEmail}`;
+        const { data , error } = await this.supabaseService.client.auth
+            .verifyOtp({ 
+                email : newEmail, 
+                token : code, 
+                type : 'email_change'
+            });
+
+        if(error) {
+            throw new BadRequestException(error.message);
+        };
+
+        const { error : dbError } = await this.supabaseService.client
+            .from('Profiles')
+            .update({ email : newEmail})
+            .eq('id', id);
+
+        if(dbError) {
+            throw new BadRequestException(dbError.message);
+        }
+
+        return {
+            message : 'Success : verifyEmailCode',
+            email : data.user?.email || newEmail
+        };
         
-        //...
     }
 }
