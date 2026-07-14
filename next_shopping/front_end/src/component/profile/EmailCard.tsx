@@ -27,16 +27,54 @@ export default function EmailCard() {
         setIsModify(true)
     }
 
-    const onPressSendVerifyCode = ()=> {
+    const onPressSendVerifyCode = async()=> {
         if(!inputEmail || inputEmail === user?.email) {
+            return;       
+        }
+
+        setIsLoading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/email/sendcode`, {
+                method : 'POST',
+                headers : {'Content-Type' : 'application/json'},
+                body : JSON.stringify({
+                    id : user?.id,
+                    newEmail : inputEmail
+                })
+            });
+            const result = await res.json();
+
+            if(res.ok) {
+                setIsOTPSend(true)
+                openToast({
+                    title : "Send Code",
+                    description : "Verification Code send to new Email Address",
+                    variant : 'success'
+                })
+            } else {
+                throw new Error(result.message || 'Error Occured')
+            }
             
+            
+        } catch (error) {
+            openToast({
+                title : "Error Occured",
+                description : error.message,
+                variant : 'danger'
+            })
+        } finally {
+            setIsLoading(false);
         }
         
-        setIsOTPSend(true)
     }
 
     const onPressRetryVerify = ()=> {
-        
+        //...
+    }
+
+    const onPressVerifyCode = ()=> {
+        //...
     }
 
 
@@ -89,7 +127,9 @@ export default function EmailCard() {
                     
                     />
                 </TextField>
-                <Button className='bg-black w-full'>
+                <Button 
+                    onPress={onPressVerifyCode}
+                    className='bg-black w-full'>
                     Verify
                 </Button>
             </Card.Content>
