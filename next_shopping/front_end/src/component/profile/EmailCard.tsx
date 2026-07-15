@@ -17,22 +17,65 @@ export default function EmailCard() {
     const [inputCode, setInputCode] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false);
 
+    const [emailStatus, setEmailStatus] = React.useState<{type : 'none'| 'success' | 'error'; message : string}>({ type : 'none', message : ''});
+    const [codeStatus, setCodeStatus] = React.useState<{type : 'none' | 'success' | 'error'; message : string }>({ type : 'none', message : ""});
+
+    const [timeLeft, setTimeLeft] = React.useState(0);
+
     React.useEffect(()=> {
         if(user) {
             setInputEmail(user.email)
         }
     },[user])
+
+    React.useEffect(()=> {
+        if(timeLeft <= 0) return;
+        const timer = setInterval(()=> {
+            setTimeLeft((prev) => prev -1);
+        }, 1000);
+
+        return () => clearInterval(timer)
+    },[timeLeft])
+
+    React.useEffect(()=> {
+        if(!isOTPSend && timeLeft === 0) {
+            setCodeStatus({ type : 'error', message : 'Verify code is expired.'})
+        }
+    },[timeLeft, isOTPSend]);
+
+    const formatterTime = React.useMemo(()=> {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        return `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`
+    }, [timeLeft])
+
+    const isEmailValid = React.useMemo(()=> {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(inputEmail);
+    },[inputEmail])
     
     const onPressModify = ()=> {
         setIsModify(true)
+        setEmailStatus({ type : 'none', message : ''});
     }
 
     const onPressSendVerifyCode = async()=> {
-        if(!inputEmail || inputEmail === user?.email) {
-            return;       
+        if (!isEmailValid) {
+            setEmailStatus({ type : 'error', message : 'Invalid Email Format'});
+            return;
+        }
+
+        if(inputEmail  === user?.email) {
+            setEmailStatus({
+                type : 'error',
+                message : 'Please input new email address.'
+            })
+            return;
         }
 
         setIsLoading(true);
+        setEmailStatus({ type : 'none', message : ''});
+        setCodeStatus({ type : 'none', message : ''});
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/email/sendcode`, {
@@ -47,22 +90,15 @@ export default function EmailCard() {
 
             if(res.ok) {
                 setIsOTPSend(true)
-                openToast({
-                    title : "Send Code",
-                    description : "Verification Code send to new Email Address",
-                    variant : 'success'
-                })
+                setTimeLeft(300);
+                setEmailStatus({ type : 'success', message : 'Verify code sended' })
             } else {
                 throw new Error(result.message || 'Error Occured')
             }
             
             
         } catch (error) {
-            openToast({
-                title : "Error Occured",
-                description : error.message,
-                variant : 'danger'
-            })
+            setEmailStatus({ type : 'error', message : 'Fail to send verify code'})
         } finally {
             setIsLoading(false);
         }
@@ -74,6 +110,19 @@ export default function EmailCard() {
     }
 
     const onPressVerifyCode = ()=> {
+        if(timeLeft <= 0){
+            setCodeStatus({ type : 'error', message : 'Verify code is expired. Please try again'});
+            return;
+        }
+
+        if(!inputCode || inputCode.length !== 6) {
+            setCodeStatus({ type : 'error', message : 'please check input code'});
+            return;
+        }
+
+        setIsLoading(true);
+        setCodeStatus({ type : 'none', message : ''})
+
         //...
     }
 
