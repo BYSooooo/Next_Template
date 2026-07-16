@@ -105,11 +105,7 @@ export default function EmailCard() {
         
     }
 
-    const onPressRetryVerify = ()=> {
-        //...
-    }
-
-    const onPressVerifyCode = ()=> {
+    const onPressVerifyCode = async()=> {
         if(timeLeft <= 0){
             setCodeStatus({ type : 'error', message : 'Verify code is expired. Please try again'});
             return;
@@ -123,6 +119,37 @@ export default function EmailCard() {
         setIsLoading(true);
         setCodeStatus({ type : 'none', message : ''})
 
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/email/verify`, {
+                method : 'POST',
+                headers : { 'Content-Type' : 'application/json'},
+                body : JSON.stringify({
+                    id : user?.id,
+                    newEmail : inputEmail,
+                    code : inputCode
+                })
+            });
+
+            const result = await res.json();
+
+            if(res.ok) {
+                setUser({ ...user!, email : result.email});
+                setIsModify(false);
+                setIsOTPSend(false);
+                setInputCode("");
+                setTimeLeft(0);
+                setEmailStatus({ type : 'success', message : 'Email Address change successfully.'})
+            } else {
+                throw new Error(result.message || 'Verify code not matched.');
+            }
+        } catch (error) {
+            setCodeStatus({ type : 'error', message : error.message});
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const onPressRetryVerify = ()=> {
         //...
     }
 
@@ -139,6 +166,7 @@ export default function EmailCard() {
                         <Input
                             disabled={!isModify}
                             fullWidth
+                            onChange={(e)=> setInputEmail(e.target.value)}
                             value={inputEmail}
                             className='form-input'
                         />
@@ -149,21 +177,28 @@ export default function EmailCard() {
                                     onPress={onPressModify}>
                                     Modify
                                 </Button>
-                            : (!isOTPSend) 
-                                ? 
-                                    <Button 
-                                        onPress={onPressSendVerifyCode}
-                                        className='bg-black w-fit'>
-                                        Send Code
-                                    </Button>
-                                : 
-                                    <Button 
-                                        className="bg-black w-fit"
-                                        onPress={onPressRetryVerify}>
-                                        Retry
-                                    </Button>
+                            :   <Button 
+                                    isDisabled={isLoading || !isEmailValid}
+                                    onPress={onPressSendVerifyCode}
+                                    className='bg-black w-fit'>
+                                        { isLoading 
+                                            ? 'Sending...' 
+                                            : isOTPSend 
+                                                ? 'Retry' 
+                                                : 'Send Code'
+                                        }
+                                </Button>
+                                
                         }
                     </div>
+                    {emailStatus.type !== 'none' && 
+                        (
+                            <Description className={`mt-1 text-xs font-medium ${emailStatus.type === 'error' ? 'text-red-600' : 'text-green-700' }`}>
+                                {emailStatus.message}
+                            </Description>
+                        )
+                    
+                    }
                 </TextField>
                 <TextField>
                     <Label>Code</Label>
