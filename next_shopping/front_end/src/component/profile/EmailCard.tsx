@@ -149,11 +149,6 @@ export default function EmailCard() {
         }
     }
 
-    const onPressRetryVerify = ()=> {
-        //...
-    }
-
-
     return (
         <Card className='bg-yellow-400 rounded-xl h-full min-w-60'>
             <Card.Header className='font-bold'>
@@ -200,21 +195,35 @@ export default function EmailCard() {
                     
                     }
                 </TextField>
-                <TextField>
-                    <Label>Code</Label>
+                <TextField isInvalid={isOTPSend && codeStatus.type === 'error'}>
+                    <div className='flex justify-between items-center mb-1'>
+                        <Label>Code</Label>
+                        { isOTPSend && timeLeft > 0 &&(
+                            <span className='text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-md'>
+                                {formatterTime}
+                            </span>
+                        )}
+                    </div>
                     <Input
-                        disabled={!isModify}
+                        disabled={!isOTPSend || isLoading}
                         fullWidth
                         value={inputCode}
+                        onChange={(e)=> setInputCode(e.target.value)}
                         maxLength={6}
+                        placeholder='6-degit OTP'
                         className='form-input'
-                    
                     />
+                    {codeStatus.type !== 'none' && (
+                        <Description className={`mt-1 text-xs font-medium ${codeStatus.type === 'error' ? 'text-red-600' : 'text-green-700'}`}>
+                            {codeStatus.message}
+                        </Description>
+                    )}
                 </TextField>
                 <Button 
+                    isDisabled={!isOTPSend || isLoading}
                     onPress={onPressVerifyCode}
-                    className='bg-black w-full'>
-                    Verify
+                    className='w-full bg-black text-white font-bold mt-2 shadow-md disabled:bg-gray-300'>
+                    { isLoading ? "Verifing..." : 'Verify' }
                 </Button>
             </Card.Content>
         </Card>
