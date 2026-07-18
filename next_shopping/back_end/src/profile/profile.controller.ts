@@ -40,13 +40,12 @@ export class ProfileController {
 
     @Post('email/sendcode')
     async sendEmailcode(
-        @Body('id') id : string,
         @Body('newEmail') newEmail : string
     ) {
-        if(!id || !newEmail) {
+        if(!newEmail) {
             throw new BadRequestException('Required Field is Empty.')
         }
-        return await this.profileService.sendEmailCode(id, newEmail);
+        return await this.profileService.sendEmailCode(newEmail);
     }
 
     @Post('email/verify')

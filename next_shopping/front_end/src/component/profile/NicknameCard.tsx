@@ -26,6 +26,50 @@ export default function NicknameCard() {
         return regex.test(inputNick)
     },[inputNick])
 
+    const isCurrentNickname = inputNick === user?.nickname;
+    const hasNickError = isNickTouched && (!isRegexNick || isNickUsed === true) && !isCurrentNickname;
+
+    const onPressModify = async()=> {
+        if(!isRegexNick || isCurrentNickname) return;
+
+        setIsLoading(true);
+
+        try {
+            const query = new URLSearchParams({ nickname : inputNick}).toString();
+
+            const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/checkNick?${query}`, {
+                method : 'GET',
+                headers : { 'Content-Type' : 'application.json'},
+            });
+
+            const { isDuplicated } = await checkRes.json();
+
+            setIsNickUsed(isDuplicated)
+
+            if(!isDuplicated) {
+                const updateRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/nickname`, {
+                    method : 'PATCH',
+                    headers : { 'Content-Type' : 'application/json'},
+                    body : JSON.stringify({ id : user?.id, nickname : inputNick})
+                });
+
+                if(updateRes.ok) {
+                    setUser({ ...user!, nickname : inputNick});
+                    setIsNickTouched(false);
+                    setIsNickUsed(false)
+                } else {
+                    throw new Error('Failed to Change nickname')
+                }
+            }
+        } catch (error) {
+            setIsNickUsed(true)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    //...
+
     return (
         <Card className="bg-yellow-400 rounded-xl h-full min-w-60">
             <Card.Header className='font-bold'>

@@ -59,10 +59,10 @@ export class ProfileService{
 
     // private otpStorage = new Map<string, { code: string, expiry : number}>();
 
-    async sendEmailCode(id : string, newEmail: string) {
-        
-        const { data, error } = await this.supabaseService.client.auth.admin
-            .updateUserById(id, { email : newEmail})
+    async sendEmailCode(newEmail: string) {
+        const { data, error } = await this.supabaseService.client.auth.updateUser({
+            email : newEmail
+        })
         
         if(error) {
             throw new BadRequestException(error.message);
