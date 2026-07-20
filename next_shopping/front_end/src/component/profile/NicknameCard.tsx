@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from '@/zustand/useAuthStore';
-import { Button, Card, Input, Label, TextField } from '@heroui/react';
+import { Button, Card, Description, Input, Label, TextField } from '@heroui/react';
 import React from 'react';
 
 export default function NicknameCard() {
@@ -75,16 +75,30 @@ export default function NicknameCard() {
             <Card.Header className='font-bold'>
                 NickName
             </Card.Header>
-            <Card.Content>
-                <TextField>
-                    <Input 
-                        fullWidth
-                        value={inputNick}
-                        className='form-input'
-                    />
-                    <Button className='bg-black w-full'>
-                        Modify
-                    </Button>
+            <Card.Content className='flex flex-col gap-4 p-4'>
+                <TextField isInvalid={hasNickError}>
+                    <Label className='text-black font-semibold mb-1'>Nickname</Label>
+                    <div className='flex flex-row gap-2'>
+                        <Input 
+                            fullWidth
+                            value={inputNick}
+                            onChange={(e)=> {
+                                setInputNick(e.target.value)
+                                setIsNickTouched(null)
+                                if(!isNickTouched) setIsNickTouched(true)
+                            }}
+                            className='form-input'
+                            disabled={isLoading}
+                        />
+                    </div>
+                    {!isRegexNick && isNickTouched 
+                    ? (
+                        <Description className='mt-1 text-xs text-red-600 font-medium'>
+                            Available Character betwteen 5 to 12
+                        </Description>
+                    ) : (
+
+                    )}
                 </TextField>
             </Card.Content>
         </Card>
