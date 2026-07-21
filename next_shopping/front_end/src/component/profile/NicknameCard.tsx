@@ -96,8 +96,21 @@ export default function NicknameCard() {
                         <Description className='mt-1 text-xs text-red-600 font-medium'>
                             Available Character betwteen 5 to 12
                         </Description>
-                    ) : (
+                    ) : isCurrentNickname ? (
+                        <Description>
 
+                        </Description>
+                    ) : isNickUsed === null ? (
+                        <Description>
+
+                        </Description>
+                    ) : isNickUsed ? (
+                        <Description>
+                            
+                        </Description>
+                    ) : (
+                        <Description>
+                        </Description>
                     )}
                 </TextField>
             </Card.Content>
