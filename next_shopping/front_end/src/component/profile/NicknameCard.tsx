@@ -97,22 +97,34 @@ export default function NicknameCard() {
                             Available Character betwteen 5 to 12
                         </Description>
                     ) : isCurrentNickname ? (
-                        <Description>
-
+                        <Description className='mt-1 text-xs text-red-600 font-medium'>
+                            This is a nickname you are already using.
                         </Description>
                     ) : isNickUsed === null ? (
-                        <Description>
-
+                        <Description className='mt-1 text-xs text-red-600 font-medium'>
+                            To make changes, duplicate checks and savings are required.
                         </Description>
                     ) : isNickUsed ? (
-                        <Description>
-                            
+                        <Description className='mt-1 text-xs text-red-600 font-medium'>
+                            This is a nickname you are already using.
                         </Description>
                     ) : (
-                        <Description>
+                        <Description className='mt-1 text-xs text-green-700 font-medium'>
+                            ✓ 사용 가능한 닉네임으로 변경되었습니다.
                         </Description>
                     )}
                 </TextField>
+
+                <Button
+                    className='bg-black text-white w-full font-bold shadow-md disabled:bg-gray-300'
+                    isDisabled={!isRegexNick || isCurrentNickname || isLoading}
+                    onPress={onPressModify}>
+                        { isLoading 
+                            ? "Checking..." 
+                            : 'Modify'
+                        }
+                </Button>
+
             </Card.Content>
         </Card>
 
