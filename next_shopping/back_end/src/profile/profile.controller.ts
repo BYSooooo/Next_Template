@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Patch, Post, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Multer } from "multer";
 import { ProfileService } from "./profile.service";
@@ -59,5 +59,24 @@ export class ProfileController {
         }
 
         return await this.profileService.verifyEmailCode(id, newEmail, code);
+    }
+
+    @Get('nickname/check')
+    async checkNickname(@Query('nickname') nickname : string) {
+        if(!nickname) {
+            throw new BadRequestException('Please Input Nickname')
+        }
+        return await this.profileService.checkNickname(nickname)
+    }
+
+    @Patch('nickname')
+    async updateNickname(
+        @Body('id') id : string, 
+        @Body('nickname') nickname : string
+    ) {
+        if(!id || !nickname) {
+            throw new BadRequestException('required info is empty : User ID or Nickname')
+        }
+        return await this.profileService.updateNickname(id, nickname);
     }
 }

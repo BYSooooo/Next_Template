@@ -100,4 +100,32 @@ export class ProfileService{
         };
         
     }
+
+    async checkNickname(nickname : string) {
+        const nickRegex = /^[a-zA-Z0-9]{5,12}$/;
+        
+        if(!nickRegex.test(nickname)) {
+            throw new BadRequestException('Nicknames can only be written in 5-12 characters in English or by numbers.')
+        };
+
+        const { data, error } = await this.supabaseService.client
+            .from('Profiles')
+            .select('id')
+            .eq('nickname', nickname)
+            .maybeSingle();
+        
+            if(error) {
+                throw new BadRequestException(error.message);
+            }
+
+            const isDuplicated = !!data;
+
+            return {
+                isDuplicated,
+                message : isDuplicated ? 'Already used Nickname' : 'available Nickname'
+            }
+    }
+
+    //...
+
 }
