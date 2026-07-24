@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable } from "@nestjs/common";
 import { SupabaseService } from "src/supabase/supabase.service";
 
 @Injectable()
@@ -103,7 +103,7 @@ export class ProfileService{
 
     async checkNickname(nickname : string) {
         const nickRegex = /^[a-zA-Z0-9]{5,12}$/;
-        
+
         if(!nickRegex.test(nickname)) {
             throw new BadRequestException('Nicknames can only be written in 5-12 characters in English or by numbers.')
         };
@@ -113,19 +113,46 @@ export class ProfileService{
             .select('id')
             .eq('nickname', nickname)
             .maybeSingle();
-        
-            if(error) {
-                throw new BadRequestException(error.message);
-            }
+    
+        if(error) {
+            throw new BadRequestException(error.message);
+        }
 
-            const isDuplicated = !!data;
+        const isDuplicated = !!data;
 
-            return {
-                isDuplicated,
-                message : isDuplicated ? 'Already used Nickname' : 'available Nickname'
-            }
+        return {
+            isDuplicated,
+            message : isDuplicated ? 'Already used Nickname' : 'available Nickname'
+        }
     }
 
-    //...
+    async updateNickname(id : string, nickname : string) {
+        const nickRegex = /^[a-zA-Z0-9]{5,12}$/;
+        
+        if(!nickRegex.test(nickname)) {
+            throw new BadRequestException('Nicknames can only be written in 5~12 characters in English or by numbers.');
+        }
 
+        const { isDuplicated } = await this.checkNickname(nickname);
+
+        if(isDuplicated) {
+            throw new ConflictException('Already used Nickname');
+        }
+
+        const { error } = await this.supabaseService.client
+            .from('Profiles')
+            .update({ nickname })
+            .eq('id', id);
+        
+        if(error) {
+            console.log(error)
+            throw new BadRequestException(error.message)
+        }
+
+        return {
+            message : 'Success : updateNickname',
+            nickname
+        }
+
+    }
 }

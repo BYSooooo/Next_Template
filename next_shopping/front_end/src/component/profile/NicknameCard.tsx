@@ -37,7 +37,7 @@ export default function NicknameCard() {
         try {
             const query = new URLSearchParams({ nickname : inputNick}).toString();
 
-            const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/checkNick?${query}`, {
+            const checkRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/nickname/check?${query}`, {
                 method : 'GET',
                 headers : { 'Content-Type' : 'application.json'},
             });
