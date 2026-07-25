@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { SupabaseService } from "src/supabase/supabase.service";
 
 @Injectable()
@@ -153,6 +153,34 @@ export class ProfileService{
             message : 'Success : updateNickname',
             nickname
         }
+    }
 
+    async changePassword(email : string, curPassword : string, newPassword : string) {
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+        if(!passwordRegex) {
+            throw new BadRequestException('The password must include 8~20 characters in English, numbers, or special characters.');
+        }
+
+        const { error : singInError } = await this.supabaseService.client.auth.signInWithPassword({
+            email,
+            password : curPassword
+        });
+
+        if(singInError) {
+            throw new UnauthorizedException('The current password does not match.');
+        };
+
+        const { error : updateError } = await this.supabaseService.client.auth.updateUser({
+            password : newPassword
+        });
+
+        if(updateError) {
+            throw new BadRequestException(updateError.message)
+        }
+
+        return {
+            message : 'Success : changePassword'
+        };
     }
 }

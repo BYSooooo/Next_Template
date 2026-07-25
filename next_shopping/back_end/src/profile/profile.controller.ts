@@ -79,4 +79,17 @@ export class ProfileController {
         }
         return await this.profileService.updateNickname(id, nickname);
     }
+
+    @Patch('password')
+    async changePassword(
+        @Body('email') email : string,
+        @Body('curPassword') curPassword : string,
+        @Body('newPassword') newPassword : string
+    ) {
+        if(!email || !curPassword || !newPassword) {
+            throw new BadRequestException('Please enter all your password information.')
+        }
+
+        return await this.profileService.changePassword(email, curPassword, newPassword);
+    }
 }
