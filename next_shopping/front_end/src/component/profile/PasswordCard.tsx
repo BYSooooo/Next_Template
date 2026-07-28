@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Button, Card, Input, Label, TextField } from "@heroui/react";
+import { Button, Card, Description, Input, Label, TextField } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
 
 export default function PasswordCard() {
@@ -81,7 +81,8 @@ export default function PasswordCard() {
                         disabled={isLoading}
                     />
                 </TextField>
-                <TextField>
+                
+                <TextField >
                     <Label>New Password</Label>
                     <Input
                         fullWidth
@@ -105,7 +106,31 @@ export default function PasswordCard() {
                     />
                 </TextField>
             </Card.Content>
-            <Card.Footer className='justify-end'>
+            <div className='h-5 mb-5 flex items-start'>
+                { errorMsg ? (
+                    <Description className='text-xs text-red-600 font-medium leading-tight'>
+                        {errorMsg}
+                    </Description>
+                ) : successMsg ? (
+                    <Description className='text-xs text-green-700 font-medium leading-tight'>
+                        {successMsg}
+                    </Description>
+                ) : newPassword.length > 0 && !isRegexPassword ? (
+                    <Description className='text-xs text-red-600 font-medium leading-tight'>
+                        The password must include 8~20 characters in English, numbers, or special characters.
+                    </Description>
+                ) : rePassword.length > 0 && !isPasswordMatch ? (
+                    <Description className='text-xs text-red-600 font-medium leading-tight'>
+                        The new password does not match.
+                    </Description>
+                ) : (
+                    <Description className='text-xs text-gray-700 font-medium leading-tight'>
+                        Please enter in combinations of 8~20 characters in English, numbers, or special characters.
+                    </Description>
+                )
+                }
+            </div>
+            <Card.Footer className='justify-end p-4 pt-0'>
                 <Button className='bg-black'>
                     Confirm
                 </Button>
