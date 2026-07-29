@@ -70,6 +70,7 @@ export default function PasswordCard() {
                 <TextField>
                     <Label>Current Password</Label>
                     <Input 
+                        type='password'
                         fullWidth
                         value={curPassword}
                         onChange={(e)=> {
@@ -85,6 +86,7 @@ export default function PasswordCard() {
                 <TextField >
                     <Label>New Password</Label>
                     <Input
+                        type="password"
                         fullWidth
                         className='form-input'
                         value={newPassword}
@@ -100,9 +102,16 @@ export default function PasswordCard() {
                 <TextField>
                     <Label>Retry New Password</Label>
                     <Input
+                        type="password"
                         fullWidth
                         className='form-input'
                         value={rePassword}
+                        onChange={(e)=> {
+                          setRePassword(e.target.value)
+                          setErrorMsg(null);
+                          setSuccessMsg(null)  
+                        }}
+                        disabled={isLoading}
                     />
                 </TextField>
             </Card.Content>
@@ -131,7 +140,9 @@ export default function PasswordCard() {
                 }
             </div>
             <Card.Footer className='justify-end p-4 pt-0'>
-                <Button className='bg-black'>
+                <Button 
+                    onPress={onPressConfirm}
+                    className='bg-black'>
                     Confirm
                 </Button>
             </Card.Footer>

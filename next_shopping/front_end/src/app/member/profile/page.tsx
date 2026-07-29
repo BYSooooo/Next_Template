@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { Avatar, Card, Description, Label, ListBox, Surface } from "@heroui/react";
-import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AvatarCard from '@/component/profile/AvatarCard';
 import AddressCard from '@/component/profile/AddressCard';
@@ -34,17 +33,17 @@ export default function Page() {
 
 
     return (
-        <div className="inner-container flex items-center h-screen justify-center flex-row">
-            <Card className='bg-gray-100 rounded-lg w-2/3'>
+        <div className="inner-container flex items-center justify-center min-h-screen py-8 px-4">
+            <Card className='bg-gray-100 rounded-lg w-full max-w-3xl'>
                 <Card.Header>
                     <p className='font-bold text-3xl'>
                         Profile
                     </p>
                 </Card.Header>
-                <Card.Content className='flex flex-row gap-4'>
+                <Card.Content className='flex flex-col md:flex-row gap-6 p-4 md:p-6'>
                     <Surface 
                         variant='transparent'
-                        className='rounded-xl w-full'>
+                        className='rounded-xl w-full md:w-64 shrink-0'>
                         <ListBox 
                             selectionMode='single' className='w-fit'>
                             <ListBox.Item 
@@ -105,7 +104,7 @@ export default function Page() {
                             </ListBox.Item>
                         </ListBox>
                     </Surface>
-                    <div className='w-full'>
+                    <div className='w-full md:w-7/12 lg:w-8/12'>
                         {cardHandler()}
                     </div>
                 </Card.Content>
