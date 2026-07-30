@@ -22,6 +22,7 @@ export const useAuth = ()=> {
             const result = await res.json();
 
             if(res.ok) {
+                console.log(result.user)
                 setUser(result.user)
                 return { result : true, user : result.user }
             } else {

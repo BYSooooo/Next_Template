@@ -4,16 +4,23 @@ import React from 'react';
 import { Avatar, Button, Card } from '@heroui/react';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useToastStore } from '@/zustand/useToastStore';
+import { UserIcon } from '@heroicons/react/24/solid';
+
 
 export default function AvatarCard() {
 
     const { user, setUser } = useAuthStore();
     const { openToast } = useToastStore();
 
+    React.useEffect(()=> {
+        console.log(user)
+    },[])
+
     const [isUploading, setIsUploading ] = React.useState(false);
+    
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    const onChangeFile = (e : React.ChangeEvent<HTMLInputElement>)=> {
+    const onChangeFile = async (e : React.ChangeEvent<HTMLInputElement>)=> {
         const file = e.target.files?.[0];
         if(!file) return;
 
@@ -39,14 +46,81 @@ export default function AvatarCard() {
         setIsUploading(true)
 
         try {
-            //...
-        } catch (error) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+            formData.append('id', user?.id || '');
 
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/avatar`, {
+                method : 'POST',
+                body : formData
+            });
+
+            const result = await res.json();
+            if(res.ok) {
+                setUser({
+                    ...user,
+                    avatarUrl : result.avatarUrl
+                })
+                openToast({
+                    title : "Success",
+                    description : 'Profile Avatar Updated',
+                    variant : 'success'
+                });
+            } else {
+
+            };
+
+            
+
+        } catch (error) {
+            openToast({
+                title : "Error",
+                description : error.message || "Error Occured",
+                variant : 'danger'
+            })
+        } finally {
+            setIsUploading(false);
         }
     }
 
-    const onPressReset = ()=> {
-        
+    const onPressReset = async ()=> {
+        if(!user?.avatarUrl) return;
+
+        setIsUploading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/avatar/reset`,{
+                method : 'PATCH',
+                headers : {
+                    'Content-Type' : 'application/json',   
+                },
+                body : JSON.stringify({ id : user?.id})
+            })
+
+            const result = await res.json();
+
+            if(res.ok) {
+                setUser({
+                    ...user,
+                    avatarUrl : null
+                });
+
+                openToast({
+                    title : "Success",
+                    description : "Avatar Image Reset",
+                    variant : "success"
+                })
+            } else {
+                throw new Error(result.message)
+            }
+        } catch (error) {
+            console.error(error);
+            openToast({
+                title : "Error",
+                description : error.message,
+                variant : "danger"
+            })
+        }
     }
 
     return (
@@ -55,13 +129,19 @@ export default function AvatarCard() {
                 Avatar
             </Card.Header>
             <Card.Content className='flex flex-row gap-6 justify-between'>
-                <Avatar className='w-36 h-36'/>
+                <Avatar className='w-36 h-36 border-4 border-black object-cover shadow-sm bg-white rounded-full'>
+                    { user?.avatarUrl 
+                        ? <Avatar.Image src={user?.avatarUrl || undefined} />
+                        : <UserIcon className='p-5'/>   
+                    }
+                    
+                </Avatar>
                 <div className='flex flex-col gap-2 w-[2/3] justify-end'>
                     <input 
                         type='file'
                         ref={fileInputRef}
                         onChange={onChangeFile}
-                        accept='image/jpeg,image/png'
+                        accept='image/*'
                         className='hidden'  
                     />
                     <Button

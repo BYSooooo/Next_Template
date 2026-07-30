@@ -104,7 +104,8 @@ export class AuthService {
             countryCode : profileData.country_code,
             postCode : profileData.post_code,
             address1 : profileData.address1,
-            address2 : profileData.address2
+            address2 : profileData.address2,
+            avatarUrl : profileData.avatar_url
         }
 
         return {
