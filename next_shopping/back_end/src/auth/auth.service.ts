@@ -31,7 +31,7 @@ export class AuthService {
 
         // STEP 2: Insert User Data into Supabase Table
         const { error : profileError } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .insert([
                 {   id : userId,
                     nickname,
@@ -53,7 +53,7 @@ export class AuthService {
     
     async checkNick(nickname : string) {
         const {count, error } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .select('nickname', {
                 head : true,
                 count : "exact",
@@ -85,7 +85,7 @@ export class AuthService {
         const userId = authData.user.id;
 
         const { data : profileData, error : profileError} = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .select('*')
             .eq('id', userId)
             .single();
