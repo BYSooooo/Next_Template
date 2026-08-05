@@ -1,21 +1,20 @@
 "use client";
 
 import React from 'react';
-import { Button } from "@heroui/react";
 import MainCard from "./MainCard";
 import useEmblaCarousel from "embla-carousel-react";
+import { MainBannerItem } from '@/lib/api/main/banner';
 
-export default function MainCardSlider() {
+interface MainCardSilderProps {
+    initialBanners : MainBannerItem[];
+}
 
-    const aCards = [
-        { title : 'Spcecial Sales', footer : 'Get a Change!'},
-        { title : 'Happy new Year!', footer : 'New year sales!', desc : 'up to 20% sale'},
-        { title : 'Result of Event', footer : 'Check List', desc : ''},
-        { title : 'Daily Event', footer : 'Up to 30% discount', desc : 'click More now'},
-        { title : 'Last Chance!', footer : 'Sale for Season off Goods', desc: 'click More now!'}
-    ]
+export default function MainCardSlider({ initialBanners } : MainCardSilderProps) {
+    const cards = initialBanners || [];
 
-    const aRepeatCard = [...aCards, ...aCards]
+    const displayCards = cards.length > 0 && cards.length < 5
+        ? [...cards, ...cards]
+        : cards;
 
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align :"center", dragFree : false, containScroll : false, watchSlides : true })
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -38,6 +37,10 @@ export default function MainCardSlider() {
         onSelectDot()
     },[emblaApi, onSelectDot])
 
+    if(cards.length === 0) {
+        return null
+    }
+    
     const onClickPrev = ()=> emblaApi?.scrollPrev();
     const onClickNext = ()=> emblaApi.scrollNext();
     
@@ -48,9 +51,15 @@ export default function MainCardSlider() {
             <div className="embla" >
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
-                        { aRepeatCard.map((card, index)=> {
-                            return <MainCard key={index} title={card.title} footer={card.footer} desc={card?.desc} />
-                        })}
+                        { displayCards.map((card, index)=> (
+                            <MainCard 
+                                key={`${card.id}-${index}`}
+                                title={card.title}
+                                footer={card.footer}
+                                desc={card.descriptin}
+                            />
+                            )
+                        )}
                     </div>
                 </div>
                 <div className='embla__dots'>

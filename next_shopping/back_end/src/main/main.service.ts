@@ -19,7 +19,7 @@ export class MainService {
 
     async getActiveBanners(): Promise<MainBanner[]> {
         const { data, error } = await this.supabaseService.client
-            .from("main_bnanners")
+            .from("main_banners")
             .select('id, title, description, footer, image_path, image_url, link_url, is_active, display_order')
             .eq('is_active', true)
             .order('display_order', { ascending : true});

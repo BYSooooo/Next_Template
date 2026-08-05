@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SupabaseModule } from './supabase/supabase.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
+import { MainModule } from './main/main.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ProfileModule } from './profile/profile.module';
     }),
     SupabaseModule,
     AuthModule,
-    ProfileModule
+    ProfileModule,
+    MainModule
   ],
   controllers: [AppController],
   providers: [AppService],
