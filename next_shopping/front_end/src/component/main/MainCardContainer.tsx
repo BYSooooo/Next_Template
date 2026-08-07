@@ -56,7 +56,7 @@ export default function MainCardSlider({ initialBanners } : MainCardSilderProps)
                                 key={`${card.id}-${index}`}
                                 title={card.title}
                                 footer={card.footer}
-                                desc={card.descriptin}
+                                desc={card.description}
                             />
                             )
                         )}

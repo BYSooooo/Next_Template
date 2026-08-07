@@ -17,17 +17,22 @@ export interface MainBanner {
 export class MainService {
     constructor(private readonly supabaseService : SupabaseService) {};
 
-    async getActiveBanners(): Promise<MainBanner[]> {
+    async getBannersByType(type : 'slider' | 'middle' = 'slider') : Promise<MainBanner[]> {
         const { data, error } = await this.supabaseService.client
-            .from("main_banners")
-            .select('id, title, description, footer, image_path, image_url, link_url, is_active, display_order')
+            .from('main_banners')
+            .select('id, title, description, footer, image_path, image_url, link_url, is_active, display_order, banner_type')
             .eq('is_active', true)
-            .order('display_order', { ascending : true});
+            .eq('banner_type', type)
+            .order('display_order', {
+                ascending : true
+            })
 
-        if(error) {
-            throw new BadRequestException(error.message);
-        }
+            if(error) {
+                throw new BadRequestException('Failed to get a banner data')
+            }
 
-        return data || [];
+            return data || [];
     }
+    
+    
 }
