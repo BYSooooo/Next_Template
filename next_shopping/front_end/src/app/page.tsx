@@ -22,24 +22,28 @@ async function getBackendStatus() {
 
 
 export default async function Page() {
-    // Check Back End Connection
-    const data = await getBackendStatus();
+    const statusData = await getBackendStatus();
 
-    const banners = data.status === 'ok'
-        ? await getMainBanners()
-        : [];
+    const [sliderBanners, middleBanners] = statusData.status === 'ok'
+        ? await Promise.all([
+            getMainBanners('slider'),
+            getMainBanners('middle')
+        ]) : [[], []];
+
+    const middleBanner = middleBanners.length > 0 ? middleBanners[0] : undefined;
+
 
     return (
         <>
-            { data.status === 'ok' && 
+            {statusData.status === 'ok' && (
                 <div className="flex flex-col gap-6">
                     <MainSearchBar />
-                    <MainCardSlider initialBanners={banners}/>
-                    <MainMiddleBanner />
+                    <MainCardSlider initialBanners={sliderBanners}/>
+                    <MainMiddleBanner banner={middleBanner}/>
                     <MainTab />
+                
                 </div>
-            }
-        
+            )}
         </>
         
     )
