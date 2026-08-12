@@ -19,7 +19,7 @@ export default function MainMiddleBanner({banner} : MainMiddleBannerProps) {
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.01]"
                 />
             ) : (
-                <div className="w-full h-full flex flex-col justify-center px-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                <div className="w-full h-full flex flex-col justify-center px-8 bg-linear-to-r from-blue-600 to-indigo-600 text-white">
                     <h3 className="text-xl font-bold">{banner.title}</h3>
                     {banner.description && <p className="text-sm opacity-90 mt-1">{banner.description}</p>}
                 </div>

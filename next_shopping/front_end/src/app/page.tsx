@@ -32,7 +32,6 @@ export default async function Page() {
 
     const middleBanner = middleBanners.length > 0 ? middleBanners[0] : undefined;
 
-
     return (
         <>
             {statusData.status === 'ok' && (

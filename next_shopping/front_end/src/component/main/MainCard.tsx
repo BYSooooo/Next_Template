@@ -1,20 +1,33 @@
 import { Button, Card } from "@heroui/react";
+import Image from "next/image";
 
 interface CardProp {
     title : string,
     footer? : string,
-    desc? : string
+    desc? : string,
+    image_url? : string,
+    link_url? : string
+
 }
 
-export default function MainCard({title, footer, desc} : CardProp) {
+export default function MainCard({title, footer, desc, image_url, link_url} : CardProp) {
     
-
     return (
-        <Card className="max-w-80 min-h-100 bg-gray-100 shadow-accent-soft embla__slide">
-            <Card.Title className="font-bold text-xl">
+        <Card className="max-w-80 min-h-100 bg-gray-100 shadow-accent-soft embla__slide overflow-hidden">
+            { image_url && (
+                <Image 
+                    src={image_url}
+                    fill
+                    alt={title}
+                    sizes="(max-width: 768px) 100vw, 320px"
+                    priority
+                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover select-none opacity-70"
+                />
+            )}
+            <Card.Title className="font-bold text-xl z-20">
                 {title}
             </Card.Title>
-            <Card.Footer className="z-10 mt-auto">
+            <Card.Footer className="z-20 mt-auto">
                 <div className="w-full flex flex-row justify-between">
                     <div className="flex flex-col">
                         <div className="text-base font-bold ">
@@ -24,7 +37,7 @@ export default function MainCard({title, footer, desc} : CardProp) {
                             {desc}
                         </div>
                     </div>
-                    <Button variant="outline">
+                    <Button variant="tertiary">
                         More
                     </Button>
                 </div>
