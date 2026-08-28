@@ -45,8 +45,6 @@ export async function getProductDetail(productId : string) : Promise<ProductDeta
         if(!res.ok) { return null };
         return await res.json();
 
-        //...[]
-
     } catch (error) {
         return null;
     }
