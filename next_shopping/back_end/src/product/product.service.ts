@@ -50,7 +50,7 @@ export class ProductService {
 
     async getCategoryTree() : Promise<CategoryNode[]> {
         const { data, error } = await this.supabaseService.client
-            .from('categories')
+            .from('category')
             .select('*')
             .eq('is_active', true)
             .order('display_order', {
@@ -63,11 +63,11 @@ export class ProductService {
         const rootCategories: CategoryNode[] =[];
 
         data.forEach((item)=> {
-            const node = categoryMap.get(item.id);
+            const node = categoryMap.get(item.id)!;
             if(item.parent_id && categoryMap.has(item.parent_id)) {
                 categoryMap.get(item.parent_id)!.children!.push(node!)
             } else {
-                rootCategories.push(node!)
+                rootCategories.push(node);
             }
         });
         return rootCategories;
@@ -75,12 +75,21 @@ export class ProductService {
 
     async getProductDetail(productId : string): Promise<ProductDetailResponse> {
         const { data : product, error } = await this.supabaseService.client
-            .from('products')
-            .select('*')
+            .from('product')
+            .select(`
+                *,
+                product_image (id, image_url, image_type, sort_order),
+                product_option (id, option_name, additional_price, stock_quantity)
+            `)
             .eq('id', productId)
-            .single()
+            .maybeSingle();
         
-        if(error || !product) {
+        if(error) {
+            console.log(error)
+            throw new NotFoundException(`Database Error : ${error.message}`)
+        }
+
+        if(!product) {
             throw new NotFoundException('No Product');
         }
 
@@ -89,7 +98,10 @@ export class ProductService {
         const discountRate = product.discount_rate || 0;
         const discountedPrice = Math.floor(product.price * (1 - discountRate / 100));
 
-        const sortedImages = (product.images || []).sort(
+        const rawImages: ProductImage[] = product.product_image || [];
+        const rawOptions : ProductOption[] = product.product_option || [];
+
+        const sortedImages = rawImages.sort(
             (a: ProductImage, b : ProductImage) => (a.sort_order || 0) - (b.sort_order || 0)
         );
 
@@ -108,7 +120,7 @@ export class ProductService {
             created_at: product.created_at,
             category_path: categoryPath,
             images: sortedImages,
-            options: product.options || []
+            options: rawOptions
         }
     }
 
@@ -120,7 +132,7 @@ export class ProductService {
 
         while(currentId) {
             const { data } : { data : CategoryNode | null } = await this.supabaseService.client
-                .from('categories')
+                .from('category')
                 .select('id, parent_id, name, depth, display_order, icon_url')
                 .eq('id', currentId)
                 .single();

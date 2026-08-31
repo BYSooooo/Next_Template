@@ -6,6 +6,7 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { MainModule } from './main/main.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { MainModule } from './main/main.module';
     SupabaseModule,
     AuthModule,
     ProfileModule,
-    MainModule
+    MainModule,
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

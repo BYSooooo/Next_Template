@@ -22,10 +22,14 @@ export default function Page() {
 
         getProductDetail(productId)
             .then((data)=> {
+                if(!data) return;
+
                 setProduct(data);
+                
                 if(data.images && data.images.length > 0) {
                     setSelectedImage(data.images[0].image_url)
                 }
+
                 if(data.options && data.options.length > 0) {
                     setSelectedOptionId(data.options[0].id);
                 }
@@ -48,6 +52,7 @@ export default function Page() {
 
         const selectedOption = product.options.find((option)=> option.id === selectedOptionid) || product.options[0];
         const additionalPrice = selectedOption ? selectedOption.additional_price : 0;
+        
         const unitPrice = product.discount_rate + additionalPrice;
         const totalPrice = unitPrice * quantity;
 
@@ -76,7 +81,20 @@ export default function Page() {
 
                     <div className='space-y-4'>
                         <div className='w-full aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200'>
-                            
+                            {selectedImage ? (
+                                <img 
+                                    src={selectedImage}
+                                    alt={product.name}
+                                    className='w-full h-full object-cover'
+                                />
+                            ) : (
+                                <div className='w-full h-full flex items-center justify-center text-gray-400'>
+                                    No Image
+                                </div>  
+
+                            )}
+                            {//...
+                            }
                         </div>
                     </div>
                 </div>
