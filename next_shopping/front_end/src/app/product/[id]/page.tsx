@@ -93,8 +93,24 @@ export default function Page() {
                                 </div>  
 
                             )}
-                            {//...
-                            }
+                            {product.images.length > 1 && (
+                                <div className='flex gap-2 overflow-x-auto pb-2'>
+                                    {product.images.map((image)=> (
+                                        <button 
+                                            key={image.id}
+                                            onClick={()=> setSelectedImage(image.image_url)}
+                                            className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 ${
+                                                selectedImage === image.image_url ? 'border-black' : 'border-gray-200'
+                                            }`}
+                                            >
+                                            <img 
+                                                src={image.image_url}
+                                                alt="Thumbnail"
+                                                className='w-full h-full object-cover'/>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
