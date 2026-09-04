@@ -112,6 +112,31 @@ export default function Page() {
                                 </div>
                             )}
                         </div>
+
+                        <div className='flex flex-col justify-between'>
+                            <div className='space-y-4'>
+                                {product.delivery_type === 'EARLY_MORNING' && (
+                                    <span className='inline-block bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded'>
+                                        Early Delivery
+                                    </span>
+                                )}
+                                <div className='text-2xl font-bold text-gray-900'>
+                                    {product.name}
+                                </div>
+
+                                <div className='border-b border-gray-100 pb-4'>
+                                    <div className='flex- items-baseline gpa-2'>
+                                        {product.discount_rate > 0 && (
+                                            <span className="text-2xl font-extrabold text-red-500">
+                                                {product.discount_rate}% 
+                                            </span>
+                                        )}
+                                        {/* */}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
