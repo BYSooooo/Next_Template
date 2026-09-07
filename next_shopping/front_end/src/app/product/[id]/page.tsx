@@ -131,9 +131,43 @@ export default function Page() {
                                                 {product.discount_rate}% 
                                             </span>
                                         )}
-                                        {/* */}
+                                        <span className='text-3xl font-extrabold text-gray-900'>
+                                            {unitPrice.toLocaleString()}
+                                        </span>
+                                        {product.discount_rate > 0 && (
+                                            <span className='text-sm text-gray-400 line-through'>
+                                                {(product.price + additionalPrice).toLocaleString()}Won
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
+
+                                { product.origin && (
+                                    <div className='text-xs text-gray-500'>
+                                        Country of Origin : <span className='font-medium text-gray-700'> 
+                                            {product.origin}
+                                        </span>
+                                    </div>
+                                )}
+
+                                { product.options && product.options.length > 0 && (
+                                    <div className='space-y-2 pt-2'>
+                                        <label className='block text-sm font-semibold text-gray-700'>Select</label>
+                                        <select
+                                            value={selectedOptionid}
+                                            onChange={(e)=> setSelectedOptionId(e.target.value)}
+                                            className='w-full p-3 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2'>
+                                            {product.options.map((option)=> (
+                                                <option key={option.id} value={option.id}>
+                                                    {option.option_name}
+                                                    {option.additional_price > 0 ? ` (+${option.additional_price.toLocaleString()}Won)` : ''}
+
+                                                </option>
+                                            ))}
+
+                                        </select>
+                                    </div>
+                                )}
                             </div>
 
                         </div>
