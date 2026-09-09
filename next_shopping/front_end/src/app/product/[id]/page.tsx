@@ -168,8 +168,47 @@ export default function Page() {
                                         </select>
                                     </div>
                                 )}
+
+                                <div className='flex items-center justify-between pt-4 border-t border-gray-100'>
+                                    <span className='text-sm font-semibold text-gray-700'>
+                                        EA
+                                    </span>
+                                    <div className='flex items-center border border-gray-300 rounded-lg overflow-hidden'>
+                                        <button 
+                                            onClick={()=> handleQuantityChange('minus')}
+                                            className='px-3 py-1.5 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold'>
+                                                -
+                                        </button>
+                                        <span className='px-4 text-sm font-medium'>
+                                            {quantity}
+                                        </span>
+                                        <button
+                                            onClick={() => handleQuantityChange('plus')}
+                                            className="px-3 py-1.5 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold">
+                                                +
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
+                            <div className='space-y-4 pt-6 border-t border-gray-200 mt-6'>
+                                <div className='flex justify-between items-end'>
+                                    <span className='text-sm font-semibold text-gray-600'>
+                                        Amount
+                                    </span>
+                                    <span className='text-2xl font-black text-black'>
+                                        {totalPrice.toLocaleString()}Won
+                                    </span>
+                                </div>
+                            </div>
+                            <div className='grid grid-cols-2 gap-3'>
+                                <button className='py-4 border border-black text-black font-bold rounded-lg hover:bg-gray-50 transition'>
+                                    Cart    
+                                </button>
+                                <button className='py-4 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition'>
+                                    Buy now
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
