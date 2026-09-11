@@ -15,7 +15,7 @@ export default function Page() {
     const [ selectedImage, setSelectedImage ] = React.useState("");
     const [ selectedOptionid, setSelectedOptionId] = React.useState("");
     const [ quantity, setQuantity ] = React.useState<number>(1);
-    const [ activeTab, setActiveTab ] = React.useState<'deatil' | 'review' | 'qna' | 'delivery'>('deatil');
+    const [ activeTab, setActiveTab ] = React.useState<'detail' | 'review' | 'qna' | 'delivery'>('detail');
 
     React.useEffect(()=> {
         if(!productId) return;
@@ -209,6 +209,57 @@ export default function Page() {
                                     Buy now
                                 </button>
                             </div>
+                        </div>
+
+                        <div className='border-b border-gray-200 mb-8'>
+                                <div className='flex gap-8 text-sm font-semibold'>
+                                    {[
+                                        { key : "detail",   label : 'detail'  },
+                                        { key : "review",   label : 'review'  },
+                                        { key : "qna",      label : 'QnA'     },
+                                        { key : "delivery", label : 'Delivery'}
+                                    ].map((tab)=> (
+                                        <button
+                                            key={tab.key}
+                                            onClick={()=> setActiveTab(tab.key as any)}
+                                            className={
+                                                `pb-4 border-b-2 transition-colors 
+                                                ${activeTab === tab.key
+                                                    ? 'border-black text-black' 
+                                                    : 'border-transparent text-gray-400 hover:text-gray-600'
+                                                }`}>
+                                            {tab.label}
+                                        </button>
+                                    ))}
+                                </div>
+                        </div>
+
+                        <div className="min-h-75">
+                            { activeTab === "detail" && (
+                                <div className='space-y-6'>
+                                    <h3 className='text-lg font-bold'>Detail</h3>
+                                    <div className='flex flex-col items-center gap-4'>
+                                        {product.images
+                                            .filter((img)=> img.image_type === 'GALLERY' || img.image_type === 'DETAIL')
+                                            .map((img)=> (
+                                                <img
+                                                    key={img.id}
+                                                    src={img.image_url}
+                                                    alt='Detail image'
+                                                    className='max-w-full rounded-lg'>
+                                                </img>
+                                            ))}
+                                    </div>
+                                </div>
+                            )}
+                            {activeTab === 'review' && <div className="text-gray-500">No Review.</div>}
+                            {activeTab === 'qna' && <div className="text-gray-500">No QnA.</div>}
+                            {activeTab === 'delivery' && (
+                                <div className="text-sm text-gray-600 space-y-2">
+                                    <p><strong>Deilvery : </strong> {product.delivery_type === 'EARLY_MORNING' ? 'Early Morning' : 'Nomal Delivery'}</p>
+                                    <p><strong>Delivery Fee : </strong> 3,000 </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
