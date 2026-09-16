@@ -3,7 +3,7 @@ import SearchField from "./item/SearchField";
 
 export default function MainSearchBar() {
     return (
-        <section className="w-full bg-yellow-400 border-b-2 border-black/10">
+        <section className="w-full bg-yellow-400 ">
             <div className="inner-container flex justify-center py-6 px-4 md:py-8">
                 <div className="flex items-center gap-2.5 md:gap-3 w-full max-w-4xl">
                     {/* Logo Area */}

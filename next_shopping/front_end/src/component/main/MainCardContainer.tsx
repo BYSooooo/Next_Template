@@ -85,7 +85,7 @@ export default function MainCardSlider({ initialBanners } : MainCardSilderProps)
     
 
     return (
-        <div className='relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]'>
+        <div className='relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mt-2'>
             <div className="embla relative max-w-7xl mx-auto px-4" >
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
