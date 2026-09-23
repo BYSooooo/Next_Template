@@ -105,6 +105,8 @@ export class ProductService {
             (a: ProductImage, b : ProductImage) => (a.sort_order || 0) - (b.sort_order || 0)
         );
 
+        console.log(product)
+
         return {
             id : product.id,
             name : product.name,

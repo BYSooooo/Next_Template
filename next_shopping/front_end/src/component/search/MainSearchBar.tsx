@@ -1,7 +1,23 @@
+'use client';
+
+import React from 'react';
+
 import SearchButton from "./item/SearchButton";
 import SearchField from "./item/SearchField";
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 export default function MainSearchBar() {
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [keyword, setKeyword] = React.useState(searchParams.get("q") || "");
+
+    const handleSearch = ()=> {
+        if (!keyword.trim()) return;
+        router.push(`/search?q=${encodeURIComponent(keyword.trim())}`)
+    }
+
     return (
         <section className="w-full bg-yellow-400 ">
             <div className="inner-container flex justify-center py-6 px-4 md:py-8">
@@ -14,11 +30,14 @@ export default function MainSearchBar() {
                     </div>
 
                     <div className="grow min-w-0">
-                        <SearchField />
+                        <SearchField 
+                            keyword={keyword}
+                            setKeyword={setKeyword}
+                            onSearch={handleSearch}/>
                     </div>
 
                     <div className="flex-none">
-                        <SearchButton />
+                        <SearchButton onSearch={handleSearch}/>
                     </div>
 
                 </div>

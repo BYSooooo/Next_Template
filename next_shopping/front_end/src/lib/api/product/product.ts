@@ -49,3 +49,22 @@ export async function getProductDetail(productId : string) : Promise<ProductDeta
         return null;
     }
 }
+
+export async function searchProducts(query: string, sortBy : string = 'Popular') {
+    if(!query) return [];   
+
+    const encodeQuery = encodeURIComponent(query)
+
+    const res = await fetch(
+        `${API_URL}/product/search?q=${encodeQuery}&sort=${sortBy}`,
+        { cache : 'no-cache'}
+    );
+
+    if(!res.ok) {
+        throw new Error('Failed to fetch search results')
+    };
+
+    return res.json();
+
+
+}

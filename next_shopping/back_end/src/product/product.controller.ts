@@ -16,4 +16,7 @@ export class ProductController {
     async getProductDetail(@Param('id') id: string) : Promise<ProductDetailResponse> {
         return await this.productService.getProductDetail(id);
     }
+
+    // Get /product/search
+    //...
 }
