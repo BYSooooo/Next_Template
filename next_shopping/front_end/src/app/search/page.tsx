@@ -3,13 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { ProductDetailResponse } from '@/lib/api/product/product';
+import { ProductDetailResponse, searchProducts } from '@/lib/api/product/product';
 
 const formatCurrency = (amount: number) => {
     return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
-export default function Page() {
+function SsearchResultsContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q') || '';
 
@@ -18,15 +18,23 @@ export default function Page() {
     const [sortBy, setSortBy] = React.useState<'popular' | 'low-price' | 'high-price'>('popular');
 
     React.useEffect(()=> {
+
+        if(!query.trim()){
+            setProducts([]);
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
+        searchProducts(query, sortBy)
+            .then((data)=> setProducts(data))
+            .catch((error)=> {
+                console.error('Failed to search products : ', error);
+                setProducts([])
+            })
+            .finally(()=> setLoading(false))
 
-        // TODO: Search Logic
-        const timer = setTimeout(()=> {
-            setLoading(false)
-        }, 400);
-
-        return () => clearTimeout(timer)
-    },[query, sortBy])
+    },[query, sortBy]);
 
     return (
         <div className='max-w-6xl mx-auto px-4 py-8 font-sans text-gray-800'>
@@ -42,7 +50,7 @@ export default function Page() {
                                 </span>
                             </>
                         ): (
-                            'All Products'
+                            'Please enter a search keyword'
                         )}
                     </h1>
                 </div>
@@ -70,14 +78,18 @@ export default function Page() {
                             <div className='w-full aspect-square bg-gray-200 rounded-2xl' />
                             <div className='h-4 bg-gray-200 rounded w-3/4'/>
                             <div className='h-4 bg-gray-200 rounded w-1/2'/>
-                            
                         </div>
                     ))}
                 </div>
             ) : products.length === 0 ? (
-                <div className='py-20 text-center space-y-4'>
+                <div className='py-20 text-center space-y-3'>
                     <div className='inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 text-yellow-600 mb-2'>
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
+                    <h3 className='text-lg font-bold text-gray-900'>No results found</h3>
+                    <p className='text-sm text-gray-500'>Try searching with a different keyword or check spelling.</p>
                 </div>
             ) : (
                 <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6'>
@@ -134,5 +146,17 @@ export default function Page() {
                 </div>
             )}
         </div>
+    )
+}
+
+export default function Page() {
+    return (
+        <React.Suspense fallback={
+            <div className='p-12 text-center text-gray-400'>
+                Loading Page...
+            </div>
+        }>
+            <SsearchResultsContent />
+        </React.Suspense>
     )
 }
