@@ -4,8 +4,7 @@ import React from 'react';
 
 import SearchButton from "./item/SearchButton";
 import SearchField from "./item/SearchField";
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function MainSearchBar() {
 

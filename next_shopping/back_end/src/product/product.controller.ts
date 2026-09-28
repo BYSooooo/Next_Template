@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 import { CategoryNode, ProductDetailResponse, ProductService } from "./product.service";
 
 @Controller('product')
@@ -11,12 +11,19 @@ export class ProductController {
         return await this.productService.getCategoryTree();
     }
 
+    @Get('search')
+    async searchProducts(
+        @Query('q') query: string,
+        @Query('sort') sort? : string
+    ) : Promise<ProductDetailResponse[]> {
+        return await this.productService.searchProducts(query,sort);
+    }
+
+
     // GET /product/:id
     @Get(':id')
     async getProductDetail(@Param('id') id: string) : Promise<ProductDetailResponse> {
         return await this.productService.getProductDetail(id);
     }
 
-    // Get /product/search
-    //...
 }

@@ -73,6 +73,42 @@ export class ProductService {
         return rootCategories;
     }
 
+    async searchProducts(query : string, sort : string = 'popular') : Promise<ProductDetailResponse[]> {
+        const trimmedQuery = query?.trim();
+        if(!trimmedQuery) return [];
+
+        let builder = this.supabaseService.client
+            .from('product')
+            .select(`
+                *,
+                product_image (id, image_url, image_type, sort_order),
+                product_option (id, option_name, additional_price, stock_quantity)
+                `)
+            .eq('status', 'ON_SALE')
+            .or(`name.like.%${trimmedQuery}%, subtitle.ilike.%${trimmedQuery}%`)
+
+        if(sort === 'low-price') {
+            builder = builder.order('price', { ascending : true});
+        } else if(sort === 'high-price') {
+            builder = builder.order('price', { ascending : false})
+        } else {
+            builder = builder.order('created_at', { ascending : false})
+        }
+
+        const { data : products, error } = await builder;
+
+        if(error) {
+            console.error('Search error : ', error);
+            throw new NotFoundException(`Database Error : ${error.message}`)
+        }
+
+        if(!products || products.length === 0) {
+            return [];
+        }
+
+        //....
+    }
+
     async getProductDetail(productId : string): Promise<ProductDetailResponse> {
         const { data : product, error } = await this.supabaseService.client
             .from('product')
