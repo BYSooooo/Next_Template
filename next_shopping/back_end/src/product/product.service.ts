@@ -106,7 +106,38 @@ export class ProductService {
             return [];
         }
 
-        //....
+        const mappedProducts: ProductDetailResponse[] = await Promise.all(
+            products.map(async (product) => {
+                const discountRate = product.discount_rate || 0;
+                const discountedPrice = Math.floor(product.price * (1 - discountRate / 100));
+
+                const rawImages : ProductImage[] = product.product_image || [];
+                const rawOptions : ProductOption[] = product.product_option || [];
+
+                const sortedImages = rawImages.sort(
+                    (a: ProductImage, b: ProductImage) => (a.sort_order || 0) - (b.sort_order || 0)
+                );
+
+                return {
+                    id: product.id,
+                    name: product.name,
+                    subtitle: product.subtitle,
+                    price: product.price,
+                    discount_rate: discountRate,
+                    discounted_price: discountedPrice,
+                    stock_quantity: product.stock_quantity,
+                    origin: product.origin,
+                    delivery_type: product.delivery_type,
+                    is_alcohol: product.is_alcohol,
+                    status: product.status,
+                    created_at: product.created_at,
+                    category_path: [], 
+                    images: sortedImages,
+                    options: rawOptions
+                };
+            })
+        );
+        return mappedProducts;
     }
 
     async getProductDetail(productId : string): Promise<ProductDetailResponse> {
