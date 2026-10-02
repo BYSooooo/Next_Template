@@ -100,7 +100,7 @@ function SsearchResultsContent() {
                         return (
                             <Link
                                 key={product.id}
-                                href={`/products/${product.id}`}
+                                href={`/product/${product.id}`}
                                 className='group flex flex-col bg-white rounded-2xml border border-gray-200 overflow-hidden hover:border-black hover:shadow-lg transition-all duration-200'>
                                 <div className='relative w-full aspect-square bg-gray-100 overflow-hidden'>
                                     { mainImage ? (

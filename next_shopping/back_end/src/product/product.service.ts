@@ -137,6 +137,7 @@ export class ProductService {
                 };
             })
         );
+        console.log(mappedProducts)
         return mappedProducts;
     }
 

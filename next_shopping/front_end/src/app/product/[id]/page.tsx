@@ -20,6 +20,8 @@ export default function Page() {
     const [ activeTab, setActiveTab ] = React.useState<'detail' | 'review' | 'qna' | 'delivery'>('detail');
 
     React.useEffect(()=> {
+
+        console.log(productId)
         if(!productId) return;
 
         getProductDetail(productId)
