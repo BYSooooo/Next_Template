@@ -128,8 +128,21 @@ export default function Page(){
                     <Chip className='bg-yellow-400 text-black font-extrabold text-xs px-2 rounded-md'>
                         SPECIAL EVENT
                     </Chip>
+                    <span className="text-xs font-semibold text-gray-500">
+                        {event.start_date?.slice(0, 10)} ~ {event.end_date?.slice(0, 10)}
+                    </span>
                 </div>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-black">
+                    {event.title}
+                </h1>
+                {event.description && (
+                    <p className="text-sm md:text-base text-gray-600 whitespace-pre-line leading-relaxed">
+                        {event.description}
+                    </p>
+                )}
             </div>
         </div>
+
+        
     )
 }
