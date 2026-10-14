@@ -1,6 +1,7 @@
 
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { Button, Chip, Spinner } from '@heroui/react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -90,7 +91,7 @@ export default function Page(){
     const paginatedProducts = event.products?.slice (
         (page - 1) * rowsPerPage,
         page * rowsPerPage
-    ) || []
+    ) || [];
 
     return (
         <div className='max-w-7xl mx-auto px-4 py-8 space-y-8'>
@@ -121,24 +122,91 @@ export default function Page(){
                         </div>
                     )}
                 </div>
+            
+
+                <div className='space-y-2 pt-2'>
+                    <div className='flex items-center gap-2'>
+                        <Chip className='bg-yellow-400 text-black font-extrabold text-xs px-2 rounded-md'>
+                            SPECIAL EVENT
+                        </Chip>
+                        <span className="text-xs font-semibold text-gray-500">
+                            {event.start_date?.slice(0, 10)} ~ {event.end_date?.slice(0, 10)}
+                        </span>
+                    </div>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-black">
+                        {event.title}
+                    </h1>
+                    {event.description && (
+                        <p className="text-sm md:text-base text-gray-600 whitespace-pre-line leading-relaxed">
+                            {event.description}
+                        </p>
+                    )}
+                </div>
             </div>
 
-            <div className='space-y-2 pt-2'>
-                <div className='flex items-center gap-2'>
-                    <Chip className='bg-yellow-400 text-black font-extrabold text-xs px-2 rounded-md'>
-                        SPECIAL EVENT
-                    </Chip>
-                    <span className="text-xs font-semibold text-gray-500">
-                        {event.start_date?.slice(0, 10)} ~ {event.end_date?.slice(0, 10)}
-                    </span>
+            <hr className='border-gray-200' />
+
+            <div className='space-y-6'>
+                <div className='flex items-center justify-between'>
+                    <h2 className='text-lg md:text-xl font-bold text-black'>
+                        Event Items 
+                        <span className='text-yellow-600 font-extrabold'>
+                            ({event.products?.length || 0})
+                        </span>
+                    </h2>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-black">
-                    {event.title}
-                </h1>
-                {event.description && (
-                    <p className="text-sm md:text-base text-gray-600 whitespace-pre-line leading-relaxed">
-                        {event.description}
-                    </p>
+                { paginatedProducts.length > 0 ? (
+                    <div className='grid grid-cols-2 sm:grid-cols-3 md:gird-cols-4 gap-4 md:gap-6'>
+                        {paginatedProducts.map((product)=> {
+                            const mainImage = product.images?.[0]?.image_url;
+                            const discountedPrice = Number(product.discounted_price || product.price);
+
+                            return (
+                                <Link 
+                                    key={product.id}
+                                    href={`/product/${product.id}`}
+                                    className='group flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden hover:border-black hover:shadow-lg transition-all duration-200'>
+                                    <div className='relative w-full aspect-square bg-gray-100 overflow-hidden'>
+                                        {mainImage ? (
+                                            <img 
+                                                src={mainImage}
+                                                alt={product.name}
+                                                className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                                            />
+                                        ) : (
+                                            <div className='w-full h-full flex items-center justify-center text-gray-400 text-xs'>
+                                                No Image
+                                            </div>
+                                        )}
+                                        {product.discount_rate > 0 && (
+                                            <span className='absolute top-2 left-2 bg-yellow-400 text-black text-xs font-extrabold px-2 py-1 rounded-md shadow-sm'>
+                                                {product.discount_rate}% OFF
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div className='p-4 flex flex-col justify-between flex-grow space-y-2'>
+                                        <div>
+                                            <h3 className='text-sm font-bold text-gray-900'>
+                                                {product.name}
+                                            </h3>
+                                            {product.subtitle && (
+                                                <p className='text-xs text-gray-400'>
+                                                    {product.subtitle}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            {/*... */}
+                                        </div>
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                    </div>
+                ):( 
+
                 )}
             </div>
         </div>
