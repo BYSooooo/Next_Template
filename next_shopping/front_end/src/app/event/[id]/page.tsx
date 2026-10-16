@@ -1,6 +1,7 @@
+"use client";
 
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { Button, Chip, Spinner } from '@heroui/react';
+import { Button, Chip, Pagination, Spinner } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -26,6 +27,10 @@ interface EventDetail {
     end_date : string;
     is_active : boolean;
     products : Product[]
+}
+
+const formatCurrency = (amount: number)=> {
+    return `$${amount.toLocaleString('en-US', { minimumFractionDigits : 2, maximumFractionDigits : 2})}`;
 }
 
 export default function Page(){
@@ -197,8 +202,10 @@ export default function Page(){
                                             )}
                                         </div>
 
-                                        <div>
-                                            {/*... */}
+                                        <div className='pt-2 border-t border-gray-100 flex items-baseline gap-1.5'>
+                                            <span className='text-base font-black text-gray-900'>
+                                                {formatCurrency(Number(product.price))}
+                                            </span>
                                         </div>
                                     </div>
                                 </Link>
@@ -206,7 +213,11 @@ export default function Page(){
                         })}
                     </div>
                 ):( 
-
+                    <div className='text-center py-16 bg-gray-50 rounded-2xl border border-gray-100'>
+                        <p className='text-sm font-medium text-gray-500'>
+                            No products assigned to this event yet.
+                        </p>
+                    </div>
                 )}
             </div>
         </div>

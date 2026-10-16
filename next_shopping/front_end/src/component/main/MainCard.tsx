@@ -1,7 +1,9 @@
 import { Button, Card } from "@heroui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CardProp {
+    id : string,
     title : string,
     footer? : string,
     desc? : string,
@@ -10,7 +12,12 @@ interface CardProp {
 
 }
 
-export default function MainCard({title, footer, desc, image_url, link_url} : CardProp) {
+export default function MainCard({id, title, footer, desc, image_url, link_url} : CardProp) {
+    const router = useRouter()
+
+    const onClickMore = (id : string, link_url : string)=> {
+        router.push(`/event/${id}`)
+    }
     
     return (
         <Card className="max-w-80 min-h-100 bg-gray-100 shadow-accent-soft embla__slide overflow-hidden">
@@ -38,7 +45,9 @@ export default function MainCard({title, footer, desc, image_url, link_url} : Ca
                             {desc}
                         </div>
                     </div>
-                    <Button variant="tertiary">
+                    <Button
+                        onClick={()=> onClickMore(id, link_url) } 
+                        variant="tertiary">
                         More
                     </Button>
                 </div>

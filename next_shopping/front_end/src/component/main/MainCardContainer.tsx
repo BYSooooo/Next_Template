@@ -92,10 +92,12 @@ export default function MainCardSlider({ initialBanners } : MainCardSilderProps)
                         { displayCards.map((card, index)=> (
                             <MainCard 
                                 key={`${card.id}-${index}`}
+                                id={card.id}
                                 title={card.title}
                                 footer={card.footer}
                                 desc={card.description}
                                 image_url={card.image_url}
+                                link_url={card.link_url}
                             />
                             )
                         )}

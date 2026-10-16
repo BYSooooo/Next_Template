@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { MainModule } from './main/main.module';
 import { ProductModule } from './product/product.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { ProductModule } from './product/product.module';
     AuthModule,
     ProfileModule,
     MainModule,
-    ProductModule
+    ProductModule,
+    EventModule
   ],
   controllers: [AppController],
   providers: [AppService],
