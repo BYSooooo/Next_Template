@@ -1,10 +1,29 @@
+"use client";
+import React from 'react';
 import { Input } from "@heroui/react";
 
-export default function SearchField() {
+interface SearchFieldProps {
+    keyword : string;
+    setKeyword : (value:string)=> void
+    onSearch: ()=> void
+}
+
+export default function SearchField({keyword, setKeyword, onSearch} : SearchFieldProps) {
+
+    const handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === 'Enter') {
+            onSearch()
+        }
+    }
 
     return (
         <Input 
+            value={keyword}
+            onChange={(e)=>setKeyword(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder='Search keyword'
             fullWidth
-            className="border-solid col-span-3 rounded-3xl border-4 border-black h-16 text-xl"/>
+            className="h-14 bg-white text-black text-lg font-medium rounded-2xl px-4 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+            />
     )
 }

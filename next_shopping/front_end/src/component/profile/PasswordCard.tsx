@@ -4,10 +4,13 @@ import React from 'react';
 
 import { Button, Card, Description, Input, Label, TextField } from "@heroui/react";
 import { useAuthStore } from '@/zustand/useAuthStore';
+import { useModalStore } from '@/zustand/useModalStore';
+import PwChangeModal from '../common/modal/PwChangeModal';
 
 export default function PasswordCard() {
 
     const { user } = useAuthStore();
+    const { openModal } = useModalStore();
 
     const [curPassword, setCurPassword] = React.useState("");
     const [newPassword, setNewPassword] = React.useState('');
@@ -54,6 +57,7 @@ export default function PasswordCard() {
             setCurPassword('')
             setNewPassword('');
             setRePassword('');
+            openModal(<PwChangeModal />, "lg")
         } catch(error) {
             setErrorMsg(error.message)
         } finally {

@@ -27,7 +27,7 @@ export class ProfileService{
             .getPublicUrl(filePath);
         
         const { error : profileError } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .update({ avatar_url : publicUrl})
             .eq('id', id);
         
@@ -43,7 +43,7 @@ export class ProfileService{
 
     async resetAvatar(id : string) {
         const { error } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .update({ avatar_url : null})
             .eq('id', id);
         
@@ -86,7 +86,7 @@ export class ProfileService{
         };
 
         const { error : dbError } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .update({ email : newEmail})
             .eq('id', id);
 
@@ -109,7 +109,7 @@ export class ProfileService{
         };
 
         const { data, error } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .select('id')
             .eq('nickname', nickname)
             .maybeSingle();
@@ -140,7 +140,7 @@ export class ProfileService{
         }
 
         const { error } = await this.supabaseService.client
-            .from('Profiles')
+            .from('profiles')
             .update({ nickname })
             .eq('id', id);
         
