@@ -27,7 +27,33 @@ export interface EventDetailResponse {
 export class EventService {
     constructor (private readonly supabaseService : SupabaseService) {}
 
+    async getPromoDetail (promoId : string) {
+        const { data: promo } = await this.supabaseService.client
+        .from('promotions')
+        .select('*')
+        .eq('id', promoId)
+        .eq('is_active', true)
+        .lte('start_date', new Date().toISOString())
+        .or(`end_date.is.null,end_date.gte.${new Date().toISOString()}`)
+        .maybeSingle();
+
+        const { data: promoProducts } = await this.supabaseService.client
+            .from('promotion_products')
+            .select(`
+                display_order,
+                product:product_id (
+                    id, name, subtitle, price, discount_rate, status,
+                    product_image (id, image_url, sort_order)
+                )
+            `)
+            .eq('promotion_id', promoId)
+            .order('display_order', { ascending: true });
+    }
+
     async getEventDetail(eventId : string) : Promise<EventDetailResponse> {
+
+
+
         // 1. Get a Event Detail
         const { data : event, error : eventError } = await this.supabaseService.client
             .from('event')
