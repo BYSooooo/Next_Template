@@ -28,7 +28,7 @@ export class EventService {
     constructor (private readonly supabaseService : SupabaseService) {}
 
     async getPromoDetail (promoId : string) {
-        const { data: promo } = await this.supabaseService.client
+        const { data: promo, error : promoError } = await this.supabaseService.client
         .from('promotions')
         .select('*')
         .eq('id', promoId)
@@ -37,45 +37,19 @@ export class EventService {
         .or(`end_date.is.null,end_date.gte.${new Date().toISOString()}`)
         .maybeSingle();
 
-        const { data: promoProducts } = await this.supabaseService.client
+        if(promoError) {
+            console.error('Database Error:', promoError);
+            throw new NotFoundException(`Database Error : ${promoError}`);
+        }
+
+        if(!promo) {
+            throw new NotFoundException('Promotion not found, inactive, or expired.');
+        }
+
+        const { data: promoProducts, error: productError } = await this.supabaseService.client
             .from('promotion_products')
             .select(`
                 display_order,
-                product:product_id (
-                    id, name, subtitle, price, discount_rate, status,
-                    product_image (id, image_url, sort_order)
-                )
-            `)
-            .eq('promotion_id', promoId)
-            .order('display_order', { ascending: true });
-    }
-
-    async getEventDetail(eventId : string) : Promise<EventDetailResponse> {
-
-
-
-        // 1. Get a Event Detail
-        const { data : event, error : eventError } = await this.supabaseService.client
-            .from('event')
-            .select('*')
-            .eq('id', eventId)
-            .eq('is_active', true)
-            .maybeSingle();
-
-        
-        if(eventError) {
-            console.error('Database Error : ', eventError);
-            throw new NotFoundException(`Database Error : ${eventError.message}`)
-        }
-
-        if(!event){
-            throw new NotFoundException('Event not found or inactive');
-        };
-
-        // 2. get a Product List in this Event (JOIN product & product_image)
-        const { data : eventProducts, error : productError } = await this.supabaseService.client
-            .from('event_product')
-            .select(`
                 product:product_id (
                     id,
                     name,
@@ -85,27 +59,29 @@ export class EventService {
                     status,
                     created_at,
                     product_image (
-                        id, image_url, sort_order
+                        id,
+                        image_url,
+                        sort_order
                     )
                 )
             `)
-            .eq('event_id', eventId);
+            .eq('promotion_id', promoId)
+            .order('display_order', { ascending: true });
         
         if(productError) {
             console.error('Product Fetch Error : ', productError);
         }
 
-        //3. Manage Product data and calculate discount Rate
-        const products : EventProductItem[] = (eventProducts || [])
-            .map((item : any) => item.product)
+        const products: EventProductItem[] = (promoProducts || [])
+            .map((item:any) => item.product)
             .filter((p : any) => p && p.status === 'ON_SALE')
-            .map((p : any) => {
+            .map((p: any) => {
                 const discountRate = p.discount_rate || 0;
-                const discountedPrice = Math.floor(p.price * (1 - discountRate / 100))
+                const discountedPrice = Math.floor(p.price * (1 - discountRate / 100));
 
                 const rawImages = p.product_image || [];
                 const sortedImages = rawImages.sort(
-                    (a : any, b : any) => (a.sort_order || 0 ) - (b.sort_order || 0)
+                    (a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)
                 );
 
                 return {
@@ -119,15 +95,17 @@ export class EventService {
                     images: sortedImages.map((img: any) => ({ image_url: img.image_url })),
                 }
             });
+
         return {
-            id : event.id,
-            title : event.title,
-            description : event.description,
-            banner_url : event.banner_url,
-            start_date : event.start_date,
-            end_date : event.end_date,
-            is_active : event.is_active,
-            products
+            id: promo.id,
+            title: promo.title,
+            subtitle: promo.subtitle,
+            description: promo.description,
+            banner_url: promo.detail_banner_url || promo.image_url, // 상세 전용 배너가 없으면 일반 이미지 활용
+            start_date: promo.start_date,
+            end_date: promo.end_date,
+            is_active: promo.is_active,
+            products,
         }
     }
 }

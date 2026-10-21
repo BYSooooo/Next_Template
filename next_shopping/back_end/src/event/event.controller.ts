@@ -7,8 +7,8 @@ export class EventController {
 
     // Get /event/:id
     @Get(':id')
-    async getEventDetail(@Param('id') id : string) : Promise<EventDetailResponse> {
-        console.log(id)
-        return await this.eventService.getEventDetail(id);
+    async getPromodetail(@Param('id') promoId : string) : Promise<EventDetailResponse> {
+        console.log(promoId)
+        return await this.eventService.getPromoDetail(promoId);
     }
 }
