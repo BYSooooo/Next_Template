@@ -10,10 +10,24 @@ import { Spinner } from '@heroui/react';
 // Public Path - open to anybody
 const PUBLIC_ROUTE = [
     "/",
+    "/event/*",
+    "/search",
+    "/product/*",
     "/member/signup",
     "/login",
     "/member/info"
 ]
+
+const checkisPublicRoute = (pathname : string, routes : string[]) => {
+    return routes.some((route)=> {
+        try {
+            const pattern = new URLPattern({ pathname : route});
+            return pattern.test({ pathname })
+        } catch(e) {
+            return pathname === route;
+        }
+    })
+}
 
 export default function AuthProvider({ children } : {children : React.ReactNode}) {
     const pathname = usePathname();
@@ -38,7 +52,8 @@ export default function AuthProvider({ children } : {children : React.ReactNode}
     React.useEffect(()=> {
         if(!isInitialized) return;
 
-        const isProctedRoute = !PUBLIC_ROUTE.includes(pathname);
+        const isPublic = checkisPublicRoute(pathname, PUBLIC_ROUTE);
+        const isProctedRoute = !isPublic;
 
         if(isProctedRoute && !isSignIn) {
             openToast({
