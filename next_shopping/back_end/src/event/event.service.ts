@@ -15,6 +15,7 @@ export interface EventProductItem {
 export interface EventDetailResponse {
     id : string;
     title : string;
+    subtitle? : string;
     description : string;
     banner_url? : string;
     start_date : string;

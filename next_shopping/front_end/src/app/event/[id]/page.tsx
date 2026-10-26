@@ -1,33 +1,12 @@
 "use client";
 
+import { EventDetail, getEventDetail } from '@/lib/api/event/event';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { Button, Chip, Pagination, Spinner } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-
-interface Product {
-    id : string;
-    name : string;
-    subtitle? : string;
-    price : number;
-    discount_rate : number;
-    discounted_price : number;
-    status : 'ON_SALE' | 'SOLD_OUT' | 'HIDDEN';
-    images : { image_url : string }[];
-}
-
-interface EventDetail {
-    id : string;
-    title : string;
-    description : string;
-    banner_url : string;
-    start_date : string;
-    end_date : string;
-    is_active : boolean;
-    products : Product[]
-}
 
 const formatCurrency = (amount: number)=> {
     return `$${amount.toLocaleString('en-US', { minimumFractionDigits : 2, maximumFractionDigits : 2})}`;
@@ -51,10 +30,8 @@ export default function Page(){
             try {
                 setLoading(true);
                 // NestJS API Call
-                const response = await fetch(`/api/event/${eventId}`)
-                if (!response.ok) throw new Error('Error : Cannot find event information');
 
-                const data = await response.json();
+                const data = await getEventDetail(eventId)
                 setEvent(data)
             } catch(error) {
                 console.log(error)
