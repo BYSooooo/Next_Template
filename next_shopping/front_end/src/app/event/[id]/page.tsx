@@ -1,7 +1,8 @@
 "use client";
 
 import { EventDetail, getEventDetail } from '@/lib/api/event/event';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useToastStore } from '@/zustand/useToastStore';
+import { ArrowLeftIcon, ShareIcon } from '@heroicons/react/24/solid';
 import { Button, Chip, Pagination, Spinner } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -16,12 +17,15 @@ export default function Page(){
 
     const params = useParams();
     const router = useRouter();
+    const { openToast } = useToastStore();
+    
     const eventId = params?.id as string;
 
     const [event, setEvent] = React.useState<EventDetail | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
     const rowsPerPage = 8;
+    
 
     React.useEffect(()=> {
         if (!eventId) return;
@@ -42,6 +46,23 @@ export default function Page(){
 
         fetchEventDetail();
     },[eventId])
+
+    const handleShare = async() => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            openToast({
+                title : "Link Copied!",
+                description: "The event link has been copied to your clipboard.",
+                variant : 'default'
+            })
+        } catch (error) {
+            openToast({
+                title : "Copy Failed",
+                description : "Failed to copy the event link.",
+                variant : 'warning'
+            })
+        }
+    }
 
     if(loading) {
         return (
@@ -80,18 +101,21 @@ export default function Page(){
 
             <div className='flex items-center justify-between'>
                 <Button 
-                    isIconOnly
-                    variant='ghost'
+                    variant='outline'
                     onClick={()=> router.back()}>
                     <ArrowLeftIcon />
+                    Back
                 </Button>
-                <Button>
-                    
+                <Button
+                    variant='outline'
+                    onClick={handleShare}>
+                    <ShareIcon className='w-5 h-5 text-gray-700'></ShareIcon>
+                    Share Event
                 </Button>
             </div>
 
             <div className='space-y-4'>
-                <div className='relative w-full h-70 md:h-100 rounded-2xm overflow-hidden bg-gray-100 shadow-inner'>
+                <div className='relative w-full h-70 md:h-100 rounded-2xl overflow-hidden bg-gray-100 shadow-inner'>
                     { event.banner_url ? (
                        <img 
                             src={event.banner_url}
@@ -128,6 +152,13 @@ export default function Page(){
 
             <hr className='border-gray-200' />
 
+            {event.content_html && (
+                <div
+                    className='w-full bg-white rounded-2xl p-6 border border-gray-100 shadow-sm max-w-none'
+                    dangerouslySetInnerHTML={{ __html : event.content_html}} 
+                />
+            )}
+
             <div className='space-y-6'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-lg md:text-xl font-bold text-black'>
@@ -138,7 +169,7 @@ export default function Page(){
                     </h2>
                 </div>
                 { paginatedProducts.length > 0 ? (
-                    <div className='grid grid-cols-2 sm:grid-cols-3 md:gird-cols-4 gap-4 md:gap-6'>
+                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6'>
                         {paginatedProducts.map((product)=> {
                             const mainImage = product.images?.[0]?.image_url;
                             const discountedPrice = Number(product.discounted_price || product.price);

@@ -17,6 +17,7 @@ export interface EventDetailResponse {
     title : string;
     subtitle? : string;
     description : string;
+    content_html?: string;
     banner_url? : string;
     start_date : string;
     end_date : string;
@@ -102,6 +103,7 @@ export class EventService {
             title: promo.title,
             subtitle: promo.subtitle,
             description: promo.description,
+            content_html: promo.content_html || '',
             banner_url: promo.detail_banner_url || promo.image_url, // 상세 전용 배너가 없으면 일반 이미지 활용
             start_date: promo.start_date,
             end_date: promo.end_date,

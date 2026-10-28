@@ -14,6 +14,7 @@ export interface EventDetail {
     title : string;
     subtitle : string;
     description : string;
+    content_html?: string;
     banner_url : string;
     start_date : string;
     end_date : string;
