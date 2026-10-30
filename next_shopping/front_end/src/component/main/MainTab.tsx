@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Card, Description, Label, Tabs, Text } from "@heroui/react";
+import { Card, Description, Label, Tabs} from "@heroui/react";
 
 interface TabType {
     key : string;

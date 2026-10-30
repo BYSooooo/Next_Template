@@ -37,7 +37,8 @@ export default async function Page() {
                 <div className="flex flex-col gap-6">
                     <MainCardSlider initialBanners={sliderBanners}/>
                     <MainMiddleBanner banner={middleBanner}/>
-                    <MainTab />
+                    {/* <MainTab /> */}
+                    <MainBody />
                 
                 </div>
             )}
