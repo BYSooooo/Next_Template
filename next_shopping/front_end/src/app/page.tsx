@@ -1,7 +1,9 @@
 import MainCardSlider from "@/component/main/MainCardContainer";
+import MainCurratedSection from "@/component/main/MainCuratedSection";
 import MainMiddleBanner from "@/component/main/MainMiddleBanner";
 import MainTab from "@/component/main/MainTab";
 import { getMainBanners } from "@/lib/api/main/banner";
+import { getMainCurations } from "@/lib/api/main/curation";
 
 
 async function getBackendStatus() {
@@ -23,11 +25,14 @@ async function getBackendStatus() {
 export default async function Page() {
     const statusData = await getBackendStatus();
 
-    const [sliderBanners, middleBanners] = statusData.status === 'ok'
+    const [ sliderBanners, 
+            middleBanners,
+            curatedSections ] = statusData.status === 'ok'
         ? await Promise.all([
             getMainBanners('slider'),
-            getMainBanners('middle')
-        ]) : [[], []];
+            getMainBanners('middle'),
+            getMainCurations()
+        ]) : [[], [], []];
 
     const middleBanner = middleBanners.length > 0 ? middleBanners[0] : undefined;
 
@@ -37,8 +42,9 @@ export default async function Page() {
                 <div className="flex flex-col gap-6">
                     <MainCardSlider initialBanners={sliderBanners}/>
                     <MainMiddleBanner banner={middleBanner}/>
-                    {/* <MainTab /> */}
-                    <MainBody />
+                    {curatedSections.map((section)=> (
+                        <MainCurratedSection key={section.id} promotion={section} />
+                    ))}
                 
                 </div>
             )}
