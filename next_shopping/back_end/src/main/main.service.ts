@@ -105,8 +105,60 @@ export class MainService {
         return curatedList.filter(Boolean)
     };
 
-    async getCurationDetail(id : string) {
-        //...
+    async getCurationDetail(sectionId : string) {
+        const { data : section, error : sectionError} = await this.supabaseService.client
+            .from('main_sections')
+            .select('*')
+            .eq('id', sectionId)
+            .single();
+        
+        if(sectionError || !section) return null;
+
+        const { data : sectionProducts} = await this.supabaseService.client
+            .from('main_section_products')
+            .select(`
+                display_order,
+                product:product_id (
+                    id,
+                    name,
+                    subtitle,
+                    price,
+                    discount_rate,
+                    status,
+                    product_image (image_url, sort_order)
+                )
+            `)
+            .eq('section_id', sectionId)
+            .order('display_order', { ascending : true})
+        
+        const products = (sectionProducts || []) 
+                .map((item: any)=> item.product)
+                .filter((p : any) => p && p.status === 'ON_SALE')
+                .map((p: any)=> {
+                    const discountRate = p.discount_rate || 0;
+                    const discountedPrice = Math.floor(p.price * (1 - discountRate / 100));
+                    const sortedImages = (p.product_image || []).sort(
+                        (a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)
+                    );
+
+                    return {
+                        id: p.id,
+                        name: p.name,
+                        subtitle: p.subtitle,
+                        price: p.price,
+                        discount_rate: discountRate,
+                        discounted_price: discountedPrice,
+                        images: sortedImages.map((img: any) => ({ image_url: img.image_url })),
+                    };
+                });
+
+            return {
+                id: section.id,
+                title: section.title,
+                subtitle: section.subtitle,
+                banner_url: section.banner_url,
+                products,
+            }
     }
     
     
