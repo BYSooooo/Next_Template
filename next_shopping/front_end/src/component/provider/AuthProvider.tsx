@@ -15,7 +15,8 @@ const PUBLIC_ROUTE = [
     "/product/*",
     "/member/signup",
     "/login",
-    "/member/info"
+    "/member/info",
+    "/curation/*"
 ]
 
 const checkisPublicRoute = (pathname : string, routes : string[]) => {

@@ -1,7 +1,6 @@
 import MainCardSlider from "@/component/main/MainCardContainer";
 import MainCurratedSection from "@/component/main/MainCuratedSection";
 import MainMiddleBanner from "@/component/main/MainMiddleBanner";
-import MainTab from "@/component/main/MainTab";
 import { getMainBanners } from "@/lib/api/main/banner";
 import { getMainCurations } from "@/lib/api/main/curation";
 
