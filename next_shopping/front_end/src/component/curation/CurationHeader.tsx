@@ -23,6 +23,17 @@ export default function CurationHeader({title, subtitle, bannerUrl} : CurationHe
                     </div>
                 )}
             </div>
+
+            <div className='space-y-2 pt-2'>
+                <h1 className='text-2xl md:text-3xl font-extrabold text-black'>
+                    {title}
+                </h1>
+                { subtitle && (
+                    <p className='text-sm md:text-base text-gray-600'>
+                        {subtitle}
+                    </p>
+                )}
+            </div>
         </div>
     )
 }
