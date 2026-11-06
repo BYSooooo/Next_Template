@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Pagination } from '@heroui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 
 interface ProductItem {
     id : string;
@@ -101,11 +102,45 @@ export default function CurattionProductGrid({
                                 </Link>
                             )
                         })}
-
                     </div>
+                    { totalPages > 1 && (
+                        <div className='flex items-center justify-center gap-2 pt-8'>
+                            <button
+                                onClick={() => onPageChange(page -1)}
+                                disabled={page === 1}
+                                className='p-2 rounded-lg border border-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors'>
+                                    <ChevronLeftIcon className='w-5 h-5 text-gray-700 '/>
+                            </button>
+
+                            <div className='flex items-center gap-1'>
+                                {Array.from({ length : totalPages}, (_, i)=> i + 1).map((p)=> (
+                                    <button
+                                        key={p}
+                                        onClick={()=> onPageChange()}
+                                        className={`w-9 h-9 rounded-lg text-sm font-bold transition-colors ${
+                                            page === p 
+                                                ? "bg-black text-white"
+                                                : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-100"
+                                        }`}>
+                                        {p}
+                                    </button>
+                                ))}
+                            </div>
+                            <button
+                                onClick={()=> onPageChange(page + 1)}
+                                disabled={page === totalPages}
+                                className='p-2 rounded-lg border border-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors'>
+                                <ChevronRightIcon className='w-5 h-5 text-gray-700'/>
+                            </button>
+                        </div>
+                    )}
                 </>
             ) : (
-                <div>
+                <div className='text-center py-16 bg-gray-50 rounded-2xl border border-gray-100'>
+                    <p className='text-sm font-medium text-grat-500'>
+                        No products are registered in this curation yet.
+                    </p>
+
                 </div>
             )}
         </div>
