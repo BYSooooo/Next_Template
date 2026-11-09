@@ -212,8 +212,13 @@ export default function Page(){
 
                                         <div className='pt-2 border-t border-gray-100 flex items-baseline gap-1.5'>
                                             <span className='text-base font-black text-gray-900'>
-                                                {formatCurrency(Number(product.price))}
+                                                {formatCurrency(discountedPrice)}
                                             </span>
+                                            {product.discount_rate > 0 && (
+                                                <span className='text-xs text-gray-400 line-through'>
+                                                    {formatCurrency(Number(product.price))}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </Link>

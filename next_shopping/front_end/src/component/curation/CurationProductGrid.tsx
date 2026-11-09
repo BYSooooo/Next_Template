@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
@@ -23,7 +23,7 @@ const formatCurrency = (amount: number) => {
 };
 
 export default function CurationProductGrid({ products }: CurationProductGridProps) {
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = React.useState<number>(1);
     const rowsPerPage = 8;
 
     const totalPages = Math.ceil((products?.length || 0) / rowsPerPage);

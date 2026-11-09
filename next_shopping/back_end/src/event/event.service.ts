@@ -30,22 +30,30 @@ export class EventService {
     constructor (private readonly supabaseService : SupabaseService) {}
 
     async getPromoDetail (promoId : string) {
+        
+        const nowIso = new Date().toISOString();
+
         const { data: promo, error : promoError } = await this.supabaseService.client
-        .from('promotions')
-        .select('*')
-        .eq('id', promoId)
-        .eq('is_active', true)
-        .lte('start_date', new Date().toISOString())
-        .or(`end_date.is.null,end_date.gte.${new Date().toISOString()}`)
-        .maybeSingle();
+            .from('promotions')
+            .select('*')
+            .eq('id', promoId)
+            .eq('is_active', true)
+            .maybeSingle(); 
 
         if(promoError) {
             console.error('Database Error:', promoError);
-            throw new NotFoundException(`Database Error : ${promoError}`);
+            throw new NotFoundException(`Database Error : ${promoError.message}`);
         }
 
         if(!promo) {
-            throw new NotFoundException('Promotion not found, inactive, or expired.');
+            throw new NotFoundException('Promotion not found.');
+        }
+
+        const startDate = new Date(promo.start_date);
+        const endDate = promo.end_date ? new Date(promo.end_date) : null;
+        const now = new Date();
+        if (startDate > now || (endDate && endDate < now)) {
+            throw new NotFoundException('Promotion is expired or not started yet.');
         }
 
         const { data: promoProducts, error: productError } = await this.supabaseService.client
@@ -104,7 +112,7 @@ export class EventService {
             subtitle: promo.subtitle,
             description: promo.description,
             content_html: promo.content_html || '',
-            banner_url: promo.detail_banner_url || promo.image_url, // 상세 전용 배너가 없으면 일반 이미지 활용
+            banner_url: promo.detail_banner_url || promo.image_url, 
             start_date: promo.start_date,
             end_date: promo.end_date,
             is_active: promo.is_active,
