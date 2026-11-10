@@ -16,7 +16,13 @@ export default function MainCard({id, title, footer, desc, image_url, link_url} 
     const router = useRouter()
 
     const onClickMore = (id : string, link_url : string)=> {
-        router.push(`/event/${id}`)
+        if(link_url && link_url.trim() !== "") {
+            const targetUrl = link_url.replace('/promotion/', '/event/');
+            router.push(targetUrl)
+        } else {
+            console.log(id)
+            router.push(`/event/${id}`)
+        }
     }
     
     return (
