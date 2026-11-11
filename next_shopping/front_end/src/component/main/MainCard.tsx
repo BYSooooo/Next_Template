@@ -15,12 +15,17 @@ interface CardProp {
 export default function MainCard({id, title, footer, desc, image_url, link_url} : CardProp) {
     const router = useRouter()
 
-    const onClickMore = (id : string, link_url : string)=> {
+    const onClickMore = ()=> {
         if(link_url && link_url.trim() !== "") {
+            if (link_url.startsWith("http://") || link_url.startsWith("https://")) {
+                window.open(link_url, "_blank");
+                return;
+            }
+            
             const targetUrl = link_url.replace('/promotion/', '/event/');
-            router.push(targetUrl)
+            router.push(targetUrl);
         } else {
-            console.log(id)
+            console.warn(id)
             router.push(`/event/${id}`)
         }
     }
@@ -52,7 +57,7 @@ export default function MainCard({id, title, footer, desc, image_url, link_url} 
                         </div>
                     </div>
                     <Button
-                        onClick={()=> onClickMore(id, link_url) } 
+                        onClick={()=> onClickMore() } 
                         variant="tertiary">
                         More
                     </Button>
