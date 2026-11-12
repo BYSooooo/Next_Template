@@ -3,6 +3,7 @@ import { SupabaseService } from "src/supabase/supabase.service";
 
 export interface MainBanner {
     id : string;
+    promotion_id? : string;
     title : string;
     description : string;
     footer : string;
@@ -20,7 +21,7 @@ export class MainService {
     async getBannersByType(type : 'slider' | 'middle' = 'slider') : Promise<MainBanner[]> {
         const { data, error } = await this.supabaseService.client
             .from('main_banners')
-            .select('id, title, description, footer, image_path, image_url, link_url, is_active, display_order, banner_type')
+            .select('id, promotion_id, title, description, footer, image_path, image_url, link_url, is_active, display_order, banner_type')
             .eq('is_active', true)
             .eq('banner_type', type)
             .order('display_order', {
