@@ -33,28 +33,28 @@ export class EventService {
         
         const nowIso = new Date().toISOString();
 
-        const { data: promo, error : promoError } = await this.supabaseService.client
-            .from('promotions')
-            .select('*')
-            .eq('id', promoId)
-            .eq('is_active', true)
-            .maybeSingle(); 
+        // const { data: promo, error : promoError } = await this.supabaseService.client
+        //     .from('promotions')
+        //     .select('*')
+        //     .eq('id', promoId)
+        //     .eq('is_active', true)
+        //     .maybeSingle(); 
 
-        if(promoError) {
-            console.error('Database Error:', promoError);
-            throw new NotFoundException(`Database Error : ${promoError.message}`);
-        }
+        // if(promoError) {
+        //     console.error('Database Error:', promoError);
+        //     throw new NotFoundException(`Database Error : ${promoError.message}`);
+        // }
 
-        if(!promo) {
-            throw new NotFoundException('Promotion not found.');
-        }
+        // if(!promo) {
+        //     throw new NotFoundException('Promotion not found.');
+        // }
 
-        const startDate = new Date(promo.start_date);
-        const endDate = promo.end_date ? new Date(promo.end_date) : null;
-        const now = new Date();
-        if (startDate > now || (endDate && endDate < now)) {
-            throw new NotFoundException('Promotion is expired or not started yet.');
-        }
+        // const startDate = new Date(promo.start_date);
+        // const endDate = promo.end_date ? new Date(promo.end_date) : null;
+        // const now = new Date();
+        // if (startDate > now || (endDate && endDate < now)) {
+        //     throw new NotFoundException('Promotion is expired or not started yet.');
+        // }
 
         const { data: promoProducts, error: productError } = await this.supabaseService.client
             .from('promotion_products')
