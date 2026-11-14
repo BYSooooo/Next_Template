@@ -1,5 +1,6 @@
 export interface MainBannerItem {
     id              : string;
+    promotion_id?   : string;
     title           : string;
     description     : string;
     footer?         : string;

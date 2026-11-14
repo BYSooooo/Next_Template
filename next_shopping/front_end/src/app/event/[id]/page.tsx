@@ -33,7 +33,6 @@ export default function Page(){
         const fetchEventDetail = async() => {
             try {
                 setLoading(true);
-                // NestJS API Call
 
                 const data = await getEventDetail(eventId)
                 setEvent(data)
