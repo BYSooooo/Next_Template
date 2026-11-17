@@ -8,12 +8,11 @@ import { useRouter } from 'next/navigation';
 export default function CartButton() {
     const router = useRouter();
 
-    const onPressCart = ()=> {
-
-    }
-
     return (
-        <Button variant='outline' isIconOnly>
+        <Button 
+            variant='outline' 
+            isIconOnly
+            onClick={()=>router.push('/cart')}>
             <ShoppingCartIcon />
         </Button>
     )
