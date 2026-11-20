@@ -95,11 +95,61 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                                 <div className='flex flex-col min-w-0'>
                                                     {item.subtitle && (
                                                         <span className='text-xs text-gray-400 truncate'>
-
+                                                            {item.subtitle}
+                                                        </span>
+                                                    )}
+                                                    <span className='text-sm md:text-base font-bold text-gray-900'>
+                                                        {item.name}
+                                                    </span>
+                                                    {item.selectedOptionId && (
+                                                        <span className='text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md mt-1 inline-block w-fit border border-amber-200'>
+                                                            Option : {item.selectedOptionId}
                                                         </span>
                                                     )}
                                                 </div>
                                             </div>
+                                        </Table.Cell>
+
+                                        <Table.Cell>
+                                            <div className='flex items-center justify-center'>
+                                                <div className='flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50'>
+                                                    <Button 
+                                                        className='px-2.5 py-1 text-gray-600 hover:gray-200 transition-colors font-bold text-xs'
+                                                        onClick={()=> updatedQuantity(item.id, -1)}>
+                                                        -
+                                                    </Button>
+                                                    <span className='px-3 py-1 text-xs font-semibold text-gray-800'>
+                                                        {item.quantity}
+                                                    </span>
+                                                    <Button className='px-2.5 py-1 text-gray-600 hover:bg-gray-200 transition-colors font-bold text-xs'>
+                                                        +
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Table.Cell>
+
+                                        <Table.Cell className='text-right'>
+                                            <div className='flex flex-col items-end'>
+                                                <span className='text-sm md:text-base font-extrabold text-gray-900'>
+                                                    {(item.discounted_price * item.quantity).toLocaleString()} Won
+                                                </span>
+                                                {item.discount_rate > 0 && (
+                                                    <span className='text-xs text-gray-400 line-through'>
+                                                        {(item.price * item.quantity).toLocaleString()} Won
+
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </Table.Cell>
+
+                                        <Table.Cell className='text-center'>
+                                            <Button 
+                                                size='sm' 
+                                                variant='ghost' 
+                                                onPress={() => removeItem(item.id)}
+                                                className="text-xs text-gray-400 hover:text-red-500 min-w-0 px-2">
+                                                X
+                                            </Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 )

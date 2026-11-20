@@ -1,53 +1,55 @@
 "use client";
 
 import React from "react";
-
-import { useRouter } from "next/navigation";
-import { CartItem, useCartStore } from "@/zustand/useCartStore";
-import CartEmpty from "@/component/cart/CardEmpty";
+import type { Selection } from "@heroui/react";
+import { useCartStore } from "@/zustand/useCartStore";
+import CartEmpty from "@/component/cart/CartEmpty";
 import CartHeader from "@/component/cart/CartHeader";
 import CartSummary from "@/component/cart/CartSummary";
-
-interface CartItemCardProp {
-    totalCount : number;
-    
-}
+import CartTable from "@/component/cart/CartTable";
 
 export default function Page() {
+    const items = useCartStore((state) => state.items);
+    const [isMounted, setIsMounted] = React.useState(false);
+    const [selectedKeys, setSelectedKeys] = React.useState<Selection>("all");
 
-    const items = useCartStore((state)=> state.items);
-    const [isMounted, setisMounted] = React.useState(false);
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
-    React.useEffect(()=> {
-        setisMounted(true)
-        
-    },[]);
+    // 선택된 상품만 필터링하여 결제 요약에 전달
+    const selectedItems = React.useMemo(() => {
+        if (selectedKeys === "all") return items;
+        return items.filter((item) => selectedKeys.has(item.id));
+    }, [items, selectedKeys]);
 
-    if(!isMounted) {
-        return <div className="min-h-screen bg-gray-50"/>
+    if (!isMounted) {
+        return <div className="min-h-screen bg-gray-50" />;
     }
-
-    const router = useRouter();
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
             <CartHeader itemCount={items.length} />
+
             <div className="max-w-6xl mx-auto px-4">
-                {items.length !== 0 ? (
+                {items.length === 0 ? (
                     <CartEmpty />
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                        <div>
+                        <div className="lg:col-span-2">
+                            <CartTable
+                                items={items}
+                                selectedKeys={selectedKeys}
+                                onSelectionChange={setSelectedKeys}
+                            />
                         </div>
+
                         <div className="lg:col-span-1">
-                            <CartSummary items={items} />
+                            <CartSummary items={selectedItems} />
                         </div>
                     </div>
                 )}
             </div>
         </div>
-    )
-
-
-
+    );
 }
