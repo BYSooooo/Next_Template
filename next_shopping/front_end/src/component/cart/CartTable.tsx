@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button, Checkbox, Table, type Selection } from '@heroui/react';
 import { CartItem, useCartStore } from '@/zustand/useCartStore';
+import { useRouter } from 'next/navigation';
 
 interface CartItemTableProps {
     items : CartItem[];
@@ -33,6 +34,8 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
     const selectedCount = selectedKeys === 'all' 
         ? items.length
         : selectedKeys.size;
+    
+    const router = useRouter();
     
     return (
         <div className='bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden'>
@@ -69,7 +72,23 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                             <Table.Column className='w-32 text-right'>Order Amount</Table.Column>
                             <Table.Column className="w-16 text-center">Delete</Table.Column>
                         </Table.Header>
-                        <Table.Body>
+                        <Table.Body
+                            renderEmptyState={()=> (
+                                <div className='py-14 px-6 flex flex-col items-center justify-center text-center gap-3'>
+                                    <p className='text-lg font-extrabold text-gray-900'>
+                                        There are no items in the cart.
+                                    </p>
+                                    <p className='text-sm text-gray-500'>
+                                        Enjoy Shopping!
+                                    </p>
+                                    <Button
+                                        className="bg-yellow-400 font-bold text-black mt-2"
+                                        onPress={()=>router.push("/")}>
+                                        
+                                        Go to Shopping
+                                    </Button>
+                                </div>
+                            )}>
                             {items.map((item)=> {
                                 const thumbnailImage = item.images && item.images.length > 0
                                     ? item.images[0].image_url

@@ -17,7 +17,6 @@ export default function Page() {
         setIsMounted(true);
     }, []);
 
-    // 선택된 상품만 필터링하여 결제 요약에 전달
     const selectedItems = React.useMemo(() => {
         if (selectedKeys === "all") return items;
         return items.filter((item) => selectedKeys.has(item.id));
@@ -32,23 +31,19 @@ export default function Page() {
             <CartHeader itemCount={items.length} />
 
             <div className="max-w-6xl mx-auto px-4">
-                {items.length === 0 ? (
-                    <CartEmpty />
-                ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                        <div className="lg:col-span-2">
-                            <CartTable
-                                items={items}
-                                selectedKeys={selectedKeys}
-                                onSelectionChange={setSelectedKeys}
-                            />
-                        </div>
-
-                        <div className="lg:col-span-1">
-                            <CartSummary items={selectedItems} />
-                        </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div className="lg:col-span-2">
+                        <CartTable
+                            items={items}
+                            selectedKeys={selectedKeys}
+                            onSelectionChange={setSelectedKeys}
+                        />
                     </div>
-                )}
+
+                    <div className="lg:col-span-1">
+                        <CartSummary items={selectedItems} />
+                    </div>
+                </div>
             </div>
         </div>
     );
