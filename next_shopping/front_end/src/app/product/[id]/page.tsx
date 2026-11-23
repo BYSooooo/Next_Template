@@ -3,6 +3,8 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { getProductDetail, ProductDetailResponse } from '@/lib/api/product/product';
+import { useCartStore } from '@/zustand/useCartStore';
+import { Button } from '@heroui/react';
 
 const formatCurrency = (amount: number) => {
     return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -11,6 +13,8 @@ const formatCurrency = (amount: number) => {
 export default function Page() {
     const params = useParams();
     const productId  = params.id as string;
+
+    const addItem = useCartStore((state)=> state.addItem);
 
     const [ loading, setLoading ] = React.useState(true); 
     const [ product, setProduct ] = React.useState<ProductDetailResponse | null >(null);
@@ -21,7 +25,6 @@ export default function Page() {
 
     React.useEffect(()=> {
 
-        console.log(productId)
         if(!productId) return;
 
         getProductDetail(productId)
@@ -67,6 +70,23 @@ export default function Page() {
                 setQuantity((prev) => prev + 1);
             }
         };
+
+        const handleAddToCart = ()=>{
+            if(product.stock_quantity <= 0) {
+                alert("Out of stock.")
+                return;
+            }
+
+            const itemToAdd : ProductDetailResponse = {
+                ...product,
+                price : Number(product.price) + additionalPrice,
+                discounted_price : unitPrice
+            };
+
+            addItem(itemToAdd, quantity, selectedOption?.id);
+            console.log(itemToAdd, quantity, selectedOption)
+
+        }
 
         return (
             <div className='max-w-6xl mx-auto px-4 py-8 text-gray-800 font-sans'>
@@ -208,12 +228,18 @@ export default function Page() {
                                 </span>
                             </div>
                             <div className='grid grid-cols-2 gap-3'>
-                                <button className='py-4 border border-black text-black font-bold rounded-lg hover:bg-gray-50 transition'>
+                                <Button 
+                                    variant='outline'
+                                    size='lg'
+                                    onPress={handleAddToCart}
+                                    className='w-full py-4 border border-black text-black font-bold rounded-lg hover:bg-gray-50 transition'>
                                     Add to Cart    
-                                </button>
-                                <button className='py-4 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition'>
+                                </Button>
+                                <Button
+                                    size='lg' 
+                                    className='w-full py-4 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition'>
                                     Buy now
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </div>

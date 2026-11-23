@@ -90,7 +90,7 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                 </div>
                             )}>
                             {items.map((item)=> {
-                                const thumbnailImage = item.images && item.images.length > 0
+                                const thumbnail = item.images && item.images.length > 0
                                     ? item.images[0].image_url
                                     : 'https://picsum.photos/seed/fallback/200/200';
                                 return (
@@ -106,68 +106,55 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                             <div className='flex items-center gap-3 py-1'>
                                                 <div className='w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gray-100 overflow-hidden shrink-0'>
                                                     <img 
-                                                        src={thumbnailImage}
+                                                        src={thumbnail}
                                                         alt={item.name}
                                                         className='w-full h-full object-cover select-none'
                                                     />
-                                                </div>
-                                                <div className='flex flex-col min-w-0'>
-                                                    {item.subtitle && (
-                                                        <span className='text-xs text-gray-400 truncate'>
-                                                            {item.subtitle}
+                                                    <div className='flex flex-col min-w-0'>
+                                                        <span className='font-bold text-gray-900 truncate'>
+                                                            {item.name}
                                                         </span>
-                                                    )}
-                                                    <span className='text-sm md:text-base font-bold text-gray-900'>
-                                                        {item.name}
-                                                    </span>
-                                                    {item.selectedOptionId && (
-                                                        <span className='text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md mt-1 inline-block w-fit border border-amber-200'>
-                                                            Option : {item.selectedOptionId}
-                                                        </span>
-                                                    )}
+                                                        { item.selectedOptionId && (
+                                                            <span className='text-xs text-amber-700'>
+                                                                Option : {item.selectedOptionId}
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Table.Cell>
-
-                                        <Table.Cell>
-                                            <div className='flex items-center justify-center'>
-                                                <div className='flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50'>
-                                                    <Button 
-                                                        className='px-2.5 py-1 text-gray-600 hover:gray-200 transition-colors font-bold text-xs'
-                                                        onClick={()=> updatedQuantity(item.id, -1)}>
-                                                        -
-                                                    </Button>
-                                                    <span className='px-3 py-1 text-xs font-semibold text-gray-800'>
-                                                        {item.quantity}
-                                                    </span>
-                                                    <Button className='px-2.5 py-1 text-gray-600 hover:bg-gray-200 transition-colors font-bold text-xs'>
-                                                        +
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </Table.Cell>
-
-                                        <Table.Cell className='text-right'>
-                                            <div className='flex flex-col items-end'>
-                                                <span className='text-sm md:text-base font-extrabold text-gray-900'>
-                                                    {(item.discounted_price * item.quantity).toLocaleString()} Won
-                                                </span>
-                                                {item.discount_rate > 0 && (
-                                                    <span className='text-xs text-gray-400 line-through'>
-                                                        {(item.price * item.quantity).toLocaleString()} Won
-
-                                                    </span>
-                                                )}
+                                                
                                             </div>
                                         </Table.Cell>
 
                                         <Table.Cell className='text-center'>
-                                            <Button 
-                                                size='sm' 
-                                                variant='ghost' 
+                                            <div className='inline-flex items-center border border-gray-200 rounded-lg bg-gray-50'>
+                                                <Button 
+                                                    onPress={()=> updatedQuantity(item.id, -1)}
+                                                    className='px-2.5 py-1 text-xs font-bold text-gray-600'>
+                                                    -
+                                                </Button> 
+                                                <span className='px-2.5 py-1 text-xs font-semibold'>
+                                                    {item.quantity}
+                                                </span>
+                                                <Button 
+                                                    onPress={()=> updatedQuantity(item.id, 1)}
+                                                    className='px-2.5 py-1 text-xs font-bold text-gray-600'>
+                                                    +
+                                                </Button>
+                                            </div>
+                                        </Table.Cell>
+
+                                        <Table.Cell className="text-right font-extrabold text-gray-900">
+                                            {(item.discounted_price * item.quantity).toLocaleString()} Won
+                                        </Table.Cell>
+                                        
+                                        <Table.Cell className="text-center">
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
                                                 onPress={() => removeItem(item.id)}
-                                                className="text-xs text-gray-400 hover:text-red-500 min-w-0 px-2">
-                                                X
+                                                className="text-xs text-gray-500 min-w-0 px-2"
+                                            >
+                                                ✕
                                             </Button>
                                         </Table.Cell>
                                     </Table.Row>
