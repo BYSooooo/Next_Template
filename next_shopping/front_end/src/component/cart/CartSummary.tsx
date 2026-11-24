@@ -39,25 +39,25 @@ export default function CartSummary({ items }: CartSummaryProps) {
                     <div className="flex justify-between">
                         <span>Order Amount</span>
                         <span className="font-semibold text-gray-800">
-                            +{totalOriginalPrice.toLocaleString()} Won
+                            + ${totalOriginalPrice.toLocaleString()}
                         </span>
                     </div>
                     <div className="flex justify-between">
                         <span>Discount</span>
                         <span className="font-semibold text-amber-600">
-                            -{totalDiscountAmount.toLocaleString()} Won
+                            - ${totalDiscountAmount.toLocaleString()}
                         </span>
                     </div>
                     <div className="flex justify-between">
                         <span>Shipping Fee</span>
                         <span className="font-semibold text-gray-800">
-                            +{shippingFee.toLocaleString()} Won
+                            + ${shippingFee.toLocaleString()}
                         </span>
                     </div>
                     <div className="flex justify-between pt-3 border-t border-dashed border-gray-200 text-base font-bold text-gray-900">
                         <span>Total</span>
                         <span className="text-xl text-amber-600">
-                            {finalPaymentAmount.toLocaleString()} Won
+                            ${finalPaymentAmount.toLocaleString()}
                         </span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ export default function CartSummary({ items }: CartSummaryProps) {
                         className="bg-yellow-400 w-full font-bold text-black"
                         onPress={() => alert('주문 결제 페이지로 이동합니다!')}
                     >
-                        {finalPaymentAmount.toLocaleString()} Won Order
+                        ${finalPaymentAmount.toLocaleString()} Order
                     </Button>
                     <Button
                         variant="tertiary"

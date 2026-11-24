@@ -93,6 +93,9 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                 const thumbnail = item.images && item.images.length > 0
                                     ? item.images[0].image_url
                                     : 'https://picsum.photos/seed/fallback/200/200';
+
+                                const matchedOption = item.options?.find((opt)=> opt.id === item.selectedOptionId);
+                                
                                 return (
                                     <Table.Row key={item.id} id={item.id}>
                                         <Table.Cell>
@@ -126,25 +129,34 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                         </Table.Cell>
 
                                         <Table.Cell className='text-center'>
-                                            <div className='inline-flex items-center border border-gray-200 rounded-lg bg-gray-50'>
-                                                <Button 
+                                            <div className='inline-flex items-center border border-gray-200 rounded-4xl bg-gray-50'>
+                                                <Button
+                                                    size='sm' 
+                                                    variant='outline'
+                                                    isIconOnly
+                                                    isDisabled={item.quantity <= 1}
                                                     onPress={()=> updatedQuantity(item.id, -1)}
-                                                    className='px-2.5 py-1 text-xs font-bold text-gray-600'>
+                                                    className='text-xs font-bold text-gray-600'>
                                                     -
                                                 </Button> 
                                                 <span className='px-2.5 py-1 text-xs font-semibold'>
                                                     {item.quantity}
                                                 </span>
-                                                <Button 
+                                                <Button
+                                                    size='sm'
+                                                    variant='outline' 
+                                                    isIconOnly
                                                     onPress={()=> updatedQuantity(item.id, 1)}
-                                                    className='px-2.5 py-1 text-xs font-bold text-gray-600'>
-                                                    +
+                                                    className='text-xs font-bold text-gray-600'>
+                                                    <p className='font-bold'>
+                                                        +
+                                                    </p>
                                                 </Button>
                                             </div>
                                         </Table.Cell>
 
                                         <Table.Cell className="text-right font-extrabold text-gray-900">
-                                            {(item.discounted_price * item.quantity).toLocaleString()} Won
+                                            $ {(item.discounted_price * item.quantity).toLocaleString()}
                                         </Table.Cell>
                                         
                                         <Table.Cell className="text-center">
