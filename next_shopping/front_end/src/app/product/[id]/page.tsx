@@ -16,7 +16,7 @@ export default function Page() {
     const productId  = params.id as string;
 
     const addItem = useCartStore((state)=> state.addItem);
-    const openAlert = useAlertStore((state)=> state.openAlert);
+    const { openAlert } = useAlertStore();
 
     const [ loading, setLoading ] = React.useState(true); 
     const [ product, setProduct ] = React.useState<ProductDetailResponse | null >(null);
@@ -85,8 +85,8 @@ export default function Page() {
                 discounted_price : unitPrice
             };
 
-            addItem(itemToAdd, quantity, selectedOption?.id);
             openAlert('default', 'Add to Cart', 'Success');
+            addItem(itemToAdd, quantity, selectedOption?.id);
         }
 
         return (
@@ -232,7 +232,7 @@ export default function Page() {
                                 <Button 
                                     variant='outline'
                                     size='lg'
-                                    onPress={handleAddToCart}
+                                    onPress={()=>handleAddToCart()}
                                     className='w-full py-4 border border-black text-black font-bold rounded-lg hover:bg-gray-50 transition'>
                                     Add to Cart    
                                 </Button>

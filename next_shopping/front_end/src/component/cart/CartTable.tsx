@@ -107,24 +107,43 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
 
                                         <Table.Cell>
                                             <div className='flex items-center gap-3 py-1'>
-                                                <div className='w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gray-100 overflow-hidden shrink-0'>
-                                                    <img 
-                                                        src={thumbnail}
-                                                        alt={item.name}
-                                                        className='w-full h-full object-cover select-none'
-                                                    />
-                                                    <div className='flex flex-col min-w-0'>
-                                                        <span className='font-bold text-gray-900 truncate'>
-                                                            {item.name}
-                                                        </span>
-                                                        { item.selectedOptionId && (
-                                                            <span className='text-xs text-amber-700'>
-                                                                Option : {item.selectedOptionId}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
                                                 
+                                                <img 
+                                                    src={thumbnail}
+                                                    alt={item.name}
+                                                    className='w-16 h-16 rounded-xl object-cover bg-gray-100 shrink-0'
+                                                />
+                                                <div className='flex flex-col min-w-0 gap-1'>
+                                                    {item.delivery_type === "EARLY_MORNING" && (
+                                                        <span className='text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded w-fit'>
+                                                            Early Delivery
+                                                        </span>
+                                                    )}
+                                                    
+                                                    <span className='text-sm font-bold text-gray-900 truncate'>
+                                                        {item.name}
+                                                    </span>
+                                                    
+                                                    {item.subtitle && (
+                                                        <span className='text-xs text-gray-400 truncate'>
+                                                            {item.subtitle}
+                                                        </span>
+                                                    )}
+
+                                                    {(matchedOption || item.selectedOptionId) && (
+                                                        <span className='text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded w-fit border border-amber-200/60'>
+                                                            Option : {" "}
+                                                            {matchedOption 
+                                                                ? matchedOption.option_name
+                                                                : item.selectedOptionId
+                                                            }
+                                                        </span>
+                                                    )}
+
+                                                    <span className='text-xs te-g-500'>
+                                                        Unit : ${Number(item.discounted_price).toLocaleString()}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </Table.Cell>
 
@@ -164,8 +183,7 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                                 size="sm"
                                                 variant="ghost"
                                                 onPress={() => removeItem(item.id)}
-                                                className="text-xs text-gray-500 min-w-0 px-2"
-                                            >
+                                                className="text-xs text-gray-500 min-w-0 px-2">
                                                 ✕
                                             </Button>
                                         </Table.Cell>
