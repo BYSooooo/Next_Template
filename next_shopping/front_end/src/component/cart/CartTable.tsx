@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Checkbox, Table, type Selection } from '@heroui/react';
+import { Button, Checkbox, Link, Table, type Selection } from '@heroui/react';
 import { CartItem, useCartStore } from '@/zustand/useCartStore';
 import { useRouter } from 'next/navigation';
 
@@ -120,9 +120,12 @@ export default function CartTable({items, selectedKeys, onSelectionChange} : Car
                                                         </span>
                                                     )}
                                                     
-                                                    <span className='text-sm font-bold text-gray-900 truncate'>
+                                                    <Link
+                                                        href={`/product/${item.id}`}
+                                                        onClick={(e)=> e.stopPropagation()}
+                                                        className="text-sm font-bold text-gray-900 hover:text-amber-600 hover:underline truncate">
                                                         {item.name}
-                                                    </span>
+                                                    </Link>
                                                     
                                                     {item.subtitle && (
                                                         <span className='text-xs text-gray-400 truncate'>
