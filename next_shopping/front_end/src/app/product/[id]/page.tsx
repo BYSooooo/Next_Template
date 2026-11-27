@@ -6,6 +6,7 @@ import { getProductDetail, ProductDetailResponse } from '@/lib/api/product/produ
 import { useCartStore } from '@/zustand/useCartStore';
 import { Button } from '@heroui/react';
 import { useAlertStore } from '@/zustand/useAlertStore';
+import { useToastStore } from '@/zustand/useToastStore';
 
 const formatCurrency = (amount: number) => {
     return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -16,7 +17,7 @@ export default function Page() {
     const productId  = params.id as string;
 
     const addItem = useCartStore((state)=> state.addItem);
-    const { openAlert } = useAlertStore();
+    const { openToast } = useToastStore();
 
     const [ loading, setLoading ] = React.useState(true); 
     const [ product, setProduct ] = React.useState<ProductDetailResponse | null >(null);
@@ -85,7 +86,12 @@ export default function Page() {
                 discounted_price : unitPrice
             };
 
-            openAlert('default', 'Add to Cart', 'Success');
+            openToast({
+                title : 'Success',
+                description : 'add the product to cart successfully.',
+                variant : 'success'
+            })
+
             addItem(itemToAdd, quantity, selectedOption?.id);
         }
 

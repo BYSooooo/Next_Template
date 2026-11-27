@@ -7,9 +7,11 @@ import { CartItem } from '@/zustand/useCartStore';
 
 interface CartSummaryProps {
     items: CartItem[];
+    isLoggedIn? : boolean,
+    onProceedCheckOut? : (items : CartItem[]) => void; 
 }
 
-export default function CartSummary({ items }: CartSummaryProps) {
+export default function CartSummary({ items, isLoggedIn, onProceedCheckOut }: CartSummaryProps) {
     const router = useRouter();
 
     const totalOriginalPrice = items.reduce(
@@ -25,6 +27,16 @@ export default function CartSummary({ items }: CartSummaryProps) {
     const shippingFee =
         totalDiscountedPrice === 0 || totalDiscountedPrice >= 50000 ? 0 : 3000;
     const finalPaymentAmount = totalDiscountedPrice + shippingFee;
+
+    const handleOrderClick = () => {
+        if(items.length === 0) return;
+
+        onProceedCheckOut?.(items);
+
+        if(!isLoggedIn) {
+            //...
+        }
+    }
 
     return (
         <Card className="bg-white shadow-sm rounded-2xl sticky top-6 border border-gray-100">
