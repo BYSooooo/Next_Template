@@ -35,6 +35,7 @@ export default function CartSummary({ items, isLoggedIn, onProceedCheckOut }: Ca
 
         if(!isLoggedIn) {
             //...
+            router.push('/checkout')
         }
     }
 
